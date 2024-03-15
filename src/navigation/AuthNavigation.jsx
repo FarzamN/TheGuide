@@ -1,22 +1,20 @@
-import {View, Text} from 'react-native';
 import React from 'react';
-import {Font} from '../utils/Font';
-import {Color} from '../utils/Color';
-import Icon from 'react-native-vector-icons/AntDesign';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {AuthNav} from '../utils/Data';
 
 const AuthNavigation = () => {
+  const {Navigator, Screen} = createNativeStackNavigator();
   return (
-    <View>
-      <Text
-        style={{
-          fontFamily: Font.font100Italic,
-          color: Color.white,
-          fontSize: 100,
-        }}>
-        AuthNavigation
-      </Text>
-      <Icon name="caretleft" size={20} color={Color.white} />
-    </View>
+    <NavigationContainer>
+      <Navigator
+        initialRouteName={AuthNav[0].n}
+        screenOptions={{headerShown: false, animation: 'ios'}}>
+        {AuthNav.map(({n, c}) => (
+          <Screen name={n} component={c} key={n} />
+        ))}
+      </Navigator>
+    </NavigationContainer>
   );
 };
 
