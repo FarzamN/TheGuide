@@ -1,0 +1,1 @@
+export const Base_Url = `https://theguide.us/api/v1/`
