@@ -12,12 +12,7 @@ import {
 } from '../../components';
 import {style} from './style';
 import {useForm} from 'react-hook-form';
-import {
-  emailPattern,
-  maxLength,
-  minLength,
-  required,
-} from '../../utils/Constants';
+import {emailPattern, required} from '../../utils/Constants';
 import {useDispatch} from 'react-redux';
 import {RegisterApi} from '../../redux/actions/AuthAction';
 import {GlobalStyle} from '../../utils/GlobalStyle';
@@ -75,8 +70,8 @@ const Register = ({navigation}) => {
           placeholder="Last Name"
         />
         <Validation
-          message={errors?.l_name?.message}
           isError={errors?.l_name}
+          message={errors?.l_name?.message}
         />
 
         <MainInput
@@ -95,8 +90,6 @@ const Register = ({navigation}) => {
           control={control}
           name="password"
           rules={{
-            minLength,
-            maxLength,
             required: required('Password'),
           }}
           placeholder="Password"
@@ -109,8 +102,6 @@ const Register = ({navigation}) => {
           control={control}
           name="c_password"
           rules={{
-            minLength,
-            maxLength,
             required: required('Confirm Password'),
           }}
           placeholder="Confirm Password"

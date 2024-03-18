@@ -4,8 +4,8 @@ import {Font} from '../../utils/Font';
 
 export const style = StyleSheet.create({
   ImageBox: {
-    widthL: 200,
-    height: 110,
+    widthL: 160,
+    height: 90,
   },
   newAccountButton: {
     backgroundColor: Color.Sky,

@@ -10,12 +10,7 @@ import {
   PasswordInput,
   Validation,
 } from '../../components';
-import {
-  emailPattern,
-  maxLength,
-  minLength,
-  required,
-} from '../../utils/Constants';
+import {emailPattern, required} from '../../utils/Constants';
 import {useForm} from 'react-hook-form';
 import {style} from './style';
 import {GlobalStyle} from '../../utils/GlobalStyle';
@@ -27,9 +22,11 @@ const Login = ({navigation}) => {
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(false);
   const [msg, setMsg] = useState('');
+
   const onSubmit = data => {
     dispatch(LoginApi(data, setLoad, setError, setMsg));
   };
+
   const {
     control,
     handleSubmit,
@@ -48,6 +45,7 @@ const Login = ({navigation}) => {
         <MainInput
           control={control}
           name="email"
+          defaultValue="player9@gmail.com"
           rules={{
             required: required('Email'),
             pattern: emailPattern,
@@ -57,11 +55,10 @@ const Login = ({navigation}) => {
         />
         <Validation message={errors?.email?.message} isError={errors?.email} />
         <PasswordInput
+          defaultValue="12345678"
           control={control}
           name="password"
           rules={{
-            minLength,
-            maxLength,
             required: required('Password'),
           }}
           placeholder="Password"
