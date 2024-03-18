@@ -1,93 +1,102 @@
-import { Base_Url } from "../../utils/Urls"
-import { USER_DETAILS } from "../reducer/Holder"
+import {Base_Url} from '../../utils/Urls';
+import {USER_DETAILS} from '../reducer/Holder';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-simple-toast';
 
-export const LoginApi = (data,setLoader) => {
-    return async (dispatch) => {
-        try {
-            setLoader(true)
-            const baseUrl = `${Base_Url}login`
-            const myData = new FormData()
+export const LoginApi = (data, setLoader, setError, setMsg) => {
+  return async dispatch => {
+    try {
+      setLoader(true);
+      const url = `${Base_Url}login`;
+      const myData = new FormData();
 
-            myData.append('email',data.email)
-            myData.append('password',data.password)
+      myData.append('email', data.email);
+      myData.append('password', data.password);
 
-            const response = await fetch(baseUrl,{
-                method: 'POST',
-                body: myData
-            })
+      const response = await fetch(url, {
+        method: 'POST',
+        body: myData,
+      });
 
-            const responseData = await response.json()
-
-            if(responseData.ok){
-                await AsyncStorage.setItem('user_details',JSON.stringify(responseData.data))
-                dispatch({ type: USER_DETAILS, payload: responseData.data })
-                setLoader(false)
-            }else{
-                setLoader(false)
-            }
-        } catch (error) {
-            setLoader(false)
-            console.log('error LoginApi', error)
-        }
+      const responseData = await response.json();
+      if (responseData.success == true) {
+        await AsyncStorage.setItem('user_details', 'true');
+        dispatch({type: USER_DETAILS, payload: true});
+        setLoader(false);
+      } else {
+        setLoader(false);
+        setMsg(responseData.message);
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 2000);
+      }
+    } catch (error) {
+      setLoader(false);
+      Toast.show('Server side error');
+      console.log('error LoginApi', error);
     }
-}
+  };
+};
 
-export const RegisterApi = (data,setLoader) => {
-    return async (dispatch) => {
-        try {
-            setLoader(true)
-            const baseUrl = `${Base_Url}register`
-            const myData = new FormData()
+export const RegisterApi = (data, setLoader, setError, setMsg) => {
+  return async dispatch => {
+    try {
+      setLoader(true);
+      const url = `${Base_Url}register`;
+      const myData = new FormData();
 
-            myData.append('email',data.email)
-            myData.append('password',data.password)
-            myData.append('password_confirm',data.c_password)
-            myData.append('email_check', 1)
+      myData.append('email', data.email);
+      myData.append('password', data.password);
+      myData.append('password_confirm', data.c_password);
+      myData.append('email_check', 1);
 
-            const response = await fetch(baseUrl,{
-                method: 'POST',
-                body: myData
-            })
+      const response = await fetch(url, {
+        method: 'POST',
+        body: myData,
+      });
 
-            const responseData = await response.json()
-
-            if(responseData.ok){
-                await AsyncStorage.setItem('user_details',JSON.stringify(responseData.data))
-                dispatch({ type: USER_DETAILS, payload: responseData.data })
-                setLoader(false)
-            }else{
-                setLoader(false)
-            }
-        } catch (error) {
-            setLoader(false)
-            console.log('error RegisterApi', error)
-        }
+      const responseData = await response.json();
+      if (responseData.success == true) {
+        await AsyncStorage.setItem('user_details', 'true');
+        dispatch({type: USER_DETAILS, payload: true});
+        setLoader(false);
+      } else {
+        setLoader(false);
+        setMsg(responseData.message);
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 2000);
+      }
+    } catch (error) {
+      setLoader(false);
+      console.log('error RegisterApi', error);
+      Toast.show('Server side error');
     }
-}
+  };
+};
 
-export const LogOutApi = (data,setLoader) => {
-    return async (dispatch) => {
-        try {
-            setLoader(true)
-            const baseUrl = `${Base_Url}logout`
+export const LogOutApi = () => {
+  return async dispatch => {
+    try {
+      await AsyncStorage.removeItem('user_details');
+      dispatch({type: USER_DETAILS, payload: null});
 
-            const response = await fetch(baseUrl,{
-                method: 'GET',
-            })
+      const url = `${Base_Url}logout`;
 
-            const responseData = await response.json()
+      const response = await fetch(url);
 
-            if(responseData.ok){
-                await AsyncStorage.removeItem('user_details')
-                dispatch({ type: USER_DETAILS, payload: null })
-                setLoader(false)
-            }else{
-                setLoader(false)
-            }
-        } catch (error) {
-            setLoader(false)
-            console.log('error LogOutApi', error)
-        }
+      const responseData = await response.json();
+      console.log(responseData);
+
+      if (responseData.ok) {
+        await AsyncStorage.removeItem('user_details');
+        dispatch({type: USER_DETAILS, payload: false});
+      }
+    } catch (error) {
+      console.log('error LogOutApi', error);
+      Toast.show('Server side error');
     }
-}
+  };
+};

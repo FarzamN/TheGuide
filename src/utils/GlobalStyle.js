@@ -11,11 +11,13 @@ export const GlobalStyle = StyleSheet.create({
     height: '100%',
   },
   Padding: {
-    width: '95%',
-    alignSelf: 'center',
+    paddingHorizontal: 20,
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  height: {
+    height: 30,
   },
 });

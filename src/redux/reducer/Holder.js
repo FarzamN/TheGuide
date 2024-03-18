@@ -1,8 +1,7 @@
 export const USER_DETAILS = 'USER_DETAILS';
 
-
 const initial_state = {
-  userDetails: null,
+  userDetails: false,
 };
 
 const holderReducer = (state = initial_state, action) => {

@@ -5,4 +5,5 @@ export const Color = {
   Non: 'transparent',
   placeholderTextColor: 'grey',
   lightgrey: 'lightgrey',
+  grey: '#989090',
 };
