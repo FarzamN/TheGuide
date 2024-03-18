@@ -3,10 +3,10 @@ import React from 'react';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {Color} from '../../utils/Color';
 
-const Body = ({children}) => {
+const Body = ({children,restyle}) => {
   return (
-    <SafeAreaView style={GlobalStyle.Container}>
-      <StatusBar backgroundColor={Color.Sky} barStyle={'light-content'} />
+    <SafeAreaView style={[GlobalStyle.Container,restyle]}>
+      <StatusBar backgroundColor={restyle ? 'white' :   Color.Sky} barStyle={ restyle ?  'dark-content' : 'light-content'} />
       {children}
     </SafeAreaView>
   );

@@ -9,7 +9,12 @@ const App = () => {
   setTimeout(() => {
     Splash.hide();
   }, 3000);
-  return <>{userDetails ? <UserNavigation /> : <AuthNavigation />}</>;
+  return <>{
+    // userDetails ? 
+    <UserNavigation /> 
+    // : 
+    // <AuthNavigation />
+    }</>;
 };
 
 export default App;

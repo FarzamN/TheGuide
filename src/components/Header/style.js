@@ -9,7 +9,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     height: 50,
     backgroundColor: Color.white,
-    borderRadius: 10,
+    // borderRadius: 10,
     paddingHorizontal: 15,
   },
   ImageBox: {
