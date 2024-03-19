@@ -5,10 +5,13 @@ import UserNavigation from './src/navigation/UserNavigation';
 import {useSelector} from 'react-redux';
 const App = () => {
   const userDetails = useSelector(state => state.userDetails);
-  console.log(userDetails);
+
+
   setTimeout(() => {
     Splash.hide();
   }, 3000);
+
+
   return <>{
     // userDetails ? 
     <UserNavigation /> 

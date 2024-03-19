@@ -6,6 +6,7 @@ import { Font } from '../../utils/Font';
 import LinearGradient from 'react-native-linear-gradient';
 import TabsBtn from '../../components/Button/TabsBtn';
 import Bible from './TabScreen/Bible';
+import Prayer from './TabScreen/Prayer';
 
 const Home = () => {
   const [selectTabs, setSelectTabs] = useState(0)
@@ -29,7 +30,7 @@ const Home = () => {
 
       </View>
 
-      <View style={styles.MainCon}>
+      <View style={[styles.MainCon,{backgroundColor : selectTabs == 1 ? '#0461FE' : Color.Sky}]}>
         <View style={{ justifyContent: 'center',paddingVertical:5 }} >
           <ScrollView horizontal >
             {
@@ -48,6 +49,7 @@ const Home = () => {
         </View>
 
         {selectTabs == 0 && <Bible />  }
+        {selectTabs == 1 && <Prayer />  }
       </View>
     </Body>
   );
@@ -57,7 +59,7 @@ export default Home;
 const styles = StyleSheet.create({
   TopBoxMain: {
     height: 117,
-    backgroundColor: '#539dfe',
+    backgroundColor: Color.LightSky,
     // borderRadius: 12,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
@@ -128,7 +130,7 @@ const TABSDATA = [
   },
   {
     id: '2',
-    title: 'player',
+    title: 'prayer',
   },
   {
     id: '3',
