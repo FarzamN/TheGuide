@@ -5,7 +5,7 @@ import { Font } from '../../utils/Font'
 
 const TabsBtn = ({item,indx,selectTabs,onPress}) => {
   return (
-    <TouchableOpacity activeOpacity={0.4}  onPress={onPress} >
+    <TouchableOpacity activeOpacity={0.8}  onPress={onPress} >
     <LinearGradient 
     start={{x: 0, y: 0}}
      end={{x: 1, y: 0}} 
@@ -18,6 +18,11 @@ const TabsBtn = ({item,indx,selectTabs,onPress}) => {
       borderRadius: 5,
       justifyContent: 'center',
       alignItems: 'center',
+      shadowColor: 'rgba(0,0,0)',
+      shadowOffset: [1, 1],
+      shadowRadius: 1,
+      shadowOpacity: 0.4,
+      elevation: 1
     }}>
       <Text
         style={{

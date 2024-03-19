@@ -6,5 +6,6 @@ export const Color = {
   placeholderTextColor: 'grey',
   lightgrey: 'lightgrey',
   grey: '#989090',
-  LightSky: '#539dfe'
+  LightSky: '#539dfe',
+  SecLightSky: '#0461FE'
 };

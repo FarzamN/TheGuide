@@ -4,9 +4,13 @@ import { Color } from '../../../utils/Color'
 import { Font } from '../../../utils/Font'
 import TopThreeHeader from '../../../components/Header/TopThreeHeader'
 import Timer from '../../../components/Timer/Timer'
+import CountDown from '../../../components/Timer/CountDown'
+import Number from '../../../components/Timer/Number'
+import BoostTime from '../../../components/BoostTime/BoostTime'
 
 const Prayer = () => {
     const [checkTab, SetCheckTab] = useState(1);
+    const [selectBoost, SetSelectBoost] = useState(0);
     return (
         <View style={styles.MainCon}>
             <View style={styles.TImerCon}>
@@ -27,6 +31,19 @@ const Prayer = () => {
                 />
 
                 {checkTab == 1 && <Timer />}
+                {checkTab == 2 && <CountDown />}
+                {checkTab == 3 && <Number />}
+            </View>
+
+            <BoostTime selectBoost={selectBoost} />
+
+            <View style={styles.BtnCon}>
+                    <View style={styles.BtnBox}>
+                            <Text style={styles.BtnTxt}>Map</Text>
+                    </View>
+                    <View style={styles.BtnBox}>
+                            <Text style={styles.BtnTxt}>Calendar</Text>
+                    </View>
             </View>
         </View>
     )
@@ -37,16 +54,21 @@ export default Prayer
 const styles = StyleSheet.create({
     MainCon: {
         flex: 1,
-        backgroundColor: '#0461FE'
+        backgroundColor: Color.SecLightSky
     },
     TImerCon: {
-        height:  265,
+        height: 260,
         backgroundColor: Color.LightSky,
         marginHorizontal: 8,
         borderRadius: 10,
         overflow: 'hidden',
         marginTop: 25,
-        padding: 20
+        padding: 20,
+        shadowColor: 'rgba(0,0,0)',
+        shadowOffset: [1, 1],
+        shadowRadius: 1,
+        shadowOpacity: 0.4,
+        elevation: 1
     },
     TimerP1: {
         flexDirection: 'row',
@@ -57,5 +79,28 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: Font.font500,
         fontSize: 12,
+    },
+    BtnCon: {
+        height: 55,
+        backgroundColor: '#004FB4',
+        marginTop: 40,
+        lexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        flexDirection:'row'
+    },
+    BtnBox:{
+        height: '80%',
+        width: 80,
+        borderWidth: 1,
+        borderColor: '#6FC64E',
+        borderRadius: 5,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    BtnTxt:{
+        color: '#6FC64E',
+        fontFamily: Font.font500,
+        fontSize: 13
     }
 })

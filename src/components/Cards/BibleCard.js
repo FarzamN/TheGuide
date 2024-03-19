@@ -75,6 +75,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         overflow: 'hidden',
         borderRadius: 4,
+        shadowColor: 'rgba(0,0,0)',
+        shadowOffset: [1, 1],
+        shadowRadius: 1,
+        shadowOpacity: 0.4,
+        elevation: 1
     },
     VidConSty: {
         height: 35,

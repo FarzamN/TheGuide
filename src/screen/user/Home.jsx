@@ -12,7 +12,7 @@ const Home = () => {
   const [selectTabs, setSelectTabs] = useState(0)
   return (
     <Body restyle={{ backgroundColor: '#3308b0' }}>
-      <MainHeader title={'Bible School'} />
+      <MainHeader title={'Prayer'} />
       <View style={styles.TopBoxMain}>
         <View style={styles.TopImgCon} >
         </View>
