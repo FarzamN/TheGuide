@@ -4,8 +4,10 @@ import LinearGradient from 'react-native-linear-gradient'
 import { Font } from '../../utils/Font'
 
 const BibleBottomBtn = ({ num, margH, selectTabs, onPress, title }) => {
+
+  
     return (
-        <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
+        <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
             <LinearGradient
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}

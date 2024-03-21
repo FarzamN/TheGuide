@@ -43,7 +43,12 @@ const styles = StyleSheet.create({
     overflow:'hidden',
     backgroundColor: '#3470AC',
     marginTop: 10,
-    flexDirection:'row'
+    flexDirection:'row',
+    shadowColor: 'rgba(0,0,0)',
+    shadowOffset: [1, 1],
+    shadowRadius: 1,
+    shadowOpacity: 0.4,
+    elevation: 1
   },
   BoxesSty:{
     flex:1,

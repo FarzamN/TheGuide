@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { Color } from '../../../utils/Color'
 import { Font } from '../../../utils/Font'
@@ -7,10 +7,34 @@ import Timer from '../../../components/Timer/Timer'
 import CountDown from '../../../components/Timer/CountDown'
 import Number from '../../../components/Timer/Number'
 import BoostTime from '../../../components/BoostTime/BoostTime'
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 const Prayer = () => {
     const [checkTab, SetCheckTab] = useState(1);
     const [selectBoost, SetSelectBoost] = useState(0);
+
+    const openCalendar = async () => {
+        if (Platform.OS == 'android') {
+            Linking.openURL('content://com.android.calendar/time/');
+        } else {
+            Linking.openURL('calshow://');
+        }
+    };
+    const openMaps = async () => {
+        const latitude = 37.78825;
+        const longitude = -122.4324;
+        const label = 'Custom Label';
+
+        let url;
+        if (Platform.OS === 'android') {
+            url = `geo:${latitude},${longitude}?q=${latitude},${longitude}(${label})`;
+        } else {
+            url = `http://maps.apple.com/?ll=${latitude},${longitude}&q=${label}`;
+        }
+
+        Linking.openURL(url);
+    };
+
     return (
         <View style={styles.MainCon}>
             <View style={styles.TImerCon}>
@@ -38,12 +62,12 @@ const Prayer = () => {
             <BoostTime selectBoost={selectBoost} />
 
             <View style={styles.BtnCon}>
-                    <View style={styles.BtnBox}>
-                            <Text style={styles.BtnTxt}>Map</Text>
-                    </View>
-                    <View style={styles.BtnBox}>
-                            <Text style={styles.BtnTxt}>Calendar</Text>
-                    </View>
+                <TouchableOpacity style={styles.BtnBox} activeOpacity={0.7} onPress={openMaps}>
+                    <Text style={styles.BtnTxt}>Map</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.BtnBox} activeOpacity={0.7} onPress={openCalendar}>
+                    <Text style={styles.BtnTxt}>Calendar</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -87,18 +111,18 @@ const styles = StyleSheet.create({
         lexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        flexDirection:'row'
+        flexDirection: 'row'
     },
-    BtnBox:{
+    BtnBox: {
         height: '80%',
         width: 80,
         borderWidth: 1,
         borderColor: '#6FC64E',
         borderRadius: 5,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    BtnTxt:{
+    BtnTxt: {
         color: '#6FC64E',
         fontFamily: Font.font500,
         fontSize: 13

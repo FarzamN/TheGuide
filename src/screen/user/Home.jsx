@@ -1,37 +1,117 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import { Body, MainHeader } from '../../components';
 import { Color } from '../../utils/Color';
 import { Font } from '../../utils/Font';
 import LinearGradient from 'react-native-linear-gradient';
 import TabsBtn from '../../components/Button/TabsBtn';
-import Bible from './TabScreen/Bible';
+import Bible from './TabScreen/BibleHome/Bible';
 import Prayer from './TabScreen/Prayer';
+import BibleBottomBtn from '../../components/Button/BibleBottomBtn';
+import BibleTopic from './TabScreen/BibleHome/BibleTopic';
+import BibleMemory from './TabScreen/BibleHome/BibleMemory';
+import RoundLoader from '../../components/Loaders/RoundLoader';
 
 const Home = () => {
   const [selectTabs, setSelectTabs] = useState(0)
+  const [selectTestament, setSelectTestament] = useState(1)
+  const [testamentModal, settestamentModal] = useState(false)
+
+
+  const handleTestament = (num) => {
+    settestamentModal(true)
+    
+    setTimeout(() => {
+      setSelectTestament(num)
+      settestamentModal(false)
+    }, 1500);
+  }
+
   return (
     <Body restyle={{ backgroundColor: '#3308b0' }}>
       <MainHeader title={'Prayer'} />
       <View style={styles.TopBoxMain}>
-        <View style={styles.TopImgCon} >
-        </View>
-
         {
-          topData.map((item, indx) => {
-            return (
-              <View key={indx} style={styles.TopDataBox}>
-                <Text style={styles.TopBoxTitle}>{item.title}</Text>
-                <Text style={[styles.TopBoxDataTxt, { color: item.data == 'Due' ? 'red' : 'black', }]}>{item.data}</Text>
+          selectTabs === 2 ?
+            <ScrollView horizontal>
+              {
+                statusData.map((item, indx) => {
+                  return (
+                    <View key={indx}
+                      style={{
+                        height: 80,
+                        width: 75,
+                        backgroundColor: 'black',
+                        marginLeft: 10,
+                        marginRight: indx + 1 == statusData.length ? 10 : 0,
+                        borderRadius: 3,
+                        overflow: 'hidden'
+                      }}>
+                      <View
+                        style={{
+                          flex: .3,
+                          backgroundColor: '#F47A77',
+                          // borderBottomLeftRadius: 10,
+                          // borderBottomRightRadius: 10,
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}>
+                        <Text
+                          numberOfLines={1}
+                          style={{
+                            color: 'white',
+                            fontFamily: Font.font500,
+                            fontSize: 10,
+                            bottom: 1
+                          }}>{item.title}</Text>
+                      </View>
+                      <View style={{ flex: .7, justifyContent: 'center', alignItems: 'center' }}>
+                        <Image
+                          source={require('../../assets/image/msg.png')}
+                          resizeMode='cover'
+                          style={{
+                            height: '100%',
+                            width: '100%',
+                            position: 'absolute'
+                          }}
+                        />
+                        <Text
+                          numberOfLines={1}
+                          style={{
+                            color: 'white',
+                            fontFamily: Font.font500,
+                            fontSize: 12,
+                            bottom: 1
+                          }}>{item.data}</Text>
+                      </View>
+                    </View>
+                  )
+                })
+              }
+            </ScrollView>
+
+            :
+            <>
+              <View style={styles.TopImgCon} >
               </View>
-            )
-          })
+
+              {
+                topData.map((item, indx) => {
+                  return (
+                    <View key={indx} style={styles.TopDataBox}>
+                      <Text style={styles.TopBoxTitle}>{item.title}</Text>
+                      <Text style={[styles.TopBoxDataTxt, { color: item.data == 'Due' ? 'red' : 'black', }]}>{item.data}</Text>
+                    </View>
+                  )
+                })
+              }
+            </>
         }
 
       </View>
 
-      <View style={[styles.MainCon,{backgroundColor : selectTabs == 1 ? '#0461FE' : Color.Sky}]}>
-        <View style={{ justifyContent: 'center',paddingVertical:5 }} >
+      <View style={[styles.MainCon, { backgroundColor: selectTabs == 1 ? '#0461FE' : Color.Sky }]}>
+        <View style={{ justifyContent: 'center', paddingVertical: 5 }} >
           <ScrollView horizontal >
             {
               TABSDATA.map((item, indx) => {
@@ -48,9 +128,40 @@ const Home = () => {
           </ScrollView>
         </View>
 
-        {selectTabs == 0 && <Bible />  }
-        {selectTabs == 1 && <Prayer />  }
+        {selectTabs == 0 &&
+          <>
+            {selectTestament == 1 && <Bible />}
+            {selectTestament == 2 && <BibleTopic />}
+            {selectTestament == 3 && <BibleMemory />}
+
+
+            <View style={{ height: 105, flexDirection: 'row' }}>
+              <BibleBottomBtn
+                selectTabs={selectTestament}
+                onPress={() => handleTestament(1)}
+                num={1}
+                title='Old Testament'
+              />
+              <BibleBottomBtn
+                margH
+                selectTabs={selectTestament}
+                onPress={() => handleTestament(2)}
+                num={2}
+                title='New Testament'
+              />
+              <BibleBottomBtn
+                selectTabs={selectTestament}
+                onPress={() => handleTestament(3)}
+                num={3}
+                title='Memory'
+              />
+            </View>
+          </>
+        }
+        {selectTabs == 1 && <Prayer />}
       </View>
+
+      <RoundLoader isVisible={testamentModal} />
     </Body>
   );
 };
@@ -65,7 +176,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 12,
     paddingTop: 16,
     flexDirection: 'row',
-    marginBottom: 3
+    marginBottom: 3,
+    overflow: 'hidden',
+    paddingHorizontal: 5
   },
   TopImgCon: {
     height: 80,
@@ -78,7 +191,8 @@ const styles = StyleSheet.create({
     width: 55,
     backgroundColor: 'white',
     margin: 5,
-    borderRadius: 6
+    borderRadius: 6,
+
   },
   TopBoxTitle: {
     fontFamily: Font.font500,
@@ -140,4 +254,42 @@ const TABSDATA = [
     id: '4',
     title: 'Events',
   },
+]
+const statusData = [
+  {
+    id: '1',
+    title: "Don't Pray",
+    data: 'Up to you'
+  },
+  {
+    id: '2',
+    title: 'Pray 5 mins',
+    data: '7 Days'
+  },
+  {
+    id: '3',
+    title: 'Pray 10 mins',
+    data: '14 Days'
+  },
+  {
+    id: '4',
+    title: 'Pray 15 mins',
+    data: '21 Days'
+  },
+  {
+    id: '5',
+    title: 'Pray 30 mins',
+    data: '28 Days'
+  },
+  {
+    id: '6',
+    title: 'Pray 1 Hr',
+    data: '60 Days'
+  },
+  {
+    id: '7',
+    title: 'Pray 1.5 Hr',
+    data: '120 Days'
+  },
+
 ]

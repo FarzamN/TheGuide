@@ -88,7 +88,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderRadius: 4,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        shadowColor: 'rgba(0,0,0)',
+        shadowOffset: [1, 1],
+        shadowRadius: 1,
+        shadowOpacity: 0.4,
+        elevation: 1
     },
     InputCon: {
         height: 60,
