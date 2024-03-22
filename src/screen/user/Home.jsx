@@ -27,6 +27,9 @@ const Home = () => {
     }, 1500);
   }
 
+
+
+
   return (
     <Body restyle={{ backgroundColor: '#3308b0' }}>
       <MainHeader title={'Prayer'} />

@@ -1,11 +1,12 @@
 import { Animated, Dimensions, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Font } from '../../../utils/Font'
 import Icon, { IconType } from 'react-native-dynamic-vector-icons';
 import { Color } from '../../../utils/Color';
 import TestHeader from '../../../components/Header/TestHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import { CustomButton } from '../../../components';
+import LottieView from 'lottie-react-native'
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
 
@@ -13,6 +14,9 @@ const BibleTest = () => {
     const barColr = '#60462E'
 
     const animatedShowValue = useRef(new Animated.Value(0)).current;
+    const animatedShowValue2 = useRef(new Animated.Value(0)).current;
+
+    const [coinsShow, setCoinsShow] = useState(false)
 
     const openCloseAnimation = () => {
         const toValue = animatedShowValue._value === 0 ? 1 : 0;
@@ -55,6 +59,35 @@ const BibleTest = () => {
         openCloseAnimation();
     };
 
+    // const startAnimation = () => {
+    //     Animated.spring(animatedShowValue2, {
+    //         toValue: 1,
+    //         delay: 100,
+    //         useNativeDriver: true
+    //     }).start()
+    // }
+
+    const startAnimation = () => {
+        setCoinsShow(true)
+        Animated.spring(animatedShowValue2, {
+            toValue: 1,
+            delay: 100,
+            duration: 500,
+            useNativeDriver: true
+        }).start(({ finished }) => {
+            if (finished) {
+                setTimeout(() => {
+                    setCoinsShow(false)
+                    Animated.timing(animatedShowValue2, {
+                        toValue: 0,
+                        duration: 0,
+                        useNativeDriver: true
+                    }).reset();
+                }, 1500);
+            }
+        });
+    };
+
     const phrase = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
 
     return (
@@ -85,6 +118,9 @@ const BibleTest = () => {
                     source={require('../../../assets/image/book.jpeg')}
                 />
             </View>
+
+
+
             <Animated.View
                 style={[{
                     width: '85%',
@@ -202,7 +238,7 @@ const BibleTest = () => {
                                             alignSelf: 'flex-end',
                                             top: 3,
                                             left: 2,
-                                            overflow:'hidden'
+                                            overflow: 'hidden'
                                         }}
                                     >
                                         <Image
@@ -228,7 +264,7 @@ const BibleTest = () => {
                         </ScrollView>
 
 
-                        <TouchableOpacity activeOpacity={.8} onPress={handleContinue}>
+                        <TouchableOpacity activeOpacity={.8} onPress={startAnimation}>
                             <LinearGradient
                                 start={{ x: 0, y: 2 }}
                                 end={{ x: 3, y: 2 }}
@@ -242,7 +278,8 @@ const BibleTest = () => {
                                     justifyContent: 'center',
                                     alignItems: "center",
                                     // top: 10
-                                    marginVertical: 10
+                                    marginVertical: 10,
+                                    zIndex: 99999
                                 }}
                             >
                                 <Text
@@ -252,10 +289,51 @@ const BibleTest = () => {
                                         color: 'white'
                                     }}>Continue</Text>
                             </LinearGradient>
+
+                            {
+                                coinsShow &&
+                                <Animated.View
+                                    style={[{
+                                        height: 45,
+                                        width: 50,
+                                        position: 'absolute',
+                                        zIndex: 9999,
+                                        bottom: 20,
+                                        right: '20%',
+                                    }, {
+                                        transform: [{
+                                            translateY: animatedShowValue2.interpolate({
+                                                inputRange: [0, 1],
+                                                outputRange: [0, -(SCREEN_HEIGHT * 1) / 1.7]
+                                            })
+                                        },
+                                        {
+                                            translateX: animatedShowValue2.interpolate({
+                                                inputRange: [0, 1],
+                                                outputRange: [0, 10]
+                                            })
+                                        }
+                                        ]
+                                    }]}
+                                >
+                                    <LottieView
+                                        style={{
+                                            height: '100%',
+                                            width: '100%',
+                                        }}
+                                        source={require('../../../components/Lootie/coins3.json')}
+                                        autoPlay
+                                        loop
+                                    // speed={0.7}
+                                    />
+                                </Animated.View>
+                            }
                         </TouchableOpacity>
 
 
                     </Animated.View>
+
+
                 </LinearGradient>
             </Animated.View>
 

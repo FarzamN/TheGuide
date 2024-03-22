@@ -4,26 +4,33 @@ import { Font } from '../../../../utils/Font'
 import LinearGradient from 'react-native-linear-gradient'
 import BibleBottomBtn from '../../../../components/Button/BibleBottomBtn'
 import BibleCard from '../../../../components/Cards/BibleCard'
+import { useNavigation } from '@react-navigation/native'
 
 const BibleTopic = () => {
-  return (
-    <View style={{ flex: 1, backgroundColor: '#2d76f0' }}>
-    <Text style={styles.MainTxt}>Topic</Text>
+    const navigation = useNavigation()
+    return (
+        <View style={{ flex: 1, backgroundColor: '#2d76f0' }}>
+            <Text style={styles.MainTxt}>Topic</Text>
 
-    <View style={{ flex: 1, paddingTop: 15 }}>
-        <FlatList
-            data={DATA}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-                return (
-                  <BibleCard item={item} single name1='Play'  />
-                )
-            }}
-        />
-    </View>
+            <View style={{ flex: 1, paddingTop: 15 }}>
+                <FlatList
+                    data={DATA}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => {
+                        return (
+                            <BibleCard
+                                item={item}
+                                single
+                                name1='Play'
+                                onPress1={() => navigation.navigate('topicvideoquiz')}
+                            />
+                        )
+                    }}
+                />
+            </View>
 
-</View>
-  )
+        </View>
+    )
 }
 
 export default BibleTopic

@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/native'
 
 const Bible = () => {
     const navigation = useNavigation()
+
+
     return (
         <View style={{ flex: 1, backgroundColor: '#2d76f0' }}>
             <Text style={styles.MainTxt}>Bible</Text>
