@@ -623,5 +623,6 @@ VideoPlayer.defaultProps = {
   pauseOnPress: false,
   fullScreenOnLongPress: false,
   customStyles: {},
-  showDuration: false
+  showDuration: false,
+  paused: false,
 };
