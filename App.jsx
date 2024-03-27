@@ -13,10 +13,10 @@ const App = () => {
 
 
   return <>{
-    // userDetails ? 
+    userDetails ? 
     <UserNavigation /> 
-    // : 
-    // <AuthNavigation />
+    : 
+    <AuthNavigation />
     }</>;
 };
 

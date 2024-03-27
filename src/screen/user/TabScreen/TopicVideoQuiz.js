@@ -58,7 +58,10 @@ const TopicVideoQuiz = ({navigation}) => {
 
     // setTimeout(() => {
     //     setIsPlaying(!isPlaying)
-    // }, 8000);
+    // }, 1000);
+
+//     const numbers = [23,55,21,87,56];
+// let maxValue = Math.max(...numbers);
 
     const handleSubmit = (elm) => {
         setIsType(elm)

@@ -13,9 +13,7 @@ const LockModal = (props) => {
     return (
         <Modal
             statusBarTranslucent
-            
-            backdropOpacity={0.8}
-            onBackdropPress={onBackdropPress}
+            // onBackdropPress={onBackdropPress}
             isVisible={isVisible}
             animationIn="zoomIn"
             animationInTiming={400}
@@ -24,20 +22,75 @@ const LockModal = (props) => {
             style={{
                 flex: 1,
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                backgroundColor: 'rgba(38, 73, 144, 0.8)',
+                margin: 0,
+                paddingHorizontal: 15
             }}>
+           
+            <View
+             style={{
+                  height: 200,
+                  width: '95%',
+            }}>
+                <View
+                style={{
+                    height: 60,
+                    width: 60,
+                    position: 'absolute',
+                    zIndex: 999,
+                    top: -30,
+                    alignSelf: 'center'
+                }}>
+                <Image
+                    style={{
+                        height: '100%',
+                        width: '100%'
+                    }}
+                    source={require('../../assets/image/lock2.png')}
+                />
+            </View>
             <LinearGradient
                 start={{ x: 1, y: 0 }}
                 end={{ x: 1, y: 1 }}
-                colors={['#F4FFFF', '#F4FFFF', '#A8F7FF' , '#97F4FF',  '#76F0FF']}
+                colors={['#F4FFFF', '#F4FFFF', '#A8F7FF', '#A8F7FF', '#A8F7FF']}
                 style={{
-                    height: 200,
-                    width: '95%',
+                    height: 160,
+                    width: '100%',
                     borderRadius: 12,
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    justifyContent:'center',
+                    alignItems: 'center'
                 }}>
-
+                     <Text style={{
+                        fontFamily: Font.font700,
+                        fontSize: 20,
+                        color: '#0D3F91',
+                        width: '70%',
+                        textAlign:'center'
+                     }}>First Pass All Learning Games!</Text>
             </LinearGradient>
+
+            <TouchableOpacity
+            onPress={onBackdropPress}
+            activeOpacity={0.8}
+            style={{
+                height: 35,
+                width: 130,
+                backgroundColor: '#FCA724',
+                position: 'absolute',
+                alignSelf: 'center',
+                bottom: 25,
+                borderRadius: 30,
+                borderWidth: 2,
+                borderColor: 'white',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}
+            >
+                <Text style={{ color: 'white', fontFamily: Font.font700, fontSize: 18 }}>OK</Text>
+            </TouchableOpacity>
+            </View>
         </Modal>
     )
 }
