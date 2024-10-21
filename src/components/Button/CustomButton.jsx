@@ -1,37 +1,29 @@
 import React from 'react';
-import {Color} from '../../utils/Color';
-import {Font} from '../../utils/Font';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {width} from '../../utils/Constants';
+import {Text, TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
+import LinearGradient from 'react-native-linear-gradient';
+import {styles} from './style';
 
-const CustomButton = ({disabled, onPress, style, textStyle, title}) => {
+const CustomButton = ({onPress, style, textStyle, title, load, marginTop}) => {
   return (
     <TouchableOpacity
-      disabled={disabled}
+      disabled={load}
       onPress={onPress}
-      style={[styles.containerStyle, GlobalStyle.row, style]}>
-      <Text style={[styles.font, textStyle]}>{title}</Text>
+      style={[
+        styles.containerStyle,
+        GlobalStyle.row,
+        style,
+        {marginTop: marginTop},
+      ]}>
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        colors={['#FDBF44', '#F9AD41', '#FF8926']}
+        style={[GlobalStyle.full, GlobalStyle.justify]}>
+        <Text style={[styles.font, textStyle]}>{load ? 'Loading' : title}</Text>
+      </LinearGradient>
     </TouchableOpacity>
   );
 };
 
 export default CustomButton;
-
-const styles = StyleSheet.create({
-  containerStyle: {
-    width: '100%',
-    justifyContent: 'center',
-    borderRadius: 20,
-    marginTop: 5,
-    alignSelf: 'center',
-    backgroundColor: '#094AA3',
-    height: 52,
-  },
-
-  font: {
-    color: Color.white,
-    fontSize: 18,
-    fontFamily: Font.font700,
-  },
-});

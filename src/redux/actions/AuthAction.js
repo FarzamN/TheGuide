@@ -3,7 +3,7 @@ import {USER_DETAILS} from '../reducer/Holder';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 
-export const LoginApi = (data, setLoader, setError, setMsg) => {
+export const LoginApi = (data, setLoader, err) => {
   return async dispatch => {
     try {
       setLoader(true);
@@ -25,10 +25,9 @@ export const LoginApi = (data, setLoader, setError, setMsg) => {
         setLoader(false);
       } else {
         setLoader(false);
-        setMsg(responseData.message);
-        setError(true);
+        err({visible: true, mag: responseData.message});
         setTimeout(() => {
-          setError(false);
+          err({visible: false, mag: ''});
         }, 2000);
       }
     } catch (error) {
@@ -43,7 +42,8 @@ export const RegisterApi = (data, setLoader, setError, setMsg) => {
   return async dispatch => {
     try {
       setLoader(true);
-      const url = `${Base_Url}register`;
+      const url = `${Base_Url}registration`;
+
       const myData = new FormData();
 
       myData.append('email', data.email);
@@ -55,8 +55,8 @@ export const RegisterApi = (data, setLoader, setError, setMsg) => {
         method: 'POST',
         body: myData,
       });
-
       const responseData = await response.json();
+      console.log('responseData', responseData);
       if (responseData.success == true) {
         await AsyncStorage.setItem('user_details', 'true');
         dispatch({type: USER_DETAILS, payload: true});

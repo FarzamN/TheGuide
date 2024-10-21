@@ -1,30 +1,28 @@
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {
-  Body,
+  AuthBody,
   CustomButton,
   Error,
-  FullImage,
-  Loader,
+  Text,
   MainInput,
-  PasswordInput,
-  Validation,
+  WhiteBtn,
 } from '../../components';
-import {emailPattern, required} from '../../utils/Constants';
 import {useForm} from 'react-hook-form';
 import {style} from './style';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch} from 'react-redux';
 import {LoginApi} from '../../redux/actions/AuthAction';
+import {IconType} from 'react-native-dynamic-vector-icons';
+import {loginField} from '../../utils/Data';
 
 const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
-  const [error, setError] = useState(false);
-  const [msg, setMsg] = useState('');
+  const [err, setErr] = useState({visible: false, msg: ''});
 
   const onSubmit = data => {
-    dispatch(LoginApi(data, setLoad, setError, setMsg));
+    dispatch(LoginApi(data, setLoad, setErr));
   };
 
   const {
@@ -33,59 +31,46 @@ const Login = ({navigation}) => {
     formState: {errors},
   } = useForm({mode: 'all'});
   return (
-    <Body>
-      <FullImage
-        source={require('../../assets/image/logo.png')}
-        style={style.ImageBox}
-      />
-      <ScrollView
-        style={GlobalStyle.Padding}
-        showsVerticalScrollIndicator={false}>
-        <View style={GlobalStyle.height} />
+    <AuthBody
+      Sub="Login to continue using the app"
+      heading="Welcome Back!"
+      styles={style.loginImage}
+      source={require('../../assets/image/loginBanner.png')}>
+      <View style={GlobalStyle.height} />
+
+      {loginField.map(field => (
         <MainInput
+          key={field.name}
           control={control}
-          name="email"
-          defaultValue="player9@gmail.com"
-          rules={{
-            required: required('Email'),
-            pattern: emailPattern,
-          }}
-          placeholder="Email"
-          keyboardType={'email-address'}
+          name={field.name}
+          defaultValue={field.defaultValue}
+          rules={field.rules}
+          placeholder={field.placeholder}
+          keyboardType={field.keyboardType}
+          isPass={field.isPass}
+          message={errors?.[field.name]?.message}
+          isError={errors?.[field.name]}
+          type={IconType.MaterialIcons}
+          icName={field.icName}
         />
-        <Validation message={errors?.email?.message} isError={errors?.email} />
-        <PasswordInput
-          defaultValue="12345678"
-          control={control}
-          name="password"
-          rules={{
-            required: required('Password'),
-          }}
-          placeholder="Password"
-        />
-        <Validation
-          message={errors?.password?.message}
-          isError={errors?.password}
-        />
-        <TouchableOpacity>
-          <Text style={style.forget}>Forget password</Text>
-        </TouchableOpacity>
-        <CustomButton
-          title="Submit"
-          onPress={handleSubmit(onSubmit)}
-          style={{marginTop: 20}}
-        />
-        <View style={GlobalStyle.height} />
-        <CustomButton
-          title="Create a new account"
-          onPress={() => navigation.navigate('register')}
-          style={style.newAccountButton}
-          textStyle={style.newAccountButtonText}
-        />
-      </ScrollView>
-      <Loader visible={load} />
-      <Error visible={error} message={msg} />
-    </Body>
+      ))}
+
+      <TouchableOpacity>
+        <Text style={style.forget} text="Forget password" />
+      </TouchableOpacity>
+      <CustomButton
+        title="Submit"
+        onPress={handleSubmit(onSubmit)}
+        style={{marginTop: 20}}
+        load={load}
+      />
+      <View style={GlobalStyle.height} />
+      <WhiteBtn
+        title="Create a new account"
+        onPress={() => navigation.navigate('register')}
+      />
+      <Error visible={err.visible} message={err.msg} />
+    </AuthBody>
   );
 };
 

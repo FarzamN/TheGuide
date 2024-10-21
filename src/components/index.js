@@ -7,8 +7,17 @@ import CustomButton from './Button/CustomButton';
 import Loader from './Modal/Loader';
 import Error from './Modal/Error';
 import MainHeader from './Header/MainHeader';
+import Text from './Text/Text';
+import AuthBody from './layout/AuthBody';
+import WhiteBtn from './Button/WhiteBtn';
+import RegisterDropDown from './Dropdown/RegisterDropDown';
+import BirthdayBtn from './Button/BirthdayBtn';
 
 export {
+  BirthdayBtn,
+  RegisterDropDown,
+  WhiteBtn,
+  Text,
   Body,
   MainInput,
   Validation,
@@ -18,4 +27,5 @@ export {
   Loader,
   Error,
   MainHeader,
+  AuthBody,
 };

@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {Color} from '../../utils/Color';
 import {Font} from '../../utils/Font';
 
@@ -38,7 +38,8 @@ const PasswordInput = forwardRef((props, ref) => {
         selectionColor={Color.Main}
       />
       <TouchableOpacity onPress={() => setPassword(!password)}>
-        <FontAwesome
+        <Icon
+          type={IconType.Entypo}
           size={20}
           color={Color.black}
           name={password ? 'eye' : 'eye-slash'}

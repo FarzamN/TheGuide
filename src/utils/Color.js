@@ -3,11 +3,11 @@ export const Color = {
   white: '#FFFFFF',
   Sky: '#2D76F0',
   Non: 'transparent',
-  placeholderTextColor: 'grey',
+  placeholderTextColor: '#797982',
   lightgrey: 'lightgrey',
   grey: '#989090',
   LightSky: '#539dfe',
   SecLightSky: '#0461FE',
   HeaderSky: '#3F8AF4',
-  LineDarkBlue: '#19396A'
+  LineDarkBlue: '#19396A',
 };

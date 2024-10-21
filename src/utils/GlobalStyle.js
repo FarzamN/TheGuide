@@ -20,4 +20,13 @@ export const GlobalStyle = StyleSheet.create({
   height: {
     height: 30,
   },
+  between: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  justify: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
