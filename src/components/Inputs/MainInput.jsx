@@ -20,11 +20,11 @@ const MainInput = forwardRef((props, ref) => {
     <View>
       <View style={[styles.smallbox, props.style]}>
         <Icon
+          size={20}
           style={{width: 25}}
           name={props.icName}
           type={props.type}
           color={Color.placeholderTextColor}
-          size={20}
         />
         <TextInput
           ref={ref}

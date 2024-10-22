@@ -13,6 +13,7 @@ export const style = StyleSheet.create({
   },
   alreadyBox: {
     height: 50,
+    marginTop: 20,
   },
   already: {
     fontSize: 16,
@@ -34,6 +35,6 @@ export const style = StyleSheet.create({
   },
   smBtn: {
     width: '49%',
-    marginTop: 10,
+    marginTop: 30,
   },
 });

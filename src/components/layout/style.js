@@ -9,7 +9,7 @@ export const style = StyleSheet.create({
     width: 220,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 30,
     fontFamily: Font.font600,
   },
   text: {

@@ -4,23 +4,37 @@ import {GlobalStyle} from '../../utils/GlobalStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import {styles} from './style';
 
-const CustomButton = ({onPress, style, textStyle, title, load, marginTop}) => {
+const CustomButton = ({
+  onPress,
+  style,
+  textStyle,
+  title,
+  load,
+  marginTop,
+  disabled,
+}) => {
   return (
     <TouchableOpacity
-      disabled={load}
+      disabled={disabled}
       onPress={onPress}
       style={[
         styles.containerStyle,
         GlobalStyle.row,
-        style,
         {marginTop: marginTop},
+        style,
       ]}>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
-        colors={['#FDBF44', '#F9AD41', '#FF8926']}
+        colors={
+          disabled
+            ? ['#fdc962', '#fab95c', '#ffa051']
+            : ['#FDBF44', '#F9AD41', '#FF8926']
+        }
         style={[GlobalStyle.full, GlobalStyle.justify]}>
-        <Text style={[styles.font, textStyle]}>{load ? 'Loading' : title}</Text>
+        <Text style={[styles.font, textStyle]}>
+          {load ? 'Loading...' : title}
+        </Text>
       </LinearGradient>
     </TouchableOpacity>
   );

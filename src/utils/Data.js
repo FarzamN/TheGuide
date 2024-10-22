@@ -1,14 +1,9 @@
 import {IconType} from 'react-native-dynamic-vector-icons';
-import {Login, Register} from '../screen/authentication';
+import {Login, Register, Country, City, State} from '../screen/authentication';
 import {Home} from '../screen/user';
 import BibleTest from '../screen/user/TabScreen/BibleTest';
 import TopicVideoQuiz from '../screen/user/TabScreen/TopicVideoQuiz';
 import {emailPattern, required} from './Constants';
-
-export const AuthNav = [
-  {n: 'login', c: Login},
-  {n: 'register', c: Register},
-];
 
 export const UserNav = [
   {n: 'home', c: Home},
@@ -37,7 +32,12 @@ export const RegisterInput = [
     icon: 'phone',
     p: 'Phone Number',
     name: 'number',
-    title: 'Uk and Usa Phone Number',
+    title: 'UK and USA Phone Number',
+  },
+  {
+    icon: 'pin-drop',
+    p: 'Address',
+    name: 'address',
   },
   {
     icon: 'lock',

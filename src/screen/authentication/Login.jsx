@@ -17,6 +17,7 @@ import {IconType} from 'react-native-dynamic-vector-icons';
 import {loginField} from '../../utils/Data';
 
 const Login = ({navigation}) => {
+  const {navigate} = navigation;
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
   const [err, setErr] = useState({visible: false, msg: ''});
@@ -59,15 +60,16 @@ const Login = ({navigation}) => {
         <Text style={style.forget} text="Forget password" />
       </TouchableOpacity>
       <CustomButton
-        title="Submit"
-        onPress={handleSubmit(onSubmit)}
-        style={{marginTop: 20}}
         load={load}
+        title="Submit"
+        marginTop={20}
+        disabled={load}
+        onPress={handleSubmit(onSubmit)}
       />
       <View style={GlobalStyle.height} />
       <WhiteBtn
         title="Create a new account"
-        onPress={() => navigation.navigate('register')}
+        onPress={() => navigate('register')}
       />
       <Error visible={err.visible} message={err.msg} />
     </AuthBody>

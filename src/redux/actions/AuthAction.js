@@ -1,12 +1,18 @@
+import moment from 'moment';
 import {Base_Url} from '../../utils/Urls';
-import {USER_DETAILS} from '../reducer/Holder';
+import {
+  USER_DETAILS,
+  GET_COUNTRY,
+  GET_CITY,
+  GET_STATE,
+} from '../reducer/Holder';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 
-export const LoginApi = (data, setLoader, err) => {
+export const LoginApi = (data, load, err) => {
   return async dispatch => {
     try {
-      setLoader(true);
+      load(true);
       const url = `${Base_Url}login`;
       const myData = new FormData();
 
@@ -22,61 +28,109 @@ export const LoginApi = (data, setLoader, err) => {
       if (responseData.success == true) {
         await AsyncStorage.setItem('user_details', 'true');
         dispatch({type: USER_DETAILS, payload: true});
-        setLoader(false);
+        load(false);
       } else {
-        setLoader(false);
-        err({visible: true, mag: responseData.message});
+        load(false);
+        err({visible: true, msg: responseData.message});
         setTimeout(() => {
-          err({visible: false, mag: ''});
+          err({visible: false, msg: ''});
         }, 2000);
       }
     } catch (error) {
-      setLoader(false);
+      load(false);
       Toast.show('Server side error');
       console.log('error LoginApi', error);
     }
   };
 };
 
-export const RegisterApi = (data, setLoader, setError, setMsg) => {
+export const registerApi = (
+  data,
+  bday,
+  gender,
+  city,
+  state,
+  country,
+  back,
+  load,
+  setError,
+) => {
   return async dispatch => {
     try {
-      setLoader(true);
-      const url = `${Base_Url}registration`;
+      console.log('Starting API request...');
+      load(true);
 
+      const url = 'https://theguide.us/api/v1/register';
       const myData = new FormData();
 
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      myData.append('first_name', data.f_name);
+      myData.append('last_name', data.l_name);
       myData.append('email', data.email);
+      myData.append('phone', data.number);
+      myData.append('address', data.address);
       myData.append('password', data.password);
-      myData.append('password_confirm', data.c_password);
-      myData.append('email_check', 1);
+      myData.append('confirm_password', data.password);
+      myData.append('gender', gender);
+      myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY')); // October 22nd 2024, 8:42:56 pm
+      myData.append('city', city);
+      myData.append('state', state);
+      myData.append('country', country);
+      myData.append('type', 'father');
+      myData.append('time_zone', timeZone);
+      console.log('bday', bday);
+      const myHeaders = new Headers();
+      myHeaders.append('Accept', 'application/json');
+      myHeaders.append('Content-Type', 'multipart/form-data');
+
+      console.log('Sending data:', myData); // Log the data you're sending
 
       const response = await fetch(url, {
         method: 'POST',
+        headers: myHeaders,
         body: myData,
       });
+
+      console.log(response);
+      console.log('Response success:', response.success); // Log response success
       const responseData = await response.json();
-      console.log('responseData', responseData);
+      console.log('Response data:', responseData); // Log response data
+
       if (responseData.success == true) {
+        back();
         await AsyncStorage.setItem('user_details', 'true');
         dispatch({type: USER_DETAILS, payload: true});
-        setLoader(false);
+        load(false);
       } else {
-        setLoader(false);
-        setMsg(responseData.message);
-        setError(true);
+        load(false);
+        console.error('err', responseData);
+        setError({visible: true, msg: responseData.message});
         setTimeout(() => {
-          setError(false);
+          setError({visible: false, msg: ''});
         }, 2000);
       }
     } catch (error) {
-      setLoader(false);
-      console.log('error RegisterApi', error);
+      load(false);
+      console.log('Network or other error in RegisterApi:', error); // Log network or other errors
       Toast.show('Server side error');
     }
   };
 };
 
+export const checkApi = () => {
+  return async dispatch => {
+    try {
+      fetch('https://jsonplaceholder.typicode.com/posts/1')
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.log('Simple GET Request error:', error));
+    } catch (error) {
+      console.log('error checkApi', error);
+      Toast.show('Server side error');
+    }
+  };
+};
 export const LogOutApi = () => {
   return async dispatch => {
     try {
@@ -88,7 +142,6 @@ export const LogOutApi = () => {
       const response = await fetch(url);
 
       const responseData = await response.json();
-      console.log(responseData);
 
       if (responseData.ok) {
         await AsyncStorage.removeItem('user_details');
@@ -99,4 +152,102 @@ export const LogOutApi = () => {
       Toast.show('Server side error');
     }
   };
+};
+
+export const getCoutry = () => {
+  return async dispatch => {
+    try {
+      const url = `${Base_Url}countries/list`;
+      const response = await fetch(url);
+
+      const responseData = await response.json();
+
+      if (responseData.status == true) {
+        dispatch({type: GET_COUNTRY, payload: responseData.countries});
+      }
+    } catch (error) {
+      console.log('error getCoutry', error);
+      Toast.show('Server side error');
+    }
+  };
+};
+
+export const getCity = () => {
+  return async dispatch => {
+    try {
+      const url = `${Base_Url}cities/list`;
+
+      const response = await fetch(url);
+
+      const responseData = await response.json();
+
+      if (responseData.status == true) {
+        dispatch({type: GET_CITY, payload: responseData.cities});
+      }
+    } catch (error) {
+      console.log('error getCity', error);
+      Toast.show('Server side error');
+    }
+  };
+};
+
+export const getState = () => {
+  return async dispatch => {
+    try {
+      const url = `${Base_Url}states/list`;
+
+      const response = await fetch(url);
+
+      const responseData = await response.json();
+
+      if (responseData.status == true) {
+        dispatch({type: GET_STATE, payload: responseData.states});
+      }
+    } catch (error) {
+      console.log('error getState', error);
+      Toast.show('Server side error');
+    }
+  };
+};
+
+export const getStateByCountry = async (countryID, load, data) => {
+  load(true);
+  try {
+    const url = `${Base_Url}get-state-by-country/${countryID}`;
+
+    const response = await fetch(url);
+
+    const responseData = await response.json();
+    if (responseData.status == true) {
+      load(false);
+      data(responseData.states);
+    } else {
+      load(false);
+    }
+  } catch (error) {
+    load(false);
+    console.log('error getStateByCountry', error);
+    Toast.show('Server side error');
+  }
+};
+
+export const getCityByState = async (stateID, load, data) => {
+  load(true);
+  try {
+    const url = `${Base_Url}get-city-by-state/${stateID}`;
+
+    const response = await fetch(url);
+
+    const responseData = await response.json();
+    if (responseData.status == true) {
+      load(false);
+      data(responseData.cities);
+    } else {
+      load(false);
+    }
+  } catch (error) {
+    load(false);
+    console.log('error getCityByState', error);
+    Toast.show('Server side error');
+  }
 };

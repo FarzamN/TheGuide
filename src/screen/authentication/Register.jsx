@@ -5,20 +5,24 @@ import {
   BirthdayBtn,
   CustomButton,
   MainInput,
-  RegisterDropDown,
+  GenderDropDown,
   Text,
   Validation,
   WhiteBtn,
+  CountryBtn,
+  Loader,
+  Error,
 } from '../../components';
 import {style} from './style';
 import {useForm} from 'react-hook-form';
 import {emailPattern, required} from '../../utils/Constants';
 import {useDispatch} from 'react-redux';
-import {RegisterApi} from '../../redux/actions/AuthAction';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {RegisterInput} from '../../utils/Data';
 import {IconType} from 'react-native-dynamic-vector-icons';
 import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
+import {checkApi, registerApi} from '../../redux/actions/AuthAction';
 
 const Register = ({navigation}) => {
   const {goBack, navigate} = navigation;
@@ -27,6 +31,9 @@ const Register = ({navigation}) => {
   const [error, setError] = useState({visible: false, msg: ''});
   const [index, setIndex] = useState(1);
   const [gender, setGender] = useState('');
+  const [Country, setCountry] = useState({name: null, id: null});
+  const [City, setCity] = useState({name: null, id: null});
+  const [State, setState] = useState({name: null, id: null});
 
   const [date, setDate] = useState(new Date());
   const [bday, setBday] = useState({
@@ -36,19 +43,81 @@ const Register = ({navigation}) => {
     year: '',
   });
 
+  // const onSubmit = data => {
+  //   if (data.password == data.c_password) {
+  //     dispatch(RegisterApi(data, setLoad, setError));
+  //   } else if (gender == '') {
+  //     setError({visible: true, msg: 'Please select gender'});
+  //   } else if (bday.day == null || bday.month == null || bday.year == null) {
+  //     setError({visible: true, msg: 'Please select birthday'});
+  //   } else if (Country.name == null) {
+  //     setError({visible: true, msg: 'Please select country'});
+  //   } else if (State.name == null) {
+  //     setError({visible: true, msg: 'Please select state'});
+  //   } else if (City.name == null) {
+  //     setError({visible: true, msg: 'Please select city'});
+  //   } else {
+  //     setError({visible: true, msg: 'Passwords do not match'});
+  //     setTimeout(() => {
+  //       setError(false);
+  //       setMsg('');
+  //     }, 2000);
+  //   }
+  // };
   const onSubmit = data => {
-    if (data.password == data.c_password) {
-      dispatch(RegisterApi(data, setLoad, setError));
-    } else if (gender == '') {
-      setError({visible: true, msg: 'Please select gender'});
-    } else {
-      setError({visible: true, msg: 'Passwords do not match'});
+    const handleError = msg => {
+      setError({visible: true, msg});
       setTimeout(() => {
-        setError(false);
-        setMsg('');
+        setError({visible: false, msg: ''});
       }, 2000);
+    };
+
+    if (data.password !== data.c_pass) {
+      handleError('Passwords do not match');
+      return;
     }
+
+    if (gender === '') {
+      handleError('Please select gender');
+      return;
+    }
+
+    if (bday.day === null || bday.month === null || bday.year === null) {
+      handleError('Please select birthday');
+      return;
+    }
+
+    if (Country.name === null) {
+      handleError('Please select country');
+      return;
+    }
+
+    if (State.name === null) {
+      handleError('Please select state');
+      return;
+    }
+
+    if (City.name === null) {
+      handleError('Please select city');
+      return;
+    }
+
+    dispatch(
+      registerApi(
+        data,
+        date,
+        gender,
+        City.id,
+        State.id,
+        Country.id,
+        goBack,
+        setLoad,
+        setError,
+      ),
+    );
+    // dispatch(checkApi());
   };
+
   const {
     control,
     handleSubmit,
@@ -96,29 +165,68 @@ const Register = ({navigation}) => {
             );
           })}
           <CustomButton
-            // onPress={handleSubmit(() => setIndex(2))}
-            onPress={() => setIndex(2)}
-            marginTop={25}
             title="Next"
+            marginTop={25}
+            // onPress={() => setIndex(2)}
+            onPress={handleSubmit(() => setIndex(2))}
           />
         </>
       ) : (
         <>
           <View style={{height: 20}} />
-          <RegisterDropDown onSelect={val => setGender(val)} />
+          <GenderDropDown onSelect={val => setGender(val)} />
           <BirthdayBtn
             day={bday.day}
             month={bday.month}
             year={bday.year}
             onPress={() => setBday({visible: true})}
           />
+          <CountryBtn
+            name="flag"
+            title={Country.name || 'Country'}
+            onPress={() =>
+              navigate('country', {
+                val: Country.name,
+                setVal: setCountry,
+                id: Country.id,
+              })
+            }
+          />
+          <CountryBtn
+            name="map"
+            title={State.name || 'State'}
+            onPress={() =>
+              navigate('state', {
+                val: State.name,
+                setVal: setState,
+                id: State.id,
+                countryID: Country.id,
+              })
+            }
+          />
+          <CountryBtn
+            name="location-city"
+            title={City.name || 'City'}
+            onPress={() =>
+              navigate('city', {
+                val: City.name,
+                setVal: setCity,
+                id: City.id,
+                StateID: State.id,
+              })
+            }
+          />
           <View style={GlobalStyle.between}>
             <WhiteBtn
-              style={style.smBtn}
               title="Back"
+              style={style.smBtn}
               onPress={() => setIndex(1)}
             />
-            <CustomButton style={style.smBtn} title="Finish" />
+            <CustomButton
+              title="Finish"
+              style={style.smBtn}
+              onPress={handleSubmit(onSubmit)}
+            />
           </View>
         </>
       )}
@@ -132,16 +240,21 @@ const Register = ({navigation}) => {
         modal
         open={bday.visible}
         date={date}
-        mode="date" // Ensure mode is 'date' for day, month, and year selection
-        onConfirm={selectedDate => {
-          const day = selectedDate.getDate();
-          const month = selectedDate.getMonth() + 1; // Months are zero-based
-          const year = selectedDate.getFullYear();
-          setBday({visible: false, day, month, year});
-          setDate(selectedDate);
+        mode="date"
+        onConfirm={sdate => {
+          setBday({
+            visible: false,
+            day: sdate.getDate(),
+            // month: sdate.getMonth() + 1,
+            month: moment(sdate).format('MMMM'),
+            year: sdate.getFullYear(),
+          });
+          setDate(sdate);
         }}
-        onCancel={() => setBday({visible: false})}
+        onCancel={() => setBday({visible: false, day: '', month: '', year: ''})}
       />
+      <Loader visible={load} />
+      <Error message={error.msg} visible={error.visible} />
     </AuthBody>
   );
 };

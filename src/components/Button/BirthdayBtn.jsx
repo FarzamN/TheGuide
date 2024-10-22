@@ -1,7 +1,7 @@
-import {View, TouchableOpacity} from 'react-native';
+import {Text} from '..';
 import React from 'react';
 import {styles} from './style';
-import {Text} from '..';
+import {TouchableOpacity} from 'react-native';
 
 const BirthdayBtn = ({onPress, month, day, year}) => {
   return (
