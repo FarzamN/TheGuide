@@ -6,10 +6,8 @@ import {Color} from '../../utils/Color';
 const Body = ({children, restyle}) => {
   return (
     <SafeAreaView style={[GlobalStyle.Container, restyle]}>
-      <StatusBar
-        backgroundColor={restyle ? 'white' : Color.Sky}
-        barStyle={restyle ? 'dark-content' : 'light-content'}
-      />
+      <StatusBar backgroundColor={'#0808C2'} barStyle={'light-content'} />
+
       {children}
     </SafeAreaView>
   );

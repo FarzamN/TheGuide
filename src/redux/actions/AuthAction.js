@@ -44,7 +44,7 @@ export const LoginApi = (data, load, err) => {
   };
 };
 
-export const registerApi = (
+export const registerApi = async (
   data,
   bday,
   gender,
@@ -55,67 +55,64 @@ export const registerApi = (
   load,
   setError,
 ) => {
-  return async dispatch => {
-    try {
-      console.log('Starting API request...');
-      load(true);
+  try {
+    load(true);
+    const url = `${Base_Url}register`;
+    const myData = new FormData();
 
-      const url = 'https://theguide.us/api/v1/register';
-      const myData = new FormData();
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    myData.append('first_name', data.f_name);
+    myData.append('last_name', data.l_name);
+    myData.append('email', data.email);
+    myData.append('phone', data.number);
+    // myData.append('address', data.address);
+    myData.append('password', data.password);
+    myData.append('confirm_password', data.password);
+    myData.append('gender', gender);
+    myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
+    myData.append('city', city);
+    myData.append('state', state);
+    myData.append('country', country);
+    myData.append('type', 'father');
+    myData.append('time_zone', timeZone);
+    const myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Content-Type', 'multipart/form-data');
 
-      myData.append('first_name', data.f_name);
-      myData.append('last_name', data.l_name);
-      myData.append('email', data.email);
-      myData.append('phone', data.number);
-      myData.append('address', data.address);
-      myData.append('password', data.password);
-      myData.append('confirm_password', data.password);
-      myData.append('gender', gender);
-      myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY')); // October 22nd 2024, 8:42:56 pm
-      myData.append('city', city);
-      myData.append('state', state);
-      myData.append('country', country);
-      myData.append('type', 'father');
-      myData.append('time_zone', timeZone);
-      console.log('bday', bday);
-      const myHeaders = new Headers();
-      myHeaders.append('Accept', 'application/json');
-      myHeaders.append('Content-Type', 'multipart/form-data');
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: myHeaders,
+      body: myData,
+    });
 
-      console.log('Sending data:', myData); // Log the data you're sending
+    const responseData = await response.json();
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: myHeaders,
-        body: myData,
+    if (responseData.success == true) {
+      back();
+      load(false);
+    } else {
+      load(false);
+      const errorMessages = [];
+      if (responseData.errors) {
+        for (const [field, messages] of Object.entries(responseData.errors)) {
+          errorMessages.push(`${field}: ${messages.join(', ')}`);
+        }
+      }
+      setError({
+        visible: true,
+        msg: errorMessages.join('\n'),
       });
 
-      console.log(response);
-      console.log('Response success:', response.success); // Log response success
-      const responseData = await response.json();
-      console.log('Response data:', responseData); // Log response data
-
-      if (responseData.success == true) {
-        back();
-        await AsyncStorage.setItem('user_details', 'true');
-        dispatch({type: USER_DETAILS, payload: true});
-        load(false);
-      } else {
-        load(false);
-        console.error('err', responseData);
-        setError({visible: true, msg: responseData.message});
-        setTimeout(() => {
-          setError({visible: false, msg: ''});
-        }, 2000);
-      }
-    } catch (error) {
-      load(false);
-      console.log('Network or other error in RegisterApi:', error); // Log network or other errors
-      Toast.show('Server side error');
+      setTimeout(() => {
+        setError({visible: false, msg: ''});
+      }, 2000);
     }
-  };
+  } catch (error) {
+    load(false);
+    console.log('Network or other error in RegisterApi:', error);
+    Toast.show('Server side error');
+  }
 };
 
 export const checkApi = () => {

@@ -34,12 +34,19 @@ export const styles = StyleSheet.create({
 
   BDayBtn: {
     flexDirection: 'row',
-    backgroundColor: '#F8F9FB',
+    backgroundColor: Color.background,
     borderRadius: 20,
     justifyContent: 'space-around',
     height: 50,
     alignItems: 'center',
+    marginTop: 5,
+  },
+  BDayTitle: {
+    color: Color.black,
+    fontSize: 14,
     marginTop: 20,
+    fontFamily: Font.font400,
+    paddingHorizontal: 5,
   },
   BDayText: {
     color: Color.black,
@@ -49,7 +56,7 @@ export const styles = StyleSheet.create({
   },
   CountryContainer: {
     height: 50,
-    backgroundColor: '#F8F9FB',
+    backgroundColor: Color.background,
     paddingHorizontal: 15,
     borderRadius: 20,
     marginTop: 15,

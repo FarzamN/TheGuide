@@ -4,7 +4,7 @@ import {Color} from './Color';
 export const GlobalStyle = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: Color.Sky,
+    backgroundColor: Color.white,
   },
   full: {
     width: '100%',

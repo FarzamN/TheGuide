@@ -15,8 +15,12 @@ import BirthdayBtn from './Button/BirthdayBtn';
 import CountryBtn from './Button/CountryBtn';
 import CountryCityRadio from './Radio/CountryCityRadio';
 import Empty from './Cards/EmptyCard';
+import SearchInput from './Inputs/SearchInput';
+import DashboardHeader from './Header/DashboardHeader';
 
 export {
+  DashboardHeader,
+  SearchInput,
   Empty,
   CountryCityRadio,
   CountryBtn,

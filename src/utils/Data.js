@@ -34,11 +34,11 @@ export const RegisterInput = [
     name: 'number',
     title: 'UK and USA Phone Number',
   },
-  {
-    icon: 'pin-drop',
-    p: 'Address',
-    name: 'address',
-  },
+  // {
+  //   icon: 'pin-drop',
+  //   p: 'Address',
+  //   name: 'address',
+  // },
   {
     icon: 'lock',
     p: 'Password',

@@ -26,4 +26,20 @@ export default StyleSheet.create({
   InputBox: {
     backgroundColor: Color.white,
   },
+
+  SearchInput: {
+    fontSize: 14,
+    width: '83%',
+    color: Color.black,
+    marginHorizontal: 5,
+    fontFamily: Font.font400,
+  },
+  SearchBox: {
+    borderRadius: 20,
+    borderWidth: 1,
+    backgroundColor: Color.background,
+    borderColor: Color.placeholderTextColor,
+    marginTop: 15,
+    paddingHorizontal: 15,
+  },
 });

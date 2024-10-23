@@ -7,7 +7,7 @@ export const style = StyleSheet.create({
     height: 50,
     borderWidth: 0,
     alignItems: 'center',
-    backgroundColor: '#F8F9FB',
+    backgroundColor: Color.background,
     borderRadius: 20,
   },
   inputStyles: {

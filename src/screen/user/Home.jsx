@@ -7,7 +7,7 @@ import {
   Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Body, MainHeader} from '../../components';
+import {Body, DashboardHeader, MainHeader} from '../../components';
 import {Color} from '../../utils/Color';
 import {Font} from '../../utils/Font';
 import LinearGradient from 'react-native-linear-gradient';
@@ -38,8 +38,8 @@ const Home = () => {
     navigationColor.setNavigationColor(Color.Sky);
   }, []);
   return (
-    <Body restyle={{backgroundColor: '#3308b0'}}>
-      <MainHeader title={'Prayer'} />
+    <Body>
+      <DashboardHeader title={'Prayer'} />
       <View style={styles.TopBoxMain}>
         {selectTabs === 2 ? (
           <ScrollView horizontal>

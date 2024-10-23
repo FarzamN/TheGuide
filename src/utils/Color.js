@@ -10,4 +10,5 @@ export const Color = {
   SecLightSky: '#0461FE',
   HeaderSky: '#3F8AF4',
   LineDarkBlue: '#19396A',
+  background: '#F8F9FB',
 };

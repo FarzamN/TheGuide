@@ -26,44 +26,33 @@ import {checkApi, registerApi} from '../../redux/actions/AuthAction';
 
 const Register = ({navigation}) => {
   const {goBack, navigate} = navigation;
-  const dispatch = useDispatch();
-  const [load, setLoad] = useState(false);
-  const [error, setError] = useState({visible: false, msg: ''});
+
   const [index, setIndex] = useState(1);
-  const [gender, setGender] = useState('');
-  const [Country, setCountry] = useState({name: null, id: null});
+  const [load, setLoad] = useState(false);
+  const [gender, setGender] = useState(gender || '');
   const [City, setCity] = useState({name: null, id: null});
   const [State, setState] = useState({name: null, id: null});
+  const [error, setError] = useState({visible: false, msg: ''});
+  const [Country, setCountry] = useState({name: null, id: null});
 
   const [date, setDate] = useState(new Date());
   const [bday, setBday] = useState({
     visible: false,
     day: '',
-    month: '',
     year: '',
+    month: '',
   });
 
-  // const onSubmit = data => {
-  //   if (data.password == data.c_password) {
-  //     dispatch(RegisterApi(data, setLoad, setError));
-  //   } else if (gender == '') {
-  //     setError({visible: true, msg: 'Please select gender'});
-  //   } else if (bday.day == null || bday.month == null || bday.year == null) {
-  //     setError({visible: true, msg: 'Please select birthday'});
-  //   } else if (Country.name == null) {
-  //     setError({visible: true, msg: 'Please select country'});
-  //   } else if (State.name == null) {
-  //     setError({visible: true, msg: 'Please select state'});
-  //   } else if (City.name == null) {
-  //     setError({visible: true, msg: 'Please select city'});
-  //   } else {
-  //     setError({visible: true, msg: 'Passwords do not match'});
-  //     setTimeout(() => {
-  //       setError(false);
-  //       setMsg('');
-  //     }, 2000);
-  //   }
-  // };
+  const onNext = data => {
+    if (data.password !== data.c_pass) {
+      setError({visible: true, msg: 'Passwords do not match'});
+      setTimeout(() => {
+        setError({visible: false, msg: ''});
+      }, 2000);
+    } else {
+      setIndex(2);
+    }
+  };
   const onSubmit = data => {
     const handleError = msg => {
       setError({visible: true, msg});
@@ -71,11 +60,6 @@ const Register = ({navigation}) => {
         setError({visible: false, msg: ''});
       }, 2000);
     };
-
-    if (data.password !== data.c_pass) {
-      handleError('Passwords do not match');
-      return;
-    }
 
     if (gender === '') {
       handleError('Please select gender');
@@ -102,18 +86,16 @@ const Register = ({navigation}) => {
       return;
     }
 
-    dispatch(
-      registerApi(
-        data,
-        date,
-        gender,
-        City.id,
-        State.id,
-        Country.id,
-        goBack,
-        setLoad,
-        setError,
-      ),
+    registerApi(
+      data,
+      date,
+      gender,
+      City.id,
+      State.id,
+      Country.id,
+      goBack,
+      setLoad,
+      setError,
     );
     // dispatch(checkApi());
   };
@@ -167,14 +149,13 @@ const Register = ({navigation}) => {
           <CustomButton
             title="Next"
             marginTop={25}
-            // onPress={() => setIndex(2)}
-            onPress={handleSubmit(() => setIndex(2))}
+            onPress={handleSubmit(onNext)}
           />
         </>
       ) : (
         <>
           <View style={{height: 20}} />
-          <GenderDropDown onSelect={val => setGender(val)} />
+          <GenderDropDown onSelect={setGender} />
           <BirthdayBtn
             day={bday.day}
             month={bday.month}
@@ -237,6 +218,7 @@ const Register = ({navigation}) => {
         <Text center title="Already have account?" style={style.already} />
       </TouchableOpacity>
       <DatePicker
+        theme="light"
         modal
         open={bday.visible}
         date={date}
