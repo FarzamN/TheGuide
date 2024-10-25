@@ -1,9 +1,12 @@
 import React, {useEffect} from 'react';
 import Splash from 'react-native-splash-screen';
 import AuthNavigation from './src/navigation/AuthNavigation';
-import UserNavigation from './src/navigation/UserNavigation';
+// import UserNavigation from './src/navigation/UserNavigation';
+import DrawerNavigation from './src/navigation/DrawerNavigation.jsx';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCity, getCoutry, getState} from './src/redux/actions/AuthAction';
+import navigationColor from 'react-native-system-navigation-bar';
+import {Color} from './src/utils/Color';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -21,7 +24,10 @@ const App = () => {
     Splash.hide();
   }, 3000);
 
-  return <>{userDetails ? <UserNavigation /> : <AuthNavigation />}</>;
+  useEffect(() => {
+    navigationColor.setNavigationColor(Color.white);
+  }, []);
+  return <>{userDetails ? <DrawerNavigation /> : <AuthNavigation />}</>;
 };
 
 export default App;

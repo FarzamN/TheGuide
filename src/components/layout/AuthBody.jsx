@@ -1,19 +1,12 @@
-import {StatusBar, ScrollView} from 'react-native';
-import React, {useEffect} from 'react';
+import {ScrollView} from 'react-native';
+import React from 'react';
 import {Body, FullImage, Text} from '..';
 import {style} from './style';
-import navigationColor from 'react-native-system-navigation-bar';
-import {Color} from '../../utils/Color';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 
 const AuthBody = ({heading, Sub, children, source, styles}) => {
-  useEffect(() => {
-    navigationColor.setNavigationColor(Color.white);
-  }, []);
   return (
     <Body restyle={style.container}>
-      <StatusBar backgroundColor={'#0808C2'} barStyle={'light-content'} />
-
       <FullImage style={styles} source={source} />
       <ScrollView
         style={GlobalStyle.Padding}

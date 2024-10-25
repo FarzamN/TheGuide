@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import {Color} from './Color';
 
 export const GlobalStyle = StyleSheet.create({
+  flex: {flex: 1},
   Container: {
     flex: 1,
     backgroundColor: Color.white,
@@ -13,6 +14,9 @@ export const GlobalStyle = StyleSheet.create({
   Padding: {
     paddingHorizontal: 20,
   },
+  mtop: {
+    marginTop: 20,
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -22,11 +26,28 @@ export const GlobalStyle = StyleSheet.create({
   },
   between: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   justify: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  evenly: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 5,
+  },
+  HideBar: {
+    display: 'none',
   },
 });

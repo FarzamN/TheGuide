@@ -30,4 +30,21 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontFamily: Font.font500,
   },
+
+  // logout ----------------------------
+
+  LogoutContainer: {
+    borderRadius: 20,
+    backgroundColor: Color.white,
+    justifyContent: 'center',
+    paddingVertical: 30,
+    paddingHorizontal: 50,
+  },
+  LogoutText: {
+    color: '#777777',
+    fontSize: 25,
+    fontFamily: Font.font500,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
 });

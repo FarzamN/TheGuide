@@ -65,4 +65,28 @@ export const styles = StyleSheet.create({
     marginHorizontal: 10,
     fontFamily: Font.font400,
   },
+  PCont: {
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 20,
+    marginBottom: 15,
+    // marginHorizontal: 20,
+    borderColor: '#497FEA',
+    backgroundColor: 'rgba(255,255,255,0.3)',
+  },
+  Ptitle: {
+    fontSize: 16,
+    color: Color.white,
+    fontFamily: Font.font600,
+  },
+  ModalBtnCont: {
+    marginTop: 10,
+    borderRadius: 20,
+    height: 50,
+    borderWidth: 1,
+  },
+  ModalBtnText: {
+    fontSize: 18,
+    fontFamily: Font.font600,
+  },
 });

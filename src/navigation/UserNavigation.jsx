@@ -1,21 +1,102 @@
+import {style} from './style';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {Image, View} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Home} from '../screen/user';
+import Profile from '../screen/user/Settings/Profile';
+import EditProfile from '../screen/user/Settings/EditProfile';
 import {UserNav} from '../utils/Data';
+import {City, Country, State} from '../screen/authentication';
+
+const Tab = createBottomTabNavigator();
+
+const createNavigator = config => {
+  const {Navigator, Screen} = createNativeStackNavigator();
+
+  return (
+    <Navigator
+      screenOptions={{headerShown: false, animation: 'ios'}}
+      initialRouteName={config.initialRouteName}>
+      {config.screens.map(({name, component}) => (
+        <Screen key={name} name={name} component={component} />
+      ))}
+    </Navigator>
+  );
+};
+
+const allHomeConfig = {
+  initialRouteName: 'home',
+  screens: [
+    {name: 'home', component: Home},
+    {name: 'profile', component: Profile},
+    {name: 'editProfile', component: EditProfile},
+    {name: 'country', component: Country},
+    {name: 'city', component: City},
+    {name: 'state', component: State},
+  ],
+};
+
+export const AllHome = () => createNavigator(allHomeConfig);
 
 const UserNavigation = () => {
-  const {Navigator, Screen} = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-      <Navigator
-        initialRouteName={UserNav[0].n}
-        screenOptions={{headerShown: false, animation: 'ios'}}>
-        {UserNav.map(({n, c}) => (
-          <Screen name={n} component={c} key={n} />
-        ))}
-      </Navigator>
-    </NavigationContainer>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+        tabBarActiveTintColor: '#F9841D',
+        tabBarLabelStyle: style.Text,
+        tabBarInactiveTintColor: '#A7A7C3',
+        tabBarLabelPosition: 'below-icon',
+      }}
+      initialRouteName={UserNav[0].name}>
+      {UserNav.map(({n, c, icon}) => (
+        <Tab.Screen
+          key={n}
+          name={n}
+          component={c}
+          options={{
+            tabBarIcon: ({focused}) => {
+              return (
+                <View>
+                  <Image
+                    style={style.icon}
+                    source={icon}
+                    tintColor={focused ? '#F9841D' : '#A7A7C3'}
+                  />
+                </View>
+              );
+            },
+          }}
+        />
+      ))}
+    </Tab.Navigator>
   );
 };
 
 export default UserNavigation;
+
+// import React from 'react';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import {UserNav} from '../utils/Data';
+
+// const UserNavigation = () => {
+//   const {Navigator, Screen} = createNativeStackNavigator();
+//   return (
+//     <Navigator
+//       initialRouteName={UserNav[0].n}
+//       screenOptions={{headerShown: false, animation: 'ios'}}>
+//       {[
+//   {n: 'home', c: Home},
+//   {n: 'bibletest', c: BibleTest},
+//   {n: 'topicvideoquiz', c: TopicVideoQuiz},
+//   ,
+// ].map(({n, c}) => (
+//         <Screen name={n} component={c} key={n} />
+//       ))}
+//     </Navigator>
+//   );
+// };
+
+// export default UserNavigation;

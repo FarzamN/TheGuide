@@ -17,8 +17,18 @@ import CountryCityRadio from './Radio/CountryCityRadio';
 import Empty from './Cards/EmptyCard';
 import SearchInput from './Inputs/SearchInput';
 import DashboardHeader from './Header/DashboardHeader';
+import HomeAssigmentCard from './Cards/HomeAssigmentCard';
+import ProfileBody from './layout/ProfileBody';
+import ProfileBtn from './Button/ProfileBtn';
+import ModalBtn from './Button/ModalBtn';
+import LogoutModal from './Modal/LogoutModal';
 
 export {
+  LogoutModal,
+  ModalBtn,
+  ProfileBtn,
+  ProfileBody,
+  HomeAssigmentCard,
   DashboardHeader,
   SearchInput,
   Empty,

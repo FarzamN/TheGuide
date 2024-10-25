@@ -25,9 +25,16 @@ export const LoginApi = (data, load, err) => {
       });
 
       const responseData = await response.json();
+      console.log('responseData.user_data', responseData.user_data);
       if (responseData.success == true) {
-        await AsyncStorage.setItem('user_details', 'true');
-        dispatch({type: USER_DETAILS, payload: true});
+        await AsyncStorage.setItem(
+          'user_details',
+          JSON.stringify(responseData.user_data),
+        );
+        await dispatch({
+          type: USER_DETAILS,
+          payload: responseData.user_data,
+        });
         load(false);
       } else {
         load(false);
@@ -128,6 +135,7 @@ export const checkApi = () => {
     }
   };
 };
+
 export const LogOutApi = () => {
   return async dispatch => {
     try {
@@ -247,4 +255,56 @@ export const getCityByState = async (stateID, load, data) => {
     console.log('error getCityByState', error);
     Toast.show('Server side error');
   }
+};
+
+export const editProfile = (
+  id,
+  data,
+  bday,
+  gender,
+  city,
+  state,
+  country,
+  back,
+  load,
+) => {
+  return async dispatch => {
+    try {
+      load(true);
+      console.log('bday', bday);
+      console.log('id', id);
+      const url = `${Base_Url}user/profile-update/${id}`;
+
+      const myData = new FormData();
+
+      myData.append('first_name', data.f_name);
+      myData.append('email', data.email);
+      myData.append('phone', data.number);
+      myData.append('gender', gender);
+      myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
+      myData.append('city', city);
+      myData.append('state', state);
+      myData.append('country', country);
+      const myHeaders = new Headers();
+      myHeaders.append('Accept', 'application/json');
+      myHeaders.append('Content-Type', 'multipart/form-data');
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: myHeaders,
+        body: myData,
+      });
+      const responseData = await response.json();
+      console.log({responseData});
+      load(true);
+      if (responseData.status == true) {
+        back();
+        dispatch({type: USER_DETAILS, payload: responseData.user_data});
+      }
+    } catch (error) {
+      load(true);
+      console.log('error editProfile', error);
+      Toast.show('Server side error');
+    }
+  };
 };

@@ -1,15 +1,17 @@
-import {IconType} from 'react-native-dynamic-vector-icons';
-import {Login, Register, Country, City, State} from '../screen/authentication';
-import {Home} from '../screen/user';
-import BibleTest from '../screen/user/TabScreen/BibleTest';
-import TopicVideoQuiz from '../screen/user/TabScreen/TopicVideoQuiz';
+import {AllHome} from '../navigation/UserNavigation';
 import {emailPattern, required} from './Constants';
 
+// export const  = [
+//   {n: 'home', c: Home},
+//   {n: 'bibletest', c: BibleTest},
+//   {n: 'topicvideoquiz', c: TopicVideoQuiz},
+//   ,
+// ];
 export const UserNav = [
-  {n: 'home', c: Home},
-  {n: 'bibletest', c: BibleTest},
-  {n: 'topicvideoquiz', c: TopicVideoQuiz},
-  ,
+  {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Home'},
+  // {c: AllExplore, icon: require('../assets/image/nav/pray.png'), n: 'Explore'},
+  // {c: AllMusic, icon: require('../assets/image/nav/status.png'), n: 'Music'},
+  // {c: AllMusic, icon: require('../assets/image/nav/event.png'), n: 'Music'},
 ];
 
 export const RegisterInput = [
@@ -56,7 +58,7 @@ export const RegisterInput = [
 export const loginField = [
   {
     name: 'email',
-    defaultValue: 'player9@gmail.com',
+    defaultValue: 'one_church@hotmail.com',
     rules: {
       pattern: emailPattern,
       required: required('Email'),
@@ -68,7 +70,7 @@ export const loginField = [
   },
   {
     name: 'password',
-    defaultValue: '12345678',
+    defaultValue: 'admin123',
     rules: {
       required: required('Password'),
     },
