@@ -7,8 +7,10 @@ import {
   Empty,
   HomeAssigmentCard,
 } from '../../components';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
+  const {navigate} = useNavigation();
   const data = [
     {
       sub: 'In the beginning God create.',
@@ -37,7 +39,13 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={style.listContainer}
         renderItem={({item, index}) => {
-          return <HomeAssigmentCard ix={index} data={item} />;
+          return (
+            <HomeAssigmentCard
+              ix={index}
+              data={item}
+              onPress={() => navigate('game')}
+            />
+          );
         }}
       />
     </Body>

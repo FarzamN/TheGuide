@@ -1,8 +1,10 @@
 import React from 'react';
+import {Color} from '../utils/Color';
+import {FullImage} from '../components';
+import UserNavigation from './UserNavigation';
+import DrawerContainer from './DrawerContainer';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
-import DrawerContainer from './DrawerContainer';
-import UserNavigation from './UserNavigation';
 // import AllMessages from './AllMessages'; // Replace these with actual components
 // import AllRead from './AllRead'; // Replace these with actual components
 // import AllTournament from './AllTournament'; // Replace these with actual components
@@ -17,19 +19,41 @@ const DrawerNavigation = () => {
       <Navigator
         screenOptions={{
           headerShown: false,
-          drawerStyle: {
-            width: '100%', // This makes the drawer take up the full width of the screen
-            backgroundColor: '#2C76F1', // Optional: Set the drawer background color
-          },
+          drawerActiveTintColor: Color.orange,
         }}
         initialRouteName="Bible School"
         drawerContent={props => <DrawerContainer {...props} />}>
-        <Screen name="Bible School" component={UserNavigation} />
-        <Screen name="Message" component={UserNavigation} />
-        <Screen name="Read Bible" component={UserNavigation} />
+        {[
+          {
+            n: 'Bible School',
+            c: UserNavigation,
+            img: require('../assets/image/nav/bible.png'),
+          },
+          {
+            n: 'Message',
+            c: UserNavigation,
+            img: require('../assets/image/nav/bible.png'),
+          },
+        ].map(i => (
+          <Screen
+            key={i.n}
+            name={i.n}
+            component={UserNavigation}
+            options={{
+              drawerIcon: ({focused, size}) => (
+                <FullImage
+                  color={focused ? Color.orange : '#787878'}
+                  source={i.img}
+                  style={{width: size, height: size}}
+                />
+              ),
+            }}
+          />
+        ))}
+        {/* <Screen name="Read Bible" component={UserNavigation} />
         <Screen name="Tournament" component={UserNavigation} />
         <Screen name="The Guide.us" component={UserNavigation} />
-        <Screen name="Prayer" component={UserNavigation} />
+        <Screen name="Prayer" component={UserNavigation} /> */}
         {/* <Screen name="Message" component={AllMessages} />
         <Screen name="Read Bible" component={AllRead} />
         <Screen name="Tournament" component={AllTournament} />

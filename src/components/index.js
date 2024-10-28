@@ -22,8 +22,10 @@ import ProfileBody from './layout/ProfileBody';
 import ProfileBtn from './Button/ProfileBtn';
 import ModalBtn from './Button/ModalBtn';
 import LogoutModal from './Modal/LogoutModal';
+import GameHeader from './Header/GameHeader';
 
 export {
+  GameHeader,
   LogoutModal,
   ModalBtn,
   ProfileBtn,

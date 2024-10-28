@@ -1,108 +1,74 @@
 import React from 'react';
+import {style} from './style';
 import {
+  DrawerItemList,
   DrawerContentScrollView,
-  useDrawerStatus,
 } from '@react-navigation/drawer';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import {Text} from '../components';
 import {Color} from '../utils/Color';
+import {useSelector} from 'react-redux';
+import {Avatar} from 'react-native-paper';
 import {Body, FullImage} from '../components';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  StatusBar,
-} from 'react-native';
-import {width} from '../utils/Constants';
+import {GlobalStyle} from '../utils/GlobalStyle';
+import {View, TouchableOpacity} from 'react-native';
+import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 const DrawerContainer = props => {
-  const isDrawerOpen = useDrawerStatus() === 'open';
-
-  const drawerItems = [
-    {label: 'Bible School', color: '#4BA0FC'},
-    {label: 'Message', color: '#7643F8'},
-    {label: 'Read Bible', color: '#2DC68D'},
-    {label: 'Tournament', color: '#D9AE24'},
-    {label: 'The Guide.us', color: '#F68170'},
-    {label: 'Prayer', color: '#EE5454'},
-  ];
+  const userDetail = useSelector(state => state.userDetails);
 
   return (
-    <Body restyle={{backgroundColor: '#2C76F1'}}>
-      <StatusBar
-        backgroundColor={isDrawerOpen ? '#2C76F1' : '#0808C2'}
-        barStyle={'light-content'}
-      />
-      <FullImage
-        resizeMode="contain"
-        style={styles.logo}
-        source={require('../assets/image/logo.png')}
-      />
+    <Body restyle={{backgroundColor: '#F3F3FF'}}>
+      <TouchableOpacity
+        onPress={() => props.navigation.closeDrawer()}
+        style={[style.backIcon, GlobalStyle.justify]}>
+        <Icon
+          name="chevron-left"
+          type={IconType.Entypo}
+          color={Color.black}
+          size={20}
+        />
+      </TouchableOpacity>
+      <View style={GlobalStyle.justify}>
+        <Avatar.Image
+          style={style.AvatarBox}
+          size={100}
+          source={{uri: userDetail.profile_image}}
+        />
+        <Text style={style.Title} title={userDetail.name} />
+      </View>
 
       <DrawerContentScrollView {...props}>
-        <View style={styles.menuItems}>
-          {drawerItems.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.menuItem, {backgroundColor: item.color}]}
-              onPress={() => props.navigation.navigate(item.label)}>
-              <Text style={styles.menuText}>{item.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <DrawerItemList {...props} />
       </DrawerContentScrollView>
 
-      <View style={styles.bottomIcons}>
-        <Icon
-          name="sharealt"
-          type={IconType.AntDesign}
-          color={Color.white}
-          size={30}
-        />
-        <Icon
-          onPress={() => props.navigation.navigate('profile')}
-          name="settings-outline"
-          type={IconType.Ionicons}
-          color={Color.white}
-          size={30}
-        />
+      <View style={style.bottomIcons}>
+        {[
+          {
+            icon: 'sharealt',
+            type: IconType.AntDesign,
+            // onPress: () => props.navigation.navigate('profile'),
+          },
+          {
+            icon: 'settings-outline',
+            type: IconType.Ionicons,
+            onPress: () => props.navigation.navigate('profile'),
+          },
+        ].map(item => (
+          <Icon
+            size={30}
+            key={item.icon}
+            name={item.icon}
+            type={item.type}
+            color={'#B3B3B9'}
+          />
+        ))}
       </View>
+      <FullImage
+        style={style.logo}
+        source={require('../assets/image/logo.png')}
+      />
     </Body>
   );
 };
-
-const styles = StyleSheet.create({
-  logo: {
-    width: width - 50,
-    height: 200,
-    alignSelf: 'center',
-    marginVertical: 20,
-  },
-  menuItems: {
-    flexDirection: 'row',
-    flexWrap: 'wrap', // Allows items to wrap to the next line
-    justifyContent: 'space-between', // Adjusts space between rows
-    paddingHorizontal: 20,
-  },
-  menuItem: {
-    width: '48%', // Each item will take 48% of the available width, with space for margins
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 15,
-    marginBottom: 15,
-    height: 90,
-  },
-  menuText: {
-    fontSize: 18,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  bottomIcons: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    paddingVertical: 20,
-    marginBottom: 30,
-  },
-});
 
 export default DrawerContainer;

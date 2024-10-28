@@ -25,7 +25,6 @@ export const LoginApi = (data, load, err) => {
       });
 
       const responseData = await response.json();
-      console.log('responseData.user_data', responseData.user_data);
       if (responseData.success == true) {
         await AsyncStorage.setItem(
           'user_details',
@@ -271,8 +270,6 @@ export const editProfile = (
   return async dispatch => {
     try {
       load(true);
-      console.log('bday', bday);
-      console.log('id', id);
       const url = `${Base_Url}user/profile-update/${id}`;
 
       const myData = new FormData();
@@ -295,7 +292,6 @@ export const editProfile = (
         body: myData,
       });
       const responseData = await response.json();
-      console.log({responseData});
       load(true);
       if (responseData.status == true) {
         back();

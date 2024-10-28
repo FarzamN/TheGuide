@@ -3,11 +3,11 @@ import React from 'react';
 import {Image, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Home} from '../screen/user';
-import Profile from '../screen/user/Settings/Profile';
-import EditProfile from '../screen/user/Settings/EditProfile';
 import {UserNav} from '../utils/Data';
 import {City, Country, State} from '../screen/authentication';
+import {Color} from '../utils/Color';
+
+import {Home, EditProfile, Profile, Game} from '../screen/user';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +34,7 @@ const allHomeConfig = {
     {name: 'country', component: Country},
     {name: 'city', component: City},
     {name: 'state', component: State},
+    {name: 'game', component: Game},
   ],
 };
 
@@ -45,7 +46,7 @@ const UserNavigation = () => {
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: '#F9841D',
+        tabBarActiveTintColor: Color.orange,
         tabBarLabelStyle: style.Text,
         tabBarInactiveTintColor: '#A7A7C3',
         tabBarLabelPosition: 'below-icon',
@@ -57,13 +58,14 @@ const UserNavigation = () => {
           name={n}
           component={c}
           options={{
+            tabBarStyle: {display: n === 'game' ? 'none' : 'flex'},
             tabBarIcon: ({focused}) => {
               return (
                 <View>
                   <Image
                     style={style.icon}
                     source={icon}
-                    tintColor={focused ? '#F9841D' : '#A7A7C3'}
+                    tintColor={focused ? Color.orange : '#A7A7C3'}
                   />
                 </View>
               );

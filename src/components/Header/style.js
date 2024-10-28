@@ -70,11 +70,6 @@ export default StyleSheet.create({
     elevation: 3,
     flexDirection: 'row',
   },
-  title: {
-    fontSize: 18,
-    color: 'red',
-    fontWeight: 'bold',
-  },
   data: {
     fontSize: 16,
     marginTop: 5,
@@ -91,5 +86,21 @@ export default StyleSheet.create({
     width: 1,
     marginHorizontal: 10,
     backgroundColor: Color.LineDarkBlue,
+  },
+
+  // -------------------------------
+  GameBannerImage: {
+    width: width,
+    height: 200,
+  },
+  GameTitle: {
+    fontFamily: Font.font700,
+    fontSize: 20,
+    color: Color.white,
+  },
+  GameSubTitle: {
+    fontFamily: Font.font500,
+    fontSize: 16,
+    color: Color.white,
   },
 });

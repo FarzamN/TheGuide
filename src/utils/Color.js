@@ -11,4 +11,5 @@ export const Color = {
   HeaderSky: '#3F8AF4',
   LineDarkBlue: '#19396A',
   background: '#F8F9FB',
+  orange: '#F9841D',
 };
