@@ -50,4 +50,10 @@ export const GlobalStyle = StyleSheet.create({
   HideBar: {
     display: 'none',
   },
+  mapContaner: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
 });

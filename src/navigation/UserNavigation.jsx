@@ -3,11 +3,10 @@ import React from 'react';
 import {Image, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {UserNav} from '../utils/Data';
 import {City, Country, State} from '../screen/authentication';
 import {Color} from '../utils/Color';
 
-import {Home, EditProfile, Profile, Game} from '../screen/user';
+import {Home, EditProfile, Profile, Game, StatusScreen} from '../screen/user';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,9 +37,25 @@ const allHomeConfig = {
   ],
 };
 
+const allStatusConfig = {
+  initialRouteName: 'status',
+  screens: [{name: 'status', component: StatusScreen}],
+};
+
 export const AllHome = () => createNavigator(allHomeConfig);
+export const AllStatus = () => createNavigator(allStatusConfig);
 
 const UserNavigation = () => {
+  const UserNav = [
+    {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Home'},
+    // {c: AllExplore, icon: require('../assets/image/nav/pray.png'), n: 'Explore'},
+    {
+      c: AllStatus,
+      icon: require('../assets/image/nav/status.png'),
+      n: 'Status',
+    },
+    // {c: AllMusic, icon: require('../assets/image/nav/event.png'), n: 'Music'},
+  ];
   return (
     <Tab.Navigator
       screenOptions={{

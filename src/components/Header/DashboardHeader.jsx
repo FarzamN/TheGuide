@@ -1,30 +1,30 @@
-import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
-import {GlobalStyle} from '../../utils/GlobalStyle';
-import {FullImage, Text} from '..';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
-import {Color} from '../../utils/Color';
-import {useSelector} from 'react-redux';
 import style from './style';
+import {FullImage, Text} from '..';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import {useDispatch, useSelector} from 'react-redux';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
+import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
 
 const DashboardHeader = () => {
+  const dispatched = useDispatch();
   const userDetail = useSelector(state => state.userDetails);
-  const navigation = useNavigation();
+  const {navigate, dispatch} = useNavigation();
 
-  const openDrawer = () => {
-    navigation.dispatch(DrawerActions.openDrawer());
+  const notiHandler = () => {
+    // navigate('Notification');
   };
+  const openDrawer = () => dispatch(DrawerActions.openDrawer());
   return (
     <ImageBackground
       resizeMode="stretch"
       style={style.BannerImage}
-      source={require('../../assets/image/banner.png')}>
+      source={require('../../assets/image/game-banner.png')}>
       <View style={style.HeadRow}>
         <View style={[GlobalStyle.row, {width: 60}]}>
           <TouchableOpacity onPress={openDrawer}>
             <Image
-              style={{width: 22, height: 22}}
+              style={{width: 20, height: 20}}
               resizeMode="contain"
               source={require('../../assets/image/menu.png')}
             />
@@ -32,6 +32,7 @@ const DashboardHeader = () => {
           <View style={{marginLeft: 7}}>
             <FullImage
               style={style.ProfileImage}
+              sizeMode="cover"
               source={{
                 uri: userDetail?.profile_image,
               }}
@@ -43,10 +44,10 @@ const DashboardHeader = () => {
         </View>
         <Text style={style.ProfileTitle} title={'Bible School'} />
         <View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={notiHandler}>
             <Image
-              style={{width: 22, height: 22}}
               resizeMode="contain"
+              style={{width: 22, height: 22}}
               source={require('../../assets/image/notifaction.png')}
             />
           </TouchableOpacity>

@@ -1,16 +1,31 @@
-import React from 'react';
-import {FlatList} from 'react-native';
-import {style} from './style';
 import {
   Body,
-  DashboardHeader,
   Empty,
+  DashboardHeader,
   HomeAssigmentCard,
+  Loader,
 } from '../../components';
+import {style} from './style';
+import {FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import {getBibleSchoolApi} from '../../redux/actions/UserAction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
+  const dispatch = useDispatch();
   const {navigate} = useNavigation();
+  const [load, setLoad] = useState(false);
+  // const data = useSelector(state => state.get_bible_school);
+  // console.log('data', data);
+
+  const fetToken = async () => {
+    const token = await AsyncStorage.getItem('token');
+    console.log('token', token);
+  };
+  // fetToken();
+
   const data = [
     {
       sub: 'In the beginning God create.',
@@ -29,6 +44,11 @@ const Home = () => {
       isDue: 'Due',
     },
   ];
+
+  useEffect(() => {
+    dispatch(getBibleSchoolApi(setLoad));
+  }, []);
+
   return (
     <Body>
       <DashboardHeader />
@@ -48,6 +68,7 @@ const Home = () => {
           );
         }}
       />
+      <Loader visible={load} />
     </Body>
   );
 };

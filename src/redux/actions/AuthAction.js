@@ -24,20 +24,22 @@ export const LoginApi = (data, load, err) => {
         body: myData,
       });
 
-      const responseData = await response.json();
-      if (responseData.success == true) {
+      const res = await response.json();
+      if (res.success == true) {
         await AsyncStorage.setItem(
           'user_details',
-          JSON.stringify(responseData.user_data),
+          JSON.stringify(res.user_data),
         );
+        await AsyncStorage.setItem('token', res.user_data.access_token);
+        console.log('res.user_data.access_token', res.user_data.access_token);
         await dispatch({
           type: USER_DETAILS,
-          payload: responseData.user_data,
+          payload: res.user_data,
         });
         load(false);
       } else {
         load(false);
-        err({visible: true, msg: responseData.message});
+        err({visible: true, msg: res.message});
         setTimeout(() => {
           err({visible: false, msg: ''});
         }, 2000);

@@ -72,4 +72,45 @@ export const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
   },
+
+  //  Status Card design
+
+  height: {height: 65},
+  StatusCardComp: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 10,
+  },
+  firstBox: {
+    width: '20%',
+    borderRightWidth: 1,
+    borderColor: '#fff',
+  },
+  centerBox: {
+    width: '60%',
+    height: 50,
+  },
+  Progress: {
+    borderWidth: 1,
+    borderColor: '#fff',
+    width: '80%',
+    height: 10,
+    borderRadius: 20,
+    marginTop: 5,
+  },
+  ProgressValue: {
+    height: 10,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+  },
+  Text: {
+    color: '#fff',
+    fontSize: 17,
+    fontFamily: Font.font600,
+  },
+  secBox: {
+    width: '20%',
+    borderLeftWidth: 1,
+    borderColor: '#fff',
+  },
 });

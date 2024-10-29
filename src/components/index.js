@@ -23,8 +23,12 @@ import ProfileBtn from './Button/ProfileBtn';
 import ModalBtn from './Button/ModalBtn';
 import LogoutModal from './Modal/LogoutModal';
 import GameHeader from './Header/GameHeader';
+import GameBtn from './Button/GameBtn';
+import StatusCard from './Cards/StatusCard';
 
 export {
+  StatusCard,
+  GameBtn,
   GameHeader,
   LogoutModal,
   ModalBtn,

@@ -54,18 +54,20 @@ const DrawerContainer = props => {
             onPress: () => props.navigation.navigate('profile'),
           },
         ].map(item => (
-          <Icon
-            size={30}
-            key={item.icon}
-            name={item.icon}
-            type={item.type}
-            color={'#B3B3B9'}
-          />
+          <TouchableOpacity onPress={item.onPress}>
+            <Icon
+              size={30}
+              key={item.icon}
+              name={item.icon}
+              type={item.type}
+              color={'#B3B3B9'}
+            />
+          </TouchableOpacity>
         ))}
       </View>
       <FullImage
         style={style.logo}
-        source={require('../assets/image/logo.png')}
+        source={require('../assets/image/black-logo.png')}
       />
     </Body>
   );

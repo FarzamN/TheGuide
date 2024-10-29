@@ -89,4 +89,18 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: Font.font600,
   },
+
+  // -------------- game buttons
+  GameBTNCont: {
+    width: '47%',
+    borderRadius: 100,
+    height: 50,
+    marginTop: 15,
+  },
+  GameBTNText: {
+    color: Color.white,
+    fontSize: 14,
+    fontFamily: Font.font500,
+    textTransform: 'capitalize',
+  },
 });

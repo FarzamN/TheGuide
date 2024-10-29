@@ -14,11 +14,10 @@ const GameHeader = ({title, onClose, subTitle}) => {
   return (
     <ImageBackground
       style={style.GameBannerImage}
-      source={require('../../assets/image/banner.png')}>
+      source={require('../../assets/image/game-banner.png')}>
       <View style={GlobalStyle.between}>
         <View style={{width: 50}} />
 
-        <Text style={style.GameTitle} title={title} />
         <TouchableOpacity
           onPress={onClose}
           style={[icStyle.backIcon, GlobalStyle.justify]}>
@@ -30,6 +29,8 @@ const GameHeader = ({title, onClose, subTitle}) => {
           />
         </TouchableOpacity>
       </View>
+      <Text center style={style.GameTitle} title={title} />
+
       <Bar
         progress={1}
         width={width - 50}

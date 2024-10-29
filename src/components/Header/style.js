@@ -24,7 +24,7 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 17,
-    color: Color.grey,
+    color: 'red',
     fontFamily: Font.font700,
   },
   BannerImage: {
@@ -33,8 +33,8 @@ export default StyleSheet.create({
     marginBottom: -30,
   },
   ProfileImage: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     borderRadius: 25,
     overflow: 'hidden',
   },
@@ -48,7 +48,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     // alignItems: 'flex-start',
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 10,
     paddingHorizontal: 14,
   },
   nameBox: {
@@ -62,12 +62,8 @@ export default StyleSheet.create({
   box: {
     backgroundColor: Color.white,
     borderRadius: 10,
-    paddingVertical: 7,
+    paddingVertical: 5,
     width: '48%',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: {width: 0, height: 2},
-    elevation: 3,
     flexDirection: 'row',
   },
   data: {
@@ -90,13 +86,15 @@ export default StyleSheet.create({
 
   // -------------------------------
   GameBannerImage: {
-    width: width,
-    height: 200,
+    width,
+    height: 230,
+    marginBottom: -30,
   },
   GameTitle: {
     fontFamily: Font.font700,
     fontSize: 20,
     color: Color.white,
+    marginBottom: 10,
   },
   GameSubTitle: {
     fontFamily: Font.font500,

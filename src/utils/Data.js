@@ -7,12 +7,6 @@ import {emailPattern, required} from './Constants';
 //   {n: 'topicvideoquiz', c: TopicVideoQuiz},
 //   ,
 // ];
-export const UserNav = [
-  {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Home'},
-  // {c: AllExplore, icon: require('../assets/image/nav/pray.png'), n: 'Explore'},
-  // {c: AllMusic, icon: require('../assets/image/nav/status.png'), n: 'Music'},
-  // {c: AllMusic, icon: require('../assets/image/nav/event.png'), n: 'Music'},
-];
 
 export const RegisterInput = [
   {
