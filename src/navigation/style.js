@@ -8,8 +8,8 @@ export const style = StyleSheet.create({
     marginTop: 10,
   },
   icon: {
-    width: 35,
-    height: 35,
+    width: 32,
+    height: 32,
   },
   AvatarBox: {marginLeft: 10},
   logo: {
@@ -28,5 +28,9 @@ export const style = StyleSheet.create({
     width: 30,
     aspectRatio: 1 / 1,
     margin: 10,
+  },
+  tabBarLabel: {
+    fontSize: 11,
+    fontFamily: Font.font600,
   },
 });

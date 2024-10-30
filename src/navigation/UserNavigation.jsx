@@ -1,12 +1,20 @@
-import {style} from './style';
 import React from 'react';
-import {Image, View} from 'react-native';
+import {style} from './style';
+import {Color} from '../utils/Color';
+import {City, Country, State} from '../screen/authentication';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {City, Country, State} from '../screen/authentication';
-import {Color} from '../utils/Color';
 
-import {Home, EditProfile, Profile, Game, StatusScreen} from '../screen/user';
+import {
+  Home,
+  Game,
+  Profile,
+  EditProfile,
+  EventScreen,
+  StatusScreen,
+  PrayerScreen,
+} from '../screen/user';
+import {FullImage} from '../components';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,20 +49,30 @@ const allStatusConfig = {
   initialRouteName: 'status',
   screens: [{name: 'status', component: StatusScreen}],
 };
+const allPrayerConfig = {
+  initialRouteName: 'prayer',
+  screens: [{name: 'prayer', component: PrayerScreen}],
+};
+const allEventConfig = {
+  initialRouteName: 'event',
+  screens: [{name: 'event', component: EventScreen}],
+};
 
 export const AllHome = () => createNavigator(allHomeConfig);
+export const AllPrayer = () => createNavigator(allPrayerConfig);
 export const AllStatus = () => createNavigator(allStatusConfig);
+export const AllEvent = () => createNavigator(allEventConfig);
 
 const UserNavigation = () => {
   const UserNav = [
     {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Home'},
-    // {c: AllExplore, icon: require('../assets/image/nav/pray.png'), n: 'Explore'},
+    {c: AllPrayer, icon: require('../assets/image/nav/pray.png'), n: 'Prayer'},
     {
       c: AllStatus,
       icon: require('../assets/image/nav/status.png'),
       n: 'Status',
     },
-    // {c: AllMusic, icon: require('../assets/image/nav/event.png'), n: 'Music'},
+    {c: AllEvent, icon: require('../assets/image/nav/event.png'), n: 'Event'},
   ];
   return (
     <Tab.Navigator
@@ -62,7 +80,7 @@ const UserNavigation = () => {
         headerShown: false,
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: Color.orange,
-        tabBarLabelStyle: style.Text,
+        tabBarLabelStyle: style.tabBarLabel,
         tabBarInactiveTintColor: '#A7A7C3',
         tabBarLabelPosition: 'below-icon',
       }}
@@ -73,16 +91,13 @@ const UserNavigation = () => {
           name={n}
           component={c}
           options={{
-            tabBarStyle: {display: n === 'game' ? 'none' : 'flex'},
             tabBarIcon: ({focused}) => {
               return (
-                <View>
-                  <Image
-                    style={style.icon}
-                    source={icon}
-                    tintColor={focused ? Color.orange : '#A7A7C3'}
-                  />
-                </View>
+                <FullImage
+                  source={icon}
+                  style={style.icon}
+                  color={focused ? Color.orange : '#A7A7C3'}
+                />
               );
             },
           }}
@@ -93,27 +108,3 @@ const UserNavigation = () => {
 };
 
 export default UserNavigation;
-
-// import React from 'react';
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
-// import {UserNav} from '../utils/Data';
-
-// const UserNavigation = () => {
-//   const {Navigator, Screen} = createNativeStackNavigator();
-//   return (
-//     <Navigator
-//       initialRouteName={UserNav[0].n}
-//       screenOptions={{headerShown: false, animation: 'ios'}}>
-//       {[
-//   {n: 'home', c: Home},
-//   {n: 'bibletest', c: BibleTest},
-//   {n: 'topicvideoquiz', c: TopicVideoQuiz},
-//   ,
-// ].map(({n, c}) => (
-//         <Screen name={n} component={c} key={n} />
-//       ))}
-//     </Navigator>
-//   );
-// };
-
-// export default UserNavigation;

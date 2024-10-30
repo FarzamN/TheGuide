@@ -1,10 +1,12 @@
-import {Text as T} from 'react-native';
 import React from 'react';
 import {styles} from './style';
+import {Text as T} from 'react-native';
 
-const Text = ({title, style, center}) => {
+const Text = ({title, style, center, fontScaling}) => {
   return (
-    <T style={[styles.text, {textAlign: center ? 'center' : 'left'}, style]}>
+    <T
+      allowFontScaling={fontScaling}
+      style={[styles.text, {textAlign: center ? 'center' : 'left'}, style]}>
       {title}
     </T>
   );

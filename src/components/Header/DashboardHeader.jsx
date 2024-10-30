@@ -29,7 +29,9 @@ const DashboardHeader = () => {
               source={require('../../assets/image/menu.png')}
             />
           </TouchableOpacity>
-          <View style={{marginLeft: 7}}>
+          <TouchableOpacity
+            onPress={() => navigate('profile')}
+            style={{marginLeft: 7}}>
             <FullImage
               style={style.ProfileImage}
               sizeMode="cover"
@@ -38,9 +40,14 @@ const DashboardHeader = () => {
               }}
             />
             <View style={style.nameBox}>
-              <Text style={style.name} center title={'shawn'} />
+              <Text
+                center
+                fontScaling
+                style={style.name}
+                title={userDetail?.name}
+              />
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <Text style={style.ProfileTitle} title={'Bible School'} />
         <View>
@@ -56,8 +63,18 @@ const DashboardHeader = () => {
 
       <View style={GlobalStyle.evenly}>
         {[
-          {title: 'Due', data: 'Bible', sub: '120', status: 'Streak'},
-          {title: 'Due', data: 'Pray', sub: 'L2 ', status: 'Status'},
+          {
+            title: 'Due',
+            data: 'Bible',
+            sub: userDetail.bible_streak ?? 0,
+            status: 'Streak',
+          },
+          {
+            title: 'Due',
+            data: 'Pray',
+            sub: userDetail.user_prayer_streak,
+            status: 'Status',
+          },
         ].map((item, indx) => {
           return (
             <View key={indx} style={[style.box, GlobalStyle.justify]}>

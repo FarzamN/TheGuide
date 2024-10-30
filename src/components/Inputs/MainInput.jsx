@@ -27,6 +27,7 @@ const MainInput = forwardRef((props, ref) => {
           color={Color.placeholderTextColor}
         />
         <TextInput
+          editable={props.disable}
           ref={ref}
           value={field.value}
           onFocus={props.onFocus}

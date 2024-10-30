@@ -32,9 +32,13 @@ const EditProfile = ({navigation}) => {
   const [error, setError] = useState({visible: false, msg: ''});
   const [Country, setCountry] = useState({name: null, id: null});
 
-  const [date, setDate] = useState(
-    userdetail.date_of_birth ? new Date(userdetail.date_of_birth) : new Date(),
-  );
+  const [date, setDate] = useState(new Date(userdetail?.date_of_birth));
+  console.log('date', date);
+  // const [date, setDate] = useState(
+  //   userdetail?.date_of_birth
+  //     ? new Date(userdetail?.date_of_birth)
+  //     : new Date(),
+  // );
 
   // Initialize bday state with date_of_birth or set default values
   const [bday, setBday] = useState(() => {
@@ -76,12 +80,15 @@ const EditProfile = ({navigation}) => {
       icon: 'person',
       p: 'Name',
       name: 'f_name',
+      disable: false,
       df: userdetail.name,
     },
     {
       icon: 'email',
       p: 'Email',
       name: 'email',
+      disable: true,
+
       df: userdetail.email,
     },
     {
@@ -89,6 +96,7 @@ const EditProfile = ({navigation}) => {
       df: userdetail.phone_number,
       p: 'Phone Number',
       name: 'number',
+      disable: true,
       title: 'UK and USA Phone Number',
     },
   ];
@@ -113,24 +121,18 @@ const EditProfile = ({navigation}) => {
         </View>
 
         {/* Main Inputs */}
-        {data.map(({name, p, title, icon, df}) => {
+        {data.map(({name, p, title, icon, df, disable}) => {
           const error = errors[name];
-          const rules =
-            name === 'password' || name === 'c_password'
-              ? {required: required('Password')}
-              : {
-                  required: required(p),
-                  pattern: name === 'email' ? emailPattern : undefined,
-                };
+
           return (
             <MainInput
               defaultValue={df}
               icName={icon}
+              disable={!disable}
               type={IconType.MaterialIcons}
               key={name}
               control={control}
               name={name}
-              rules={rules}
               placeholder={title || p}
               isError={!!error}
               message={error?.message}

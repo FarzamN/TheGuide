@@ -54,7 +54,7 @@ const DrawerContainer = props => {
             onPress: () => props.navigation.navigate('profile'),
           },
         ].map(item => (
-          <TouchableOpacity onPress={item.onPress}>
+          <TouchableOpacity key={item.icon} onPress={item.onPress}>
             <Icon
               size={30}
               key={item.icon}

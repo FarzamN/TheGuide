@@ -25,8 +25,12 @@ import LogoutModal from './Modal/LogoutModal';
 import GameHeader from './Header/GameHeader';
 import GameBtn from './Button/GameBtn';
 import StatusCard from './Cards/StatusCard';
+import ImagePickerModal from './Modal/ImagePickerModal';
+import EventCard from './Cards/EventCard';
 
 export {
+  EventCard,
+  ImagePickerModal,
   StatusCard,
   GameBtn,
   GameHeader,

@@ -13,9 +13,11 @@ export const style = StyleSheet.create({
   inputStyles: {
     color: Color.black,
     fontFamily: Font.font400,
+    textTransform: 'capitalize',
   },
   dropdownTextStyles: {
     color: Color.black,
     fontFamily: Font.font400,
+    textTransform: 'capitalize',
   },
 });

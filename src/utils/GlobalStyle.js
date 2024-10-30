@@ -47,6 +47,9 @@ export const GlobalStyle = StyleSheet.create({
     },
     elevation: 5,
   },
+  showBar: {
+    display: 'flex',
+  },
   HideBar: {
     display: 'none',
   },

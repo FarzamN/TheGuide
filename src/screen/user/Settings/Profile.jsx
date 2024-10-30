@@ -5,20 +5,26 @@ import {
   ProfileBody,
   CustomButton,
   LogoutModal,
+  ImagePickerModal,
 } from '../../../components';
 import {style} from './style';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Color} from '../../../utils/Color';
 import {useSelector, useDispatch} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
 import {useFocusEffect} from '@react-navigation/native';
-import {LogOutApi} from '../../../redux/actions/AuthAction';
+import {updateImage} from '../../../redux/actions/AuthAction';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import {useImagePicker} from '../../../hooks';
 
 const Profile = ({navigation}) => {
   const {navigate, goBack} = navigation;
+  const dispatch = useDispatch();
+  const {image, onClose, picker, setPicker, requestGalleryPermission} =
+    useImagePicker();
   const userDetail = useSelector(state => state.userDetails);
+  console.log('userDetail', userDetail);
   const [showLogout, setShowLogout] = useState(false);
 
   useFocusEffect(
@@ -28,6 +34,13 @@ const Profile = ({navigation}) => {
       });
     }, []),
   );
+
+  useEffect(() => {
+    if (image) {
+      dispatch(updateImage(userDetail.user_id, image, onClose));
+    }
+  }, [image]);
+
   return (
     <ProfileBody>
       <ScrollView style={GlobalStyle.Padding}>
@@ -48,17 +61,19 @@ const Profile = ({navigation}) => {
             <Icon name="close" type={IconType.AntDesign} color={Color.black} />
           </TouchableOpacity>
         </View>
-        <View
-        // style={{alignItems: 'center'}}
-        >
-          {/* {[].map((item, index) => (
-          <ProfileBtn key={index} title={item.title} />
-          ))} */}
-          <FullImage
-            style={style.profileImgWrap}
-            ImageStyle={style.profileImg}
-            source={{uri: userDetail.profile_image}}
-          />
+        <View>
+          <View style={style.profileMainWrap}>
+            <TouchableOpacity
+              style={style.editImgWrap}
+              onPress={() => setPicker(true)}>
+              <FullImage source={require('../../../assets/image/pencil.png')} />
+            </TouchableOpacity>
+            <FullImage
+              style={style.profileImgWrap}
+              ImageStyle={style.profileImg}
+              source={{uri: userDetail.profile_image}}
+            />
+          </View>
           <ProfileBtn title={userDetail.name} />
           <ProfileBtn title={userDetail.email} />
           <View style={GlobalStyle.between}>
@@ -79,6 +94,12 @@ const Profile = ({navigation}) => {
         </View>
       </ScrollView>
       <LogoutModal onClose={() => setShowLogout(false)} visible={showLogout} />
+      <ImagePickerModal
+        source={{uri: image ? image.uri : userDetail.profile_image}}
+        visible={picker}
+        onClose={onClose}
+        onUpload={requestGalleryPermission}
+      />
     </ProfileBody>
   );
 };

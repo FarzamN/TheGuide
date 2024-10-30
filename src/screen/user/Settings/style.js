@@ -18,12 +18,17 @@ export const style = StyleSheet.create({
     width: 25,
     height: 25,
   },
+  profileMainWrap: {
+    width: 130,
+    height: 130,
+    marginVertical: 10,
+    alignSelf: 'center',
+  },
   profileImgWrap: {
     width: 130,
     height: 130,
     borderRadius: 100,
     overflow: 'hidden',
-    marginVertical: 10,
     alignSelf: 'center',
   },
   profileImg: {
@@ -36,4 +41,13 @@ export const style = StyleSheet.create({
     fontFamily: Font.font600,
     fontSize: 20,
   },
+  editImgWrap: {
+    width: 20,
+    aspectRatio: 1 / 1,
+    position: 'absolute',
+    right: 0,
+    top: 10,
+    zIndex: 99,
+  },
+  editImg: {},
 });

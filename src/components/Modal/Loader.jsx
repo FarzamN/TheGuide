@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
 import style from './style';
@@ -11,7 +11,7 @@ const Loader = ({visible}) => {
       animationOut={'fadeOut'}
       isVisible={visible}
       style={[style.MainModal, style.Modal_Container]}>
-      <SafeAreaView
+      <View
         style={[
           style.ModalContainer,
           {backgroundColor: '#FCFCFC', borderWidth: 0.8},
@@ -22,7 +22,7 @@ const Loader = ({visible}) => {
           source={require('../../assets/lottie/loader.json')}
         />
         <Text style={style.ModalText}>Please Wait...</Text>
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 };

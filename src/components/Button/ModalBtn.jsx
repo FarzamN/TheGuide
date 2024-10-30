@@ -5,7 +5,7 @@ import {Text} from '..';
 import {Color} from '../../utils/Color';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 
-const ModalBtn = ({onPress, green, title}) => {
+const ModalBtn = ({onPress, green, title, textStyle}) => {
   return (
     <TouchableOpacity
       style={[
@@ -23,6 +23,7 @@ const ModalBtn = ({onPress, green, title}) => {
             color: green ? Color.white : '#797778',
           },
           styles.ModalBtnText,
+          textStyle,
         ]}
         title={title}
       />

@@ -7,11 +7,12 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const StatusCard = ({data}) => {
   const randomColor = [
-    ['#3a8a05', '#3a8a05', '#3a8a05'],
+    ['#03B547', '#04C34D', '#0DF166', '#0CE45F'],
     ['#89de49', '#76d452', '#6ccb52'],
     ['#FDBF44', '#F9AD41', '#FF8926'],
-    ['#21c8fe', '#33b8fc', '#46a8fb'],
-    ['#EE5613', '#FE6817', '#FC6E2C'],
+    ['#BC8010', '#CF910A', '#F0B41E', '#E1A91E'],
+    ['#0000C0', '#0031D2', '#3468F0', '#7074FC'],
+    ['#EE5613', '#FE6716', '#FF7F34', '#FB6C28'],
     ['#BC8010', '#D3930B', '#F0B41E', '#E0A81D'],
   ];
   return (

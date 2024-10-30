@@ -1,21 +1,22 @@
 import {
   Body,
   Empty,
+  Loader,
   DashboardHeader,
   HomeAssigmentCard,
-  Loader,
 } from '../../components';
 import {style} from './style';
 import {FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {getBibleSchoolApi} from '../../redux/actions/UserAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {GlobalStyle} from '../../utils/GlobalStyle';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const {navigate} = useNavigation();
+  const {navigate, getParent} = useNavigation();
   const [load, setLoad] = useState(false);
   // const data = useSelector(state => state.get_bible_school);
   // console.log('data', data);
@@ -44,7 +45,13 @@ const Home = () => {
       isDue: 'Due',
     },
   ];
-
+  useFocusEffect(
+    useCallback(() => {
+      getParent().setOptions({
+        tabBarStyle: GlobalStyle.showBar,
+      });
+    }, []),
+  );
   useEffect(() => {
     dispatch(getBibleSchoolApi(setLoad));
   }, []);
@@ -54,6 +61,7 @@ const Home = () => {
       <DashboardHeader />
       <FlatList
         data={data}
+        key={(_, i) => i.toString()}
         keyExtractor={(_, i) => i.toString()}
         ListEmptyComponent={<Empty />}
         showsVerticalScrollIndicator={false}
