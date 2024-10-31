@@ -110,6 +110,8 @@ dependencies {
     implementation("com.facebook.react:flipper-integration")
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-splash-screen')
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.29'
+
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

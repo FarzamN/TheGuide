@@ -54,7 +54,7 @@ const DashboardHeader = () => {
           <TouchableOpacity onPress={notiHandler}>
             <Image
               resizeMode="contain"
-              style={{width: 22, height: 22}}
+              style={{width: 20, height: 20}}
               source={require('../../assets/image/notifaction.png')}
             />
           </TouchableOpacity>

@@ -12,4 +12,5 @@ export const Color = {
   LineDarkBlue: '#19396A',
   background: '#F8F9FB',
   orange: '#F9841D',
+  textGrey: '#787777',
 };

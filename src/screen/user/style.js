@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {Color} from '../../utils/Color';
 
 export const style = StyleSheet.create({
   listContainer: {
@@ -35,15 +36,15 @@ export const style = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
+    color: Color.white,
   },
   subtitle: {
     fontSize: 14,
-    color: '#fff',
+    color: Color.white,
     marginTop: 5,
   },
   playButton: {
-    backgroundColor: '#fff',
+    backgroundColor: Color.white,
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderRadius: 20,
@@ -51,7 +52,23 @@ export const style = StyleSheet.create({
   },
   playText: {
     fontSize: 14,
-    color: '#000',
+    color: Color.black,
     fontWeight: 'bold',
+  },
+
+  // ------- Switch styles
+  SwitchCont: {
+    borderWidth: 1,
+    borderColor: Color.lightgrey,
+    borderRadius: 10,
+    width: '90%',
+    marginTop: 15,
+    padding: 2,
+    alignSelf: 'center',
+  },
+  TimeCont: {
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 10,
   },
 });

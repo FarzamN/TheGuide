@@ -63,11 +63,11 @@ export default StyleSheet.create({
     backgroundColor: Color.white,
     borderRadius: 10,
     paddingVertical: 5,
-    width: '48%',
+    width: '44%',
     flexDirection: 'row',
   },
   data: {
-    fontSize: 16,
+    fontSize: 15,
     marginTop: 5,
     fontFamily: Font.font500,
   },

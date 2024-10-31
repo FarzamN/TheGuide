@@ -113,4 +113,50 @@ export const styles = StyleSheet.create({
     borderLeftWidth: 1,
     borderColor: '#fff',
   },
+
+  // ---------- event card
+  EventCardContainer: {
+    marginBottom: 10,
+    paddingBottom: 10,
+    borderRadius: 10,
+    height: 150,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: Color.grey,
+    justifyContent: 'space-between',
+  },
+  dateBanner: {
+    width: 30,
+    height: 50,
+    marginRight: 5,
+  },
+  dateText: {
+    color: Color.white,
+    fontSize: 13,
+    fontFamily: Font.font700,
+  },
+  iconBackground: {
+    padding: 3,
+    marginLeft: 5,
+    borderRadius: 20,
+    backgroundColor: '#201B1E',
+  },
+  EventName: {
+    fontSize: 20,
+    color: '#FFAB00',
+    fontFamily: Font.font700,
+  },
+  EventTitle: {
+    fontSize: 12,
+    color: Color.white,
+    fontFamily: Font.font600,
+  },
+  endText: {
+    fontSize: 9,
+    color: Color.white,
+    fontFamily: Font.font500,
+    width: '70%',
+  },
+  bookBtn: {width: '30%', height: 25},
+  bookText: {fontSize: 12, fontFamily: Font.font500},
 });
