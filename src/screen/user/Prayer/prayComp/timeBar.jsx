@@ -1,24 +1,37 @@
 import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
-import {Text} from '../../../../components';
+import {FullImage, Text} from '../../../../components';
 import {style} from './style';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
-import {Color} from '../../../../utils/Color';
 
-const TimeBar = () => {
+const TimeBar = ({onMap, onTime, onVideo, onCalender, time}) => {
   return (
     <View style={[style.barCont, GlobalStyle.between]}>
-      <Text style={style.time} title={'1hr 23min 10sec'} />
+      <Text style={style.time} title={time} />
       <View style={GlobalStyle.between}>
         {[
-          {name: 'stopwatch', type: IconType.Entypo},
-          {name: 'stopwatch', type: IconType.Entypo},
-          {name: 'stopwatch', type: IconType.Entypo},
-          {name: 'stopwatch', type: IconType.Entypo},
+          {
+            onPress: onTime,
+            icon: require('../../../../assets/image/timer.png'),
+          },
+          {
+            onPress: onCalender,
+            icon: require('../../../../assets/image/pray-calender.png'),
+          },
+          {
+            onPress: onMap,
+            icon: require('../../../../assets/image/map.png'),
+          },
+          {
+            onPress: onVideo,
+            icon: require('../../../../assets/image/play.png'),
+          },
         ].map((i, ix) => (
-          <TouchableOpacity key={ix} style={style.iconBox}>
-            <Icon name={i.name} color={Color.orange} size={20} type={i.type} />
+          <TouchableOpacity
+            key={ix}
+            onPress={i.onPress}
+            style={[style.iconBox, GlobalStyle.shadow]}>
+            <FullImage style={{width: 20, height: 20}} source={i.icon} />
           </TouchableOpacity>
         ))}
       </View>

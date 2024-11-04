@@ -3,6 +3,7 @@ export const GET_COUNTRY = 'GET_COUNTRY';
 export const GET_CITY = 'GET_CITY';
 export const GET_STATE = 'GET_STATE';
 export const GET_BIBLE_SCHOOL = 'GET_BIBLE_SCHOOL';
+export const GET_EVENT = 'GET_EVENT';
 
 const initial_state = {
   userDetails: false,
@@ -10,6 +11,7 @@ const initial_state = {
   get_city: [],
   get_state: [],
   get_bible_school: [],
+  get_event: [],
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -38,6 +40,11 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         get_bible_school: action.payload,
+      };
+    case GET_EVENT:
+      return {
+        ...state,
+        get_event: action.payload,
       };
     default: {
       return state;

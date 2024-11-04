@@ -24,7 +24,6 @@ const Profile = ({navigation}) => {
   const {image, onClose, picker, setPicker, requestGalleryPermission} =
     useImagePicker();
   const userDetail = useSelector(state => state.userDetails);
-  console.log('userDetail', userDetail);
   const [showLogout, setShowLogout] = useState(false);
 
   useFocusEffect(

@@ -2,34 +2,29 @@ import {useState} from 'react';
 import {iOS} from '../utils/Constants';
 import {openPicker} from 'react-native-image-crop-picker';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {useDispatch, useSelector} from 'react-redux';
 
 const useImagePicker = () => {
-  const dispatch = useDispatch();
-  const userDetail = useSelector(state => state.userDetails);
   const [image, setImage] = useState(null);
   const [picker, setPicker] = useState(false);
 
-  const galleryLaunch = () => {
-    openPicker({
-      mediaType: 'photo',
-      cropping: true,
-    })
-      .then(item => {
-        const selectedImage = {
-          name: item.path,
-          uri: item.path,
-          type: item.mime,
-        };
-        setImage(selectedImage);
-      })
-      .catch(error => {
-        if (error.code === 'E_PICKER_CANCELLED') {
-          console.log('User cancelled image picker');
-        } else {
-          console.log('ImagePicker Error:', error.message);
-        }
+  const galleryLaunch = async () => {
+    try {
+      const item = await openPicker({
+        mediaType: 'photo',
+        cropping: true,
       });
+      setImage({
+        name: item.path,
+        uri: item.path,
+        type: item.mime,
+      });
+    } catch (error) {
+      if (error.code === 'E_PICKER_CANCELLED') {
+        console.log('User cancelled image picker');
+      } else {
+        console.log('ImagePicker Error:', error.message);
+      }
+    }
   };
 
   const requestGalleryPermission = async () => {

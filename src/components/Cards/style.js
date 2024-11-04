@@ -150,6 +150,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: Color.white,
     fontFamily: Font.font600,
+    textTransform: 'capitalize',
   },
   endText: {
     fontSize: 9,

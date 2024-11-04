@@ -69,6 +69,20 @@ export const style = StyleSheet.create({
   TimeCont: {
     width: '90%',
     alignSelf: 'center',
-    marginTop: 10,
+    marginBottom: 20,
+  },
+  TimeChangeCont: {
+    borderRadius: 10,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: Color.lightgrey,
+    width: '90%',
+    alignSelf: 'center',
+    height: 50,
+    marginBottom: 20,
+  },
+  timeChangeText: {
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 });

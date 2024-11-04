@@ -27,8 +27,10 @@ import GameBtn from './Button/GameBtn';
 import StatusCard from './Cards/StatusCard';
 import ImagePickerModal from './Modal/ImagePickerModal';
 import EventCard from './Cards/EventCard';
+import TimeChangeModal from './Modal/TimeChangeModal';
 
 export {
+  TimeChangeModal,
   EventCard,
   ImagePickerModal,
   StatusCard,

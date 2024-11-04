@@ -83,6 +83,7 @@ export const registerApi = async (
     myData.append('country', country);
     myData.append('type', 'father');
     myData.append('time_zone', timeZone);
+    console.log('myData', myData);
     const myHeaders = new Headers();
     myHeaders.append('Accept', 'application/json');
     myHeaders.append('Content-Type', 'multipart/form-data');

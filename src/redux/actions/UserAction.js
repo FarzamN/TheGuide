@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Base_Url} from '../../utils/Urls';
-import {GET_BIBLE_SCHOOL} from '../reducer/Holder';
+import {GET_BIBLE_SCHOOL, GET_EVENT} from '../reducer/Holder';
 import Toast from 'react-native-simple-toast';
 
 /*
@@ -54,6 +54,33 @@ export const getBibleSchoolApi = load => {
       console.log({result});
     } catch (error) {
       console.error('Error fetching Bible school data:', error);
+    }
+  };
+};
+
+export const eventApi = load => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}get/events`;
+    const myHeaders = new Headers();
+    const token = await AsyncStorage.getItem('token');
+
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow',
+      });
+      const result = await response.json();
+      load(false);
+      if (result.status === true) {
+        dispatch({type: GET_EVENT, payload: result.data});
+      }
+    } catch (error) {
+      load(false);
+      console.error('Error fetching eventApi data:', error);
     }
   };
 };
