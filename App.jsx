@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import Splash from 'react-native-splash-screen';
 import AuthNavigation from './src/navigation/AuthNavigation';
-// import UserNavigation from './src/navigation/UserNavigation';
 import DrawerNavigation from './src/navigation/DrawerNavigation.jsx';
 import {useDispatch, useSelector} from 'react-redux';
 import {getCity, getCoutry, getState} from './src/redux/actions/AuthAction';
@@ -15,13 +14,20 @@ const App = () => {
   const userDetails = useSelector(state => state.userDetails);
 
   useEffect(() => {
-    Promise.all([
-      dispatch(getCoutry()),
-      dispatch(getCity()),
-      dispatch(getState()),
-    ]);
+    fetchData();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      await Promise.all([
+        dispatch(getCoutry()),
+        dispatch(getCity()),
+        dispatch(getState()),
+      ]);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
   const getUserDetails = async () => {
     const userData = await AsyncStorage.getItem('user_details');
     dispatch({type: USER_DETAILS, payload: JSON.parse(userData)});

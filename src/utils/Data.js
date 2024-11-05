@@ -52,7 +52,7 @@ export const RegisterInput = [
 export const loginField = [
   {
     name: 'email',
-    defaultValue: 'one_church@hotmail.com',
+    defaultValue: 'postmenseven@gmail.com',
     rules: {
       pattern: emailPattern,
       required: required('Email'),
@@ -64,7 +64,7 @@ export const loginField = [
   },
   {
     name: 'password',
-    defaultValue: 'admin123',
+    defaultValue: '12345678',
     rules: {
       required: required('Password'),
     },

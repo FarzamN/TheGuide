@@ -278,9 +278,15 @@ export const editProfile = (
     myData.append('first_name', data.f_name);
     myData.append('gender', gender);
     myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
-    myData.append('city', city.id);
-    myData.append('state', state.id);
-    myData.append('country', country.id);
+    {
+      city && myData.append('city', city.id);
+    }
+    {
+      state && myData.append('state', state.id);
+    }
+    {
+      country && myData.append('country', country.id);
+    }
 
     const myHeaders = new Headers();
     const token = await AsyncStorage.getItem('token');

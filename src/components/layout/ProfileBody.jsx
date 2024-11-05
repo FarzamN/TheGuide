@@ -1,6 +1,6 @@
-import {SafeAreaView, ImageBackground} from 'react-native';
-import Reac from 'react';
+import React from 'react';
 import {GlobalStyle} from '../../utils/GlobalStyle';
+import {SafeAreaView, ImageBackground} from 'react-native';
 
 const ProfileBody = ({children}) => {
   return (

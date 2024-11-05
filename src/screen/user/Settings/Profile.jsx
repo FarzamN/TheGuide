@@ -17,6 +17,7 @@ import {updateImage} from '../../../redux/actions/AuthAction';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {useImagePicker} from '../../../hooks';
+import moment from 'moment';
 
 const Profile = ({navigation}) => {
   const {navigate, goBack} = navigation;
@@ -39,7 +40,10 @@ const Profile = ({navigation}) => {
       dispatch(updateImage(userDetail.user_id, image, onClose));
     }
   }, [image]);
-
+  console.log(
+    'userdetail?.date_of_birth',
+    moment(userDetail?.date_of_birth).format(),
+  );
   return (
     <ProfileBody>
       <ScrollView style={GlobalStyle.Padding}>

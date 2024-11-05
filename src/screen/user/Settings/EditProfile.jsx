@@ -1,24 +1,24 @@
-import {View, ScrollView, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
 import {
-  BirthdayBtn,
+  Text,
+  MainInput,
   CountryBtn,
+  ProfileBody,
+  BirthdayBtn,
   CustomButton,
   GenderDropDown,
-  MainInput,
-  ProfileBody,
-  Text,
 } from '../../../components';
-import {emailPattern, required} from '../../../utils/Constants';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+
+import moment from 'moment';
+import {style} from './style';
+import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
+import {Color} from '../../../utils/Color';
+import DatePicker from 'react-native-date-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
-import {Color} from '../../../utils/Color';
-import {style} from './style';
-import DatePicker from 'react-native-date-picker';
-import moment from 'moment';
 import {editProfile} from '../../../redux/actions/AuthAction';
+import {View, ScrollView, TouchableOpacity} from 'react-native';
+import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 const EditProfile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -32,7 +32,9 @@ const EditProfile = ({navigation}) => {
   const [error, setError] = useState({visible: false, msg: ''});
   const [Country, setCountry] = useState({name: null, id: null});
 
-  const [date, setDate] = useState(new Date(userdetail?.date_of_birth));
+  const [date, setDate] = useState(
+    new Date(moment(userdetail?.date_of_birth).format()),
+  );
   console.log('date', date);
   // const [date, setDate] = useState(
   //   userdetail?.date_of_birth
@@ -136,13 +138,6 @@ const EditProfile = ({navigation}) => {
               placeholder={title || p}
               isError={!!error}
               message={error?.message}
-              keyboardType={
-                name == 'email'
-                  ? 'email-address'
-                  : name == 'number'
-                  ? 'number-pad'
-                  : 'default'
-              }
             />
           );
         })}
@@ -151,8 +146,8 @@ const EditProfile = ({navigation}) => {
         {/* Gender Dropdown */}
         <GenderDropDown
           white
-          df={{key: userdetail.gender, value: userdetail.gender}}
           onSelect={setGender}
+          df={{key: userdetail.gender, value: userdetail.gender}}
         />
 
         {/* Birthday Button */}

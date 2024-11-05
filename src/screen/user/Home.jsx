@@ -10,7 +10,7 @@ import {FlatList} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {getBibleSchoolApi} from '../../redux/actions/UserAction';
+import {courseApi, getBibleSchoolApi} from '../../redux/actions/UserAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 
@@ -20,12 +20,6 @@ const Home = () => {
   const [load, setLoad] = useState(false);
   // const data = useSelector(state => state.get_bible_school);
   // console.log('data', data);
-
-  const fetToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    console.log('token', token);
-  };
-  // fetToken();
 
   const data = [
     {
@@ -53,7 +47,8 @@ const Home = () => {
     }, []),
   );
   useEffect(() => {
-    dispatch(getBibleSchoolApi(setLoad));
+    courseApi();
+    // dispatch(getBibleSchoolApi(setLoad));
   }, []);
 
   return (
@@ -61,7 +56,6 @@ const Home = () => {
       <DashboardHeader />
       <FlatList
         data={data}
-        key={(_, i) => i.toString()}
         keyExtractor={(_, i) => i.toString()}
         ListEmptyComponent={<Empty />}
         showsVerticalScrollIndicator={false}
