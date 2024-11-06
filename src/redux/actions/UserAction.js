@@ -1,32 +1,28 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Base_Url} from '../../utils/Urls';
-import {GET_BIBLE_SCHOOL, GET_EVENT} from '../reducer/Holder';
+import {GET_BIBLE_SCHOOL, GET_EVENT, GET_GAME} from '../reducer/Holder';
 import Toast from 'react-native-simple-toast';
 
-/*
 export const getBibleSchoolApi = load => {
   return async dispatch => {
     load(true);
     try {
-      //   const url = `${Base_Url}bible-school-app`;
-      const url = 'https://theguide.us/api/v1/bible-school-app';
+      const url = `${Base_Url}get-incomplete-game`;
 
+      const myHeaders = new Headers();
+      const token = await AsyncStorage.getItem('token');
 
-      // `Bearer ${token}`
-      myHeaders.append(
-        'Authorization',
-        `Bearer ${'eyJpdiI6Iiswci9rR1d3dENBcDVpaFdoWHZWN0E9PSIsInZhbHVlIjoiQzJwRDRUMkw4WDBUV21iTlFPVU1vMnN4QVU0YjBPM3dNcERrV3h0Ujg5VGZMZmZzM3pNK1BjZE9zSjl3Ti92ZSIsIm1hYyI6Ijc4ZWM2NzA5Y2M1YWQ4YWMzOTRhN2YyZjlkYTUwZmJlZjM5NDA3YWNkMWNkODFkZjcyMmM5OWE1NjZmZjQwNzIiLCJ0YWciOiIifQ=='}`,
-      );
+      myHeaders.append('Authorization', `Bearer ${token}`);
       const response = await fetch(url, {
         method: 'GET',
         headers: myHeaders,
       });
-      console.log('response', response);
       const res = await response.json();
-      console.log('res', res);
       load(false);
       if (res.status == 'success') {
-        dispatch({type: GET_BIBLE_SCHOOL, payload: res.states});
+        dispatch({type: GET_BIBLE_SCHOOL, payload: res.data});
+      } else {
+        Toast.show('Please Try again later');
       }
     } catch (error) {
       load(false);
@@ -35,11 +31,11 @@ export const getBibleSchoolApi = load => {
     }
   };
 };
- */
 
+/*
 export const getBibleSchoolApi = load => {
   return async dispatch => {
-    const url = `${Base_Url}bible-school-app`;
+    const url = `${Base_Url}get-incomplete-game`;
     const myHeaders = new Headers();
     const token = await AsyncStorage.getItem('token');
 
@@ -59,6 +55,7 @@ export const getBibleSchoolApi = load => {
     }
   };
 };
+*/
 
 export const eventApi = load => {
   return async dispatch => {
@@ -168,7 +165,7 @@ export const courseApi = async () => {
 
     const jsonCourseAPI = await hittingCourseAPI.json();
     const courseData = jsonCourseAPI.data.slice(0, 2).map(course => course.id);
-    console.log('1) API. courseData', courseData);
+    // console.log('1) API. courseData', courseData);
 
     const hitingStoreAPI = await Promise.all(
       courseData.map(id => {
@@ -187,10 +184,9 @@ export const courseApi = async () => {
     const jsonStoreAPI = await Promise.all(
       hitingStoreAPI.map(res => res.json()),
     );
-    console.log('2) API. jsonStoreAPI', jsonStoreAPI);
+    // console.log('2) API. jsonStoreAPI', jsonStoreAPI);
     const hittingGetLessonAPI = await Promise.all(
       courseData.map(id => {
-        console.log('store api ka id', id);
         return fetch(`${Base_Url}courses/${id}/lessons`, {
           headers,
           method: 'GET',
@@ -201,8 +197,150 @@ export const courseApi = async () => {
     const jsonGetLessonAPI = await Promise.all(
       hittingGetLessonAPI.map(res => res.json()),
     );
-    console.log('3) API. jsonGetLessonAPI', jsonGetLessonAPI);
+    // console.log('3) API. jsonGetLessonAPI', jsonGetLessonAPI);
+
+    const hittingLessonStoreAPI = await Promise.all(
+      jsonGetLessonAPI.map(lesson => {
+        const getLessonData = lesson.data.map(data => {
+          const formData = new FormData();
+          formData.append('lesson_id', data.id);
+          formData.append('course_id', data.course_id);
+          formData.append('status', 'incomplete');
+
+          return fetch(`${Base_Url}user_lesson/store`, {
+            headers,
+            method: 'POST',
+            body: formData,
+          });
+        });
+        return Promise.all(getLessonData);
+      }),
+    );
+    // console.log('4) API. json => hittingLessonStoreAPI', hittingLessonStoreAPI);
+    const jsonLessonGetStore = await Promise.all(
+      hittingLessonStoreAPI.flat().map(async res => await res.json()),
+    );
+    // console.log('4) API. jsonLessonGetStore', jsonLessonGetStore);
+
+    const hittingLessonAssigmentAPI = await Promise.all(
+      jsonGetLessonAPI.map(lesson => {
+        const getLessonStoreData = lesson.data.map(data => {
+          return fetch(`${Base_Url}lessons/${data.id}/assignments`, {
+            headers,
+            method: 'GET',
+          });
+        });
+        return Promise.all(getLessonStoreData);
+      }),
+    );
+    // console.log(
+    //   '5) API. json => hittingLessonAssigmentAPI',
+    //   hittingLessonAssigmentAPI,
+    // );
+    const jsonLessonAssigmentAPI = await Promise.all(
+      hittingLessonAssigmentAPI.flat().map(async res => await res.json()),
+    );
+    // console.log('5) API. jsonLessonAssigmentAPI', jsonLessonAssigmentAPI);
+
+    const hittingAssigmentStore = await Promise.all(
+      jsonLessonAssigmentAPI.map(assigment => {
+        const getAssigmentData = assigment.data.map(data => {
+          const formData = new FormData();
+          formData.append('assignment_id', data.id);
+          formData.append('lesson_id', data.lesson_id);
+          formData.append('course_id', data.course_id);
+          formData.append('status', 'incomplete');
+
+          return fetch(`${Base_Url}user_assignment/store`, {
+            headers,
+            method: 'POST',
+            body: formData,
+          });
+        });
+        return Promise.all(getAssigmentData);
+      }),
+    );
+
+    // console.log('6) API. json => hittingAssigmentStore', hittingAssigmentStore);
+    const jsonAssigmentStore = await Promise.all(
+      hittingAssigmentStore.flat().map(async res => await res.json()),
+    );
+    // console.log('6) API. jsonAssigmentStore', jsonAssigmentStore);
+
+    const hittingGetGameApi = await Promise.all(
+      jsonLessonAssigmentAPI.map(assigment => {
+        // Return the array of fetch promises from the inner map
+        return Promise.all(
+          assigment.data.map(data => {
+            return fetch(`${Base_Url}assignment/${data.id}/get-game`, {
+              headers,
+              method: 'GET',
+            });
+          }),
+        );
+      }),
+    );
+    // console.log('7 API. json => hittingGetGameApi', hittingGetGameApi);
+    const jsonGetGame = await Promise.all(
+      hittingGetGameApi.flat().map(res => res.json()),
+    );
+    // console.log('7) API. jsonGetGame', jsonGetGame);
+
+    const hittingUserGameStore = await Promise.all(
+      jsonGetGame.map(game => {
+        const getGameData = game.data.map(data => {
+          const formData = new FormData();
+          formData.append('game_id', data.id);
+          formData.append('assignment_id', data.assignment_id);
+          formData.append('lesson_id', data.lesson_id);
+          formData.append('course_id', data.course_id);
+          formData.append('status', 'incomplete');
+
+          return fetch(`${Base_Url}user_game/store`, {
+            headers,
+            method: 'POST',
+            body: formData,
+          });
+        });
+        return Promise.all(getGameData);
+      }),
+    );
+    // console.log('8 API. json => hittingUserGameStore', hittingUserGameStore);
+    const jsonStoreGame = await Promise.all(
+      hittingUserGameStore.flat().map(res => res.json()),
+    );
+    // console.log('8) API. jsonStoreGame', jsonStoreGame);
   } catch (error) {
     console.log('Error in courseAPI:', error);
   }
+};
+
+export const getGameApi = (load, id) => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}get-game-data/${id}`;
+    const myHeaders = new Headers();
+    const token = await AsyncStorage.getItem('token');
+
+    myHeaders.append('Authorization', `Bearer ${token}`);
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow',
+      });
+      const result = await response.json();
+      if (result.success === true) {
+        load(false);
+        dispatch({type: GET_GAME, payload: result.data});
+      } else {
+        load(false);
+      }
+    } catch (error) {
+      load(false);
+      Toast.show('Server side error');
+      console.error('Error fetching getGameApi data:', error);
+    }
+  };
 };

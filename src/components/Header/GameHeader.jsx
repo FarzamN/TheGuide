@@ -10,7 +10,7 @@ import {Bar} from 'react-native-progress';
 import navigationColor from 'react-native-system-navigation-bar';
 import {width} from '../../utils/Constants';
 
-const GameHeader = ({title, onClose, subTitle}) => {
+const GameHeader = ({title, onClose, subTitle, progress}) => {
   return (
     <ImageBackground
       style={style.GameBannerImage}
@@ -32,7 +32,7 @@ const GameHeader = ({title, onClose, subTitle}) => {
       <Text center style={style.GameTitle} title={title} />
 
       <Bar
-        progress={1}
+        progress={progress}
         width={width - 50}
         color="#06FF2F"
         unfilledColor={Color.background}

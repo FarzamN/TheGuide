@@ -4,6 +4,7 @@ export const GET_CITY = 'GET_CITY';
 export const GET_STATE = 'GET_STATE';
 export const GET_BIBLE_SCHOOL = 'GET_BIBLE_SCHOOL';
 export const GET_EVENT = 'GET_EVENT';
+export const GET_GAME = 'GET_GAME';
 
 const initial_state = {
   userDetails: false,
@@ -12,6 +13,7 @@ const initial_state = {
   get_state: [],
   get_bible_school: [],
   get_event: [],
+  get_game: [],
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -45,6 +47,11 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         get_event: action.payload,
+      };
+    case GET_GAME:
+      return {
+        ...state,
+        get_game: action.payload,
       };
     default: {
       return state;

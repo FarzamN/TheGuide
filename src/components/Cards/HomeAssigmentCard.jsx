@@ -9,8 +9,9 @@ import {
   ImageBackground,
 } from 'react-native';
 import {Color} from '../../utils/Color';
+import {Image_Url} from '../../utils/Urls';
 
-const HomeAssigmentCard = ({data, onPress, ix}) => {
+const HomeAssigmentCard = ({data, onPress}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -19,10 +20,10 @@ const HomeAssigmentCard = ({data, onPress, ix}) => {
         {backgroundColor: Color.white, marginBottom: 10, borderRadius: 20},
       ]}>
       <ImageBackground
-        source={require('../../assets/image/creation-light.png')}
+        source={{uri: Image_Url + data.image_app}}
         style={styles.AssigmentCard}>
         <View style={{flexDirection: 'row', alignItems: 'flex-start'}}>
-          <Image
+          {/* <Image
             style={{
               width: 30,
               height: 30,
@@ -35,18 +36,19 @@ const HomeAssigmentCard = ({data, onPress, ix}) => {
                 ? require('../../assets/image/due-icon.png')
                 : require('../../assets/image/okicon.png')
             }
-          />
+          /> */}
           <View style={styles.AssigmentTextWrapper}>
             <Text style={styles.AssigmentTitle}>
-              {ix === 0
+              {/* {ix === 0
                 ? 'Old Testament'
                 : ix === 1
                 ? 'New Testament'
                 : ix === 2
                 ? 'Life Topics'
-                : 'Daily Review'}
+                : 'Daily Review'} */}
+              {data.course_name}
             </Text>
-            <Text style={styles.AssigmentSubtitle}>{data.sub}</Text>
+            <Text style={styles.AssigmentSubtitle}>{data.game_title}</Text>
             <View style={[styles.AssigmentPlayButton, GlobalStyle.justify]}>
               <Text style={styles.AssigmentPlayText}>Play</Text>
             </View>

@@ -1,19 +1,20 @@
-import {View} from 'react-native';
+import {Text} from '..';
 import React from 'react';
 import {styles} from './style';
+import {TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-import {Text} from '..';
 
-const GameBtn = ({data}) => {
+const GameBtn = ({data, onPress}) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={[
         styles.GameBTNCont,
         GlobalStyle.justify,
         {backgroundColor: data.color},
       ]}>
       <Text style={styles.GameBTNText} title={data.title} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
