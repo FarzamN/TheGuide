@@ -9,6 +9,7 @@ export const style = StyleSheet.create({
     height: 200,
     borderRadius: 10,
     overflow: 'hidden',
+    alignSelf: 'center',
   },
   GameTitle: {
     fontSize: 22,
@@ -22,5 +23,8 @@ export const style = StyleSheet.create({
     fontFamily: Font.font500,
     marginTop: 10,
     textAlign: 'right',
+  },
+  errorText: {
+    color: 'red',
   },
 });

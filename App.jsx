@@ -35,7 +35,7 @@ const App = () => {
 
   setTimeout(() => {
     Splash.hide();
-  }, 3000);
+  }, 5000);
 
   useEffect(() => {
     getUserDetails();

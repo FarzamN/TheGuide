@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   Modal_Container: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: Color.Non,
   },
   ModalContainer: {
     width: '70%',

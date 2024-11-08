@@ -333,7 +333,8 @@ export const getGameApi = (load, id) => {
       const result = await response.json();
       if (result.success === true) {
         load(false);
-        dispatch({type: GET_GAME, payload: result.data});
+        // console.log('result.data[0]', result.data[0]);
+        dispatch({type: GET_GAME, payload: result.data[0]});
       } else {
         load(false);
       }

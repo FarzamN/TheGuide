@@ -7,7 +7,6 @@ import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {Color} from '../../utils/Color';
 import {style as icStyle} from '../../navigation/style';
 import {Bar} from 'react-native-progress';
-import navigationColor from 'react-native-system-navigation-bar';
 import {width} from '../../utils/Constants';
 
 const GameHeader = ({title, onClose, subTitle, progress}) => {
@@ -15,8 +14,11 @@ const GameHeader = ({title, onClose, subTitle, progress}) => {
     <ImageBackground
       style={style.GameBannerImage}
       source={require('../../assets/image/game-banner.png')}>
+      <View style={{height: 10}} />
+
       <View style={GlobalStyle.between}>
-        <View style={{width: 50}} />
+        <View style={{width: 30}} />
+        <Text center style={style.GameTitle} title={title} />
 
         <TouchableOpacity
           onPress={onClose}
@@ -29,7 +31,6 @@ const GameHeader = ({title, onClose, subTitle, progress}) => {
           />
         </TouchableOpacity>
       </View>
-      <Text center style={style.GameTitle} title={title} />
 
       <Bar
         progress={progress}

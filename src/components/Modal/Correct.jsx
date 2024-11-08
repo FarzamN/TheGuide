@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import style from './style';
+import {View} from 'react-native';
 import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
-import style from './style';
 
-const Error = ({message, visible}) => {
+const Correct = ({visible}) => {
   return (
     <Modal
       isVisible={visible}
@@ -16,13 +16,11 @@ const Error = ({message, visible}) => {
           autoPlay
           loop={false}
           style={style.LottieView}
-          source={require('../../assets/lottie/error.json')}
+          source={require('../../assets/lottie/correct.json')}
         />
-        {message && (
-          <Text style={[style.ModalText, {color: 'red'}]}>{message}</Text>
-        )}
       </View>
     </Modal>
   );
 };
-export default Error;
+
+export default Correct;

@@ -1,95 +1,178 @@
-import {style} from './style';
+import React, {useEffect, useState, Fragment, useCallback} from 'react';
+import {
+  Body,
+  Text,
+  Error,
+  Loader,
+  Correct,
+  GameBtn,
+  GameHeader,
+} from '../../../components';
+import Video from 'react-native-video';
 import {ScrollView, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {GlobalStyle} from '../../../utils/GlobalStyle';
-import {useFocusEffect} from '@react-navigation/native';
-import MoVideoPlayer from 'react-native-mo-video-player';
 import {getGameApi} from '../../../redux/actions/UserAction';
-import React, {useCallback, useEffect, useState, Fragment} from 'react';
-import {Body, GameBtn, GameHeader, Loader, Text} from '../../../components';
+import {style} from './style';
 import {Image_Url} from '../../../utils/Urls';
+import {GlobalStyle} from '../../../utils/GlobalStyle';
+import {handleAnswer, shuffleArray, transformGameQuestions} from './gameFun';
+import {useFocusEffect} from '@react-navigation/native';
 
 const GameScreen = ({navigation, route}) => {
-  const dispatch = useDispatch();
   const {item} = route.params;
+  const dispatch = useDispatch();
+
+  const {goBack} = navigation;
   const get_game = useSelector(state => state.get_game);
-  console.log('get_game', get_game);
-  const {goBack, getParent} = navigation;
+
   const [load, setLoad] = useState(false);
-  const [displayedText, setDisplayedText] = useState('');
-  const fullText =
-    'what is the results of not walking in obedience to the light.';
+  const [error, setError] = useState(false);
+  const [correct, setCorrect] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [videoKey, setVideoKey] = useState(0);
+  const [isBuffering, setIsBuffering] = useState(false); // Track buffering status
+  const [gameQuestions, setGameQuestions] = useState([]);
+  const [showQuestion, setShowQuestion] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [allQuestionsCompleted, setAllQuestionsCompleted] = useState(false);
+
+  const currentQuestion = gameQuestions[currentQuestionIndex];
+
+  // Set video to play initially
+  useEffect(() => {
+    setIsPaused(false);
+  }, []);
+
+  // Control question display and video pausing
+  useEffect(() => {
+    if (showQuestion) {
+      setIsPaused(true); // Pause video when showing a question
+    } else {
+      setTimeout(() => setIsPaused(false), 300); // Resume after a delay
+    }
+  }, [showQuestion]);
+
+  const handleAnswerSelection = answer => {
+    handleAnswer(
+      answer,
+      setError,
+      setCorrect,
+      currentQuestionIndex,
+      gameQuestions.length,
+      setCurrentQuestionIndex,
+      setAllQuestionsCompleted,
+      setVideoKey,
+      setShowQuestion,
+    );
+
+    // Hide question temporarily after answering
+    setShowQuestion(false);
+  };
+
+  useEffect(() => {
+    dispatch(getGameApi(setLoad, item.id));
+  }, []);
+
+  useEffect(() => {
+    if (get_game?.game_question) {
+      const transformedQuestions = transformGameQuestions(
+        get_game.game_question,
+      );
+      setGameQuestions(transformedQuestions);
+    }
+  }, [get_game]);
+
+  // Start question display delay only after video has buffered and loaded
+  useEffect(() => {
+    if (currentQuestion && !isBuffering) {
+      setShowQuestion(false); // Hide question initially
+      const delay = currentQuestion.delay * 1000;
+      const timer = setTimeout(() => setShowQuestion(true), delay);
+      console.log('delay,timer', delay, timer);
+      return () => clearTimeout(timer); // Clear timer on cleanup
+    }
+  }, [currentQuestionIndex, currentQuestion, videoKey, isBuffering]);
 
   useFocusEffect(
     useCallback(() => {
-      getParent().setOptions({
+      navigation.getParent()?.setOptions({
         tabBarStyle: GlobalStyle.HideBar,
       });
     }, []),
   );
 
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      setDisplayedText(prev => prev + fullText[index]);
-      index += 1;
-
-      if (index >= fullText.length) {
-        clearInterval(interval);
-      }
-    }, 200);
-
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
-    dispatch(getGameApi(setLoad, item.id));
-  }, []);
-
   return (
     <Body>
       <GameHeader
-        progress={0.5}
+        onClose={goBack}
         title={item.course_name}
         subTitle={item.game_title}
-        onClose={goBack}
+        progress={(currentQuestionIndex + 1) / gameQuestions.length}
       />
-      {get_game.map((game, index) => {
-        console.log(
-          'game',
-          game.game_question['question and answer']['1']['text'],
-        );
-        return (
-          <Fragment key={index}>
-            <MoVideoPlayer
-              style={style.videoPlayer}
-              source={{
-                uri: game.game_header_data[0].file[0].src,
-              }}
-              poster={Image_Url + game.image_app}
-              autoPlay
-              playInBackground={false}
-              showHeader={false}
-              showSeeking10SecondsButton={false}
-            />
-            <ScrollView style={GlobalStyle.Padding}>
-              <Text center style={style.GameTitle} title={fullText} />
-              <Text style={style.GameSubText} title={'according to john 1:4'} />
-              <View style={{height: 15}} />
+      {get_game?.game_header_data?.[0]?.file?.[0]?.src ? (
+        <Video
+          key={videoKey}
+          source={{uri: get_game.game_header_data[0].file[0].src}}
+          style={style.videoPlayer}
+          poster={`${Image_Url}${get_game.image_app || ''}`}
+          controls={false}
+          resizeMode="cover"
+          autoPlay
+          playInBackground={false}
+          paused={isPaused}
+          onBuffer={({isBuffering}) => setIsBuffering(isBuffering)} // Track buffering state
+          onLoad={() => {
+            setIsBuffering(false); // Video has loaded, no buffering
+          }}
+          onEnd={() => {
+            if (allQuestionsCompleted) {
+              goBack(); // Allow manual back only after video finishes if all questions answered
+            }
+          }}
+        />
+      ) : (
+        <Text style={style.errorText} center title={'Video not available'} />
+      )}
+
+      <ScrollView style={GlobalStyle.Padding}>
+        {currentQuestion &&
+          showQuestion && ( // Show question only when delay has passed
+            <Fragment key={currentQuestionIndex}>
+              <Text
+                style={style.GameTitle}
+                title={currentQuestion.question_text}
+              />
               <View style={GlobalStyle.mapContaner}>
-                {[
-                  {title: 'condemnation', color: '#00CE64'},
-                  {title: 'Forgiveness', color: '#FD8D34'},
-                  {title: 'Blessing', color: '#0088FE'},
-                  {title: 'condemnation', color: '#792DFD'},
-                ].map((game, i) => (
-                  <GameBtn key={i} data={game} />
-                ))}
+                {currentQuestion.question_type === 'true or false' ? (
+                  <>
+                    {currentQuestion.answers.map((ans, i) => (
+                      <GameBtn
+                        i={i}
+                        key={i}
+                        title={ans.title}
+                        onPress={() => handleAnswerSelection(ans)}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  shuffleArray([...currentQuestion.answers]).map(
+                    (answer, i) => (
+                      <GameBtn
+                        i={i}
+                        key={i}
+                        title={answer.title}
+                        onPress={() => handleAnswerSelection(answer)}
+                      />
+                    ),
+                  )
+                )}
               </View>
-            </ScrollView>
-          </Fragment>
-        );
-      })}
+            </Fragment>
+          )}
+      </ScrollView>
       <Loader visible={load} />
+      <Correct visible={correct} />
+      <Error visible={error} />
     </Body>
   );
 };

@@ -28,8 +28,9 @@ import StatusCard from './Cards/StatusCard';
 import ImagePickerModal from './Modal/ImagePickerModal';
 import EventCard from './Cards/EventCard';
 import TimeChangeModal from './Modal/TimeChangeModal';
-
+import Correct from './Modal/Correct';
 export {
+  Correct,
   TimeChangeModal,
   EventCard,
   ImagePickerModal,

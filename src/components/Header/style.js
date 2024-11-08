@@ -87,8 +87,8 @@ export default StyleSheet.create({
   // -------------------------------
   GameBannerImage: {
     width,
-    height: 230,
-    marginBottom: -30,
+    height: 200,
+    marginBottom: -20,
   },
   GameTitle: {
     fontFamily: Font.font700,

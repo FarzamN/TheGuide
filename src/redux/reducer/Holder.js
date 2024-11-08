@@ -13,7 +13,7 @@ const initial_state = {
   get_state: [],
   get_bible_school: [],
   get_event: [],
-  get_game: [],
+  get_game: {},
 };
 
 const holderReducer = (state = initial_state, action) => {
