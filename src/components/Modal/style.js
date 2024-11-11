@@ -7,16 +7,23 @@ export default StyleSheet.create({
     margin: 0,
     justifyContent: 'center',
   },
+  CorrectnErrorModal: {
+    margin: 0,
+    marginBottom: 10,
+    justifyContent: 'flex-end',
+    backgroundColor: Color.Non,
+  },
   Modal_Container: {
     flex: 1,
     backgroundColor: Color.Non,
   },
   ModalContainer: {
     width: '70%',
-    alignSelf: 'center',
+    borderWidth: 1,
     borderRadius: 20,
-    borderColor: Color.Sky,
+    alignSelf: 'center',
     justifyContent: 'center',
+    borderColor: Color.black,
     backgroundColor: Color.white,
   },
   LottieView: {

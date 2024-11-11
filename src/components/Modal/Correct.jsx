@@ -3,6 +3,7 @@ import style from './style';
 import {View} from 'react-native';
 import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
+import {Color} from '../../utils/Color';
 
 const Correct = ({visible}) => {
   return (
@@ -10,7 +11,8 @@ const Correct = ({visible}) => {
       isVisible={visible}
       animationIn={'flash'}
       animationOut={'fadeOut'}
-      style={[style.MainModal, style.Modal_Container]}>
+      backdropColor={Color.Non}
+      style={style.CorrectnErrorModal}>
       <View style={style.ModalContainer}>
         <LottieView
           autoPlay

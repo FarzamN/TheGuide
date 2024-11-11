@@ -20,16 +20,15 @@ const DashboardHeader = () => {
       resizeMode="stretch"
       style={style.BannerImage}
       source={require('../../assets/image/game-banner.png')}>
-      <View style={style.HeadRow}>
-        <View style={[GlobalStyle.row, {width: 60}]}>
-          <TouchableOpacity onPress={openDrawer}>
-            <Image
-              style={{width: 20, height: 20}}
-              resizeMode="contain"
-              source={require('../../assets/image/menu.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
+      <View style={[GlobalStyle.between, style.HeadRow]}>
+        <TouchableOpacity onPress={openDrawer}>
+          <Image
+            style={{width: 20, height: 20}}
+            resizeMode="contain"
+            source={require('../../assets/image/menu.png')}
+          />
+        </TouchableOpacity>
+        {/*<TouchableOpacity
             onPress={() => navigate('profile')}
             style={{marginLeft: 7}}>
             <FullImage
@@ -47,9 +46,8 @@ const DashboardHeader = () => {
                 title={userDetail?.name}
               />
             </View>
-          </TouchableOpacity>
-        </View>
-        <Text style={style.ProfileTitle} title={'Bible School'} />
+          </TouchableOpacity>*/}
+        <Text style={style.ProfileTitle} title={'Revival Bible School'} />
         <View>
           <TouchableOpacity onPress={notiHandler}>
             <Image

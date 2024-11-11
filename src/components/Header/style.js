@@ -44,10 +44,8 @@ export default StyleSheet.create({
     fontFamily: Font.font600,
   },
   HeadRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    // alignItems: 'flex-start',
-    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 20,
     paddingVertical: 10,
     paddingHorizontal: 14,
   },
@@ -88,7 +86,7 @@ export default StyleSheet.create({
   GameBannerImage: {
     width,
     height: 200,
-    marginBottom: -20,
+    marginBottom: -50,
   },
   GameTitle: {
     fontFamily: Font.font700,

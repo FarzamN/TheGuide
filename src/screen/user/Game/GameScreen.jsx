@@ -1,22 +1,24 @@
-import React, {useEffect, useState, Fragment, useCallback} from 'react';
 import {
   Body,
   Text,
   Error,
   Loader,
   Correct,
+  NorLoad,
   GameBtn,
   GameHeader,
+  JobModal,
 } from '../../../components';
+import {style} from './style';
 import Video from 'react-native-video';
 import {ScrollView, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {getGameApi} from '../../../redux/actions/UserAction';
-import {style} from './style';
 import {Image_Url} from '../../../utils/Urls';
+import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
-import {handleAnswer, shuffleArray, transformGameQuestions} from './gameFun';
 import {useFocusEffect} from '@react-navigation/native';
+import {getGameApi} from '../../../redux/actions/UserAction';
+import React, {useEffect, useState, Fragment, useCallback} from 'react';
+import {handleAnswer, shuffleArray, transformGameQuestions} from './gameFun';
 
 const GameScreen = ({navigation, route}) => {
   const {item} = route.params;
@@ -29,6 +31,9 @@ const GameScreen = ({navigation, route}) => {
   const [error, setError] = useState(false);
   const [correct, setCorrect] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
   const [videoKey, setVideoKey] = useState(0);
   const [isBuffering, setIsBuffering] = useState(false); // Track buffering status
   const [gameQuestions, setGameQuestions] = useState([]);
@@ -37,7 +42,8 @@ const GameScreen = ({navigation, route}) => {
   const [allQuestionsCompleted, setAllQuestionsCompleted] = useState(false);
 
   const currentQuestion = gameQuestions[currentQuestionIndex];
-
+  const progress = duration ? currentTime / duration : 0;
+  // console.log({duration, currentTime, progress});
   // Set video to play initially
   useEffect(() => {
     setIsPaused(false);
@@ -107,26 +113,30 @@ const GameScreen = ({navigation, route}) => {
         onClose={goBack}
         title={item.course_name}
         subTitle={item.game_title}
-        progress={(currentQuestionIndex + 1) / gameQuestions.length}
+        progress={progress}
       />
       {get_game?.game_header_data?.[0]?.file?.[0]?.src ? (
         <Video
-          key={videoKey}
-          source={{uri: get_game.game_header_data[0].file[0].src}}
-          style={style.videoPlayer}
-          poster={`${Image_Url}${get_game.image_app || ''}`}
-          controls={false}
-          resizeMode="cover"
           autoPlay
-          playInBackground={false}
+          key={videoKey}
+          controls={true}
           paused={isPaused}
-          onBuffer={({isBuffering}) => setIsBuffering(isBuffering)} // Track buffering state
-          onLoad={() => {
-            setIsBuffering(false); // Video has loaded, no buffering
+          resizeMode="cover"
+          playInBackground={false}
+          style={style.videoPlayer}
+          source={{uri: get_game.game_header_data[0].file[0].src}}
+          poster={`${Image_Url}${get_game.image_app || ''}`}
+          onBuffer={({isBuffering}) => setIsBuffering(isBuffering)}
+          onLoad={data => {
+            setIsBuffering(false);
+            setDuration(data.duration); // Set video duration
           }}
+          onProgress={({currentTime, playableDuration, seekableDuration}) =>
+            setCurrentTime(currentTime)
+          }
           onEnd={() => {
             if (allQuestionsCompleted) {
-              goBack(); // Allow manual back only after video finishes if all questions answered
+              goBack();
             }
           }}
         />
@@ -170,9 +180,10 @@ const GameScreen = ({navigation, route}) => {
             </Fragment>
           )}
       </ScrollView>
+      <JobModal visible={true} />
       <Loader visible={load} />
       <Correct visible={correct} />
-      <Error visible={error} />
+      <Error visible={error} game />
     </Body>
   );
 };

@@ -34,18 +34,22 @@ export const transformGameQuestions = gameQuestions => {
     .sort((a, b) => parseInt(a) - parseInt(b))
     .map((key, index) => {
       const questionData = gameQuestions[key];
+
+      // Skip the object if questionData.question is null
+      if (!questionData.question || !questionData.question.question_text) {
+        return null; // Return null if there's no valid question
+      }
+
       const isTrueFalse =
         questionData.question.question_type === 'true or false';
-
       const correctAnswer =
         questionData.answers[3]?.correct_answer?.toLowerCase();
 
       // Capture time delay if present
       const delayTime =
-        Number(
-          questionData.answers.find(answer => answer.label === 'time')
-            ?.question,
-        ) + 1 || 0;
+        questionData.answers.find(answer => answer.label === 'time')
+          ?.question || 0;
+
       return {
         order: index + 1,
         question_text: questionData.question.question_text,
@@ -58,10 +62,12 @@ export const transformGameQuestions = gameQuestions => {
             ]
           : questionData.answers
               .filter(
-                answer => !['question', 'popup', 'time'].includes(answer.label),
+                answer =>
+                  !['question', 'popup', 'time'].includes(answer.label) &&
+                  answer.question !== null, // Filter out null questions
               )
               .map(answer => ({
-                title: answer.question || answer.label,
+                title: answer.question,
                 type: answer.type,
                 points: answer.points,
                 difficulty_level: answer.difficulty_level,
@@ -70,7 +76,8 @@ export const transformGameQuestions = gameQuestions => {
                   answer.correct_answer === 'True',
               })),
       };
-    });
+    })
+    .filter(Boolean); // Filter out any null entries
 };
 
 export const shuffleArray = array => {

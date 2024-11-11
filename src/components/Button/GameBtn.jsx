@@ -14,7 +14,7 @@ const GameBtn = ({title, onPress, i}) => {
         GlobalStyle.justify,
         {backgroundColor: colors[i % colors.length]},
       ]}>
-      <Text style={styles.GameBTNText} title={title} />
+      <Text style={styles.GameBTNText} title={title} fontScaling />
     </TouchableOpacity>
   );
 };

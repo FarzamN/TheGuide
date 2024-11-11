@@ -1,16 +1,22 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import Modal from 'react-native-modal';
-import LottieView from 'lottie-react-native';
 import style from './style';
+import Modal from 'react-native-modal';
+import {View, Text} from 'react-native';
+import LottieView from 'lottie-react-native';
+import {Color} from '../../utils/Color';
 
-const Error = ({message, visible}) => {
+const Error = ({message, visible, game}) => {
   return (
     <Modal
       isVisible={visible}
       animationIn={'flash'}
       animationOut={'fadeOut'}
-      style={[style.MainModal, style.Modal_Container]}>
+      backdropColor={game ? Color.Non : 'rgba(0,0,0,0.7)'}
+      style={
+        game
+          ? style.CorrectnErrorModal
+          : [style.MainModal, style.Modal_Container]
+      }>
       <View style={style.ModalContainer}>
         <LottieView
           autoPlay

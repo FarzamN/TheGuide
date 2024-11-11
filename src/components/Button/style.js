@@ -4,49 +4,49 @@ import {Font} from '../../utils/Font';
 
 export const styles = StyleSheet.create({
   containerStyle: {
+    height: 52,
+    marginTop: 5,
     width: '100%',
     borderRadius: 20,
-    marginTop: 5,
-    height: 52,
     borderWidth: 1.5,
-    borderColor: '#DB9638',
     overflow: 'hidden',
+    borderColor: '#DB9638',
   },
 
   font: {
-    color: Color.white,
     fontSize: 16,
+    color: Color.white,
     fontFamily: Font.font600,
   },
   whiteStyle: {
-    backgroundColor: Color.white,
-    borderRadius: 20,
-    marginTop: 5,
     height: 52,
+    marginTop: 5,
     borderWidth: 1.5,
+    borderRadius: 20,
     borderColor: '#C8C8CA',
+    backgroundColor: Color.white,
   },
   whiteFont: {
-    color: Color.black,
     fontSize: 16,
+    color: Color.black,
     fontFamily: Font.font400,
   },
 
   BDayBtn: {
-    flexDirection: 'row',
-    backgroundColor: Color.background,
-    borderRadius: 20,
-    justifyContent: 'space-around',
     height: 50,
-    alignItems: 'center',
     marginTop: 5,
+    borderRadius: 20,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: Color.background,
   },
   BDayTitle: {
-    color: Color.black,
     fontSize: 14,
     marginTop: 20,
-    fontFamily: Font.font400,
+    color: Color.black,
     paddingHorizontal: 5,
+    fontFamily: Font.font400,
   },
   BDayText: {
     color: Color.black,
@@ -56,10 +56,10 @@ export const styles = StyleSheet.create({
   },
   CountryContainer: {
     height: 50,
-    backgroundColor: Color.background,
-    paddingHorizontal: 15,
-    borderRadius: 20,
     marginTop: 15,
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    backgroundColor: Color.background,
   },
   CountryText: {
     marginHorizontal: 10,
@@ -70,7 +70,6 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     marginBottom: 15,
-    // marginHorizontal: 20,
     borderColor: '#497FEA',
     backgroundColor: 'rgba(255,255,255,0.3)',
   },
@@ -80,10 +79,10 @@ export const styles = StyleSheet.create({
     fontFamily: Font.font600,
   },
   ModalBtnCont: {
-    marginTop: 10,
-    borderRadius: 20,
     height: 50,
+    marginTop: 10,
     borderWidth: 1,
+    borderRadius: 20,
   },
   ModalBtnText: {
     fontSize: 18,
@@ -92,14 +91,15 @@ export const styles = StyleSheet.create({
 
   // -------------- game buttons
   GameBTNCont: {
-    width: '47%',
-    borderRadius: 100,
     height: 50,
+    width: '47%',
     marginTop: 15,
+    borderRadius: 100,
+    paddingHorizontal: 3,
   },
   GameBTNText: {
-    color: Color.white,
     fontSize: 14,
+    color: Color.white,
     fontFamily: Font.font500,
     textTransform: 'capitalize',
   },
