@@ -56,4 +56,28 @@ export default StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
   },
+
+  //  Winner Modal -----------------------
+  JobBtn: {
+    width: '70%',
+    height: 40,
+  },
+  JobBtnText: {
+    fontSize: 16,
+    fontFamily: Font.font600,
+  },
+  JobHead: {
+    fontSize: 45,
+    color: '#FFDF00',
+    fontFamily: Font.font700,
+  },
+  JobComp: {
+    fontSize: 25,
+    color: Color.white,
+    fontFamily: Font.font600,
+  },
+  JobLottie: {
+    height: 300,
+    marginBottom: 15,
+  },
 });

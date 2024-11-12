@@ -1,3 +1,4 @@
+import React, {useEffect, useState, Fragment, useCallback} from 'react';
 import {
   Body,
   Text,
@@ -11,45 +12,44 @@ import {
 } from '../../../components';
 import {style} from './style';
 import Video from 'react-native-video';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, ActivityIndicator} from 'react-native'; // Import ActivityIndicator
 import {Image_Url} from '../../../utils/Urls';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
 import {useFocusEffect} from '@react-navigation/native';
 import {getGameApi} from '../../../redux/actions/UserAction';
-import React, {useEffect, useState, Fragment, useCallback} from 'react';
 import {handleAnswer, shuffleArray, transformGameQuestions} from './gameFun';
 
 const GameScreen = ({navigation, route}) => {
   const {item} = route.params;
   const dispatch = useDispatch();
-
   const {goBack} = navigation;
   const get_game = useSelector(state => state.get_game);
 
   const [load, setLoad] = useState(false);
   const [error, setError] = useState(false);
   const [correct, setCorrect] = useState(false);
+  const [completed, setCompleted] = useState(false);
+
   const [isPaused, setIsPaused] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
   const [videoKey, setVideoKey] = useState(0);
-  const [isBuffering, setIsBuffering] = useState(false); // Track buffering status
+  const [isBuffering, setIsBuffering] = useState(true); // Start with buffering as true to show indicator initially
   const [gameQuestions, setGameQuestions] = useState([]);
   const [showQuestion, setShowQuestion] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [allQuestionsCompleted, setAllQuestionsCompleted] = useState(false);
+  const [delayProgress, setDelayProgress] = useState(0);
 
   const currentQuestion = gameQuestions[currentQuestionIndex];
   const progress = duration ? currentTime / duration : 0;
-  // console.log({duration, currentTime, progress});
-  // Set video to play initially
+
   useEffect(() => {
     setIsPaused(false);
   }, []);
 
-  // Control question display and video pausing
   useEffect(() => {
     if (showQuestion) {
       setIsPaused(true); // Pause video when showing a question
@@ -71,8 +71,15 @@ const GameScreen = ({navigation, route}) => {
       setShowQuestion,
     );
 
-    // Hide question temporarily after answering
     setShowQuestion(false);
+    setDelayProgress(0); // Reset delay progress for the next question
+  };
+
+  const handleJob = () => {
+    setCompleted(false);
+    setTimeout(() => {
+      goBack();
+    }, 100);
   };
 
   useEffect(() => {
@@ -88,16 +95,24 @@ const GameScreen = ({navigation, route}) => {
     }
   }, [get_game]);
 
-  // Start question display delay only after video has buffered and loaded
   useEffect(() => {
-    if (currentQuestion && !isBuffering) {
-      setShowQuestion(false); // Hide question initially
+    if (currentQuestion && !isBuffering && !isPaused) {
       const delay = currentQuestion.delay * 1000;
-      const timer = setTimeout(() => setShowQuestion(true), delay);
-      console.log('delay,timer', delay, timer);
-      return () => clearTimeout(timer); // Clear timer on cleanup
+
+      const interval = setInterval(() => {
+        setDelayProgress(prevProgress => {
+          if (prevProgress + 1000 >= delay) {
+            clearInterval(interval);
+            setShowQuestion(true);
+            return delay;
+          }
+          return prevProgress + 1000;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
     }
-  }, [currentQuestionIndex, currentQuestion, videoKey, isBuffering]);
+  }, [currentQuestionIndex, currentQuestion, videoKey, isBuffering, isPaused]);
 
   useFocusEffect(
     useCallback(() => {
@@ -115,28 +130,37 @@ const GameScreen = ({navigation, route}) => {
         subTitle={item.game_title}
         progress={progress}
       />
+
+      {/* Show ActivityIndicator when buffering or paused */}
+      {(isBuffering || (isPaused && !showQuestion)) && (
+        <NorLoad style={GlobalStyle.mtop} />
+      )}
+
       {get_game?.game_header_data?.[0]?.file?.[0]?.src ? (
         <Video
           autoPlay
           key={videoKey}
-          controls={true}
+          controls={false}
+          playWhenInactive={false}
           paused={isPaused}
           resizeMode="cover"
           playInBackground={false}
           style={style.videoPlayer}
-          source={{uri: get_game.game_header_data[0].file[0].src}}
-          poster={`${Image_Url}${get_game.image_app || ''}`}
+          source={{
+            uri: get_game.game_header_data[0].file[0].src,
+            type: 'mp4',
+          }}
           onBuffer={({isBuffering}) => setIsBuffering(isBuffering)}
           onLoad={data => {
             setIsBuffering(false);
-            setDuration(data.duration); // Set video duration
+            setDuration(data.duration);
           }}
           onProgress={({currentTime, playableDuration, seekableDuration}) =>
             setCurrentTime(currentTime)
           }
           onEnd={() => {
             if (allQuestionsCompleted) {
-              goBack();
+              setCompleted(true);
             }
           }}
         />
@@ -145,45 +169,42 @@ const GameScreen = ({navigation, route}) => {
       )}
 
       <ScrollView style={GlobalStyle.Padding}>
-        {currentQuestion &&
-          showQuestion && ( // Show question only when delay has passed
-            <Fragment key={currentQuestionIndex}>
-              <Text
-                style={style.GameTitle}
-                title={currentQuestion.question_text}
-              />
-              <View style={GlobalStyle.mapContaner}>
-                {currentQuestion.question_type === 'true or false' ? (
-                  <>
-                    {currentQuestion.answers.map((ans, i) => (
-                      <GameBtn
-                        i={i}
-                        key={i}
-                        title={ans.title}
-                        onPress={() => handleAnswerSelection(ans)}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  shuffleArray([...currentQuestion.answers]).map(
-                    (answer, i) => (
-                      <GameBtn
-                        i={i}
-                        key={i}
-                        title={answer.title}
-                        onPress={() => handleAnswerSelection(answer)}
-                      />
-                    ),
-                  )
-                )}
-              </View>
-            </Fragment>
-          )}
+        {currentQuestion && showQuestion && (
+          <Fragment key={currentQuestionIndex}>
+            <Text
+              style={style.GameTitle}
+              title={currentQuestion.question_text}
+            />
+            <View style={GlobalStyle.mapContaner}>
+              {currentQuestion.question_type === 'true or false' ? (
+                <>
+                  {currentQuestion.answers.map((ans, i) => (
+                    <GameBtn
+                      i={i}
+                      key={i}
+                      title={ans.title}
+                      onPress={() => handleAnswerSelection(ans)}
+                    />
+                  ))}
+                </>
+              ) : (
+                shuffleArray([...currentQuestion.answers]).map((answer, i) => (
+                  <GameBtn
+                    i={i}
+                    key={i}
+                    title={answer.title}
+                    onPress={() => handleAnswerSelection(answer)}
+                  />
+                ))
+              )}
+            </View>
+          </Fragment>
+        )}
       </ScrollView>
-      <JobModal visible={true} />
       <Loader visible={load} />
       <Correct visible={correct} />
       <Error visible={error} game />
+      <JobModal visible={completed} onPress={handleJob} />
     </Body>
   );
 };

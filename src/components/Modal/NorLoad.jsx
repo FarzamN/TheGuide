@@ -4,9 +4,9 @@ import {Color} from '../../utils/Color';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {View, ActivityIndicator} from 'react-native';
 
-const NorLoad = () => {
+const NorLoad = ({style}) => {
   return (
-    <View style={GlobalStyle.justify}>
+    <View style={[GlobalStyle.justify, style]}>
       <ActivityIndicator color={Color.black} />
       <Text title="Loading..." />
     </View>
