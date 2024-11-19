@@ -1,13 +1,14 @@
 import {useState} from 'react';
 import RNFS from 'react-native-fs';
+import {Alert} from 'react-native';
 import {android} from '../utils/Constants';
 import Toast from 'react-native-simple-toast';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {Alert} from 'react-native';
 
 const useFileDownloader = () => {
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadedFilePath, setDownloadedFilePath] = useState(null); // Store downloaded file path
 
   const checkStoragePermission = async () => {
     if (android) {
@@ -50,6 +51,7 @@ const useFileDownloader = () => {
     }
 
     const downloadDest = `${RNFS.DocumentDirectoryPath}/${filename}`;
+    setDownloadedFilePath(downloadDest); // Save the file path
 
     setIsDownloading(true);
     setDownloadProgress(0);
@@ -80,8 +82,26 @@ const useFileDownloader = () => {
     }
   };
 
+  const deleteFile = async () => {
+    if (!downloadedFilePath) {
+      Alert.alert('No file to delete');
+      return;
+    }
+
+    try {
+      await RNFS.unlink(downloadedFilePath);
+      console.log('File deleted:', downloadedFilePath);
+      setDownloadedFilePath(null); // Reset the file path
+      // Toast.show('File deleted successfully');
+    } catch (error) {
+      console.error('File deletion failed:', error);
+      Alert.alert('Error', 'Failed to delete the file');
+    }
+  };
+
   return {
     downloadFile,
+    deleteFile, // Expose deleteFile
     isDownloading,
     downloadProgress,
   };

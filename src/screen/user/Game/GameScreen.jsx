@@ -29,7 +29,8 @@ const GameScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {goBack, getParent} = navigation;
   const get_game = useSelector(state => state.get_game);
-  const {downloadFile, downloadProgress, isDownloading} = useFileDownloader();
+  const {downloadFile, downloadProgress, isDownloading, deleteFile} =
+    useFileDownloader();
 
   const videoRef = useRef(null);
   const [getGameID, setGetGameID] = useState([]);
@@ -52,6 +53,7 @@ const GameScreen = ({navigation, route}) => {
   const currentQuestion = gameQuestions[currentQuestionIndex];
   const progress = duration ? currentTime / duration : 0;
   const [videoPath, setVideoPath] = useState(null);
+  const [answeredQuestions, setAnsweredQuestions] = useState([]);
 
   const fileUrl = get_game?.game_header_data?.[0]?.file?.[0]?.src;
 
@@ -113,6 +115,7 @@ const GameScreen = ({navigation, route}) => {
   };
 
   const handleJob = () => {
+    deleteFile();
     setCompleted(false);
     setTimeout(() => {
       goBack();
@@ -126,7 +129,10 @@ const GameScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (!isBuffering && !isPaused && currentQuestion) {
-      if (Math.ceil(currentTime) === Math.ceil(currentQuestion.startTime)) {
+      if (
+        Math.ceil(currentTime) === Math.ceil(currentQuestion.startTime) &&
+        !answeredQuestions[currentQuestionIndex] // Show only if not answered
+      ) {
         setShowQuestion(true);
       } else if (
         Math.ceil(currentTime) > Math.ceil(currentQuestion.startTime)
@@ -134,7 +140,7 @@ const GameScreen = ({navigation, route}) => {
         setShowQuestion(false);
       }
     }
-  }, [currentTime, currentQuestion, isBuffering, isPaused]);
+  }, [currentTime, currentQuestion, isBuffering, isPaused, answeredQuestions]);
 
   useEffect(() => {
     if (get_game?.game_question) {
@@ -142,6 +148,8 @@ const GameScreen = ({navigation, route}) => {
         get_game.game_question,
       );
       setGameQuestions(transformedQuestions);
+      // Initialize all questions as unanswered (false)
+      setAnsweredQuestions(new Array(transformedQuestions.length).fill(false));
     }
   }, [get_game]);
 
@@ -169,7 +177,10 @@ const GameScreen = ({navigation, route}) => {
   return (
     <Body>
       <GameHeader
-        onClose={goBack}
+        onClose={() => {
+          goBack();
+          deleteFile();
+        }}
         progress={progress}
         title={item.course_name}
         subTitle={item.game_title}
@@ -212,35 +223,37 @@ const GameScreen = ({navigation, route}) => {
       </View>
 
       <ScrollView style={GlobalStyle.Padding}>
-        {currentQuestion && showQuestion && (
-          <Fragment key={currentQuestionIndex}>
-            <Text
-              style={style.GameTitle}
-              title={currentQuestion.question_text}
-            />
-            <View style={GlobalStyle.mapContaner}>
-              {currentQuestion.question_type === 'true or false'
-                ? currentQuestion.answers.map((ans, i) => (
-                    <GameBtn
-                      key={i}
-                      index={i}
-                      title={ans.title}
-                      onPress={() => handleAnswerSelection(ans)}
-                    />
-                  ))
-                : shuffleArray([...currentQuestion.answers]).map(
-                    (answer, i) => (
+        {currentQuestion &&
+          showQuestion &&
+          !answeredQuestions[currentQuestionIndex] && (
+            <Fragment key={currentQuestionIndex}>
+              <Text
+                style={style.GameTitle}
+                title={currentQuestion.question_text}
+              />
+              <View style={GlobalStyle.mapContaner}>
+                {currentQuestion.question_type === 'true or false'
+                  ? currentQuestion.answers.map((ans, i) => (
                       <GameBtn
                         key={i}
                         index={i}
-                        title={answer.title}
-                        onPress={() => handleAnswerSelection(answer)}
+                        title={ans.title}
+                        onPress={() => handleAnswerSelection(ans)}
                       />
-                    ),
-                  )}
-            </View>
-          </Fragment>
-        )}
+                    ))
+                  : shuffleArray([...currentQuestion.answers]).map(
+                      (answer, i) => (
+                        <GameBtn
+                          key={i}
+                          index={i}
+                          title={answer.title}
+                          onPress={() => handleAnswerSelection(answer)}
+                        />
+                      ),
+                    )}
+              </View>
+            </Fragment>
+          )}
       </ScrollView>
 
       <Loader visible={load} />
