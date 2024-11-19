@@ -15,6 +15,7 @@ import {courseApi, getBibleSchoolApi} from '../../redux/actions/UserAction';
 
 const Home = () => {
   const dispatch = useDispatch();
+  const [refresh, setRefresh] = useState(false);
   const {navigate, getParent} = useNavigation();
   const [load, setLoad] = useState(false);
   const data = useSelector(state => state.get_bible_school);
@@ -30,24 +31,29 @@ const Home = () => {
     courseApi();
     dispatch(getBibleSchoolApi(setLoad));
   }, []);
-
+  const onRefresh = () => {
+    setRefresh(true);
+    dispatch(getBibleSchoolApi(setLoad));
+    setRefresh(false);
+  };
+  const emp = "You don't have any game";
   return (
     <Body>
       <DashboardHeader />
       <FlatList
         data={data}
-        ListEmptyComponent={<Empty />}
+        refreshing={refresh}
+        onRefresh={onRefresh}
+        ListEmptyComponent={<Empty title={emp} />}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, i) => i.toString()}
         contentContainerStyle={style.listContainer}
-        renderItem={({item}) => {
-          return (
-            <HomeAssigmentCard
-              data={item}
-              onPress={() => navigate('game', {item})}
-            />
-          );
-        }}
+        renderItem={({item}) => (
+          <HomeAssigmentCard
+            data={item}
+            onPress={() => navigate('game', {item})}
+          />
+        )}
       />
       <Loader visible={load} />
     </Body>

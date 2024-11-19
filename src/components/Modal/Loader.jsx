@@ -21,7 +21,8 @@ const Loader = ({visible}) => {
           style={style.LottieView}
           source={require('../../assets/lottie/loader.json')}
         />
-        <Text style={style.ModalText}>Please Wait...</Text>
+
+        <Text style={style.ModalText}>{'Please Wait...'}</Text>
       </View>
     </Modal>
   );

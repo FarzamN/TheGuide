@@ -62,7 +62,7 @@ const EventScreen = () => {
         keyExtractor={(_, i) => i.toString()}
         renderItem={({item}) => <EventCard data={item} />}
       />
-      <EventBottom />
+      {/* <EventBottom /> */}
       <Loader visible={load} />
     </Body>
   );

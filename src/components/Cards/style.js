@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import {Font} from '../../utils/Font';
 import {Color} from '../../utils/Color';
 
+const {white, black} = Color;
 export const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
   },
   text: {
     fontSize: 22,
-    color: Color.black,
+    color: black,
     fontFamily: Font.font500,
     textAlign: 'center',
   },
@@ -25,6 +26,12 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
 
+  HomeCardCont: {
+    marginBottom: 10,
+    borderRadius: 20,
+    backgroundColor: black,
+  },
+  HomeTextCont: {flexDirection: 'row', alignItems: 'flex-start'},
   // ---------------------
   AssigmentListContainer: {
     paddingVertical: 10,
@@ -32,12 +39,12 @@ export const styles = StyleSheet.create({
   },
   AssigmentCard: {
     borderRadius: 20,
-    paddingVertical: 3,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     overflow: 'hidden',
+    paddingVertical: 3,
+    alignItems: 'center',
+    flexDirection: 'row',
     paddingHorizontal: 10,
+    justifyContent: 'space-between',
   },
   AssigmentIcon: {
     width: 60,
@@ -51,17 +58,17 @@ export const styles = StyleSheet.create({
   AssigmentTitle: {
     fontSize: 22,
     fontFamily: Font.font700,
-    color: Color.white,
+    color: white,
   },
   AssigmentSubtitle: {
     fontSize: 14,
-    color: Color.white,
+    color: white,
     marginBottom: 5,
     fontFamily: Font.font600,
     textAlign: 'right',
   },
   AssigmentPlayButton: {
-    backgroundColor: Color.white,
+    backgroundColor: white,
     paddingHorizontal: 15,
     paddingVertical: 7,
     borderRadius: 20,
@@ -84,7 +91,7 @@ export const styles = StyleSheet.create({
   firstBox: {
     width: '20%',
     borderRightWidth: 1,
-    borderColor: '#fff',
+    borderColor: white,
   },
   centerBox: {
     width: '60%',
@@ -92,7 +99,7 @@ export const styles = StyleSheet.create({
   },
   Progress: {
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: white,
     width: '80%',
     height: 10,
     borderRadius: 20,
@@ -101,17 +108,17 @@ export const styles = StyleSheet.create({
   ProgressValue: {
     height: 10,
     borderRadius: 20,
-    backgroundColor: '#fff',
+    backgroundColor: white,
   },
   Text: {
-    color: '#fff',
+    color: white,
     fontSize: 17,
     fontFamily: Font.font600,
   },
   secBox: {
     width: '20%',
     borderLeftWidth: 1,
-    borderColor: '#fff',
+    borderColor: white,
   },
 
   // ---------- event card
@@ -131,7 +138,7 @@ export const styles = StyleSheet.create({
     marginRight: 5,
   },
   dateText: {
-    color: Color.white,
+    color: white,
     fontSize: 13,
     fontFamily: Font.font700,
   },
@@ -148,13 +155,13 @@ export const styles = StyleSheet.create({
   },
   EventTitle: {
     fontSize: 12,
-    color: Color.white,
+    color: white,
     fontFamily: Font.font600,
     textTransform: 'capitalize',
   },
   endText: {
     fontSize: 9,
-    color: Color.white,
+    color: white,
     fontFamily: Font.font500,
     width: '70%',
   },

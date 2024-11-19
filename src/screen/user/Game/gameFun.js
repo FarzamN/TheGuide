@@ -1,30 +1,45 @@
+import {
+  gameQuestionAPI,
+  getBibleSchoolApiUpdate,
+} from '../../../redux/actions/UserAction';
+
 export const handleAnswer = (
+  tm,
   ans,
+  disp,
   setError,
+  seekVideo,
   setCorrect,
+  showQuestion,
   questionIndex,
   totalQuestions,
   setQuestionIndex,
   setAllQuestionsCompleted,
-  setVideoKey,
-  setShowQuestion, // Add setShowQuestion to reset question display
 ) => {
   if (ans.isCorrect) {
-    setCorrect(true);
+    setCorrect(true); // Show "Correct" feedback
+    gameQuestionAPI(tm, ans.id);
+    disp(getBibleSchoolApiUpdate());
+
     setTimeout(() => {
       setCorrect(false);
+
+      // Move to the next question or complete the game
       if (questionIndex < totalQuestions - 1) {
-        setQuestionIndex(questionIndex + 1);
+        setQuestionIndex(questionIndex + 1); // Go to the next question
+        showQuestion(false); // Hide question after transitioning
       } else {
-        setAllQuestionsCompleted(true); // Indicate completion after the last question
+        setAllQuestionsCompleted(true); // Mark the game as completed
+        showQuestion(false); // Hide question after transitioning
       }
     }, 2000);
   } else {
+    // For incorrect answer, allow retry but prevent repeated display
     setError(true);
+    showQuestion(false); // Hide question after transitioning
     setTimeout(() => {
       setError(false);
-      setVideoKey(prevKey => prevKey + 1); // Update videoKey to restart video on wrong answer
-      setShowQuestion(true); // Show question again after video restart
+      seekVideo(); // Rewind video to the question's previous time
     }, 2000);
   }
 };
@@ -35,38 +50,43 @@ export const transformGameQuestions = gameQuestions => {
     .map((key, index) => {
       const questionData = gameQuestions[key];
 
-      // Skip the object if questionData.question is null
       if (!questionData.question || !questionData.question.question_text) {
-        return null; // Return null if there's no valid question
+        return null;
       }
 
       const isTrueFalse =
         questionData.question.question_type === 'true or false';
+
       const correctAnswer =
         questionData.answers[3]?.correct_answer?.toLowerCase();
 
-      // Capture time delay if present
       const delayTime =
         questionData.answers.find(answer => answer.label === 'time')
           ?.question || 0;
-
+      const questionId = questionData.question.id;
       return {
         order: index + 1,
         question_text: questionData.question.question_text,
         question_type: questionData.question.question_type,
-        delay: delayTime, // Adding delay time for each question
+        delay: delayTime, // Delay in seconds
+        startTime: delayTime, // Assign delay time as start time (or adjust as needed)
         answers: isTrueFalse
           ? [
-              {title: 'True', isCorrect: correctAnswer === 'true'},
+              {
+                title: 'True',
+                isCorrect: correctAnswer === 'true',
+                id: questionId,
+              },
               {title: 'False', isCorrect: correctAnswer === 'false'},
             ]
           : questionData.answers
               .filter(
                 answer =>
                   !['question', 'popup', 'time'].includes(answer.label) &&
-                  answer.question !== null, // Filter out null questions
+                  answer.question !== null,
               )
               .map(answer => ({
+                id: questionId,
                 title: answer.question,
                 type: answer.type,
                 points: answer.points,
@@ -77,7 +97,7 @@ export const transformGameQuestions = gameQuestions => {
               })),
       };
     })
-    .filter(Boolean); // Filter out any null entries
+    .filter(Boolean);
 };
 
 export const shuffleArray = array => {

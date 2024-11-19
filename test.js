@@ -1,3 +1,10 @@
+const yourNum = 3700;
+const total = 6000;
+
+const Percentage = (yourNum / total) * 100;
+
+console.log(Math.floor(Percentage.toFixed(0, 2)));
+
 // import {style} from './style';
 // import {ScrollView, View} from 'react-native';
 // import {useDispatch, useSelector} from 'react-redux';

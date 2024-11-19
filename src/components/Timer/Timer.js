@@ -1,147 +1,108 @@
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  Touchable,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
-import {Font} from '../../utils/Font';
-import {Color} from '../../utils/Color';
+import {TimeService} from '..';
+import {styles} from './style';
+import ContBox from './contBox';
+import React, {useRef, useState, useEffect} from 'react';
+import {View, TextInput} from 'react-native';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import RenderDot from './renderDot';
 
 const Timer = () => {
-  const [startTimr, setStartTimr] = useState(false);
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [time, setTime] = useState({hours: '00', minutes: '00', seconds: '00'});
+  const [counterSelect, setCounterSelect] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const timerRef = useRef(null);
+
+  const incrementTime = () => {
+    setTime(prevTime => {
+      let hours = parseInt(prevTime.hours, 10);
+      let minutes = parseInt(prevTime.minutes, 10);
+      let seconds = parseInt(prevTime.seconds, 10);
+
+      seconds += 1;
+      if (seconds === 60) {
+        seconds = 0;
+        minutes += 1;
+      }
+      if (minutes === 60) {
+        minutes = 0;
+        hours += 1;
+      }
+
+      return {
+        hours: hours.toString().padStart(2, '0'),
+        minutes: minutes.toString().padStart(2, '0'),
+        seconds: seconds.toString().padStart(2, '0'),
+      };
+    });
+  };
+
+  const handlePress = id => {
+    if (id === 2) {
+      if (isRunning) {
+        clearInterval(timerRef.current);
+      } else {
+        timerRef.current = setInterval(incrementTime, 1000);
+      }
+      setIsRunning(prev => !prev);
+      setCounterSelect(id);
+    } else if (id === 3) {
+      clearInterval(timerRef.current);
+      setIsRunning(false);
+      setTime({hours: '00', minutes: '00', seconds: '00'});
+      setCounterSelect(id);
+    } else {
+      setCounterSelect(id);
+    }
+  };
 
   useEffect(() => {
-    let interval = null;
-    if (isActive) {
-      interval = setInterval(() => {
-        setSeconds(seconds => {
-          if (seconds === 59) {
-            setMinutes(minutes => {
-              if (minutes === 59) {
-                setHours(hours => hours + 1);
-                return 0;
-              }
-              return minutes + 1;
-            });
-            return 0;
-          }
-          return seconds + 1;
-        });
-      }, 1000);
-    } else if (!isActive && seconds !== 0) {
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [isActive, seconds]);
+    return () => {
+      clearInterval(timerRef.current); // Clear timer on unmount
+    };
+  }, []);
 
-  const handleStartStop = () => {
-    setIsActive(!isActive);
-  };
-  const handleReset = () => {
-    setIsActive(false);
-    setSeconds(0);
-    setMinutes(0);
-    setHours(0);
-  };
-  const formatTime = time => (time < 10 ? `0${time}` : time);
+  const renderTimeBox = (label, value) => (
+    <ContBox label={label}>
+      <TextInput
+        style={styles.inputText}
+        keyboardType="number-pad"
+        value={value}
+        onChangeText={text =>
+          setTime(prev => ({...prev, [label.toLowerCase()]: text}))
+        }
+        placeholder="00"
+        maxLength={2}
+        placeholderTextColor={'#004FB4'}
+      />
+    </ContBox>
+  );
 
   return (
-    <View style={{flex: 1}}>
+    <>
       <View style={styles.MainBox}>
-        <View style={styles.InputCon}>
-          <Text style={styles.TimrTxt}>{formatTime(hours)}</Text>
-        </View>
-        <Icon
-          style={styles.DotCon}
-          type={IconType.Entypo}
-          name="dots-two-vertical"
-          size={18}
-          color={'white'}
-        />
-        <View style={styles.InputCon}>
-          <Text style={styles.TimrTxt}>{formatTime(minutes)}</Text>
-        </View>
-
-        <Icon
-          style={styles.DotCon}
-          type={IconType.Entypo}
-          name="dots-two-vertical"
-          size={18}
-          color={'white'}
-        />
-
-        <View style={styles.InputCon}>
-          <Text style={styles.TimrTxt}>{formatTime(seconds)}</Text>
-        </View>
+        {renderTimeBox('Hour', time.hours)}
+        <RenderDot />
+        {renderTimeBox('Min', time.minutes)}
+        <RenderDot />
+        {renderTimeBox('Sec', time.seconds)}
       </View>
-    </View>
+
+      <View style={[GlobalStyle.between, styles.TimeCont]}>
+        {[
+          {title: 'Save', id: 1},
+          {title: isRunning ? 'Stop' : 'Start', id: 2},
+          {title: 'Reset', id: 3},
+        ].map((i, ix) => (
+          <TimeService
+            key={ix}
+            data={i}
+            focus={counterSelect == i.id}
+            onPress={() => handlePress(i.id)}
+          />
+        ))}
+      </View>
+    </>
   );
 };
 
 export default Timer;
-
-const styles = StyleSheet.create({
-  MainBox: {
-    height: 95,
-    backgroundColor: '#004FB4',
-    marginVertical: 12,
-    flexDirection: 'row',
-    borderRadius: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: 'rgba(0,0,0)',
-    shadowOffset: [1, 1],
-    shadowRadius: 1,
-    shadowOpacity: 0.4,
-    elevation: 1,
-  },
-  InputCon: {
-    height: 60,
-    width: 50,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    overflow: 'hidden',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  DotCon: {
-    marginHorizontal: 5,
-  },
-  MultipleBtnCon: {
-    height: 35,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  BtnCon: {
-    height: 25,
-    width: 55,
-    backgroundColor: '#05BEF7',
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: 'rgba(0,0,0)',
-    shadowOffset: [1, 1],
-    shadowRadius: 1,
-    shadowOpacity: 0.4,
-    elevation: 1,
-  },
-  BtnTxt: {
-    color: 'white',
-    fontFamily: Font.font400,
-  },
-  TimrTxt: {
-    color: '#004FB4',
-    fontFamily: Font.font400,
-    fontSize: 20,
-    bottom: 1,
-  },
-});

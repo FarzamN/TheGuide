@@ -11,6 +11,7 @@ export const getBibleSchoolApi = load => {
 
       const myHeaders = new Headers();
       const token = await AsyncStorage.getItem('token');
+      console.log('token', token);
 
       myHeaders.append('Authorization', `Bearer ${token}`);
       const response = await fetch(url, {
@@ -21,6 +22,7 @@ export const getBibleSchoolApi = load => {
       load(false);
       if (res.status == 'success') {
         dispatch({type: GET_BIBLE_SCHOOL, payload: res.data});
+        console.log('res.data', res.data);
       } else {
         Toast.show('Please Try again later');
       }
@@ -32,30 +34,31 @@ export const getBibleSchoolApi = load => {
   };
 };
 
-/*
-export const getBibleSchoolApi = load => {
+export const getBibleSchoolApiUpdate = () => {
   return async dispatch => {
-    const url = `${Base_Url}get-incomplete-game`;
-    const myHeaders = new Headers();
-    const token = await AsyncStorage.getItem('token');
-
-    myHeaders.append('Authorization', `Bearer ${token}`);
-
     try {
+      const url = `${Base_Url}get-incomplete-game`;
+
+      const myHeaders = new Headers();
+      const token = await AsyncStorage.getItem('token');
+
+      myHeaders.append('Authorization', `Bearer ${token}`);
       const response = await fetch(url, {
         method: 'GET',
         headers: myHeaders,
-        redirect: 'follow',
       });
-      const result = await response.json();
-      console.log({result});
+      const res = await response.json();
+      if (res.status == 'success') {
+        dispatch({type: GET_BIBLE_SCHOOL, payload: res.data});
+      } else {
+        Toast.show('Please Try again later');
+      }
     } catch (error) {
+      console.log('error getBibleSchoolApi', error);
       Toast.show('Server side error');
-      console.error('Error fetching Bible school data:', error);
     }
   };
 };
-*/
 
 export const eventApi = load => {
   return async dispatch => {
@@ -85,93 +88,26 @@ export const eventApi = load => {
   };
 };
 
-/*
-export const courseApi = async () => {
-  try {
-    const token = await AsyncStorage.getItem('token');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json', // For POST JSON requests
-    };
-
-    // Step 1: Fetch initial course data and get the first two course IDs
-    const response = await fetch(`${Base_Url}courses`, {headers});
-    const json = await response.json();
-    const courseData = json.data.slice(0, 2).map(course => course.id);
-    console.log('Initial course IDs:', courseData);
-
-    // Step 2: Post each course ID to `user_course` with `course_id` and `status: "incomplete"`
-    const userCourseResponses = await Promise.all(
-      courseData.map(item => {
-        const formData = new FormData();
-        formData.append('course_item', item); // Ensure this key matches what the server expects
-        formData.append('status', 'incomplete');
-
-        return fetch(`${Base_Url}user_course/${item}`, {
-          headers,
-          method: 'POST',
-          body: formData,
-        })
-          .then(res => {
-            // Log the raw response for debugging
-            console.log('Response for course ID:', item, 'Status:', res.status);
-
-            // Check if the response is okay
-            if (!res.ok) {
-              throw new Error('Network response was not ok: ' + res.statusText);
-            }
-
-            // Parse the response
-            return res.json();
-          })
-          .then(data => {
-            // Log the parsed data to see its structure
-            console.log('Data for course ID:', item, 'Response:', data);
-
-            // Return the appropriate property that contains the ID
-            return data.id; // Adjust this line according to the actual response structure
-          });
-      }),
-    );
-
-    // Step 3: Extract IDs from userCourseResponses and (optionally) send them back to the `courses` endpoint
-    const finalCourseIds = userCourseResponses.map(course => course.id);
-    console.log('Final course IDs from user_course responses:', finalCourseIds);
-
-    // Optionally: Send the finalCourseIds back to the `courses` endpoint
-    const finalResponse = await fetch(`${Base_Url}courses`, {
-      method: 'POST', // Adjust as per your API requirement
-      headers,
-      body: JSON.stringify({courseIds: finalCourseIds}),
-    });
-
-    const finalData = await finalResponse.json();
-    console.log('Final courses response:', finalData);
-  } catch (error) {
-    console.log('Error in courseApi:', error);
-  }
-};
-*/
-
 export const courseApi = async () => {
   try {
     const headers = new Headers();
     const token = await AsyncStorage.getItem('token');
 
     headers.append('Authorization', `Bearer ${token}`);
-
-    const hittingCourseAPI = await fetch(`${Base_Url}courses`, {headers});
+    const mainUrl = `${Base_Url}courses`;
+    const hittingCourseAPI = await fetch(mainUrl, {headers});
     // console.log('1) API. json => hittingCourseAPI ', hittingCourseAPI);
 
     const jsonCourseAPI = await hittingCourseAPI.json();
-    const courseData = jsonCourseAPI.data.slice(0, 2).map(course => course.id);
+    const courseData = jsonCourseAPI.data.map(course => course.id);
+    // slice(0, 2).
     // console.log('1) API. courseData', courseData);
 
     const hitingStoreAPI = await Promise.all(
       courseData.map(id => {
         const formData = new FormData();
         formData.append('course_id', id);
-        formData.append('status', 'incomplete');
+        formData.append('status', 'INCOMPLETE');
 
         return fetch(`${Base_Url}user_course/store`, {
           headers,
@@ -205,7 +141,7 @@ export const courseApi = async () => {
           const formData = new FormData();
           formData.append('lesson_id', data.id);
           formData.append('course_id', data.course_id);
-          formData.append('status', 'incomplete');
+          formData.append('status', 'INCOMPLETE');
 
           return fetch(`${Base_Url}user_lesson/store`, {
             headers,
@@ -249,7 +185,7 @@ export const courseApi = async () => {
           formData.append('assignment_id', data.id);
           formData.append('lesson_id', data.lesson_id);
           formData.append('course_id', data.course_id);
-          formData.append('status', 'incomplete');
+          formData.append('status', 'INCOMPLETE');
 
           return fetch(`${Base_Url}user_assignment/store`, {
             headers,
@@ -260,7 +196,6 @@ export const courseApi = async () => {
         return Promise.all(getAssigmentData);
       }),
     );
-
     // console.log('6) API. json => hittingAssigmentStore', hittingAssigmentStore);
     const jsonAssigmentStore = await Promise.all(
       hittingAssigmentStore.flat().map(async res => await res.json()),
@@ -294,8 +229,8 @@ export const courseApi = async () => {
           formData.append('assignment_id', data.assignment_id);
           formData.append('lesson_id', data.lesson_id);
           formData.append('course_id', data.course_id);
-          formData.append('status', 'incomplete');
-
+          formData.append('status', 'INCOMPLETE');
+          console.log('user_game store wali api ka data', formData);
           return fetch(`${Base_Url}user_game/store`, {
             headers,
             method: 'POST',
@@ -333,7 +268,6 @@ export const getGameApi = (load, id) => {
       const result = await response.json();
       if (result.success === true) {
         load(false);
-        // console.log('result.data[0]', result.data[0]);
         dispatch({type: GET_GAME, payload: result.data[0]});
       } else {
         load(false);
@@ -344,4 +278,59 @@ export const getGameApi = (load, id) => {
       console.error('Error fetching getGameApi data:', error);
     }
   };
+};
+
+export const getGameIdAPI = async (id, gameID, load) => {
+  load(true);
+  const url = `${Base_Url}game-questions-ids/${id}`;
+  const token = await AsyncStorage.getItem('token');
+  const myHeaders = new Headers({Authorization: `Bearer ${token}`});
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    });
+    const res = await response.json();
+    load(false);
+    if (res.success) {
+      const getID = res.gameQuestionsIds.map(item => item.id);
+      gameID(getID);
+    }
+  } catch (error) {
+    load(false);
+    Toast.show('Server side error');
+    console.log('Error in getGameIdAPI:', error);
+  }
+};
+
+export const gameQuestionAPI = async (item, question_id) => {
+  const url = `${Base_Url}user_game_question/store`;
+  const myData = new FormData();
+  myData.append('game_id', item.id);
+  myData.append('assignment_id', item.assignment_id);
+  myData.append('lesson_id', item.lesson_id);
+  myData.append('course_id', item.course_id);
+  myData.append('course_id', item.course_id);
+  myData.append('question_id', question_id);
+
+  // question_id.forEach(id => myData.append('question_id', id));
+  myData.append('status', 'COMPLETED');
+  myData.append('is_correct', 1);
+
+  const myHeaders = new Headers();
+  const token = await AsyncStorage.getItem('token');
+  myHeaders.append('Authorization', `Bearer ${token}`);
+  try {
+    const response = await fetch(url, {
+      body: myData,
+      method: 'POST',
+      headers: myHeaders,
+    });
+    const res = await response.json();
+    // console.log('gameQuestionAPI res', res);
+  } catch (error) {
+    Toast.show('Server side error');
+    console.log('Error in gameQuestionAPI:', error);
+  }
 };

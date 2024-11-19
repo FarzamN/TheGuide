@@ -1,13 +1,13 @@
-import moment from 'moment';
-import {Base_Url} from '../../utils/Urls';
 import {
-  USER_DETAILS,
-  GET_COUNTRY,
   GET_CITY,
   GET_STATE,
+  GET_COUNTRY,
+  USER_DETAILS,
 } from '../reducer/Holder';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
+import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const LoginApi = (data, load, err) => {
   return async dispatch => {
@@ -73,7 +73,6 @@ export const registerApi = async (
     myData.append('last_name', data.l_name);
     myData.append('email', data.email);
     myData.append('phone', data.number);
-    // myData.append('address', data.address);
     myData.append('password', data.password);
     myData.append('confirm_password', data.password);
     myData.append('gender', gender);
@@ -83,7 +82,6 @@ export const registerApi = async (
     myData.append('country', country);
     myData.append('type', 'father');
     myData.append('time_zone', timeZone);
-    console.log('myData', myData);
     const myHeaders = new Headers();
     myHeaders.append('Accept', 'application/json');
     myHeaders.append('Content-Type', 'multipart/form-data');

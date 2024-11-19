@@ -31,8 +31,14 @@ import TimeChangeModal from './Modal/TimeChangeModal';
 import Correct from './Modal/Correct';
 import NorLoad from './Modal/NorLoad';
 import JobModal from './Modal/JobModal';
+import ContBox from './Timer/contBox';
+import TimeService from '../screen/user/Prayer/prayComp/TimeService';
+import DownloadProgress from './Modal/downloadProgress';
 
 export {
+  DownloadProgress,
+  TimeService,
+  ContBox,
   JobModal,
   NorLoad,
   Correct,

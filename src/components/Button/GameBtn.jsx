@@ -4,7 +4,7 @@ import {styles} from './style';
 import {TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 
-const GameBtn = ({title, onPress, i}) => {
+const GameBtn = ({title, onPress, index}) => {
   const colors = ['#00CE64', '#FD8D34', '#0088FE', '#792DFD'];
   return (
     <TouchableOpacity
@@ -12,7 +12,7 @@ const GameBtn = ({title, onPress, i}) => {
       style={[
         styles.GameBTNCont,
         GlobalStyle.justify,
-        {backgroundColor: colors[i % colors.length]},
+        {backgroundColor: colors[index % colors.length]},
       ]}>
       <Text style={styles.GameBTNText} title={title} fontScaling />
     </TouchableOpacity>

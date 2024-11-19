@@ -1,18 +1,23 @@
+import {Text} from '..';
 import React from 'react';
 import style from './style';
 import {View} from 'react-native';
 import Modal from 'react-native-modal';
-import LottieView from 'lottie-react-native';
 import {Color} from '../../utils/Color';
+import LottieView from 'lottie-react-native';
 
-const Correct = ({visible}) => {
+const Correct = ({visible, text, game}) => {
   return (
     <Modal
       isVisible={visible}
       animationIn={'flash'}
       animationOut={'fadeOut'}
       backdropColor={Color.Non}
-      style={style.CorrectnErrorModal}>
+      style={
+        game
+          ? [style.MainModal, style.Modal_Container]
+          : style.CorrectnErrorModal
+      }>
       <View style={style.ModalContainer}>
         <LottieView
           autoPlay
@@ -20,6 +25,7 @@ const Correct = ({visible}) => {
           style={style.LottieView}
           source={require('../../assets/lottie/correct.json')}
         />
+        {!game && <Text title={text} center style={style.LogoutText} />}
       </View>
     </Modal>
   );

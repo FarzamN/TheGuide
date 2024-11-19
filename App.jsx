@@ -8,10 +8,12 @@ import navigationColor from 'react-native-system-navigation-bar';
 import {Color} from './src/utils/Color';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {USER_DETAILS} from './src/redux/reducer/Holder.js';
+import {requestStoragePermission} from './src/hooks';
 
 const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
+  // console.log('userDetails', userDetails);
 
   useEffect(() => {
     fetchData();
@@ -39,6 +41,7 @@ const App = () => {
 
   useEffect(() => {
     getUserDetails();
+    requestStoragePermission();
     navigationColor.setNavigationColor(Color.white);
   }, []);
   return <>{userDetails ? <DrawerNavigation /> : <AuthNavigation />}</>;

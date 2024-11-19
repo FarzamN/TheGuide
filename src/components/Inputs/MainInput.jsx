@@ -36,6 +36,7 @@ const MainInput = forwardRef((props, ref) => {
           numberOfLines={props.numberOfLines}
           placeholder={props.placeholder}
           placeholderTextColor={Color.placeholderTextColor}
+          secureTextEntry={props.isPass && password}
           style={[styles.InputStyles, props.restyle]}
           maxLength={props.maxLength}
           cursorColor={Color.Main}

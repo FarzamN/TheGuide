@@ -24,7 +24,7 @@ const StatusScreen = () => {
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={<Empty title="No Status Found" />}
         keyExtractor={(_, i) => i.toString()}
-        renderItem={({item, index}) => <StatusCard data={item} />}
+        renderItem={({item, index}) => <StatusCard data={item} index={index} />}
       />
     </Body>
   );

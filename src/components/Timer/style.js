@@ -28,11 +28,17 @@ export const styles = StyleSheet.create({
   inputText: {
     color: '#787677',
     fontSize: 28,
-    fontWeight: 'bold',
     textAlign: 'center',
+    width: '100%',
+    height: '100%',
   },
   DotCon: {
     marginHorizontal: 5,
     marginTop: 20,
+  },
+  TimeCont: {
+    width: '90%',
+    alignSelf: 'center',
+    marginBottom: 20,
   },
 });

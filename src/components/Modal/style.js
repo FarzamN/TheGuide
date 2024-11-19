@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
 import {Font} from '../../utils/Font';
+import {width} from '../../utils/Constants';
 
 export default StyleSheet.create({
   MainModal: {
@@ -79,5 +80,30 @@ export default StyleSheet.create({
   JobLottie: {
     height: 300,
     marginBottom: 15,
+  },
+
+  NorCont: {
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    // backgroundColor: Color.white,
+    width: width - 30,
+    height: 200,
+    borderRadius: 10,
+    alignSelf: 'center',
+    position: 'absolute',
+    zIndex: 9,
+  },
+  NorText: {
+    color: Color.white,
+  },
+  DPCont: {
+    paddingTop: 15,
+    borderWidth: 0.8,
+    alignItems: 'center',
+    backgroundColor: '#FCFCFC',
+  },
+  DpText: {
+    fontSize: 20,
+    color: Color.Sky,
+    fontFamily: Font.font500,
   },
 });

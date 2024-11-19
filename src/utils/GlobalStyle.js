@@ -47,6 +47,11 @@ export const GlobalStyle = StyleSheet.create({
     },
     elevation: 5,
   },
+  textShadow: {
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+  },
   showBar: {
     display: 'flex',
   },

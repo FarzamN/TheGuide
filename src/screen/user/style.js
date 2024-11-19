@@ -66,11 +66,7 @@ export const style = StyleSheet.create({
     padding: 2,
     alignSelf: 'center',
   },
-  TimeCont: {
-    width: '90%',
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
+
   TimeChangeCont: {
     borderRadius: 10,
     paddingVertical: 5,
@@ -79,7 +75,6 @@ export const style = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     height: 50,
-    marginBottom: 20,
   },
   timeChangeText: {
     fontSize: 14,
