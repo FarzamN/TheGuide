@@ -22,7 +22,6 @@ export const getBibleSchoolApi = load => {
       load(false);
       if (res.status == 'success') {
         dispatch({type: GET_BIBLE_SCHOOL, payload: res.data});
-        console.log('res.data', res.data);
       } else {
         Toast.show('Please Try again later');
       }
@@ -51,7 +50,7 @@ export const getBibleSchoolApiUpdate = () => {
       if (res.status == 'success') {
         dispatch({type: GET_BIBLE_SCHOOL, payload: res.data});
       } else {
-        Toast.show('Please Try again later');
+        console.log('Please Try again later');
       }
     } catch (error) {
       console.log('error getBibleSchoolApi', error);
@@ -230,7 +229,6 @@ export const courseApi = async () => {
           formData.append('lesson_id', data.lesson_id);
           formData.append('course_id', data.course_id);
           formData.append('status', 'INCOMPLETE');
-          console.log('user_game store wali api ka data', formData);
           return fetch(`${Base_Url}user_game/store`, {
             headers,
             method: 'POST',

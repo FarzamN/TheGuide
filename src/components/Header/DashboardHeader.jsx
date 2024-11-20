@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
 
-const DashboardHeader = () => {
+const DashboardHeader = ({onPray}) => {
   const dispatched = useDispatch();
   const userDetail = useSelector(state => state.userDetails);
   const {navigate, dispatch} = useNavigation();
@@ -70,23 +70,35 @@ const DashboardHeader = () => {
           {
             title: 'Due',
             data: 'Pray',
-            sub: userDetail.user_prayer_streak,
-            status: 'Status',
+            // sub: userDetail.user_prayer_streak,
+            // status: 'Status',
+            prayLevel: 'L1',
+            press: onPray,
           },
-        ].map((item, indx) => {
+        ].map((i, ix) => {
           return (
-            <View key={indx} style={[style.box, GlobalStyle.justify]}>
+            <TouchableOpacity
+              activeOpacity={i.press ? 0.5 : 1}
+              onPress={i.press}
+              key={ix}
+              style={[style.box, GlobalStyle.justify]}>
               <View>
-                <Text style={style.title} title={item.title} />
-                <Text style={style.data} title={item.data} />
+                <Text style={style.title} title={i.title} />
+                <Text style={style.data} title={i.data} />
               </View>
               <View style={style.line} />
 
-              <View style={{alignItems: 'center'}}>
-                <Text style={style.subText} title={item.sub} />
-                <Text style={style.subText} title={item.status} />
+              <View style={style.HeadTextBox}>
+                {i.prayLevel ? (
+                  <Text style={style.prayLevel} center title={i.prayLevel} />
+                ) : (
+                  <>
+                    <Text style={style.subText} title={i.sub} />
+                    <Text style={style.subText} title={i.status} />
+                  </>
+                )}
               </View>
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>

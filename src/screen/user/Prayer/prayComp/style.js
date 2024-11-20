@@ -52,4 +52,5 @@ export const style = StyleSheet.create({
     marginTop: 2,
     borderRadius: 7,
   },
+  MondalCont: {},
 });

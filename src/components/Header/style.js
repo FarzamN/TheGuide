@@ -81,7 +81,11 @@ export default StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: Color.LineDarkBlue,
   },
-
+  HeadTextBox: {
+    alignItems: 'center',
+    width: '30%',
+    alignSelf: 'center',
+  },
   // -------------------------------
   GameBannerImage: {
     width,
@@ -98,5 +102,11 @@ export default StyleSheet.create({
     fontFamily: Font.font500,
     fontSize: 16,
     color: Color.white,
+  },
+  prayLevel: {
+    fontSize: 20,
+    fontFamily: Font.font600,
+
+    width: '70%',
   },
 });

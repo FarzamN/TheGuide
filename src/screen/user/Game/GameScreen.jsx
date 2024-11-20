@@ -16,7 +16,7 @@ import {style} from './style';
 import Video from 'react-native-video';
 import Toast from 'react-native-simple-toast';
 import {Image_Url} from '../../../utils/Urls';
-import {ScrollView, View} from 'react-native';
+import {BackHandler, ScrollView, View} from 'react-native';
 import {useFileDownloader} from '../../../hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
@@ -68,12 +68,12 @@ const GameScreen = ({navigation, route}) => {
     }
   };
 
-  useEffect(() => {
-    if (fileUrl) {
-      handleDownload();
-      setIsPaused(false);
-    }
-  }, [fileUrl]);
+  // useEffect(() => {
+  //   if (fileUrl) {
+  //     handleDownload();
+  //     setIsPaused(false);
+  //   }
+  // }, [fileUrl]);
 
   useEffect(() => {
     if (showQuestion && currentQuestion) {
@@ -115,7 +115,7 @@ const GameScreen = ({navigation, route}) => {
   };
 
   const handleJob = () => {
-    deleteFile();
+    // deleteFile();
     setCompleted(false);
     setTimeout(() => {
       goBack();
@@ -174,13 +174,20 @@ const GameScreen = ({navigation, route}) => {
     }, []),
   );
 
+  useEffect(() => {
+    const backAction = () => true;
+    const {addEventListener} = BackHandler;
+    const {remove} = addEventListener('hardwareBackPress', backAction);
+    return () => remove();
+  }, []);
   return (
     <Body>
       <GameHeader
-        onClose={() => {
+        onClose={goBack}
+        /*onClose={() => {
           goBack();
           deleteFile();
-        }}
+        }}*/
         progress={progress}
         title={item.course_name}
         subTitle={item.game_title}
@@ -199,13 +206,15 @@ const GameScreen = ({navigation, route}) => {
         {fileUrl && (
           <Video
             ref={videoRef}
-            controls={false}
+            controls={true}
+            // controls={false}
             paused={isPaused}
             resizeMode="cover"
             style={style.videoPlayer}
             poster={Image_Url + get_game.image_app}
             source={{
-              uri: videoPath,
+              // uri: videoPath,
+              uri: fileUrl,
               type: 'mp4',
             }}
             onBuffer={({isBuffering}) => setIsBuffering(isBuffering)}

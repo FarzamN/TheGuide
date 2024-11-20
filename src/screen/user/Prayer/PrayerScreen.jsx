@@ -10,8 +10,10 @@ import CountDown from '../../../components/Timer/CountDown';
 import Timer from '../../../components/Timer/Timer';
 import Number from '../../../components/Timer/Number';
 import DatePicker from 'react-native-date-picker';
+import TimerBtnModal from './prayComp/TimerBtnModal';
 
 const PrayerScreen = () => {
+  const [showTimer, setShowTimer] = useState(false);
   const [clock, setClock] = useState({
     visible: false,
     time: '',
@@ -29,7 +31,7 @@ const PrayerScreen = () => {
 
   return (
     <Body>
-      <DashboardHeader />
+      <DashboardHeader onPray={() => setShowTimer(true)} />
       <ScrollView>
         <TimeBar
           time={'1hr 23min 10sec'}
@@ -97,11 +99,11 @@ const PrayerScreen = () => {
       />
 
       <DatePicker
-        theme="light"
         modal
-        date={date}
-        open={clock.visible}
         mode="time"
+        date={date}
+        theme="light"
+        open={clock.visible}
         onConfirm={sClock => {
           setClock({
             visible: false,
@@ -111,6 +113,9 @@ const PrayerScreen = () => {
         }}
         onCancel={() => setClock({visible: false, time: ''})}
       />
+      <TimerBtnModal
+        visible={showTimer}
+        onClose={() => setShowTimer(false)}></TimerBtnModal>
     </Body>
   );
 };
