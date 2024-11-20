@@ -1,5 +1,11 @@
+import useGeolocation from './useGeolocation';
 import useImagePicker from './useImagePicker';
 import useFileDownloader from './useFileDownloader';
 import requestStoragePermission from './downloadPermission';
 
-export {useImagePicker, requestStoragePermission, useFileDownloader};
+export {
+  useImagePicker,
+  useGeolocation,
+  useFileDownloader,
+  requestStoragePermission,
+};

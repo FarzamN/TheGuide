@@ -33,7 +33,8 @@ export const style = StyleSheet.create({
   },
   switchText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontFamily: Font.font500,
+    textTransform: 'capitalize',
   },
   TimeCont: {
     height: 40,

@@ -1,5 +1,5 @@
 import {ScrollView, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Body, DashboardHeader, TimeChangeModal} from '../../../components';
 import TimeBar from './prayComp/timeBar';
 import PraySwitch from './prayComp/praySwitch';
@@ -11,24 +11,75 @@ import Timer from '../../../components/Timer/Timer';
 import Number from '../../../components/Timer/Number';
 import DatePicker from 'react-native-date-picker';
 import TimerBtnModal from './prayComp/TimerBtnModal';
+import {useGeolocation} from '../../../hooks';
+import {prayerCreate, prayerUpdate} from '../../../redux/actions/UserAction';
+import moment from 'moment';
 
 const PrayerScreen = () => {
+  const {location} = useGeolocation();
+  const [apidata, setapidata] = useState({});
+  const [saveStart, setSaveStart] = useState(null);
+  const [saveEnd, setSaveEnd] = useState(null);
+
   const [showTimer, setShowTimer] = useState(false);
+  const [load, setLoad] = useState(false);
   const [clock, setClock] = useState({
     visible: false,
     time: '',
   });
   const [date, setDate] = useState(new Date());
-  console.log({date, clock});
 
-  const [CTNSelect, setCTNSelect] = useState(1);
+  const [CTNSelect, setCTNSelect] = useState('count down');
 
   const [timer, setTimer] = useState({
     temp: 0,
     selected: 0,
     visible: false,
   });
+  /*
+  startTime: moment({
+    hours: saveStart?.hours,
+    minutes: saveStart?.minutes,
+    seconds: saveStart?.seconds,
+  }).format('YYYY-MM-DD HH:mm:ss'),
+  
+  end_time: moment({
+    hours: saveEnd?.hours,
+    minutes: saveEnd?.minutes,
+    seconds: saveEnd?.seconds,
+  }).format('YYYY-MM-DD HH:mm:ss'),
+  */
+  const dataOne = {
+    end_time: null,
+    startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+    statusName: CTNSelect,
+    lat: location.latitude,
+    long: location.longitude,
+  };
 
+  const handleStart = () => {
+    prayerCreate(dataOne, setapidata);
+  };
+
+  const handleEnd = () => {
+    const end_time = moment().format('YYYY-MM-DD HH:mm:ss');
+    const startTime = moment(apidata.start_time, 'YYYY-MM-DD HH:mm:ss');
+    const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss');
+
+    const goal = endTime.diff(startTime, 'minutes');
+
+    const dataTwo = {
+      goal,
+      end_time,
+      id: apidata.id,
+      statusName: CTNSelect,
+      lat: location.latitude,
+      long: location.longitude,
+      startTime: apidata.start_time,
+    };
+
+    prayerUpdate(dataTwo);
+  };
   return (
     <Body>
       <DashboardHeader onPray={() => setShowTimer(true)} />
@@ -37,23 +88,25 @@ const PrayerScreen = () => {
           time={'1hr 23min 10sec'}
           onTime={() => setClock({visible: true, time: ''})}
         />
+        {load ? <Text /> : load ? <Text /> : load ? <Text /> : null}
         <View style={[GlobalStyle.between, style.SwitchCont]}>
-          {[
-            {title: 'Count Down', id: 1},
-            {title: 'Timer', id: 2},
-            {title: 'Number', id: 3},
-          ].map((i, ix) => (
+          {['count down', 'timer', 'number'].map(i => (
             <PraySwitch
-              key={ix}
-              data={i}
-              focus={CTNSelect == i.id}
-              onPress={() => setCTNSelect(i.id)}
+              key={i}
+              title={i}
+              focus={CTNSelect === i}
+              onPress={() => setCTNSelect(i)}
             />
           ))}
         </View>
-        {CTNSelect === 1 ? (
-          <CountDown />
-        ) : CTNSelect === 2 ? (
+        {CTNSelect === 'count down' ? (
+          <CountDown
+            saveEnd={setSaveEnd}
+            handleEnd={handleEnd}
+            saveStart={setSaveStart}
+            handleStart={handleStart}
+          />
+        ) : CTNSelect === 'timer' ? (
           <Timer />
         ) : (
           <Number />

@@ -1,33 +1,41 @@
 import {styles} from './style';
 import RenderDot from './renderDot';
-import {ContBox, Error, TimeService} from '..';
 import {TextInput, View} from 'react-native';
+import {ContBox, Error, TimeService} from '..';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import React, {useEffect, useRef, useState} from 'react';
 
-const CountDown = () => {
-  const [err, setErr] = useState({show: false, msg: ''});
-
-  const [time, setTime] = useState({hours: '', minutes: '', seconds: ''});
+const CountDown = ({saveStart, saveEnd, handleStart, handleEnd}) => {
   const countdownRef = useRef(null);
-  const [counterSelect, setCounterSelect] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [counterSelect, setCounterSelect] = useState(0);
+  const [err, setErr] = useState({show: false, msg: ''});
+  const [time, setTime] = useState({hours: '', minutes: '', seconds: ''});
 
   const handlePress = id => {
-    if (id === 1) {
-      console.log('saving');
-    } else if (id === 2) {
-      // Start or Stop the countdown
-      if (isRunning) {
-        stopCountdown();
-      } else {
-        startCountdown();
+    if (!time.minutes || !time.seconds) {
+      setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
+      setTimeout(() => {
+        setErr({show: false, msg: ''});
+      }, 2000);
+    } else {
+      if (id === 1) {
+        console.log('saving');
+      } else if (id === 2) {
+        if (isRunning) {
+          stopCountdown();
+          handleEnd();
+          saveEnd(time);
+        } else {
+          saveStart(time);
+          startCountdown();
+          handleStart();
+        }
+        setCounterSelect(id);
+      } else if (id === 3) {
+        resetCountdown();
+        setCounterSelect(id);
       }
-      setCounterSelect(id);
-    } else if (id === 3) {
-      // Reset the countdown
-      resetCountdown();
-      setCounterSelect(id);
     }
   };
 
@@ -100,13 +108,19 @@ const CountDown = () => {
         keyboardType="number-pad"
         value={value}
         onChangeText={text => {
+          setTime(prevTime => ({
+            ...prevTime,
+            [field]: text, // Ensure double-digit formatting
+          }));
+        }}
+        /*onChangeText={text => {
           if (/^\d*$/.test(text)) {
             setTime(prevTime => ({
               ...prevTime,
               [field]: text.padStart(2, '0'), // Ensure double-digit formatting
             }));
           }
-        }}
+        }} */
         placeholder="00"
         maxLength={2}
         placeholderTextColor={'#787677'}

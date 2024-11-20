@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
 import {Color} from '../../../../utils/Color';
 
-const PraySwitch = ({data, onPress, focus}) => {
+const PraySwitch = ({title, onPress, focus}) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <LinearGradient
@@ -19,7 +19,7 @@ const PraySwitch = ({data, onPress, focus}) => {
             style.switchText,
             {color: focus ? Color.white : Color.textGrey},
           ]}
-          title={data.title}
+          title={title}
         />
       </LinearGradient>
     </TouchableOpacity>
