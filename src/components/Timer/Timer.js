@@ -1,16 +1,16 @@
 import {TimeService} from '..';
 import {styles} from './style';
 import ContBox from './contBox';
-import React, {useRef, useState, useEffect} from 'react';
+import RenderDot from './renderDot';
 import {View, TextInput} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-import RenderDot from './renderDot';
+import React, {useRef, useState, useEffect} from 'react';
 
-const Timer = () => {
-  const [time, setTime] = useState({hours: '00', minutes: '00', seconds: '00'});
-  const [counterSelect, setCounterSelect] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
+const Timer = ({handleStart, handleEnd}) => {
   const timerRef = useRef(null);
+  const [isRunning, setIsRunning] = useState(false);
+  const [timerSelect, setTimerSelect] = useState(0);
+  const [time, setTime] = useState({hours: '00', minutes: '00', seconds: '00'});
 
   const incrementTime = () => {
     setTime(prevTime => {
@@ -39,25 +39,27 @@ const Timer = () => {
   const handlePress = id => {
     if (id === 2) {
       if (isRunning) {
+        handleEnd();
         clearInterval(timerRef.current);
       } else {
+        handleStart();
         timerRef.current = setInterval(incrementTime, 1000);
       }
       setIsRunning(prev => !prev);
-      setCounterSelect(id);
+      setTimerSelect(id);
     } else if (id === 3) {
       clearInterval(timerRef.current);
       setIsRunning(false);
       setTime({hours: '00', minutes: '00', seconds: '00'});
-      setCounterSelect(id);
+      setTimerSelect(id);
     } else {
-      setCounterSelect(id);
+      setTimerSelect(id);
     }
   };
 
   useEffect(() => {
     return () => {
-      clearInterval(timerRef.current); // Clear timer on unmount
+      clearInterval(timerRef.current);
     };
   }, []);
 
@@ -70,9 +72,10 @@ const Timer = () => {
         onChangeText={text =>
           setTime(prev => ({...prev, [label.toLowerCase()]: text}))
         }
+        editable={false}
         placeholder="00"
         maxLength={2}
-        placeholderTextColor={'#004FB4'}
+        placeholderTextColor={'#787677'}
       />
     </ContBox>
   );
@@ -96,7 +99,7 @@ const Timer = () => {
           <TimeService
             key={ix}
             data={i}
-            focus={counterSelect == i.id}
+            focus={timerSelect == i.id}
             onPress={() => handlePress(i.id)}
           />
         ))}

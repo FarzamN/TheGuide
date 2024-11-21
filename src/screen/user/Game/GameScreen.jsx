@@ -53,7 +53,6 @@ const GameScreen = ({navigation, route}) => {
   const currentQuestion = gameQuestions[currentQuestionIndex];
   const progress = duration ? currentTime / duration : 0;
   const [videoPath, setVideoPath] = useState(null);
-  const [answeredQuestions, setAnsweredQuestions] = useState([]);
 
   const fileUrl = get_game?.game_header_data?.[0]?.file?.[0]?.src;
 
@@ -68,20 +67,22 @@ const GameScreen = ({navigation, route}) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (fileUrl) {
-  //     handleDownload();
-  //     setIsPaused(false);
-  //   }
-  // }, [fileUrl]);
+  /*
+  useEffect(() => {
+    if (fileUrl) {
+      handleDownload();
+      setIsPaused(false);
+    }
+  }, [fileUrl]);
+*/
 
   useEffect(() => {
-    if (showQuestion && currentQuestion) {
+    if (showQuestion && currentQuestion && !allQuestionsCompleted) {
       setIsPaused(true);
     } else {
       setTimeout(() => setIsPaused(false), 300);
     }
-  }, [showQuestion]);
+  }, [showQuestion, allQuestionsCompleted]);
 
   const seekVideo = () => {
     if (videoRef.current && currentQuestion) {
@@ -90,7 +91,6 @@ const GameScreen = ({navigation, route}) => {
         0,
         currentTime - (currentQuestion.startTime - previousQuestionTime),
       );
-      console.log('previousQuestionTime', previousQuestionTime);
       setCurrentTime(seekTime);
 
       videoRef.current.seek(seekTime);
@@ -129,10 +129,7 @@ const GameScreen = ({navigation, route}) => {
 
   useEffect(() => {
     if (!isBuffering && !isPaused && currentQuestion) {
-      if (
-        Math.ceil(currentTime) === Math.ceil(currentQuestion.startTime) &&
-        !answeredQuestions[currentQuestionIndex] // Show only if not answered
-      ) {
+      if (Math.ceil(currentTime) === Math.ceil(currentQuestion.startTime)) {
         setShowQuestion(true);
       } else if (
         Math.ceil(currentTime) > Math.ceil(currentQuestion.startTime)
@@ -140,7 +137,7 @@ const GameScreen = ({navigation, route}) => {
         setShowQuestion(false);
       }
     }
-  }, [currentTime, currentQuestion, isBuffering, isPaused, answeredQuestions]);
+  }, [currentTime, currentQuestion, isBuffering, isPaused]);
 
   useEffect(() => {
     if (get_game?.game_question) {
@@ -149,7 +146,6 @@ const GameScreen = ({navigation, route}) => {
       );
       setGameQuestions(transformedQuestions);
       // Initialize all questions as unanswered (false)
-      setAnsweredQuestions(new Array(transformedQuestions.length).fill(false));
     }
   }, [get_game]);
 
@@ -192,7 +188,8 @@ const GameScreen = ({navigation, route}) => {
         title={item.course_name}
         subTitle={item.game_title}
       />
-      {[
+      {/*  
+       {[
         {n: 'id', c: item.id},
         {n: 'currentTime', c: Math.ceil(currentTime)},
         {n: 'quesion length', c: gameQuestions.length},
@@ -201,6 +198,7 @@ const GameScreen = ({navigation, route}) => {
       ].map(({n, c}) => (
         <Text key={n} center title={n + ' ' + c} />
       ))}
+        */}
       <View>
         {isBuffering && <NorLoad />}
         {fileUrl && (
@@ -209,7 +207,7 @@ const GameScreen = ({navigation, route}) => {
             controls={true}
             // controls={false}
             paused={isPaused}
-            resizeMode="cover"
+            resizeMode="contain"
             style={style.videoPlayer}
             poster={Image_Url + get_game.image_app}
             source={{
@@ -224,50 +222,46 @@ const GameScreen = ({navigation, route}) => {
             }}
             onProgress={({currentTime}) => setCurrentTime(currentTime)}
             onEnd={() => {
-              setAllQuestionsCompleted(true);
               setCompleted(true);
             }}
           />
         )}
       </View>
-
       <ScrollView style={GlobalStyle.Padding}>
-        {currentQuestion &&
-          showQuestion &&
-          !answeredQuestions[currentQuestionIndex] && (
-            <Fragment key={currentQuestionIndex}>
-              <Text
-                style={style.GameTitle}
-                title={currentQuestion.question_text}
-              />
-              <View style={GlobalStyle.mapContaner}>
-                {currentQuestion.question_type === 'true or false'
-                  ? currentQuestion.answers.map((ans, i) => (
+        {currentQuestion && showQuestion && !allQuestionsCompleted && (
+          <Fragment key={currentQuestionIndex}>
+            <Text
+              style={style.GameTitle}
+              title={currentQuestion.question_text}
+            />
+            <View style={GlobalStyle.mapContaner}>
+              {currentQuestion.question_type === 'true or false'
+                ? currentQuestion.answers.map((ans, i) => (
+                    <GameBtn
+                      key={i}
+                      index={i}
+                      title={ans.title}
+                      onPress={() => handleAnswerSelection(ans)}
+                    />
+                  ))
+                : shuffleArray([...currentQuestion.answers]).map(
+                    (answer, i) => (
                       <GameBtn
                         key={i}
                         index={i}
-                        title={ans.title}
-                        onPress={() => handleAnswerSelection(ans)}
+                        title={answer.title}
+                        onPress={() => handleAnswerSelection(answer)}
                       />
-                    ))
-                  : shuffleArray([...currentQuestion.answers]).map(
-                      (answer, i) => (
-                        <GameBtn
-                          key={i}
-                          index={i}
-                          title={answer.title}
-                          onPress={() => handleAnswerSelection(answer)}
-                        />
-                      ),
-                    )}
-              </View>
-            </Fragment>
-          )}
+                    ),
+                  )}
+            </View>
+          </Fragment>
+        )}
       </ScrollView>
 
       <Loader visible={load} />
-      <Correct visible={correct} />
       <Error visible={error} game />
+      <Correct visible={correct} game />
       <JobModal visible={completed} onPress={handleJob} />
       <DownloadProgress
         visible={isDownloading}

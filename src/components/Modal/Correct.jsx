@@ -14,7 +14,7 @@ const Correct = ({visible, text, game}) => {
       animationOut={'fadeOut'}
       backdropColor={Color.Non}
       style={
-        game
+        !game
           ? [style.MainModal, style.Modal_Container]
           : style.CorrectnErrorModal
       }>

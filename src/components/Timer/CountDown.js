@@ -5,7 +5,7 @@ import {ContBox, Error, TimeService} from '..';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import React, {useEffect, useRef, useState} from 'react';
 
-const CountDown = ({saveStart, saveEnd, handleStart, handleEnd}) => {
+const CountDown = ({handleStart, handleEnd, location}) => {
   const countdownRef = useRef(null);
   const [isRunning, setIsRunning] = useState(false);
   const [counterSelect, setCounterSelect] = useState(0);
@@ -25,9 +25,7 @@ const CountDown = ({saveStart, saveEnd, handleStart, handleEnd}) => {
         if (isRunning) {
           stopCountdown();
           handleEnd();
-          saveEnd(time);
         } else {
-          saveStart(time);
           startCountdown();
           handleStart();
         }
@@ -67,6 +65,16 @@ const CountDown = ({saveStart, saveEnd, handleStart, handleEnd}) => {
     } else {
       clearInterval(countdownRef.current);
     }
+    if (location.lat !== undefined) {
+      if (totalSeconds <= 0) {
+        setIsRunning(false);
+        handleEnd();
+        resetCountdown();
+        clearInterval(countdownRef.current);
+        return;
+      }
+    }
+
     return () => clearInterval(countdownRef.current);
   }, [isRunning]);
 
@@ -81,6 +89,9 @@ const CountDown = ({saveStart, saveEnd, handleStart, handleEnd}) => {
   };
 
   const resetCountdown = () => {
+    if (isRunning) {
+      handleEnd(); // Ensure handleEnd is called during reset
+    }
     setIsRunning(false);
     setTime({hours: '', minutes: '', seconds: ''});
   };
@@ -110,7 +121,7 @@ const CountDown = ({saveStart, saveEnd, handleStart, handleEnd}) => {
         onChangeText={text => {
           setTime(prevTime => ({
             ...prevTime,
-            [field]: text, // Ensure double-digit formatting
+            [field]: text,
           }));
         }}
         /*onChangeText={text => {

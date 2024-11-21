@@ -20,7 +20,7 @@ import {useDispatch} from 'react-redux';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {RegisterInput} from '../../utils/Data';
 import {IconType} from 'react-native-dynamic-vector-icons';
-import DatePicker from 'react-native-date-picker';
+import DatePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {checkApi, registerApi} from '../../redux/actions/AuthAction';
 
@@ -220,7 +220,7 @@ const Register = ({navigation}) => {
       <DatePicker
         theme="light"
         modal
-        open={bday.visible}
+        isVisible={bday.visible}
         date={date}
         mode="date"
         onConfirm={sdate => {

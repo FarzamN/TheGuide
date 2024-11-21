@@ -19,6 +19,15 @@ const App = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const time = getTime();
+    if (!time) AsyncStorage.setItem('time', '07:00:00');
+  }, []);
+  const getTime = async () => {
+    const time = await AsyncStorage.getItem('time');
+    return time;
+  };
+
   const fetchData = async () => {
     try {
       await Promise.all([

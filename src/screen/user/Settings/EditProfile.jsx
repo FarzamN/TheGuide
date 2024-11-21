@@ -13,7 +13,7 @@ import {style} from './style';
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Color} from '../../../utils/Color';
-import DatePicker from 'react-native-date-picker';
+import DatePicker from 'react-native-modal-datetime-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
 import {editProfile} from '../../../redux/actions/AuthAction';
@@ -206,9 +206,9 @@ const EditProfile = ({navigation}) => {
       </ScrollView>
 
       <DatePicker
-        theme="light"
+        isDarkModeEnabled={false}
         modal
-        open={bday.visible}
+        isVisible={bday.visible}
         date={date}
         mode="date"
         onConfirm={selectedDate => {
