@@ -3,6 +3,7 @@ import {
   GET_STATE,
   GET_COUNTRY,
   USER_DETAILS,
+  API_SUCCESS,
 } from '../reducer/Holder';
 import moment from 'moment';
 import {Base_Url} from '../../utils/Urls';
@@ -35,6 +36,11 @@ export const LoginApi = (data, load, err) => {
           type: USER_DETAILS,
           payload: res.user_data,
         });
+        dispatch({
+          type: API_SUCCESS,
+          payload: res.user_data.user_game_api_status,
+        });
+
         load(false);
       } else {
         load(false);

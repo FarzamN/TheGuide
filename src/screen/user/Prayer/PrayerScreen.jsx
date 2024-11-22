@@ -72,19 +72,18 @@ const PrayerScreen = () => {
     const interval = setInterval(() => {
       const now = moment();
       const diffInSeconds = targetTime.diff(now, 'seconds');
-      console.log('diffInSeconds <= 0', diffInSeconds <= 0);
       if (diffInSeconds <= 0) {
         clearInterval(interval); // Stop interval when time is up
-        setRemainingTime('00:00:00');
+        setRemainingTime('00hr 00min 00sec');
       } else {
         const hours = Math.floor(diffInSeconds / 3600);
         const minutes = Math.floor((diffInSeconds % 3600) / 60);
         const seconds = diffInSeconds % 60;
 
         setRemainingTime(
-          `${hours.toString().padStart(2, '0')}:${minutes
+          `${hours.toString().padStart(1, '0')}hr ${minutes
             .toString()
-            .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`,
+            .padStart(1, '0')}min ${seconds.toString().padStart(1, '0')}sec`,
         );
       }
     }, 1000);

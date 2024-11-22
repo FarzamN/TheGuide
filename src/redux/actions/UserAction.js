@@ -1,7 +1,12 @@
+import {
+  GET_GAME,
+  GET_EVENT,
+  API_SUCCESS,
+  GET_BIBLE_SCHOOL,
+} from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {GET_BIBLE_SCHOOL, GET_EVENT, GET_GAME} from '../reducer/Holder';
 
 export const getBibleSchoolApi = load => {
   return async dispatch => {
@@ -33,6 +38,7 @@ export const getBibleSchoolApi = load => {
 };
 
 export const getBibleSchoolApiUpdate = () => {
+  console.log('api => correct answer bible school');
   return async dispatch => {
     try {
       const url = `${Base_Url}get-incomplete-game`;
@@ -86,165 +92,183 @@ export const eventApi = load => {
   };
 };
 
-export const courseApi = async () => {
-  try {
-    const headers = new Headers();
-    const token = await AsyncStorage.getItem('token');
+export const courseApi = () => {
+  return async dispatch => {
+    try {
+      const headers = new Headers();
+      const token = await AsyncStorage.getItem('token');
 
-    headers.append('Authorization', `Bearer ${token}`);
-    const mainUrl = `${Base_Url}courses`;
-    const hittingCourseAPI = await fetch(mainUrl, {headers});
-    // console.log('1) API. json => hittingCourseAPI ', hittingCourseAPI);
+      headers.append('Authorization', `Bearer ${token}`);
+      const mainUrl = `${Base_Url}courses`;
+      const hittingCourseAPI = await fetch(mainUrl, {headers});
+      // console.log('1) API. json => hittingCourseAPI ', hittingCourseAPI);
 
-    const jsonCourseAPI = await hittingCourseAPI.json();
-    const courseData = jsonCourseAPI.data.map(course => course.id);
-    // slice(0, 2).
-    // console.log('1) API. courseData', courseData);
+      const jsonCourseAPI = await hittingCourseAPI.json();
+      const courseData = jsonCourseAPI.data.map(course => course.id);
+      // slice(0, 2).
+      // console.log('1) API. courseData', courseData);
 
-    const hitingStoreAPI = await Promise.all(
-      courseData.map(id => {
-        const formData = new FormData();
-        formData.append('course_id', id);
-        formData.append('status', 'INCOMPLETE');
-
-        return fetch(`${Base_Url}user_course/store`, {
-          headers,
-          method: 'POST',
-          body: formData,
-        });
-      }),
-    );
-    // console.log('2) API. json => hitingStoreAPI ', hitingStoreAPI);
-    const jsonStoreAPI = await Promise.all(
-      hitingStoreAPI.map(res => res.json()),
-    );
-    // console.log('2) API. jsonStoreAPI', jsonStoreAPI);
-    const hittingGetLessonAPI = await Promise.all(
-      courseData.map(id => {
-        return fetch(`${Base_Url}courses/${id}/lessons`, {
-          headers,
-          method: 'GET',
-        });
-      }),
-    );
-    // console.log('3) API. json => hittingGetLessonAPI', hittingGetLessonAPI);
-    const jsonGetLessonAPI = await Promise.all(
-      hittingGetLessonAPI.map(res => res.json()),
-    );
-    // console.log('3) API. jsonGetLessonAPI', jsonGetLessonAPI);
-
-    const hittingLessonStoreAPI = await Promise.all(
-      jsonGetLessonAPI.map(lesson => {
-        const getLessonData = lesson.data.map(data => {
+      const hitingStoreAPI = await Promise.all(
+        courseData.map(id => {
           const formData = new FormData();
-          formData.append('lesson_id', data.id);
-          formData.append('course_id', data.course_id);
+          formData.append('course_id', id);
           formData.append('status', 'INCOMPLETE');
 
-          return fetch(`${Base_Url}user_lesson/store`, {
+          return fetch(`${Base_Url}user_course/store`, {
             headers,
             method: 'POST',
             body: formData,
           });
-        });
-        return Promise.all(getLessonData);
-      }),
-    );
-    // console.log('4) API. json => hittingLessonStoreAPI', hittingLessonStoreAPI);
-    const jsonLessonGetStore = await Promise.all(
-      hittingLessonStoreAPI.flat().map(async res => await res.json()),
-    );
-    // console.log('4) API. jsonLessonGetStore', jsonLessonGetStore);
-
-    const hittingLessonAssigmentAPI = await Promise.all(
-      jsonGetLessonAPI.map(lesson => {
-        const getLessonStoreData = lesson.data.map(data => {
-          return fetch(`${Base_Url}lessons/${data.id}/assignments`, {
+        }),
+      );
+      // console.log('2) API. json => hitingStoreAPI ', hitingStoreAPI);
+      const jsonStoreAPI = await Promise.all(
+        hitingStoreAPI.map(res => res.json()),
+      );
+      // console.log('2) API. jsonStoreAPI', jsonStoreAPI);
+      const hittingGetLessonAPI = await Promise.all(
+        courseData.map(id => {
+          return fetch(`${Base_Url}courses/${id}/lessons`, {
             headers,
             method: 'GET',
           });
-        });
-        return Promise.all(getLessonStoreData);
-      }),
-    );
-    // console.log(
-    //   '5) API. json => hittingLessonAssigmentAPI',
-    //   hittingLessonAssigmentAPI,
-    // );
-    const jsonLessonAssigmentAPI = await Promise.all(
-      hittingLessonAssigmentAPI.flat().map(async res => await res.json()),
-    );
-    // console.log('5) API. jsonLessonAssigmentAPI', jsonLessonAssigmentAPI);
+        }),
+      );
+      // console.log('3) API. json => hittingGetLessonAPI', hittingGetLessonAPI);
+      const jsonGetLessonAPI = await Promise.all(
+        hittingGetLessonAPI.map(res => res.json()),
+      );
+      // console.log('3) API. jsonGetLessonAPI', jsonGetLessonAPI);
 
-    const hittingAssigmentStore = await Promise.all(
-      jsonLessonAssigmentAPI.map(assigment => {
-        const getAssigmentData = assigment.data.map(data => {
-          const formData = new FormData();
-          formData.append('assignment_id', data.id);
-          formData.append('lesson_id', data.lesson_id);
-          formData.append('course_id', data.course_id);
-          formData.append('status', 'INCOMPLETE');
+      const hittingLessonStoreAPI = await Promise.all(
+        jsonGetLessonAPI.map(lesson => {
+          const getLessonData = lesson.data.map(data => {
+            const formData = new FormData();
+            formData.append('lesson_id', data.id);
+            formData.append('course_id', data.course_id);
+            formData.append('status', 'INCOMPLETE');
 
-          return fetch(`${Base_Url}user_assignment/store`, {
-            headers,
-            method: 'POST',
-            body: formData,
+            return fetch(`${Base_Url}user_lesson/store`, {
+              headers,
+              method: 'POST',
+              body: formData,
+            });
           });
-        });
-        return Promise.all(getAssigmentData);
-      }),
-    );
-    // console.log('6) API. json => hittingAssigmentStore', hittingAssigmentStore);
-    const jsonAssigmentStore = await Promise.all(
-      hittingAssigmentStore.flat().map(async res => await res.json()),
-    );
-    // console.log('6) API. jsonAssigmentStore', jsonAssigmentStore);
+          return Promise.all(getLessonData);
+        }),
+      );
+      // console.log('4) API. json => hittingLessonStoreAPI', hittingLessonStoreAPI);
+      const jsonLessonGetStore = await Promise.all(
+        hittingLessonStoreAPI.flat().map(async res => await res.json()),
+      );
+      // console.log('4) API. jsonLessonGetStore', jsonLessonGetStore);
 
-    const hittingGetGameApi = await Promise.all(
-      jsonLessonAssigmentAPI.map(assigment => {
-        // Return the array of fetch promises from the inner map
-        return Promise.all(
-          assigment.data.map(data => {
-            return fetch(`${Base_Url}assignment/${data.id}/get-game`, {
+      const hittingLessonAssigmentAPI = await Promise.all(
+        jsonGetLessonAPI.map(lesson => {
+          const getLessonStoreData = lesson.data.map(data => {
+            return fetch(`${Base_Url}lessons/${data.id}/assignments`, {
               headers,
               method: 'GET',
             });
-          }),
-        );
-      }),
-    );
-    // console.log('7 API. json => hittingGetGameApi', hittingGetGameApi);
-    const jsonGetGame = await Promise.all(
-      hittingGetGameApi.flat().map(res => res.json()),
-    );
-    // console.log('7) API. jsonGetGame', jsonGetGame);
-
-    const hittingUserGameStore = await Promise.all(
-      jsonGetGame.map(game => {
-        const getGameData = game.data.map(data => {
-          const formData = new FormData();
-          formData.append('game_id', data.id);
-          formData.append('assignment_id', data.assignment_id);
-          formData.append('lesson_id', data.lesson_id);
-          formData.append('course_id', data.course_id);
-          formData.append('status', 'INCOMPLETE');
-          return fetch(`${Base_Url}user_game/store`, {
-            headers,
-            method: 'POST',
-            body: formData,
           });
-        });
-        return Promise.all(getGameData);
-      }),
-    );
-    // console.log('8 API. json => hittingUserGameStore', hittingUserGameStore);
-    const jsonStoreGame = await Promise.all(
-      hittingUserGameStore.flat().map(res => res.json()),
-    );
-    // console.log('8) API. jsonStoreGame', jsonStoreGame);
-  } catch (error) {
-    console.log('Error in courseAPI:', error);
-  }
+          return Promise.all(getLessonStoreData);
+        }),
+      );
+      // console.log(
+      //   '5) API. json => hittingLessonAssigmentAPI',
+      //   hittingLessonAssigmentAPI,
+      // );
+      const jsonLessonAssigmentAPI = await Promise.all(
+        hittingLessonAssigmentAPI.flat().map(async res => await res.json()),
+      );
+      // console.log('5) API. jsonLessonAssigmentAPI', jsonLessonAssigmentAPI);
+
+      const hittingAssigmentStore = await Promise.all(
+        jsonLessonAssigmentAPI.map(assigment => {
+          const getAssigmentData = assigment.data.map(data => {
+            const formData = new FormData();
+            formData.append('assignment_id', data.id);
+            formData.append('lesson_id', data.lesson_id);
+            formData.append('course_id', data.course_id);
+            formData.append('status', 'INCOMPLETE');
+
+            return fetch(`${Base_Url}user_assignment/store`, {
+              headers,
+              method: 'POST',
+              body: formData,
+            });
+          });
+          return Promise.all(getAssigmentData);
+        }),
+      );
+      // console.log('6) API. json => hittingAssigmentStore', hittingAssigmentStore);
+      const jsonAssigmentStore = await Promise.all(
+        hittingAssigmentStore.flat().map(async res => await res.json()),
+      );
+      // console.log('6) API. jsonAssigmentStore', jsonAssigmentStore);
+
+      const hittingGetGameApi = await Promise.all(
+        jsonLessonAssigmentAPI.map(assigment => {
+          // Return the array of fetch promises from the inner map
+          return Promise.all(
+            assigment.data.map(data => {
+              return fetch(`${Base_Url}assignment/${data.id}/get-game`, {
+                headers,
+                method: 'GET',
+              });
+            }),
+          );
+        }),
+      );
+      // console.log('7 API. json => hittingGetGameApi', hittingGetGameApi);
+      const jsonGetGame = await Promise.all(
+        hittingGetGameApi.flat().map(res => res.json()),
+      );
+      // console.log('7) API. jsonGetGame', jsonGetGame);
+
+      const hittingUserGameStore = await Promise.all(
+        jsonGetGame.map(game => {
+          const getGameData = game.data.map(data => {
+            const formData = new FormData();
+            formData.append('game_id', data.id);
+            formData.append('assignment_id', data.assignment_id);
+            formData.append('lesson_id', data.lesson_id);
+            formData.append('course_id', data.course_id);
+            formData.append('status', 'INCOMPLETE');
+            return fetch(`${Base_Url}user_game/store`, {
+              headers,
+              method: 'POST',
+              body: formData,
+            });
+          });
+          return Promise.all(getGameData);
+        }),
+      );
+      // console.log('8 API. json => hittingUserGameStore', hittingUserGameStore);
+      const jsonStoreGame = await Promise.all(
+        hittingUserGameStore.flat().map(res => res.json()),
+      );
+      // console.log('8) API. jsonStoreGame', jsonStoreGame);
+
+      // when all api will hit successfully this api will hit
+      // dispatch(bigApiSuccess());
+
+      const hittingCompletedApi = await fetch(
+        `${Base_Url}user-game-api-success`,
+        {
+          headers,
+          method: 'POST',
+        },
+      );
+
+      const resOfComplete = await hittingCompletedApi.json();
+      if (resOfComplete.success) {
+        dispatch({type: API_SUCCESS, payload: 1});
+      }
+    } catch (error) {
+      console.log('Error in courseAPI:', error);
+    }
+  };
 };
 
 export const getGameApi = (load, id) => {
@@ -332,12 +356,6 @@ export const gameQuestionAPI = async (item, question_id) => {
   }
 };
 
-/*
-export const prayerCreate = data => {
-  console.log('prayer Create', data);
-};
-*/
-
 export const prayerCreate = async (data, setData) => {
   const url = `${Base_Url}prayer-create-update/${null}?`;
   const myData = new FormData();
@@ -377,12 +395,6 @@ export const prayerCreate = async (data, setData) => {
   }
 };
 
-/*
-export const prayerUpdate = data => {
-  console.log('prayer Update', data);
-};
-*/
-
 export const prayerUpdate = async data => {
   const url = `${Base_Url}prayer-update/${data.id}`;
   const myData = new FormData();
@@ -411,12 +423,6 @@ export const prayerUpdate = async data => {
     console.log('Error in prayerCreateUpdate:', error);
   }
 };
-
-/*
-export const TimerCreate = data => {
-  console.log('TimerCreate', data);
-};
-*/
 
 export const TimerCreate = async (data, setData) => {
   const url = `${Base_Url}prayer-create-update/${null}?`;
@@ -456,12 +462,6 @@ export const TimerCreate = async (data, setData) => {
     console.log('Error in TimerCreate:', error);
   }
 };
-
-/*
-export const TimerUpdate = data => {
-  console.log('TimerUpdate', data);
-};
-*/
 
 export const TimerUpdate = async data => {
   console.log('TimerUpdate goal', data.goal);

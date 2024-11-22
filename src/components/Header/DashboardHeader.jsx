@@ -64,43 +64,31 @@ const DashboardHeader = ({onPray}) => {
           {
             title: 'Due',
             data: 'Bible',
-            sub: userDetail.bible_streak ?? 0,
-            status: 'Streak',
+            Status: '#',
           },
           {
             title: 'Due',
             data: 'Pray',
-            // sub: userDetail.user_prayer_streak,
-            // status: 'Status',
-            prayLevel: 'L1',
+            Status: 'L1',
             press: onPray,
           },
-        ].map((i, ix) => {
-          return (
-            <TouchableOpacity
-              activeOpacity={i.press ? 0.5 : 1}
-              onPress={i.press}
-              key={ix}
-              style={[style.box, GlobalStyle.justify]}>
-              <View>
-                <Text style={style.title} title={i.title} />
-                <Text style={style.data} title={i.data} />
-              </View>
-              <View style={style.line} />
+        ].map(i => (
+          <TouchableOpacity
+            activeOpacity={i.press ? 0.5 : 1}
+            onPress={i.press}
+            key={i.data}
+            style={[style.box, GlobalStyle.justify]}>
+            <View style={[GlobalStyle.justify, {width: '45%'}]}>
+              <Text style={style.title} title={i.title} />
+              <Text style={style.data} title={i.data} />
+            </View>
+            <View style={style.line} />
 
-              <View style={style.HeadTextBox}>
-                {i.prayLevel ? (
-                  <Text style={style.prayLevel} center title={i.prayLevel} />
-                ) : (
-                  <>
-                    <Text style={style.subText} title={i.sub} />
-                    <Text style={style.subText} title={i.status} />
-                  </>
-                )}
-              </View>
-            </TouchableOpacity>
-          );
-        })}
+            <View style={[style.HeadTextBox]}>
+              <Text style={style.prayLevel} center title={i.Status} />
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
     </ImageBackground>
   );

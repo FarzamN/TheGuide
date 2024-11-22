@@ -5,6 +5,7 @@ export const GET_STATE = 'GET_STATE';
 export const GET_BIBLE_SCHOOL = 'GET_BIBLE_SCHOOL';
 export const GET_EVENT = 'GET_EVENT';
 export const GET_GAME = 'GET_GAME';
+export const API_SUCCESS = 'API_SUCCESS';
 
 const initial_state = {
   userDetails: false,
@@ -14,6 +15,7 @@ const initial_state = {
   get_bible_school: [],
   get_event: [],
   get_game: {},
+  api_success: 5,
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -53,6 +55,12 @@ const holderReducer = (state = initial_state, action) => {
         ...state,
         get_game: action.payload,
       };
+    case API_SUCCESS:
+      return {
+        ...state,
+        api_success: action.payload,
+      };
+
     default: {
       return state;
     }

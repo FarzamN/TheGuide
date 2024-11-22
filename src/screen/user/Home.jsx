@@ -19,6 +19,25 @@ const Home = () => {
   const {navigate, getParent} = useNavigation();
   const [load, setLoad] = useState(false);
   const data = useSelector(state => state.get_bible_school);
+  const api_success = useSelector(state => state.api_success);
+
+  useEffect(() => {
+    if (api_success == 0) {
+      dispatch(courseApi());
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getBibleSchoolApi(setLoad));
+  }, []);
+
+  const onRefresh = () => {
+    setRefresh(true);
+    dispatch(getBibleSchoolApi(setLoad));
+    setRefresh(false);
+  };
+
+  const emp = "You don't have any game";
 
   useFocusEffect(
     useCallback(() => {
@@ -27,16 +46,6 @@ const Home = () => {
       });
     }, []),
   );
-  useEffect(() => {
-    courseApi();
-    dispatch(getBibleSchoolApi(setLoad));
-  }, []);
-  const onRefresh = () => {
-    setRefresh(true);
-    dispatch(getBibleSchoolApi(setLoad));
-    setRefresh(false);
-  };
-  const emp = "You don't have any game";
   return (
     <Body>
       <DashboardHeader />

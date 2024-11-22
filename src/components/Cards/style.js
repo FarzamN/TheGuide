@@ -73,6 +73,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 7,
     borderRadius: 20,
     width: 100,
+    marginBottom: 8,
   },
   AssigmentPlayText: {
     fontSize: 14,

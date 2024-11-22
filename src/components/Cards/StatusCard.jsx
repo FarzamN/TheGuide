@@ -4,9 +4,12 @@ import {Text} from '..';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {styles} from './style';
 import LinearGradient from 'react-native-linear-gradient';
+import {Bar} from 'react-native-progress';
+import {width} from '../../utils/Constants';
+import {Color} from '../../utils/Color';
 
 const StatusCard = ({data, index}) => {
-  const Color = [
+  const Colors = [
     ['#03B547', '#04C34D', '#0DF166', '#0CE45F'],
     ['#0000C0', '#0031D2', '#3468F0', '#7074FC'],
     ['#EE5613', '#FE6716', '#FF7F34', '#FB6C28'],
@@ -22,13 +25,13 @@ const StatusCard = ({data, index}) => {
     ['#EC5613', '#FF6E1E', '#FF8035', '#FB6E2B'],
   ];
 
-  const rand = Math.floor(Math.random() * Color.length);
-  const color = index % Color.length;
+  const rand = Math.floor(Math.random() * Colors.length);
+  const color = index % Colors.length;
   return (
     <LinearGradient
       start={{x: 0, y: 0}}
       end={{x: 1, y: 0}}
-      colors={Color[color]}
+      colors={Colors[color]}
       style={[
         styles.height,
         GlobalStyle.row,
@@ -41,9 +44,16 @@ const StatusCard = ({data, index}) => {
 
       <View style={[styles.centerBox, GlobalStyle.justify, styles.height]}>
         <Text style={styles.Text} title={`Pray ${data.title} minuts`} />
-        <View style={styles.Progress}>
-          <View style={[styles.ProgressValue, {width: data.progress}]} />
-        </View>
+        <Bar
+          progress={data.progress / 100}
+          width={150}
+          color={Color.white}
+          unfilledColor={Color.Non}
+          height={9}
+          borderRadius={20}
+          borderColor={Color.white}
+          style={{alignSelf: 'center', marginTop: 6}}
+        />
       </View>
 
       <View style={[styles.secBox, GlobalStyle.justify, styles.height]}>

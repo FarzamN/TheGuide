@@ -188,8 +188,8 @@ const GameScreen = ({navigation, route}) => {
         title={item.course_name}
         subTitle={item.game_title}
       />
-      {/*  
-       {[
+
+      {[
         {n: 'id', c: item.id},
         {n: 'currentTime', c: Math.ceil(currentTime)},
         {n: 'quesion length', c: gameQuestions.length},
@@ -198,7 +198,7 @@ const GameScreen = ({navigation, route}) => {
       ].map(({n, c}) => (
         <Text key={n} center title={n + ' ' + c} />
       ))}
-        */}
+
       <View>
         {isBuffering && <NorLoad />}
         {fileUrl && (

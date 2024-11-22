@@ -59,9 +59,10 @@ export default StyleSheet.create({
   // ------------------------------------------------
   box: {
     backgroundColor: Color.white,
+    // backgroundColor: 'red',
     borderRadius: 10,
     paddingVertical: 5,
-    width: '44%',
+    width: '43%',
     flexDirection: 'row',
   },
   data: {
@@ -78,12 +79,11 @@ export default StyleSheet.create({
   line: {
     height: 50,
     width: 1,
-    marginHorizontal: 10,
     backgroundColor: Color.LineDarkBlue,
   },
   HeadTextBox: {
     alignItems: 'center',
-    width: '30%',
+    width: '45%',
     alignSelf: 'center',
   },
   // -------------------------------

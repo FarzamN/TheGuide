@@ -1,8 +1,9 @@
+import {Text} from '..';
 import React from 'react';
 import {styles} from './style';
 import {Image_Url} from '../../utils/Urls';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
+import {View, ImageBackground, TouchableOpacity} from 'react-native';
 
 const HomeAssigmentCard = ({data, onPress}) => {
   return (
@@ -10,15 +11,18 @@ const HomeAssigmentCard = ({data, onPress}) => {
       onPress={onPress}
       style={[GlobalStyle.shadow, styles.HomeCardCont]}>
       <ImageBackground
+        resizeMode="stretch"
         source={{uri: Image_Url + data.image_app}}
         style={styles.AssigmentCard}>
         <View style={styles.HomeTextCont}>
           {/* yaha image aye gi */}
           <View style={styles.AssigmentTextWrapper}>
-            <Text style={styles.AssigmentTitle}>{data.course_name}</Text>
-            <Text style={styles.AssigmentSubtitle}>{data.game_title}</Text>
+            <Text style={styles.AssigmentTitle} title={data.course_name} />
+
+            <Text style={styles.AssigmentSubtitle} title={data.game_title} />
+
             <View style={[styles.AssigmentPlayButton, GlobalStyle.justify]}>
-              <Text style={styles.AssigmentPlayText}>Play</Text>
+              <Text style={styles.AssigmentPlayText} title="Play" />
             </View>
           </View>
         </View>
