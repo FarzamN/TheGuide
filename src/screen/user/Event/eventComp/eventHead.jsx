@@ -14,7 +14,7 @@ const EventHead = ({onAgePress, onTypePress, type, page}) => {
         style={[[style.box, GlobalStyle.between]]}>
         <Text style={style.btmTitle} title={type} />
         <Icon
-          size={13}
+          size={11}
           name="caretdown"
           color={Color.textGrey}
           type={IconType.AntDesign}
@@ -25,7 +25,7 @@ const EventHead = ({onAgePress, onTypePress, type, page}) => {
         style={[[style.box, GlobalStyle.between]]}>
         <Text style={style.btmTitle} title={page} />
         <Icon
-          size={13}
+          size={11}
           name="caretdown"
           color={Color.textGrey}
           type={IconType.AntDesign}
@@ -36,7 +36,7 @@ const EventHead = ({onAgePress, onTypePress, type, page}) => {
           name="star"
           type={IconType.AntDesign}
           color={Color.orange}
-          size={18}
+          size={15}
         />
       </TouchableOpacity>
     </View>

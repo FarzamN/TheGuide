@@ -40,7 +40,6 @@ export const styles = StyleSheet.create({
   AssigmentCard: {
     borderRadius: 20,
     overflow: 'hidden',
-    paddingVertical: 3,
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 10,
@@ -56,12 +55,12 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   AssigmentTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontFamily: Font.font700,
     color: white,
   },
   AssigmentSubtitle: {
-    fontSize: 14,
+    fontSize: 13,
     color: white,
     marginBottom: 5,
     fontFamily: Font.font600,
@@ -72,11 +71,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 7,
     borderRadius: 20,
-    width: 100,
+    width: 90,
     marginBottom: 8,
   },
   AssigmentPlayText: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#000',
     fontWeight: 'bold',
   },
@@ -113,8 +112,9 @@ export const styles = StyleSheet.create({
   },
   Text: {
     color: white,
-    fontSize: 17,
+    fontSize: 14,
     fontFamily: Font.font600,
+    textTransform: 'capitalize',
   },
   secBox: {
     width: '20%',
@@ -140,7 +140,7 @@ export const styles = StyleSheet.create({
   },
   dateText: {
     color: white,
-    fontSize: 13,
+    fontSize: 10,
     fontFamily: Font.font700,
   },
   iconBackground: {
@@ -150,12 +150,12 @@ export const styles = StyleSheet.create({
     backgroundColor: '#201B1E',
   },
   EventName: {
-    fontSize: 20,
+    fontSize: 17,
     color: '#FFAB00',
     fontFamily: Font.font700,
   },
   EventTitle: {
-    fontSize: 12,
+    fontSize: 11,
     color: white,
     fontFamily: Font.font600,
     textTransform: 'capitalize',

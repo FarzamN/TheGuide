@@ -4,12 +4,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Font} from '../../utils/Font';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {Color} from '../../utils/Color';
+import {end, start} from '../../utils/Data';
 
 const BibleCard = ({item, single, name1, name2, onPress1, onPress2}) => {
   return (
     <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 1, y: 0}}
+      start={start}
+      end={end}
       colors={['#23c6fd', '#2cbffd', '#3ab3fc', '#48a7fb']}
       style={styles.MainBoxCon}>
       <View style={styles.MainP1}>
@@ -52,8 +53,8 @@ const BibleCard = ({item, single, name1, name2, onPress1, onPress2}) => {
           {single ? (
             <TouchableOpacity onPress={onPress1} activeOpacity={0.7}>
               <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
+                start={start}
+                end={end}
                 colors={['#10ba03', '#16cb0e', '#33e81f', '#3bf023']}
                 style={styles.VidConSty2}>
                 <Text style={styles.DualBtnTx}>{name1}</Text>
@@ -63,8 +64,8 @@ const BibleCard = ({item, single, name1, name2, onPress1, onPress2}) => {
             <>
               <TouchableOpacity onPress={onPress1} activeOpacity={0.7}>
                 <LinearGradient
-                  start={{x: 0, y: 0}}
-                  end={{x: 1, y: 0}}
+                  start={start}
+                  end={end}
                   colors={['#10ba03', '#16cb0e', '#33e81f', '#3bf023']}
                   style={styles.VidConSty}>
                   <Text style={styles.DualBtnTx}>{name1}</Text>
@@ -73,8 +74,8 @@ const BibleCard = ({item, single, name1, name2, onPress1, onPress2}) => {
 
               <TouchableOpacity onPress={onPress2} activeOpacity={0.7}>
                 <LinearGradient
-                  start={{x: 0, y: 0}}
-                  end={{x: 1, y: 0}}
+                  start={start}
+                  end={end}
                   colors={['#ffc121', '#ffb035', '#ffa44a', '#ff9663']}
                   style={styles.VidConSty}>
                   <Text style={styles.DualBtnTx}>{name2}</Text>

@@ -23,7 +23,7 @@ const DashboardHeader = ({onPray}) => {
       <View style={[GlobalStyle.between, style.HeadRow]}>
         <TouchableOpacity onPress={openDrawer}>
           <Image
-            style={{width: 20, height: 20}}
+            style={{width: 17, height: 17}}
             resizeMode="contain"
             source={require('../../assets/image/menu.png')}
           />
@@ -52,7 +52,7 @@ const DashboardHeader = ({onPray}) => {
           <TouchableOpacity onPress={notiHandler}>
             <Image
               resizeMode="contain"
-              style={{width: 20, height: 20}}
+              style={{width: 17, height: 17}}
               source={require('../../assets/image/notifaction.png')}
             />
           </TouchableOpacity>

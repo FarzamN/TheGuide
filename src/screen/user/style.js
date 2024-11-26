@@ -58,13 +58,13 @@ export const style = StyleSheet.create({
 
   // ------- Switch styles
   SwitchCont: {
-    borderWidth: 1,
-    borderColor: Color.lightgrey,
-    borderRadius: 10,
+    padding: 2,
     width: '90%',
     marginTop: 15,
-    padding: 2,
+    borderWidth: 1,
+    borderRadius: 10,
     alignSelf: 'center',
+    borderColor: Color.lightgrey,
   },
 
   TimeChangeCont: {
@@ -79,5 +79,15 @@ export const style = StyleSheet.create({
   timeChangeText: {
     fontSize: 14,
     fontWeight: 'bold',
+  },
+
+  // ---------- web view style
+  closeBTN: {
+    alignSelf: 'flex-end',
+    zIndex: 1,
+    position: 'absolute',
+    borderRadius: 100,
+    right: 10,
+    top: 10,
   },
 });

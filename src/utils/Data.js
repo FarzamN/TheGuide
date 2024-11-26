@@ -73,3 +73,6 @@ export const loginField = [
     icName: 'lock',
   },
 ];
+
+export const start = {x: 0, y: 0};
+export const end = {x: 1, y: 0};

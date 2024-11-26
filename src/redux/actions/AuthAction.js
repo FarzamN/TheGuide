@@ -143,20 +143,19 @@ export const checkApi = () => {
 
 export const LogOutApi = () => {
   return async dispatch => {
+    const url = `${Base_Url}logout`;
+    await AsyncStorage.removeItem('user_details');
+    dispatch({type: USER_DETAILS, payload: null});
+
+    const token = await AsyncStorage.getItem('token');
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', `Bearer ${token}`);
     try {
-      await AsyncStorage.removeItem('user_details');
-      dispatch({type: USER_DETAILS, payload: null});
-
-      const url = `${Base_Url}logout`;
-
-      const response = await fetch(url);
-
-      const responseData = await response.json();
-
-      if (responseData.ok) {
-        await AsyncStorage.removeItem('user_details');
-        dispatch({type: USER_DETAILS, payload: false});
-      }
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: myHeaders,
+      });
+      const respons = await res.json();
     } catch (error) {
       console.log('error LogOutApi', error);
       Toast.show('Server side error');
@@ -173,7 +172,18 @@ export const getCoutry = () => {
       const responseData = await response.json();
 
       if (responseData.status == true) {
-        dispatch({type: GET_COUNTRY, payload: responseData.countries});
+        const us = {
+          id: 231,
+          shortname: 'US',
+          name: 'United States',
+          phonecode: 1,
+        };
+        const countriesWithUS = [us, ...responseData.countries];
+
+        dispatch({
+          type: GET_COUNTRY,
+          payload: countriesWithUS,
+        });
       }
     } catch (error) {
       console.log('error getCoutry', error);

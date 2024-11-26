@@ -23,13 +23,13 @@ export default StyleSheet.create({
     fontFamily: Font.font700,
   },
   title: {
-    fontSize: 17,
+    fontSize: 14,
     color: 'red',
     fontFamily: Font.font700,
   },
   BannerImage: {
     width: width,
-    height: 250,
+    height: 230,
     marginBottom: -30,
   },
   ProfileImage: {
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   ProfileTitle: {
-    fontSize: 20,
+    fontSize: 18,
     color: Color.white,
     fontFamily: Font.font600,
   },
@@ -66,7 +66,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   data: {
-    fontSize: 15,
+    fontSize: 13,
     marginTop: 5,
     fontFamily: Font.font500,
   },
@@ -77,7 +77,7 @@ export default StyleSheet.create({
     fontFamily: Font.font600,
   },
   line: {
-    height: 50,
+    height: 43,
     width: 1,
     backgroundColor: Color.LineDarkBlue,
   },

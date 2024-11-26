@@ -10,7 +10,11 @@ import {
   GameHeader,
   DownloadProgress,
 } from '../../../components';
-import {getGameApi, getGameIdAPI} from '../../../redux/actions/UserAction';
+import {
+  getBibleSchoolApiUpdate,
+  getGameApi,
+  getGameIdAPI,
+} from '../../../redux/actions/UserAction';
 
 import {style} from './style';
 import Video from 'react-native-video';
@@ -102,7 +106,6 @@ const GameScreen = ({navigation, route}) => {
     handleAnswer(
       item,
       answer,
-      dispatch,
       setError,
       seekVideo,
       setCorrect,
@@ -117,6 +120,7 @@ const GameScreen = ({navigation, route}) => {
   const handleJob = () => {
     // deleteFile();
     setCompleted(false);
+    dispatch(getBibleSchoolApiUpdate());
     setTimeout(() => {
       goBack();
     }, 100);

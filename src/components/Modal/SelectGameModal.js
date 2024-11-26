@@ -7,6 +7,7 @@ import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {Color} from '../../utils/Color';
 import ChooseModeModal from './ChooseModeModal';
 import {height} from '../../utils/Constants';
+import {end, start} from '../../utils/Data';
 
 const SelectGameModal = props => {
   const {onBackdropPress, isVisible} = props;
@@ -58,8 +59,8 @@ const SelectGameModal = props => {
             onPress={() => setSelectModal2(true)}
             activeOpacity={0.8}>
             <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
+              start={start}
+              end={end}
               colors={['#F54600', '#F56A00', '#F58800', '#F59900', '#F59900']}
               style={{
                 height: 85,

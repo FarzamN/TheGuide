@@ -11,7 +11,12 @@ import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch, useSelector} from 'react-redux';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {courseApi, getBibleSchoolApi} from '../../redux/actions/UserAction';
+import {
+  bassChalo,
+  bariWaliAPI,
+  getBibleSchoolApi,
+  prayerGupportGoal,
+} from '../../redux/actions/UserAction';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -23,16 +28,21 @@ const Home = () => {
 
   useEffect(() => {
     if (api_success == 0) {
-      dispatch(courseApi());
+      dispatch(bariWaliAPI());
     }
-  }, [dispatch]);
+    bassChalo();
+    dispatch(getBibleSchoolApi(setLoad));
+  }, [api_success]);
 
   useEffect(() => {
+    bassChalo();
     dispatch(getBibleSchoolApi(setLoad));
+    dispatch(prayerGupportGoal());
   }, []);
 
   const onRefresh = () => {
     setRefresh(true);
+    bassChalo();
     dispatch(getBibleSchoolApi(setLoad));
     setRefresh(false);
   };

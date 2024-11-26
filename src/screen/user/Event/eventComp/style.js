@@ -25,7 +25,7 @@ export const style = StyleSheet.create({
     fontFamily: Font.font600,
   },
   btmTitle: {
-    fontSize: 13,
+    fontSize: 11,
     fontFamily: Font.font600,
     color: Color.textGrey,
   },

@@ -9,11 +9,11 @@ export const style = StyleSheet.create({
     width: 220,
   },
   heading: {
-    fontSize: 30,
+    fontSize: 23,
     fontFamily: Font.font600,
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#B7B8BC',
   },
   container: {

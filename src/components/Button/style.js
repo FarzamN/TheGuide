@@ -4,7 +4,7 @@ import {Font} from '../../utils/Font';
 
 export const styles = StyleSheet.create({
   containerStyle: {
-    height: 52,
+    height: 48,
     marginTop: 5,
     width: '100%',
     borderRadius: 20,
@@ -14,12 +14,12 @@ export const styles = StyleSheet.create({
   },
 
   font: {
-    fontSize: 16,
+    fontSize: 14,
     color: Color.white,
     fontFamily: Font.font600,
   },
   whiteStyle: {
-    height: 52,
+    height: 48,
     marginTop: 5,
     borderWidth: 1.5,
     borderRadius: 20,
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Color.white,
   },
   whiteFont: {
-    fontSize: 16,
+    fontSize: 14,
     color: Color.black,
     fontFamily: Font.font400,
   },

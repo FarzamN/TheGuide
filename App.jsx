@@ -1,19 +1,18 @@
 import React, {useEffect} from 'react';
-import Splash from 'react-native-splash-screen';
-import AuthNavigation from './src/navigation/AuthNavigation';
-import DrawerNavigation from './src/navigation/DrawerNavigation.jsx';
-import {useDispatch, useSelector} from 'react-redux';
-import {getCity, getCoutry, getState} from './src/redux/actions/AuthAction';
-import navigationColor from 'react-native-system-navigation-bar';
 import {Color} from './src/utils/Color';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {USER_DETAILS} from './src/redux/reducer/Holder.js';
+import Splash from 'react-native-splash-screen';
 import {requestStoragePermission} from './src/hooks';
+import {useDispatch, useSelector} from 'react-redux';
+import {USER_DETAILS} from './src/redux/reducer/Holder.js';
+import AuthNavigation from './src/navigation/AuthNavigation';
+import navigationColor from 'react-native-system-navigation-bar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import DrawerNavigation from './src/navigation/DrawerNavigation.jsx';
+import {getCity, getCoutry, getState} from './src/redux/actions/AuthAction';
 
 const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
-  // console.log('userDetails', userDetails);
 
   useEffect(() => {
     fetchData();
@@ -21,8 +20,9 @@ const App = () => {
 
   useEffect(() => {
     const time = getTime();
-    if (!time) AsyncStorage.setItem('time', '07:00:00');
+    if (!time) AsyncStorage.setItem('time', '19:00');
   }, []);
+
   const getTime = async () => {
     const time = await AsyncStorage.getItem('time');
     return time;

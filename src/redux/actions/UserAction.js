@@ -3,6 +3,7 @@ import {
   GET_EVENT,
   API_SUCCESS,
   GET_BIBLE_SCHOOL,
+  PRAYER_SUPPORT_GOAL,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -11,13 +12,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const getBibleSchoolApi = load => {
   return async dispatch => {
     load(true);
+    const url = `${Base_Url}get-incomplete-game`;
+
+    const myHeaders = new Headers();
+    const token = await AsyncStorage.getItem('token');
+
+    myHeaders.append('Authorization', `Bearer ${token}`);
     try {
-      const url = `${Base_Url}get-incomplete-game`;
-
-      const myHeaders = new Headers();
-      const token = await AsyncStorage.getItem('token');
-
-      myHeaders.append('Authorization', `Bearer ${token}`);
       const response = await fetch(url, {
         method: 'GET',
         headers: myHeaders,
@@ -37,8 +38,25 @@ export const getBibleSchoolApi = load => {
   };
 };
 
+export const bassChalo = async () => {
+  const url = `${Base_Url}user-course-lesson-assignment-game`;
+  const myHeaders = new Headers();
+  const token = await AsyncStorage.getItem('token');
+  myHeaders.append('Authorization', `Bearer ${token}`);
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: myHeaders,
+    });
+    const res = await response.json();
+  } catch (error) {
+    console.log('error bassChalo', error);
+    Toast.show('Server side error');
+  }
+};
+
 export const getBibleSchoolApiUpdate = () => {
-  console.log('api => correct answer bible school');
   return async dispatch => {
     try {
       const url = `${Base_Url}get-incomplete-game`;
@@ -92,9 +110,10 @@ export const eventApi = load => {
   };
 };
 
-export const courseApi = () => {
+export const bariWaliAPI = () => {
   return async dispatch => {
     try {
+      console.log('kya meri api hit hwi');
       const headers = new Headers();
       const token = await AsyncStorage.getItem('token');
 
@@ -527,4 +546,44 @@ export const NumberCreate = async data => {
     Toast.show('Server side error');
     console.log('Error in TimerCreate:', error);
   }
+};
+
+export const prayerGupportGoal = () => {
+  return async dispatch => {
+    const url = `${Base_Url}prayer-support-goal`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      if (res.status === 'success') {
+        dispatch({type: PRAYER_SUPPORT_GOAL, payload: res.data});
+      }
+    } catch (error) {
+      Toast.show('Server side error');
+      console.log('Error in prayerGupportGoal:', error);
+    }
+  };
+};
+export const pray_status = load => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}app-prayer-levels`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      load(false);
+      if (res.status) {
+        dispatch({type: 'PRAY_STATUS', payload: res.levels.reverse()});
+      }
+    } catch (error) {
+      load(false);
+      Toast.show('Server side error');
+      console.log('Error in pray_status:', error);
+    }
+  };
 };

@@ -3,6 +3,7 @@ import {Text, TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import LinearGradient from 'react-native-linear-gradient';
 import {styles} from './style';
+import {end, start} from '../../utils/Data';
 
 const CustomButton = ({
   onPress,
@@ -24,8 +25,8 @@ const CustomButton = ({
         style,
       ]}>
       <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
+        start={start}
+        end={end}
         colors={
           disabled
             ? ['#fdc962', '#fab95c', '#ffa051']

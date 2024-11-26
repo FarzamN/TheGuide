@@ -1,5 +1,5 @@
 import {TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   AuthBody,
   BirthdayBtn,
@@ -7,7 +7,6 @@ import {
   MainInput,
   GenderDropDown,
   Text,
-  Validation,
   WhiteBtn,
   CountryBtn,
   Loader,
@@ -16,11 +15,10 @@ import {
 import {style} from './style';
 import {useForm} from 'react-hook-form';
 import {emailPattern, required} from '../../utils/Constants';
-import {useDispatch} from 'react-redux';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {RegisterInput} from '../../utils/Data';
 import {IconType} from 'react-native-dynamic-vector-icons';
-import DatePicker from 'react-native-modal-datetime-picker';
+import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {checkApi, registerApi} from '../../redux/actions/AuthAction';
 
@@ -100,6 +98,16 @@ const Register = ({navigation}) => {
     // dispatch(checkApi());
   };
 
+  const scrollViewRef = useRef(null);
+
+  const scrollToTop = () => {
+    scrollViewRef.current?.scrollTo({x: 0, y: 0, animated: true});
+  };
+
+  useEffect(() => {
+    scrollToTop();
+  }, [index]);
+
   const {
     control,
     handleSubmit,
@@ -107,7 +115,8 @@ const Register = ({navigation}) => {
   } = useForm({mode: 'all'});
   return (
     <AuthBody
-      Sub="enter your personal information"
+      ref={scrollViewRef}
+      Sub="Enter your personal information"
       heading="Welcome!"
       styles={style.regsterImage}
       source={require('../../assets/image/registerBanner.png')}>
@@ -220,7 +229,8 @@ const Register = ({navigation}) => {
       <DatePicker
         theme="light"
         modal
-        isVisible={bday.visible}
+        title={'Select Birthday'}
+        open={bday.visible}
         date={date}
         mode="date"
         onConfirm={sdate => {

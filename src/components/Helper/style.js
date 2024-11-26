@@ -11,7 +11,7 @@ export const style = StyleSheet.create({
   },
   helperText: {
     color: 'red',
-    fontSize: 15,
+    fontSize: 14,
     marginTop: 7,
   },
 

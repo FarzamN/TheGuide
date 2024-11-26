@@ -19,6 +19,7 @@ import {Font} from '../../../utils/Font';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import VideoPlayer from 'react-native-video-player';
 import LottieView from 'lottie-react-native';
+import {end, start} from '../../../utils/Data';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -243,8 +244,8 @@ const TopicVideoQuiz = ({navigation}) => {
             activeOpacity={0.8}
             disabled={!isPlaying}>
             <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
+              start={start}
+              end={end}
               colors={
                 !isPlaying
                   ? ['#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3']
@@ -282,8 +283,8 @@ const TopicVideoQuiz = ({navigation}) => {
             activeOpacity={0.8}
             disabled={!isPlaying}>
             <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
+              start={start}
+              end={end}
               colors={
                 !isPlaying
                   ? ['#D3D3D3', '#D3D3D3', '#D3D3D3', '#D3D3D3']

@@ -1,14 +1,16 @@
-import {ScrollView} from 'react-native';
-import React from 'react';
-import {Body, FullImage, Text} from '..';
 import {style} from './style';
+import {ScrollView} from 'react-native';
+import React, {forwardRef} from 'react';
+import {Body, FullImage, Text} from '..';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 
-const AuthBody = ({heading, Sub, children, source, styles}) => {
+const AuthBody = forwardRef((props, ref) => {
+  const {heading, Sub, children, source, styles} = props;
   return (
     <Body restyle={style.container}>
-      <FullImage style={styles} source={source} />
+      <FullImage style={styles} source={source} sizeMode={'cover'} />
       <ScrollView
+        ref={ref}
         style={GlobalStyle.Padding}
         showsVerticalScrollIndicator={false}>
         <Text center style={style.heading} title={heading} />
@@ -17,6 +19,6 @@ const AuthBody = ({heading, Sub, children, source, styles}) => {
       </ScrollView>
     </Body>
   );
-};
+});
 
 export default AuthBody;

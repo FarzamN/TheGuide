@@ -1,6 +1,11 @@
 import {ScrollView, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Body, DashboardHeader, TimeChangeModal} from '../../../components';
+import {
+  Body,
+  DashboardHeader,
+  TimeChangeModal,
+  DonateModal,
+} from '../../../components';
 import TimeBar from './prayComp/timeBar';
 import PraySwitch from './prayComp/praySwitch';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
@@ -9,7 +14,7 @@ import TimeChange from './prayComp/timeChange';
 import CountDown from '../../../components/Timer/CountDown';
 import Timer from '../../../components/Timer/Timer';
 import NumberComp from '../../../components/Timer/Number';
-import DatePicker from 'react-native-modal-datetime-picker';
+import DatePicker from 'react-native-date-picker';
 
 import TimerBtnModal from './prayComp/TimerBtnModal';
 import {useGeolocation} from '../../../hooks';
@@ -23,16 +28,20 @@ import {
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
+import {WebView} from '../WebView';
 
 const PrayerScreen = () => {
   const {location} = useGeolocation();
-  const [counterData, setAPIcounterData] = useState({});
+
   const [timerData, setAPItimerData] = useState({});
+  const [webViewUrl, setWebViewUrl] = useState(null);
+  const [counterData, setAPIcounterData] = useState({});
 
   const [remainingTime, setRemainingTime] = useState(null);
-  const [savedTime, setSavedTime] = useState('07:00:00'); // Default time
+  const [savedTime, setSavedTime] = useState('19:00'); // Default time
 
   const [showTimer, setShowTimer] = useState(false);
+  const [donate, setDonate] = useState(false);
   const [clock, setClock] = useState({
     time: '',
     visible: false,
@@ -47,50 +56,54 @@ const PrayerScreen = () => {
     visible: false,
   });
 
+  const updateTime = () => {
+    const currentTime = moment().format('h:mm:ss a');
+    const diffInSeconds = moment(savedTime, 'h:mm:ss a').diff(
+      moment(currentTime, 'h:mm:ss a'),
+      'seconds',
+    );
+
+    if (diffInSeconds <= 0) {
+      setRemainingTime('0hr 0min 0sec');
+    } else {
+      const hours = Math.floor(diffInSeconds / 3600);
+      const minutes = Math.floor((diffInSeconds % 3600) / 60);
+      const seconds = diffInSeconds % 60;
+
+      setRemainingTime(
+        `${hours > 0 ? `${hours}hr ` : ''}${minutes}min ${
+          seconds > 0 ? `${seconds}sec` : ''
+        }`,
+      );
+    }
+  };
+
+  useEffect(() => {
+    updateTime();
+
+    const interval = setInterval(() => {
+      updateTime();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [savedTime]);
+
+  // Function to handle time updates
+  const handleTimeUpdate = async newTime => {
+    await AsyncStorage.setItem('time', JSON.stringify(newTime));
+    setSavedTime(newTime);
+    Toast.show(`Time is Updated to ${newTime}`);
+  };
+
+  // Retrieve the saved time on component mount
   useEffect(() => {
     const getSavedTime = async () => {
-      const time = await AsyncStorage.getItem('time');
-      setSavedTime(time || '7:0'); // Default to '7:0' if no time is saved
+      const storedTime = await AsyncStorage.getItem('time');
+      const parsedTime = JSON.parse(storedTime);
+      setSavedTime(parsedTime || '19:00'); // Default to '19:00' if no time is saved
     };
     getSavedTime();
   }, []);
-
-  useEffect(() => {
-    if (!savedTime) return; // Exit if savedTime is not available
-
-    // Parse savedTime into hours and minutes
-    const [savedHours, savedMinutes] = savedTime.split(':').map(Number);
-
-    // Set the target time
-    const targetTime = moment().set({
-      hour: savedHours,
-      minute: savedMinutes,
-      second: 0,
-    });
-
-    // Interval to calculate remaining time
-    const interval = setInterval(() => {
-      const now = moment();
-      const diffInSeconds = targetTime.diff(now, 'seconds');
-      if (diffInSeconds <= 0) {
-        clearInterval(interval); // Stop interval when time is up
-        setRemainingTime('00hr 00min 00sec');
-      } else {
-        const hours = Math.floor(diffInSeconds / 3600);
-        const minutes = Math.floor((diffInSeconds % 3600) / 60);
-        const seconds = diffInSeconds % 60;
-
-        setRemainingTime(
-          `${hours.toString().padStart(1, '0')}hr ${minutes
-            .toString()
-            .padStart(1, '0')}min ${seconds.toString().padStart(1, '0')}sec`,
-        );
-      }
-    }, 1000);
-
-    // Cleanup interval on component unmount or dependency change
-    return () => clearInterval(interval);
-  }, [savedTime]);
 
   /*
   startTime: moment({
@@ -144,7 +157,6 @@ const PrayerScreen = () => {
     const end_time = moment().format('YYYY-MM-DD HH:mm:ss');
     const startTime = moment(timerData.start_time, 'YYYY-MM-DD HH:mm:ss');
     const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss');
-    console.log('timerData.start_time', timerData.start_time);
     const goal = endTime.diff(startTime, 'minutes');
 
     const data = {goal, end_time, id: timerData.id};
@@ -161,12 +173,19 @@ const PrayerScreen = () => {
     };
     NumberCreate(data);
   };
+
+  const handleOpenWebsite = path => {
+    setWebViewUrl(`http://theguide.us/${path}`);
+  };
+
   return (
     <Body>
-      <DashboardHeader onPray={() => setShowTimer(true)} />
+      <DashboardHeader onPray={() => setDonate(true)} />
       <ScrollView>
         <TimeBar
           time={remainingTime || 'Loading...'}
+          onCalender={() => handleOpenWebsite('calenders')}
+          onMap={() => handleOpenWebsite('prayer')}
           onTime={() => setClock({visible: true, time: ''})}
         />
         <View style={[GlobalStyle.between, style.SwitchCont]}>
@@ -235,26 +254,28 @@ const PrayerScreen = () => {
 
       <DatePicker
         mode="time"
-        isDarkModeEnabled={false}
+        modal
+        theme="light"
         date={date}
-        isVisible={clock.visible}
-        onConfirm={sClock => {
-          const formattedTime = sClock.getHours() + ':' + sClock.getMinutes();
-          AsyncStorage.setItem('time', JSON.stringify(sClock));
-
-          setClock({
-            visible: false,
-            time: formattedTime,
-          });
-          setDate(sClock);
-          Toast.show(`Time is Updated to ${formattedTime}`);
+        open={clock.visible}
+        onConfirm={selectedDate => {
+          const formattedTime = moment(selectedDate).format('h:mm:ss a');
+          setClock({visible: false, time: formattedTime});
+          setDate(selectedDate);
+          handleTimeUpdate(formattedTime); // Update time and trigger effect
         }}
         onCancel={() => setClock({visible: false, time: ''})}
       />
 
-      <TimerBtnModal
+      {/* <TimerBtnModal
         visible={showTimer}
-        onClose={() => setShowTimer(false)}></TimerBtnModal>
+        onClose={() => setShowTimer(false)}></TimerBtnModal> */}
+      <DonateModal onClose={() => setDonate(false)} visible={donate} />
+      <WebView
+        source={webViewUrl}
+        visible={!!webViewUrl}
+        onClose={() => setWebViewUrl(null)}
+      />
     </Body>
   );
 };

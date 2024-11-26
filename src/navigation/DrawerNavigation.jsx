@@ -40,11 +40,11 @@ const DrawerNavigation = () => {
             name={i.n}
             component={UserNavigation}
             options={{
-              drawerIcon: ({focused, size}) => (
+              drawerIcon: ({focused}) => (
                 <FullImage
                   color={focused ? Color.orange : '#787878'}
                   source={i.img}
-                  style={{width: size, height: size}}
+                  style={{width: 20, height: 20}}
                 />
               ),
             }}

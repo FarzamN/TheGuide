@@ -6,7 +6,6 @@ import {
 export const handleAnswer = (
   tm,
   ans,
-  disp,
   setError,
   seekVideo,
   setCorrect,
@@ -19,8 +18,6 @@ export const handleAnswer = (
   if (ans.isCorrect) {
     setCorrect(true); // Show "Correct" feedback
     gameQuestionAPI(tm, ans.id);
-    disp(getBibleSchoolApiUpdate());
-
     setTimeout(() => {
       setCorrect(false);
 

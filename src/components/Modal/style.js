@@ -106,4 +106,19 @@ export default StyleSheet.create({
     color: Color.Sky,
     fontFamily: Font.font500,
   },
+
+  // =--------- donate modal style
+  boldText: {
+    marginBottom: 8,
+    color: Color.black,
+    fontFamily: Font.font600,
+    fontSize: 15,
+  },
+  nomText: {
+    marginBottom: 8,
+    color: Color.black,
+    fontFamily: Font.font500,
+    fontSize: 15,
+  },
+  DonateBtn: {width: '75%', height: 47},
 });

@@ -1,20 +1,20 @@
-import {View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
 import {
-  AuthBody,
-  CustomButton,
-  Error,
   Text,
-  MainInput,
+  Error,
+  AuthBody,
   WhiteBtn,
+  MainInput,
+  CustomButton,
 } from '../../components';
-import {useForm} from 'react-hook-form';
 import {style} from './style';
-import {GlobalStyle} from '../../utils/GlobalStyle';
+import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {useForm} from 'react-hook-form';
+import {loginField} from '../../utils/Data';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import {View, TouchableOpacity} from 'react-native';
 import {LoginApi} from '../../redux/actions/AuthAction';
 import {IconType} from 'react-native-dynamic-vector-icons';
-import {loginField} from '../../utils/Data';
 
 const Login = ({navigation}) => {
   const {navigate} = navigation;
@@ -22,9 +22,7 @@ const Login = ({navigation}) => {
   const [load, setLoad] = useState(false);
   const [err, setErr] = useState({visible: false, msg: ''});
 
-  const onSubmit = data => {
-    dispatch(LoginApi(data, setLoad, setErr));
-  };
+  const onSubmit = data => dispatch(LoginApi(data, setLoad, setErr));
 
   const {
     control,
@@ -56,9 +54,9 @@ const Login = ({navigation}) => {
         />
       ))}
 
-      <TouchableOpacity>
+      {/* <TouchableOpacity>
         <Text style={style.forget} text="Forget password" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <CustomButton
         load={load}
         title="Submit"

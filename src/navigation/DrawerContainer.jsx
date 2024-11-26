@@ -56,7 +56,7 @@ const DrawerContainer = props => {
         ].map(item => (
           <TouchableOpacity key={item.icon} onPress={item.onPress}>
             <Icon
-              size={30}
+              size={25}
               key={item.icon}
               name={item.icon}
               type={item.type}

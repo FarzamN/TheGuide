@@ -5,25 +5,24 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Color} from '../../../../utils/Color';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
 import {style} from './style';
+import {end, start} from '../../../../utils/Data';
 
 const TimeService = ({data, onPress, focus}) => {
+  const {white, textGrey} = Color;
   return (
     <TouchableOpacity onPress={onPress}>
       <LinearGradient
         style={[
           style.TimeCont,
           GlobalStyle.justify,
-          {borderColor: focus ? '#3BC77E' : Color.textGrey},
+          {borderColor: focus ? '#3BC77E' : textGrey},
         ]}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
-        colors={focus ? ['#22E984', '#04D16A'] : [Color.white, Color.white]}>
+        start={start}
+        end={end}
+        colors={focus ? ['#22E984', '#04D16A'] : [white, white]}>
         <Text
-          style={[
-            style.switchText,
-            {color: focus ? Color.white : Color.textGrey},
-          ]}
           title={data.title}
+          style={[style.switchText, {color: focus ? white : textGrey}]}
         />
       </LinearGradient>
     </TouchableOpacity>

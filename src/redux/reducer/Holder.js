@@ -6,6 +6,8 @@ export const GET_BIBLE_SCHOOL = 'GET_BIBLE_SCHOOL';
 export const GET_EVENT = 'GET_EVENT';
 export const GET_GAME = 'GET_GAME';
 export const API_SUCCESS = 'API_SUCCESS';
+export const PRAYER_SUPPORT_GOAL = 'PRAYER_SUPPORT_GOAL';
+// export const PRAY_STATUS = 'PRAY_STATUS';
 
 const initial_state = {
   userDetails: false,
@@ -14,7 +16,9 @@ const initial_state = {
   get_state: [],
   get_bible_school: [],
   get_event: [],
+  pray_status: [],
   get_game: {},
+  pray_support_gola: {},
   api_success: 5,
 };
 
@@ -59,6 +63,16 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         api_success: action.payload,
+      };
+    case PRAYER_SUPPORT_GOAL:
+      return {
+        ...state,
+        pray_support_gola: action.payload,
+      };
+    case 'PRAY_STATUS':
+      return {
+        ...state,
+        pray_status: action.payload,
       };
 
     default: {

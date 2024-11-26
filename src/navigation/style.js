@@ -3,17 +3,17 @@ import {Font} from '../utils/Font';
 
 export const style = StyleSheet.create({
   Title: {
-    fontSize: 17,
+    fontSize: 15,
     fontFamily: Font.font600,
     marginTop: 10,
   },
   icon: {
-    width: 32,
-    height: 32,
+    width: 25,
+    height: 25,
   },
   AvatarBox: {marginLeft: 10},
   logo: {
-    width: 200,
+    width: 150,
     height: 50,
     alignSelf: 'center',
     marginBottom: 5,
@@ -30,7 +30,7 @@ export const style = StyleSheet.create({
     margin: 10,
   },
   tabBarLabel: {
-    fontSize: 11,
+    fontSize: 9,
     fontFamily: Font.font600,
   },
 });

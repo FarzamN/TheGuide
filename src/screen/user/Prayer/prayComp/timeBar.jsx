@@ -22,16 +22,16 @@ const TimeBar = ({onMap, onTime, onVideo, onCalender, time}) => {
             press: onMap,
             icon: require('../../../../assets/image/map.png'),
           },
-          {
-            press: onVideo,
-            icon: require('../../../../assets/image/play.png'),
-          },
+          // {
+          //   press: onVideo,
+          //   icon: require('../../../../assets/image/play.png'),
+          // },
         ].map(({press, icon}, ix) => (
           <TouchableOpacity
             key={ix}
             onPress={press}
             style={[style.iconBox, GlobalStyle.shadow]}>
-            <FullImage style={{width: 20, height: 20}} source={icon} />
+            <FullImage style={{width: 18, height: 18}} source={icon} />
           </TouchableOpacity>
         ))}
       </View>

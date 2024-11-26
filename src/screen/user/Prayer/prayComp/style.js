@@ -13,7 +13,7 @@ export const style = StyleSheet.create({
     backgroundColor: '#EEEEEE',
   },
   time: {
-    fontSize: 17,
+    fontSize: 15,
     color: '#F52326',
     fontFamily: Font.font600,
   },
@@ -27,18 +27,18 @@ export const style = StyleSheet.create({
   },
   switchCont: {
     height: 30,
-    width: 100,
+    width: 90,
     borderRadius: 10,
     alignSelf: 'center',
   },
   switchText: {
-    fontSize: 14,
+    fontSize: 11,
     fontFamily: Font.font500,
     textTransform: 'capitalize',
   },
   TimeCont: {
-    height: 40,
-    width: 100,
+    height: 35,
+    width: 87,
     borderWidth: 1,
     borderRadius: 10,
   },

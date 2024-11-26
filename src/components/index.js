@@ -34,8 +34,10 @@ import JobModal from './Modal/JobModal';
 import ContBox from './Timer/contBox';
 import TimeService from '../screen/user/Prayer/prayComp/TimeService';
 import DownloadProgress from './Modal/downloadProgress';
+import DonateModal from './Modal/DonateModal';
 
 export {
+  DonateModal,
   DownloadProgress,
   TimeService,
   ContBox,
