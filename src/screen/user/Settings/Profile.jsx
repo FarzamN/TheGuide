@@ -48,11 +48,9 @@ const Profile = ({navigation}) => {
     <ProfileBody>
       <ScrollView style={GlobalStyle.Padding}>
         <View style={[GlobalStyle.between, GlobalStyle.mtop]}>
-          <TouchableOpacity
-            onPress={() => setShowLogout(true)}
-            style={style.logout}>
+          <TouchableOpacity onPress={() => setShowLogout(true)}>
             <FullImage
-              style={[GlobalStyle.justify, style.logoutImgWrap]}
+              style={[GlobalStyle.justify, style.logout]}
               ImageStyle={style.logoutImg}
               source={require('../../../assets/image/logput.png')}
             />

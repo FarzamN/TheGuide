@@ -35,8 +35,10 @@ import ContBox from './Timer/contBox';
 import TimeService from '../screen/user/Prayer/prayComp/TimeService';
 import DownloadProgress from './Modal/downloadProgress';
 import DonateModal from './Modal/DonateModal';
+import AboutStreak from './Modal/AboutStreak';
 
 export {
+  AboutStreak,
   DonateModal,
   DownloadProgress,
   TimeService,

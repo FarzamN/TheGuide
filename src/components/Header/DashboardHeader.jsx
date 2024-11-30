@@ -5,10 +5,13 @@ import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch, useSelector} from 'react-redux';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
+import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 const DashboardHeader = ({onPray}) => {
   const dispatched = useDispatch();
   const userDetail = useSelector(state => state.userDetails);
+  const pray_streak = useSelector(state => state.pray_streak);
+  const pray_time = useSelector(state => state.pray_time);
   const {navigate, dispatch} = useNavigation();
 
   const notiHandler = () => {
@@ -64,23 +67,47 @@ const DashboardHeader = ({onPray}) => {
           {
             title: 'Due',
             data: 'Bible',
-            Status: '#',
+            Status: '0',
           },
           {
             title: 'Due',
             data: 'Pray',
-            Status: 'L1',
+            Status: pray_streak ?? '1x',
             press: onPray,
           },
-        ].map(i => (
+        ].map((i, ix) => (
           <TouchableOpacity
             activeOpacity={i.press ? 0.5 : 1}
             onPress={i.press}
-            key={i.data}
+            key={ix}
             style={[style.box, GlobalStyle.justify]}>
             <View style={[GlobalStyle.justify, {width: '45%'}]}>
-              <Text style={style.title} title={i.title} />
-              <Text style={style.data} title={i.data} />
+              {ix === 0 ? (
+                <>
+                  <Text style={style.title} title={i.title} />
+                  <Text style={style.data} title={i.data} />
+                </>
+              ) : (
+                <>
+                  {pray_time == 0 ? (
+                    <>
+                      <Icon
+                        size={30}
+                        color="#22CA5D"
+                        type={IconType.Ionicons}
+                        name="checkmark-done-circle-outline"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      {/* <Text center style={style.prayLevel} title={pray_time} /> */}
+                      <Text style={[style.title]} title={pray_time} />
+
+                      <Text style={style.data} title={'Mins'} />
+                    </>
+                  )}
+                </>
+              )}
             </View>
             <View style={style.line} />
 

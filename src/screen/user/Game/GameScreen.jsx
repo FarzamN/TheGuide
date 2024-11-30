@@ -193,7 +193,7 @@ const GameScreen = ({navigation, route}) => {
         subTitle={item.game_title}
       />
 
-      {[
+      {/* {[
         {n: 'id', c: item.id},
         {n: 'currentTime', c: Math.ceil(currentTime)},
         {n: 'quesion length', c: gameQuestions.length},
@@ -201,15 +201,15 @@ const GameScreen = ({navigation, route}) => {
         {n: 'prev Question Time', c: previousQuestionTime},
       ].map(({n, c}) => (
         <Text key={n} center title={n + ' ' + c} />
-      ))}
+      ))} */}
 
       <View>
         {isBuffering && <NorLoad />}
         {fileUrl && (
           <Video
             ref={videoRef}
-            controls={true}
-            // controls={false}
+            // controls={true}
+            controls={false}
             paused={isPaused}
             resizeMode="contain"
             style={style.videoPlayer}
@@ -253,6 +253,11 @@ const GameScreen = ({navigation, route}) => {
                       <GameBtn
                         key={i}
                         index={i}
+                        // title={
+                        //   i == 1
+                        //     ? '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
+                        //     : answer.title
+                        // }
                         title={answer.title}
                         onPress={() => handleAnswerSelection(answer)}
                       />

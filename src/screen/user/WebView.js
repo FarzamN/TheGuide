@@ -1,29 +1,41 @@
-import React from 'react';
 import {style} from './style';
-import Modal from 'react-native-modal';
-import {TouchableOpacity, View} from 'react-native';
+import React, {useCallback} from 'react';
+import {Image_Url} from '../../utils/Urls';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import {TouchableOpacity, SafeAreaView} from 'react-native';
 import {WebView as WebViewComp} from 'react-native-webview';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
-export const WebView = ({source, visible, onClose}) => {
+const WebView = ({route}) => {
+  const {uri} = route.params;
+  const {goBack, getParent} = useNavigation();
+
+  useFocusEffect(
+    useCallback(() => {
+      getParent()?.setOptions({
+        tabBarStyle: GlobalStyle.HideBar,
+      });
+    }, []),
+  );
   return (
-    <Modal style={{margin: 0}} visible={visible} animationType="slide">
-      <View style={{flex: 1}}>
-        <TouchableOpacity style={style.closeBTN} onPress={onClose}>
-          <Icon
-            name="close-circle"
-            type={IconType.Ionicons}
-            size={22}
-            color="#000"
-          />
-        </TouchableOpacity>
-        <WebViewComp
-          source={{uri: source}}
-          style={{flex: 1}}
-          javaScriptEnabled
-          domStorageEnabled
+    <SafeAreaView style={{flex: 1}}>
+      <TouchableOpacity style={style.closeBTN} onPress={goBack}>
+        <Icon
+          name="close-circle"
+          type={IconType.Ionicons}
+          size={22}
+          color="#000"
         />
-      </View>
-    </Modal>
+      </TouchableOpacity>
+      <WebViewComp
+        style={{flex: 1}}
+        // javaScriptEnabled
+        // domStorageEnabled
+        source={{uri}}
+      />
+    </SafeAreaView>
   );
 };
+
+export default WebView;

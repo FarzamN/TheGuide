@@ -14,10 +14,10 @@ const TimeBar = ({onMap, onTime, onVideo, onCalender, time}) => {
             press: onTime,
             icon: require('../../../../assets/image/timer.png'),
           },
-          {
-            press: onCalender,
-            icon: require('../../../../assets/image/pray-calender.png'),
-          },
+          // {
+          //   press: onCalender,
+          //   icon: require('../../../../assets/image/pray-calender.png'),
+          // },
           {
             press: onMap,
             icon: require('../../../../assets/image/map.png'),

@@ -13,6 +13,7 @@ import {getCity, getCoutry, getState} from './src/redux/actions/AuthAction';
 const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
+  console.log('userDetails', userDetails);
 
   useEffect(() => {
     fetchData();
@@ -20,7 +21,7 @@ const App = () => {
 
   useEffect(() => {
     const time = getTime();
-    if (!time) AsyncStorage.setItem('time', '19:00');
+    if (!time) AsyncStorage.setItem('time', '20:00');
   }, []);
 
   const getTime = async () => {

@@ -57,6 +57,56 @@ export const LoginApi = (data, load, err) => {
   };
 };
 
+export const checkAuth = async (data, index, load, setError) => {
+  console.log('data', data);
+  const url = `${Base_Url}check-authentication`;
+
+  const myData = new FormData();
+  myData.append('email', data.email);
+  myData.append('phone', data.number);
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: myData,
+    });
+    const res = await response.json();
+    console.log(res.status);
+    load(false);
+    if (res.status === true) {
+      index(2);
+    } else if (res.status === 'error') {
+      if (res.errors) {
+        setError({
+          visible: true,
+          msg: 'GIven email & phone number are taken',
+        });
+
+        setTimeout(() => {
+          setError({visible: false, msg: ''});
+        }, 2000);
+      } else {
+        const errorMessages = [];
+        console.log('errorMessages', errorMessages);
+        for (const [field, messages] of Object.entries(res.errors)) {
+          errorMessages.push(`${field}: ${messages.join(', ')}`);
+        }
+        setError({
+          visible: true,
+          msg: errorMessages.join('\n'),
+        });
+
+        setTimeout(() => {
+          setError({visible: false, msg: ''});
+        }, 2000);
+      }
+    }
+    console.log({res});
+  } catch (error) {
+    console.log('error checkAuth', error);
+    Toast.show('Server side error');
+  }
+};
 export const registerApi = async (
   data,
   bday,
@@ -68,30 +118,30 @@ export const registerApi = async (
   load,
   setError,
 ) => {
+  load(true);
+  const url = `${Base_Url}register`;
+  const myData = new FormData();
+
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  myData.append('first_name', data.f_name);
+  myData.append('last_name', data.l_name);
+  myData.append('email', data.email);
+  myData.append('phone', data.number);
+  myData.append('password', data.password);
+  myData.append('confirm_password', data.password);
+  myData.append('gender', 'any');
+  myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
+  myData.append('city', city);
+  myData.append('state', state);
+  myData.append('country', country);
+  myData.append('type', 'father');
+  myData.append('time_zone', timeZone);
+  const myHeaders = new Headers();
+  myHeaders.append('Accept', 'application/json');
+  myHeaders.append('Content-Type', 'multipart/form-data');
+
   try {
-    load(true);
-    const url = `${Base_Url}register`;
-    const myData = new FormData();
-
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    myData.append('first_name', data.f_name);
-    myData.append('last_name', data.l_name);
-    myData.append('email', data.email);
-    myData.append('phone', data.number);
-    myData.append('password', data.password);
-    myData.append('confirm_password', data.password);
-    myData.append('gender', gender);
-    myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
-    myData.append('city', city);
-    myData.append('state', state);
-    myData.append('country', country);
-    myData.append('type', 'father');
-    myData.append('time_zone', timeZone);
-    const myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Content-Type', 'multipart/form-data');
-
     const response = await fetch(url, {
       method: 'POST',
       headers: myHeaders,
@@ -103,6 +153,7 @@ export const registerApi = async (
     if (responseData.success == true) {
       back();
       load(false);
+      Toast.show('Registered sucessfull. Now sign in!');
     } else {
       load(false);
       const errorMessages = [];

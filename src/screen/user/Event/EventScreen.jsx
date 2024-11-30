@@ -14,24 +14,24 @@ const EventScreen = () => {
 
   const [eventType, setEventType] = useState({
     visible: false,
-    value: '',
+    value: 'Event Type',
   });
-  const [ageType, setAgeType] = useState({
+  const [streak, setStreak] = useState({
     visible: false,
-    value: '',
+    value: 'Streak',
   });
 
-  const onAgePress = () => {
-    setAgeType({
-      ...ageType,
-      visible: !ageType.visible,
-    });
+  const handleStreak = () => {
+    setStreak(pre => ({
+      ...pre,
+      visible: true,
+    }));
   };
-  const onTypePress = () => {
-    setEventType({
-      ...eventType,
-      visible: !eventType.visible,
-    });
+  const handleType = () => {
+    setEventType(pre => ({
+      ...pre,
+      visible: true,
+    }));
   };
 
   useEffect(() => {
@@ -41,10 +41,10 @@ const EventScreen = () => {
     <Body>
       <DashboardHeader />
       <EventHead
-        onAgePress={onAgePress}
-        onTypePress={onTypePress}
-        page={'All Aages'}
-        type={'Event Type'}
+        page={streak.value}
+        type={eventType.value}
+        onStreak={handleStreak}
+        onTypePress={handleType}
       />
       <FlatList
         data={get_event}

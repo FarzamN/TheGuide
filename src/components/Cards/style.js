@@ -14,10 +14,9 @@ export const styles = StyleSheet.create({
     marginVertical: 10,
   },
   text: {
-    fontSize: 22,
+    fontSize: 18,
     color: black,
     fontFamily: Font.font500,
-    textAlign: 'center',
   },
   RoleCardContainer: {
     backgroundColor: '#F8F8F8',
@@ -153,10 +152,12 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     color: '#FFAB00',
     fontFamily: Font.font700,
+    backgroundColor: 'rgba(128, 128, 128, 0.7)',
   },
   EventTitle: {
     fontSize: 11,
     color: white,
+    maxWidth: '95%',
     fontFamily: Font.font600,
     textTransform: 'capitalize',
   },

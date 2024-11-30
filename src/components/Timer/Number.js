@@ -22,7 +22,7 @@ const Number = ({handleBtn, handleAdd}) => {
   };
   */
   const handleSave = () => {
-    if (!time.minutes || !time.seconds) {
+    if (!time.minutes) {
       setTime({hours: '', minutes: '', seconds: ''});
       setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
       setTimeout(() => {

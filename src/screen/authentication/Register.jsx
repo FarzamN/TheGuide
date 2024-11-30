@@ -20,7 +20,7 @@ import {RegisterInput} from '../../utils/Data';
 import {IconType} from 'react-native-dynamic-vector-icons';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
-import {checkApi, registerApi} from '../../redux/actions/AuthAction';
+import {checkApi, checkAuth, registerApi} from '../../redux/actions/AuthAction';
 
 const Register = ({navigation}) => {
   const {goBack, navigate} = navigation;
@@ -48,7 +48,7 @@ const Register = ({navigation}) => {
         setError({visible: false, msg: ''});
       }, 2000);
     } else {
-      setIndex(2);
+      checkAuth(data, setIndex, setLoad, setError);
     }
   };
   const onSubmit = data => {
@@ -59,10 +59,10 @@ const Register = ({navigation}) => {
       }, 2000);
     };
 
-    if (gender === '') {
-      handleError('Please select gender');
-      return;
-    }
+    // if (gender === '') {
+    //   handleError('Please select gender');
+    //   return;
+    // }
 
     if (bday.day === null || bday.month === null || bday.year === null) {
       handleError('Please select birthday');
@@ -164,7 +164,7 @@ const Register = ({navigation}) => {
       ) : (
         <>
           <View style={{height: 20}} />
-          <GenderDropDown onSelect={setGender} />
+          {/* <GenderDropDown onSelect={setGender} /> */}
           <BirthdayBtn
             day={bday.day}
             month={bday.month}

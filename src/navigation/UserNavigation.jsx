@@ -9,6 +9,7 @@ import {
   Home,
   Game,
   Profile,
+  WebView,
   EditProfile,
   EventScreen,
   StatusScreen,
@@ -51,11 +52,17 @@ const allStatusConfig = {
 };
 const allPrayerConfig = {
   initialRouteName: 'prayer',
-  screens: [{name: 'prayer', component: PrayerScreen}],
+  screens: [
+    {name: 'prayer', component: PrayerScreen},
+    {name: 'webview', component: WebView},
+  ],
 };
 const allEventConfig = {
   initialRouteName: 'event',
-  screens: [{name: 'event', component: EventScreen}],
+  screens: [
+    {name: 'event', component: EventScreen},
+    {name: 'webview', component: WebView},
+  ],
 };
 
 export const AllHome = () => createNavigator(allHomeConfig);
@@ -65,13 +72,13 @@ export const AllEvent = () => createNavigator(allEventConfig);
 
 const UserNavigation = () => {
   const UserNav = [
-    {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Home'},
+    {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Bible'},
     {c: AllPrayer, icon: require('../assets/image/nav/pray.png'), n: 'Prayer'},
-    {
-      c: AllStatus,
-      icon: require('../assets/image/nav/status.png'),
-      n: 'Status',
-    },
+    // {
+    //   c: AllStatus,
+    //   icon: require('../assets/image/nav/status.png'),
+    //   n: 'Status',
+    // },
     {c: AllEvent, icon: require('../assets/image/nav/event.png'), n: 'Event'},
   ];
   return (

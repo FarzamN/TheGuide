@@ -52,7 +52,7 @@ export default StyleSheet.create({
   },
   LogoutText: {
     color: '#777777',
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: Font.font600,
     textAlign: 'center',
     marginBottom: 10,
@@ -121,4 +121,25 @@ export default StyleSheet.create({
     fontSize: 15,
   },
   DonateBtn: {width: '75%', height: 47},
+  arrowImg: {
+    alignSelf: 'center',
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+    marginLeft: 80,
+  },
+  AboutStreakBox: {
+    justifyContent: 'center',
+    margin: 0,
+    marginBottom: 100,
+  },
+  AboutStreakCont: {
+    backgroundColor: Color.white,
+    borderRadius: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 10,
+  },
 });

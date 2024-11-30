@@ -6,7 +6,7 @@ import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {Color} from '../../../../utils/Color';
 import {Text} from '../../../../components';
 
-const EventHead = ({onAgePress, onTypePress, type, page}) => {
+const EventHead = ({onStreak, onTypePress, type, page}) => {
   return (
     <View style={[style.EventBotCont, GlobalStyle.row, {marginHorizontal: 20}]}>
       <TouchableOpacity
@@ -21,7 +21,7 @@ const EventHead = ({onAgePress, onTypePress, type, page}) => {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={onAgePress}
+        onPress={onStreak}
         style={[[style.box, GlobalStyle.between]]}>
         <Text style={style.btmTitle} title={page} />
         <Icon

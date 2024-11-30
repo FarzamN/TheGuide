@@ -1,11 +1,11 @@
-import {Text} from '..';
 import React from 'react';
 import {styles} from './style';
-import {TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 
 const GameBtn = ({title, onPress, index}) => {
   const colors = ['#00CE64', '#FD8D34', '#0088FE', '#792DFD'];
+  const fontSize = title.length >= 30 ? 10 : 14;
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -14,7 +14,9 @@ const GameBtn = ({title, onPress, index}) => {
         GlobalStyle.justify,
         {backgroundColor: colors[index % colors.length]},
       ]}>
-      <Text style={styles.GameBTNText} title={title} fontScaling />
+      <Text style={[styles.GameBTNText, {fontSize}]} allowFontScaling>
+        {title}
+      </Text>
     </TouchableOpacity>
   );
 };

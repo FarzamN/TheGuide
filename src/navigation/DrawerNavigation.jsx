@@ -29,11 +29,6 @@ const DrawerNavigation = () => {
             c: UserNavigation,
             img: require('../assets/image/nav/bible.png'),
           },
-          {
-            n: 'Message',
-            c: UserNavigation,
-            img: require('../assets/image/nav/bible.png'),
-          },
         ].map(i => (
           <Screen
             key={i.n}

@@ -42,7 +42,7 @@ const Login = ({navigation}) => {
           key={field.name}
           control={control}
           name={field.name}
-          defaultValue={field.defaultValue}
+          // defaultValue={field.defaultValue}
           rules={field.rules}
           placeholder={field.placeholder}
           keyboardType={field.keyboardType}

@@ -4,6 +4,8 @@ import {
   API_SUCCESS,
   GET_BIBLE_SCHOOL,
   PRAYER_SUPPORT_GOAL,
+  PRAYER_TIME,
+  PRAYER_STREAK,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -566,6 +568,7 @@ export const prayerGupportGoal = () => {
     }
   };
 };
+
 export const pray_status = load => {
   return async dispatch => {
     load(true);
@@ -584,6 +587,27 @@ export const pray_status = load => {
       load(false);
       Toast.show('Server side error');
       console.log('Error in pray_status:', error);
+    }
+  };
+};
+
+export const prayer_streak = () => {
+  return async dispatch => {
+    const url = `${Base_Url}app-user-streak-level`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      if (res.status) {
+        dispatch({type: PRAYER_TIME, payload: res.levels.remaining_goal});
+        console.log('res.levels.remaining_goal', res);
+        dispatch({type: PRAYER_STREAK, payload: res.levels.current_streak});
+      }
+    } catch (error) {
+      Toast.show('Server side error');
+      console.log('Error in prayer_streak:', error);
     }
   };
 };

@@ -90,9 +90,9 @@ const Timer = ({handleStart, handleEnd}) => {
         {renderTimeBox('Sec', time.seconds)}
       </View>
 
-      <View style={[GlobalStyle.between, styles.TimeCont]}>
+      <View style={[GlobalStyle.evenly, styles.TimeCont]}>
         {[
-          {title: 'Save', id: 1},
+          // {title: 'Save', id: 1},
           {title: isRunning ? 'Stop' : 'Start', id: 2},
           {title: 'Reset', id: 3},
         ].map((i, ix) => (

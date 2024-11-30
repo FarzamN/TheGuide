@@ -6,10 +6,16 @@ import {GlobalStyle} from '../../utils/GlobalStyle';
 import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
 
 const HomeAssigmentCard = ({data, onPress}) => {
+  const disabled = data.game_status !== 'INCOMPLETE';
   return (
     <TouchableOpacity
+      disabled={disabled}
       onPress={onPress}
-      style={[GlobalStyle.shadow, styles.HomeCardCont]}>
+      style={[
+        GlobalStyle.shadow,
+        styles.HomeCardCont,
+        {opacity: disabled ? 0.5 : 1},
+      ]}>
       <ImageBackground
         resizeMode="stretch"
         source={{uri: Image_Url + data.image_app}}
@@ -20,10 +26,13 @@ const HomeAssigmentCard = ({data, onPress}) => {
               width: 30,
               height: 30,
               marginRight: 10,
-              marginTop: -5,
             }}
             resizeMode="contain"
-            source={require('../../assets/image/due-icon.png')}
+            source={
+              data.game_status === 'INCOMPLETE'
+                ? require('../../assets/image/due-icon.png')
+                : require('../../assets/image/okicon.png')
+            }
           />
           <View style={styles.AssigmentTextWrapper}>
             <Text style={styles.AssigmentTitle} title={data.course_name} />
@@ -50,7 +59,7 @@ export default HomeAssigmentCard;
             }}
             resizeMode="contain"
             source={
-              data.isDue === 'Due'
+              data.game_status === 'INCOMPLETE'
                 ? require('../../assets/image/due-icon.png')
                 : require('../../assets/image/okicon.png')
             }

@@ -4,19 +4,26 @@ import {Font} from '../../../utils/Font';
 
 export const style = StyleSheet.create({
   logoutText: {
-    fontSize: 13,
+    fontSize: 11,
     color: Color.white,
     fontFamily: Font.font600,
   },
+  logout: {
+    backgroundColor: Color.white,
+    borderRadius: 50,
+    width: 35,
+    aspectRatio: 1 / 1,
+    alignSelf: 'center',
+  },
   logoutImgWrap: {
     backgroundColor: Color.white,
-    padding: 10,
+    padding: 7,
     borderRadius: 50,
     aspectRatio: 1 / 1,
   },
   logoutImg: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
   },
   profileMainWrap: {
     width: 130,

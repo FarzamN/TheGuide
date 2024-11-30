@@ -43,8 +43,9 @@ export const style = StyleSheet.create({
     borderRadius: 10,
   },
   timeChangeText: {
+    fontSize: 12,
     color: Color.white,
-    fontFamily: Font.font600,
+    fontFamily: Font.font500,
   },
   TimeChangeCont: {
     padding: 7,

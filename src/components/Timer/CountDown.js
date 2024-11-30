@@ -1,5 +1,6 @@
 import {styles} from './style';
 import RenderDot from './renderDot';
+import Sound from 'react-native-sound';
 import {TextInput, View} from 'react-native';
 import {ContBox, Error, TimeService} from '..';
 import {GlobalStyle} from '../../utils/GlobalStyle';
@@ -13,7 +14,7 @@ const CountDown = ({handleStart, handleEnd, location}) => {
   const [time, setTime] = useState({hours: '', minutes: '', seconds: ''});
 
   const handlePress = id => {
-    if (!time.minutes || !time.seconds) {
+    if (!time.minutes) {
       setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
       setTimeout(() => {
         setErr({show: false, msg: ''});
@@ -149,9 +150,9 @@ const CountDown = ({handleStart, handleEnd, location}) => {
         {renderTimeBox('Sec', time.seconds, 'seconds')}
       </View>
 
-      <View style={[GlobalStyle.between, styles.TimeCont]}>
+      <View style={[GlobalStyle.evenly, styles.TimeCont]}>
         {[
-          {title: 'Save', id: 1},
+          // {title: 'Save', id: 1},
           {title: isRunning ? 'Stop' : 'Start', id: 2},
           {title: 'Reset', id: 3},
         ].map((i, ix) => (

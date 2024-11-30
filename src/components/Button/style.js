@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.3)',
   },
   Ptitle: {
-    fontSize: 16,
+    fontSize: 14,
     color: Color.white,
     fontFamily: Font.font600,
   },
@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
   },
   ModalBtnText: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: Font.font600,
   },
 
@@ -98,9 +98,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 3,
   },
   GameBTNText: {
-    fontSize: 14,
     color: Color.white,
     fontFamily: Font.font500,
+    maxWidth: '90%',
     textTransform: 'capitalize',
+    textAlign: 'center',
   },
 });

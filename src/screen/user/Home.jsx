@@ -16,6 +16,7 @@ import {
   bariWaliAPI,
   getBibleSchoolApi,
   prayerGupportGoal,
+  prayer_streak,
 } from '../../redux/actions/UserAction';
 
 const Home = () => {
@@ -38,10 +39,12 @@ const Home = () => {
     bassChalo();
     dispatch(getBibleSchoolApi(setLoad));
     dispatch(prayerGupportGoal());
+    dispatch(prayer_streak());
   }, []);
 
   const onRefresh = () => {
     setRefresh(true);
+    dispatch(prayer_streak());
     bassChalo();
     dispatch(getBibleSchoolApi(setLoad));
     setRefresh(false);
