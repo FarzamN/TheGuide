@@ -40,12 +40,12 @@ const EventScreen = () => {
   return (
     <Body>
       <DashboardHeader />
-      <EventHead
+      {/* <EventHead
         page={streak.value}
         type={eventType.value}
         onStreak={handleStreak}
         onTypePress={handleType}
-      />
+      /> */}
       <FlatList
         data={get_event}
         style={GlobalStyle.Padding}

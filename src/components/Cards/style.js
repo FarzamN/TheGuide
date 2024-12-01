@@ -153,6 +153,7 @@ export const styles = StyleSheet.create({
     color: '#FFAB00',
     fontFamily: Font.font700,
     backgroundColor: 'rgba(128, 128, 128, 0.7)',
+    borderRadius: 10,
   },
   EventTitle: {
     fontSize: 11,

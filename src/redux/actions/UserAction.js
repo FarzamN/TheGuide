@@ -2,10 +2,13 @@ import {
   GET_GAME,
   GET_EVENT,
   API_SUCCESS,
-  GET_BIBLE_SCHOOL,
-  PRAYER_SUPPORT_GOAL,
   PRAYER_TIME,
   PRAYER_STREAK,
+  GET_BIBLE_SCHOOL,
+  PRAYER_SUPPORT_GOAL,
+  PRAY_STATUS,
+  BIBLE_TIME,
+  BIBLE_STREAK,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -60,13 +63,13 @@ export const bassChalo = async () => {
 
 export const getBibleSchoolApiUpdate = () => {
   return async dispatch => {
+    const url = `${Base_Url}get-incomplete-game`;
+
+    const myHeaders = new Headers();
+    const token = await AsyncStorage.getItem('token');
+
+    myHeaders.append('Authorization', `Bearer ${token}`);
     try {
-      const url = `${Base_Url}get-incomplete-game`;
-
-      const myHeaders = new Headers();
-      const token = await AsyncStorage.getItem('token');
-
-      myHeaders.append('Authorization', `Bearer ${token}`);
       const response = await fetch(url, {
         method: 'GET',
         headers: myHeaders,
@@ -82,6 +85,28 @@ export const getBibleSchoolApiUpdate = () => {
       Toast.show('Server side error');
     }
   };
+};
+
+export const complete_assigment = ids => {
+  ids.map(async id => {
+    const url = `${Base_Url}user_assignment/update?assignment_id=${id}`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {
+        headers,
+        method: 'POST',
+      });
+      const res = await response.json();
+      if (res.status) {
+        console.log('res', res);
+      }
+    } catch (error) {
+      Toast.show('Server side error');
+      console.log('error complete_assigment', error);
+    }
+  });
 };
 
 export const eventApi = load => {
@@ -353,13 +378,13 @@ export const gameQuestionAPI = async (item, question_id) => {
   myData.append('assignment_id', item.assignment_id);
   myData.append('lesson_id', item.lesson_id);
   myData.append('course_id', item.course_id);
-  myData.append('course_id', item.course_id);
   myData.append('question_id', question_id);
 
   // question_id.forEach(id => myData.append('question_id', id));
   myData.append('status', 'COMPLETED');
   myData.append('is_correct', 1);
 
+  console.log('myData', myData);
   const myHeaders = new Headers();
   const token = await AsyncStorage.getItem('token');
   myHeaders.append('Authorization', `Bearer ${token}`);
@@ -581,7 +606,7 @@ export const pray_status = load => {
       const res = await response.json();
       load(false);
       if (res.status) {
-        dispatch({type: 'PRAY_STATUS', payload: res.levels.reverse()});
+        dispatch({type: PRAY_STATUS, payload: res.levels.reverse()});
       }
     } catch (error) {
       load(false);
@@ -602,12 +627,52 @@ export const prayer_streak = () => {
       const res = await response.json();
       if (res.status) {
         dispatch({type: PRAYER_TIME, payload: res.levels.remaining_goal});
-        console.log('res.levels.remaining_goal', res);
         dispatch({type: PRAYER_STREAK, payload: res.levels.current_streak});
       }
     } catch (error) {
       Toast.show('Server side error');
       console.log('Error in prayer_streak:', error);
+    }
+  };
+};
+
+export const bible_streak = () => {
+  return async dispatch => {
+    const url = `${Base_Url}user-current-bible-streak`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      if (res.status) {
+        dispatch({type: BIBLE_TIME, payload: '0'});
+        dispatch({type: BIBLE_STREAK, payload: res.streak});
+      }
+    } catch (error) {
+      Toast.show('Server side error');
+      console.log('Error in bible_streak:', error);
+    }
+  };
+};
+
+export const inc_and_dec = value => {
+  return async dispatch => {
+    const url = `${Base_Url}bible-streak/${value}`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+
+    try {
+      const response = await fetch(url, {method: 'POST', headers});
+      const {status} = await response.json();
+      if (status) {
+        dispatch(prayer_streak());
+        dispatch(bible_streak());
+      }
+    } catch (error) {
+      Toast.show('Server side error');
+      console.log('Error in inc_and_dec:', error);
     }
   };
 };

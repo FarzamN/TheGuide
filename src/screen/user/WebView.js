@@ -1,6 +1,5 @@
 import {style} from './style';
 import React, {useCallback} from 'react';
-import {Image_Url} from '../../utils/Urls';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {TouchableOpacity, SafeAreaView} from 'react-native';
 import {WebView as WebViewComp} from 'react-native-webview';
@@ -19,7 +18,7 @@ const WebView = ({route}) => {
     }, []),
   );
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={GlobalStyle.flex}>
       <TouchableOpacity style={style.closeBTN} onPress={goBack}>
         <Icon
           name="close-circle"
@@ -28,12 +27,7 @@ const WebView = ({route}) => {
           color="#000"
         />
       </TouchableOpacity>
-      <WebViewComp
-        style={{flex: 1}}
-        // javaScriptEnabled
-        // domStorageEnabled
-        source={{uri}}
-      />
+      <WebViewComp style={GlobalStyle.flex} source={{uri}} />
     </SafeAreaView>
   );
 };

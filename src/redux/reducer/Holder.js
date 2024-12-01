@@ -7,10 +7,11 @@ export const GET_EVENT = 'GET_EVENT';
 export const GET_GAME = 'GET_GAME';
 export const API_SUCCESS = 'API_SUCCESS';
 export const PRAYER_SUPPORT_GOAL = 'PRAYER_SUPPORT_GOAL';
-
+export const PRAY_STATUS = 'PRAY_STATUS';
 export const PRAYER_TIME = 'PRAYER_TIME';
 export const PRAYER_STREAK = 'PRAYER_STREAK';
-// export const PRAY_STATUS = 'PRAY_STATUS';
+export const BIBLE_TIME = 'BIBLE_TIME';
+export const BIBLE_STREAK = 'BIBLE_STREAK';
 
 const initial_state = {
   userDetails: false,
@@ -23,8 +24,11 @@ const initial_state = {
   get_game: {},
   pray_support_gola: {},
   api_success: 5,
-  pray_streak: '1',
+  pray_streak: '0',
   pray_time: '60',
+
+  bible_streak: '0',
+  bible_time: '60',
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -74,7 +78,7 @@ const holderReducer = (state = initial_state, action) => {
         ...state,
         pray_support_gola: action.payload,
       };
-    case 'PRAY_STATUS':
+    case PRAY_STATUS:
       return {
         ...state,
         pray_status: action.payload,
@@ -88,6 +92,16 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         pray_time: action.payload,
+      };
+    case BIBLE_TIME:
+      return {
+        ...state,
+        bible_time: action.payload,
+      };
+    case BIBLE_STREAK:
+      return {
+        ...state,
+        bible_streak: action.payload,
       };
 
     default: {

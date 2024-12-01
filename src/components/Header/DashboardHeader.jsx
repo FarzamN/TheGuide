@@ -9,13 +9,16 @@ import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 const DashboardHeader = ({onPray}) => {
   const dispatched = useDispatch();
+  const {navigate, dispatch} = useNavigation();
+
   const userDetail = useSelector(state => state.userDetails);
   const pray_streak = useSelector(state => state.pray_streak);
   const pray_time = useSelector(state => state.pray_time);
-  const {navigate, dispatch} = useNavigation();
-
+  const bible_streak = useSelector(state => state.bible_streak);
+  const bible_time = useSelector(state => state.bible_time);
+  console.log('bible_streak', bible_streak);
   const notiHandler = () => {
-    // navigate('Notification');
+    //    navigate('Notification');
   };
   const openDrawer = () => dispatch(DrawerActions.openDrawer());
   return (
@@ -31,7 +34,71 @@ const DashboardHeader = ({onPray}) => {
             source={require('../../assets/image/menu.png')}
           />
         </TouchableOpacity>
-        {/*<TouchableOpacity
+        {/* profile image here */}
+        <Text style={style.ProfileTitle} title={'Revival Bible School'} />
+        <View>
+          <TouchableOpacity onPress={notiHandler}>
+            <Image
+              resizeMode="contain"
+              style={{width: 17, height: 17}}
+              source={require('../../assets/image/notifaction.png')}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={GlobalStyle.evenly}>
+        {[
+          {
+            status: bible_streak || '0',
+            time: 'Bible', //bible_time,
+            title: 'Streak',
+            onPress: null, // No press action for Bible streak
+          },
+          {
+            status: pray_streak || '0x',
+            time: pray_time,
+            title: 'Mins',
+            onPress: onPray, // Pray streak press action
+          },
+        ].map((item, index) => {
+          const isComplete = item.time === 0;
+
+          return (
+            <TouchableOpacity
+              key={index}
+              activeOpacity={item.onPress ? 0.5 : 1}
+              onPress={item.onPress}
+              style={[style.box, GlobalStyle.justify]}>
+              <View style={[GlobalStyle.justify, {width: '45%'}]}>
+                {isComplete ? (
+                  <Icon
+                    size={30}
+                    color="#22CA5D"
+                    type={IconType.Ionicons}
+                    name="checkmark-done-circle-outline"
+                  />
+                ) : (
+                  <>
+                    <Text style={style.title} title={item.time || 'Due'} />
+                    <Text style={style.data} title={item.title} />
+                  </>
+                )}
+              </View>
+              <View style={style.line} />
+              <View style={style.HeadTextBox}>
+                <Text style={style.prayLevel} center title={item.status} />
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </ImageBackground>
+  );
+};
+
+export default DashboardHeader;
+
+/*<TouchableOpacity
             onPress={() => navigate('profile')}
             style={{marginLeft: 7}}>
             <FullImage
@@ -49,76 +116,4 @@ const DashboardHeader = ({onPray}) => {
                 title={userDetail?.name}
               />
             </View>
-          </TouchableOpacity>*/}
-        <Text style={style.ProfileTitle} title={'Revival Bible School'} />
-        <View>
-          <TouchableOpacity onPress={notiHandler}>
-            <Image
-              resizeMode="contain"
-              style={{width: 17, height: 17}}
-              source={require('../../assets/image/notifaction.png')}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={GlobalStyle.evenly}>
-        {[
-          {
-            title: 'Due',
-            data: 'Bible',
-            Status: '0',
-          },
-          {
-            title: 'Due',
-            data: 'Pray',
-            Status: pray_streak ?? '1x',
-            press: onPray,
-          },
-        ].map((i, ix) => (
-          <TouchableOpacity
-            activeOpacity={i.press ? 0.5 : 1}
-            onPress={i.press}
-            key={ix}
-            style={[style.box, GlobalStyle.justify]}>
-            <View style={[GlobalStyle.justify, {width: '45%'}]}>
-              {ix === 0 ? (
-                <>
-                  <Text style={style.title} title={i.title} />
-                  <Text style={style.data} title={i.data} />
-                </>
-              ) : (
-                <>
-                  {pray_time == 0 ? (
-                    <>
-                      <Icon
-                        size={30}
-                        color="#22CA5D"
-                        type={IconType.Ionicons}
-                        name="checkmark-done-circle-outline"
-                      />
-                    </>
-                  ) : (
-                    <>
-                      {/* <Text center style={style.prayLevel} title={pray_time} /> */}
-                      <Text style={[style.title]} title={pray_time} />
-
-                      <Text style={style.data} title={'Mins'} />
-                    </>
-                  )}
-                </>
-              )}
-            </View>
-            <View style={style.line} />
-
-            <View style={[style.HeadTextBox]}>
-              <Text style={style.prayLevel} center title={i.Status} />
-            </View>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </ImageBackground>
-  );
-};
-
-export default DashboardHeader;
+</TouchableOpacity>*/
