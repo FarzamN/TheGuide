@@ -78,7 +78,11 @@ export const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
   },
-
+  AssigmentImg: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
   //  Status Card design
 
   height: {height: 65},
@@ -157,6 +161,9 @@ export const styles = StyleSheet.create({
   },
   EventTitle: {
     fontSize: 11,
+    backgroundColor: 'rgba(128, 128, 128, 0.7)',
+    borderRadius: 10,
+
     color: white,
     maxWidth: '95%',
     fontFamily: Font.font600,

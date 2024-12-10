@@ -13,7 +13,6 @@ import {getCity, getCoutry, getState} from './src/redux/actions/AuthAction';
 const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
-  // console.log('token', userDetails.access_token);
 
   useEffect(() => {
     fetchData();

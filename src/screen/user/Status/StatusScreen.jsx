@@ -13,6 +13,8 @@ import {pray_status} from '../../../redux/actions/UserAction';
 
 const StatusScreen = () => {
   const dispatch = useDispatch();
+  // Automatically scroll to the current level.  Not L10
+
   const data = useSelector(state => state.pray_status);
   const [load, setLoad] = useState(false);
   // const data = [

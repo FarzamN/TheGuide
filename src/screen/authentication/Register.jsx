@@ -11,6 +11,7 @@ import {
   CountryBtn,
   Loader,
   Error,
+  Correct,
 } from '../../components';
 import {style} from './style';
 import {useForm} from 'react-hook-form';
@@ -21,8 +22,10 @@ import {IconType} from 'react-native-dynamic-vector-icons';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import {checkApi, checkAuth, registerApi} from '../../redux/actions/AuthAction';
+import {useDispatch} from 'react-redux';
 
 const Register = ({navigation}) => {
+  const dispatch = useDispatch();
   const {goBack, navigate} = navigation;
 
   const [index, setIndex] = useState(1);
@@ -31,6 +34,7 @@ const Register = ({navigation}) => {
   const [City, setCity] = useState({name: null, id: null});
   const [State, setState] = useState({name: null, id: null});
   const [error, setError] = useState({visible: false, msg: ''});
+  const [success, setSuccess] = useState({visible: false, msg: ''});
   const [Country, setCountry] = useState({name: null, id: null});
 
   const [date, setDate] = useState(new Date());
@@ -84,16 +88,19 @@ const Register = ({navigation}) => {
       return;
     }
 
-    registerApi(
-      data,
-      date,
-      gender,
-      City.id,
-      State.id,
-      Country.id,
-      goBack,
-      setLoad,
-      setError,
+    dispatch(
+      registerApi(
+        data,
+        date,
+        gender,
+        City.id,
+        State.id,
+        Country.id,
+        navigate,
+        setLoad,
+        setError,
+        setSuccess,
+      ),
     );
     // dispatch(checkApi());
   };
@@ -158,6 +165,8 @@ const Register = ({navigation}) => {
           <CustomButton
             title="Next"
             marginTop={25}
+            load={load}
+            disabled={load}
             onPress={handleSubmit(onNext)}
           />
         </>
@@ -247,6 +256,7 @@ const Register = ({navigation}) => {
       />
       <Loader visible={load} />
       <Error message={error.msg} visible={error.visible} />
+      <Correct message={success.msg} visible={success.visible} />
     </AuthBody>
   );
 };

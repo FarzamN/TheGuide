@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {styles} from './style';
 import {CustomButton, Text} from '..';
 import {Color} from '../../utils/Color';
@@ -7,12 +7,19 @@ import {GlobalStyle} from '../../utils/GlobalStyle';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {Image_Url} from '../../utils/Urls';
 import moment from 'moment';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const EventCard = ({data}) => {
-  const {navigate} = useNavigation();
+  const {navigate, getParent} = useNavigation();
   const event = data?.event_origin.split('-').join(' ');
 
+  useFocusEffect(
+    useCallback(() => {
+      getParent().setOptions({
+        tabBarStyle: GlobalStyle.showBar,
+      });
+    }, []),
+  );
   return (
     <ImageBackground
       source={{
@@ -24,17 +31,16 @@ const EventCard = ({data}) => {
       style={[styles.EventCardContainer, GlobalStyle.shadow]}>
       <View style={[GlobalStyle.between, GlobalStyle.Padding]}>
         <View style={{flexDirection: 'row', width: '75%'}}>
-          <ImageBackground
-            style={[styles.dateBanner, GlobalStyle.justify]}
-            resizeMode="contain"
-            source={require('../../assets/image/date-banner.png')}>
-            <Text
-              center
-              style={styles.dateText}
-              title={moment(data.date).format('do MMM')}
-            />
-          </ImageBackground>
-          <View style={{width: '93%'}}>
+          {data.streak && (
+            <ImageBackground
+              style={[styles.dateBanner, GlobalStyle.justify]}
+              resizeMode="contain"
+              source={require('../../assets/image/date-banner.png')}>
+              <Text center style={styles.dateText} title={data.streak} />
+            </ImageBackground>
+          )}
+
+          <View>
             <Text style={styles.EventName} title={data.title ?? 'Event Name'} />
             <Text
               style={styles.EventTitle}
@@ -42,7 +48,7 @@ const EventCard = ({data}) => {
             />
           </View>
         </View>
-        <View style={GlobalStyle.row}>
+        {/* <View style={GlobalStyle.row}>
           {[
             {type: IconType.AntDesign, name: 'star'},
             {type: IconType.Entypo, name: 'share'},
@@ -56,7 +62,7 @@ const EventCard = ({data}) => {
               style={styles.iconBackground}
             />
           ))}
-        </View>
+        </View> */}
       </View>
       <View style={[GlobalStyle.row, {marginHorizontal: 15}]}>
         <Text style={styles.endText} title={event ?? 'Event Description'} />

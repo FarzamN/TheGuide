@@ -23,7 +23,7 @@ const WebView = ({route}) => {
         <Icon
           name="close-circle"
           type={IconType.Ionicons}
-          size={22}
+          size={30}
           color="#000"
         />
       </TouchableOpacity>

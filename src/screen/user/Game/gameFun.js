@@ -1,10 +1,4 @@
-import {
-  gameQuestionAPI,
-  getBibleSchoolApiUpdate,
-} from '../../../redux/actions/UserAction';
-
 export const handleAnswer = (
-  tm,
   ans,
   setError,
   seekVideo,
@@ -17,7 +11,7 @@ export const handleAnswer = (
 ) => {
   if (ans.isCorrect) {
     setCorrect(true); // Show "Correct" feedback
-    gameQuestionAPI(tm, ans.id);
+    showQuestion(false);
     setTimeout(() => {
       setCorrect(false);
 
@@ -41,12 +35,13 @@ export const handleAnswer = (
   }
 };
 
-export const transformGameQuestions = gameQuestions => {
-  return Object.keys(gameQuestions)
+export const transformGameQuestions = (gameQuestions, id) => {
+  const questionIds = []; // Initialize an array to collect question IDs
+
+  const transformedQuestions = Object.keys(gameQuestions)
     .sort((a, b) => parseInt(a) - parseInt(b))
     .map((key, index) => {
       const questionData = gameQuestions[key];
-
       if (!questionData.question || !questionData.question.question_text) {
         return null;
       }
@@ -60,7 +55,11 @@ export const transformGameQuestions = gameQuestions => {
       const delayTime =
         questionData.answers.find(answer => answer.label === 'time')
           ?.question || 0;
+
       const questionId = questionData.question.id;
+
+      questionIds.push(questionId); // Add the questionId to the array
+
       return {
         order: index + 1,
         question_text: questionData.question.question_text,
@@ -95,6 +94,10 @@ export const transformGameQuestions = gameQuestions => {
       };
     })
     .filter(Boolean);
+
+  id(questionIds); // Pass the collected IDs to the `id` parameter
+
+  return transformedQuestions;
 };
 
 export const shuffleArray = array => {

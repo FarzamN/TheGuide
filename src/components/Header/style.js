@@ -58,17 +58,16 @@ export default StyleSheet.create({
 
   // ------------------------------------------------
   box: {
-    backgroundColor: Color.white,
-    // backgroundColor: 'red',
+    width: '43%',
     borderRadius: 10,
     paddingVertical: 5,
-    width: '43%',
     flexDirection: 'row',
+    backgroundColor: Color.white,
   },
   data: {
     fontSize: 13,
     marginTop: 5,
-    fontFamily: Font.font500,
+    fontFamily: Font.font700,
   },
   subText: {
     fontSize: 14,
@@ -77,14 +76,14 @@ export default StyleSheet.create({
     fontFamily: Font.font600,
   },
   line: {
-    height: 43,
     width: 1,
+    height: 43,
     backgroundColor: Color.LineDarkBlue,
   },
   HeadTextBox: {
-    alignItems: 'center',
     width: '45%',
     alignSelf: 'center',
+    alignItems: 'center',
   },
   // -------------------------------
   GameBannerImage: {
@@ -93,20 +92,19 @@ export default StyleSheet.create({
     marginBottom: -50,
   },
   GameTitle: {
-    fontFamily: Font.font700,
     fontSize: 20,
-    color: Color.white,
     marginBottom: 10,
+    color: Color.white,
+    fontFamily: Font.font700,
   },
   GameSubTitle: {
-    fontFamily: Font.font500,
     fontSize: 16,
     color: Color.white,
+    fontFamily: Font.font500,
   },
   prayLevel: {
+    width: '70%',
     fontSize: 20,
     fontFamily: Font.font600,
-
-    width: '70%',
   },
 });

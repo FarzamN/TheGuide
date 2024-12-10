@@ -49,31 +49,5 @@ export const RegisterInput = [
   },
 ];
 
-export const loginField = [
-  {
-    name: 'email',
-    // defaultValue: 'postmenseven@gmail.com',
-    defaultValue: 'Sort@gmail.com',
-    rules: {
-      pattern: emailPattern,
-      required: required('Email'),
-    },
-    placeholder: 'Email',
-    keyboardType: 'email-address',
-    isPass: false,
-    icName: 'email',
-  },
-  {
-    name: 'password',
-    defaultValue: '12345678',
-    rules: {
-      required: required('Password'),
-    },
-    placeholder: 'Password',
-    isPass: true,
-    icName: 'lock',
-  },
-];
-
 export const start = {x: 0, y: 0};
 export const end = {x: 1, y: 0};

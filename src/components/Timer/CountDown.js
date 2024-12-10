@@ -11,31 +11,32 @@ const CountDown = ({handleStart, handleEnd, location}) => {
   const [isRunning, setIsRunning] = useState(false);
   const [counterSelect, setCounterSelect] = useState(0);
   const [err, setErr] = useState({show: false, msg: ''});
-  const [time, setTime] = useState({hours: '', minutes: '', seconds: ''});
+  const [time, setTime] = useState({hours: '00', minutes: '60', seconds: '00'});
 
   const handlePress = id => {
-    if (!time.minutes) {
-      setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
-      setTimeout(() => {
-        setErr({show: false, msg: ''});
-      }, 2000);
-    } else {
-      if (id === 1) {
-        console.log('saving');
-      } else if (id === 2) {
-        if (isRunning) {
-          stopCountdown();
-          handleEnd();
-        } else {
-          startCountdown();
-          handleStart();
-        }
-        setCounterSelect(id);
-      } else if (id === 3) {
-        resetCountdown();
-        setCounterSelect(id);
+    if (id === 1) {
+      console.log('saving');
+    } else if (id === 2) {
+      if (isRunning) {
+        stopCountdown();
+        handleEnd();
+      } else {
+        startCountdown();
+        handleStart();
       }
+      setCounterSelect(id);
+    } else if (id === 3) {
+      resetCountdown();
+      setCounterSelect(id);
     }
+    // if (!time.minutes) {
+    //   setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
+    //   setTimeout(() => {
+    //     setErr({show: false, msg: ''});
+    //   }, 2000);
+    // } else {
+
+    // }
   };
 
   useEffect(() => {
@@ -80,9 +81,9 @@ const CountDown = ({handleStart, handleEnd, location}) => {
   }, [isRunning]);
 
   const startCountdown = () => {
-    if (validateInput()) {
-      setIsRunning(true);
-    }
+    setIsRunning(true);
+    // if (validateInput()) {
+    // }
   };
 
   const stopCountdown = () => {

@@ -21,6 +21,7 @@ import TimerBtnModal from './prayComp/TimerBtnModal';
 import {useGeolocation} from '../../../hooks';
 import {
   NumberCreate,
+  NumberUpdate,
   prayer_streak,
   prayerCreate,
   prayerUpdate,
@@ -31,17 +32,16 @@ import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Sound from 'react-native-sound';
-import {Color} from '../../../utils/Color';
 import {Image_Url} from '../../../utils/Urls';
 
 const PrayerScreen = () => {
   const dispatch = useDispatch();
-  const {navigate, getParent} = useNavigation();
-  // Automatically scroll to the current level.  Not L10
+  const {navigate, getParent, goBack} = useNavigation();
 
   const {location} = useGeolocation();
+  const number_minutes = useSelector(state => state.number_minutes);
 
   const [timerData, setAPItimerData] = useState({});
   const [counterData, setAPIcounterData] = useState({});
@@ -64,6 +64,11 @@ const PrayerScreen = () => {
     selected: 0,
     visible: false,
   });
+
+  const handleMap = () =>
+    navigate('webview', {uri: Image_Url + 'prayer/webview/map'});
+  const handleCalender = () =>
+    navigate('webview', {uri: Image_Url + 'calendar'});
 
   const updateTime = () => {
     const currentTime = moment();
@@ -133,16 +138,14 @@ const PrayerScreen = () => {
   }).format('YYYY-MM-DD HH:mm:ss'),
   */
 
+  // console.log(location);
   const handleCounterStart = () => {
     const dataOne = {
-      end_time: null,
-      startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-      statusName: CTNSelect,
       lat: location.latitude,
       long: location.longitude,
+      startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
     prayerCreate(dataOne, setAPIcounterData);
-    dispatch(prayer_streak());
   };
 
   const playSound = () => {
@@ -151,7 +154,13 @@ const PrayerScreen = () => {
         console.log('Failed to load the sound', error);
         return;
       }
-      sound.play(() => {
+      // Play the sound
+      sound.play(success => {
+        if (success) {
+          console.log('Sound played successfully');
+        } else {
+          console.log('Playback failed due to audio decoding errors');
+        }
         sound.release(); // Release the sound resource after playback
       });
     });
@@ -179,8 +188,10 @@ const PrayerScreen = () => {
       lat: location.latitude,
       long: location.longitude,
     };
+    setTimeout(() => {
+      handleMap();
+    }, 1300);
     TimerCreate(data, setAPItimerData);
-    dispatch(prayer_streak());
   };
 
   const handleTimerEnd = () => {
@@ -192,18 +203,7 @@ const PrayerScreen = () => {
     const data = {goal, end_time, id: timerData.id};
     TimerUpdate(data);
     dispatch(prayer_streak());
-  };
-
-  const handleNumber = () => {
-    const data = {
-      end_time: null,
-      startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-      statusName: CTNSelect,
-      lat: location.latitude,
-      long: location.longitude,
-    };
-    NumberCreate(data);
-    dispatch(prayer_streak());
+    playSound();
   };
 
   useFocusEffect(
@@ -213,30 +213,15 @@ const PrayerScreen = () => {
       });
     }, []),
   );
-  const [aboutStreak, setAboutStreak] = useState(false);
 
-  const checkVisibility = async () => {
-    const showStatus = await AsyncStorage.getItem('show');
-    if (showStatus !== false) setAboutStreak(true);
-  };
-  const onClose = async () => {
-    setAboutStreak(false);
-    await AsyncStorage.setItem('show', JSON.stringify(false));
-  };
-
-  useEffect(() => {
-    checkVisibility();
-  }, []);
   return (
     <Body>
-      <DashboardHeader
-      // onPray={() => setDonate(true)}
-      />
+      <DashboardHeader />
       <ScrollView>
         <TimeBar
           time={remainingTime || 'Loading...'}
-          onCalender={() => navigate('webview', {uri: Image_Url + 'calendar'})}
-          onMap={() => navigate('webview', {uri: Image_Url + 'prayer'})}
+          onCalender={handleCalender}
+          onMap={handleMap}
           onTime={() => setClock({visible: true, time: ''})}
         />
         <View style={[GlobalStyle.between, style.SwitchCont]}>
@@ -258,10 +243,7 @@ const PrayerScreen = () => {
         ) : CTNSelect === 'timer' ? (
           <Timer handleEnd={handleTimerEnd} handleStart={handleTimerStart} />
         ) : (
-          <NumberComp
-            handleBtn={handleNumber}
-            handleAdd={setAdd => setAdd(true)}
-          />
+          <NumberComp />
         )}
         {/*
         <View style={[style.TimeChangeCont, GlobalStyle.justify]}>
@@ -325,7 +307,7 @@ const PrayerScreen = () => {
       {/* <TimerBtnModal
         visible={showTimer}
         onClose={() => setShowTimer(false)}></TimerBtnModal> */}
-      <AboutStreak visible={aboutStreak} onClose={onClose} />
+      <AboutStreak />
       <DonateModal onClose={() => setDonate(false)} visible={donate} />
     </Body>
   );

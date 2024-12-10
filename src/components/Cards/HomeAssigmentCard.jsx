@@ -21,19 +21,14 @@ const HomeAssigmentCard = ({data, onPress}) => {
         source={{uri: Image_Url + data.image_app}}
         style={styles.AssigmentCard}>
         <View style={styles.HomeTextCont}>
-          <Image
-            style={{
-              width: 30,
-              height: 30,
-              marginRight: 10,
-            }}
-            resizeMode="contain"
-            source={
-              data.game_status === 'INCOMPLETE'
-                ? require('../../assets/image/due-icon.png')
-                : require('../../assets/image/okicon.png')
-            }
-          />
+          {disabled && (
+            <Image
+              style={styles.AssigmentImg}
+              resizeMode="contain"
+              source={require('../../assets/image/okicon.png')}
+            />
+          )}
+
           <View style={styles.AssigmentTextWrapper}>
             <Text style={styles.AssigmentTitle} title={data.course_name} />
 

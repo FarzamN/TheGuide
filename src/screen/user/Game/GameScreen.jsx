@@ -11,9 +11,10 @@ import {
   DownloadProgress,
 } from '../../../components';
 import {
-  getBibleSchoolApiUpdate,
   getGameApi,
   getGameIdAPI,
+  getBibleSchoolApiUpdate,
+  gameQuestionAPI,
 } from '../../../redux/actions/UserAction';
 
 import {style} from './style';
@@ -53,7 +54,7 @@ const GameScreen = ({navigation, route}) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [allQuestionsCompleted, setAllQuestionsCompleted] = useState(false);
   const [previousQuestionTime, setPreviousQuestionTime] = useState(0); // New state
-
+  // console.log('gameQuestions', gameQuestions);
   const currentQuestion = gameQuestions[currentQuestionIndex];
   const progress = duration ? currentTime / duration : 0;
   const [videoPath, setVideoPath] = useState(null);
@@ -104,7 +105,6 @@ const GameScreen = ({navigation, route}) => {
   const handleAnswerSelection = answer => {
     setShowQuestion(false);
     handleAnswer(
-      item,
       answer,
       setError,
       seekVideo,
@@ -121,6 +121,7 @@ const GameScreen = ({navigation, route}) => {
     // deleteFile();
     setCompleted(false);
     dispatch(getBibleSchoolApiUpdate());
+    dispatch(gameQuestionAPI(item, getGameID));
     setTimeout(() => {
       goBack();
     }, 100);
@@ -128,7 +129,7 @@ const GameScreen = ({navigation, route}) => {
 
   useEffect(() => {
     dispatch(getGameApi(setLoad, item.id));
-    getGameIdAPI(item.id, setGetGameID, setLoad);
+    getGameIdAPI(item.id, setLoad);
   }, []);
 
   useEffect(() => {
@@ -147,6 +148,7 @@ const GameScreen = ({navigation, route}) => {
     if (get_game?.game_question) {
       const transformedQuestions = transformGameQuestions(
         get_game.game_question,
+        setGetGameID,
       );
       setGameQuestions(transformedQuestions);
       // Initialize all questions as unanswered (false)
@@ -193,7 +195,7 @@ const GameScreen = ({navigation, route}) => {
         subTitle={item.game_title}
       />
 
-      {/* {[
+      {[
         {n: 'id', c: item.id},
         {n: 'currentTime', c: Math.ceil(currentTime)},
         {n: 'quesion length', c: gameQuestions.length},
@@ -201,7 +203,7 @@ const GameScreen = ({navigation, route}) => {
         {n: 'prev Question Time', c: previousQuestionTime},
       ].map(({n, c}) => (
         <Text key={n} center title={n + ' ' + c} />
-      ))} */}
+      ))}
 
       <View>
         {isBuffering && <NorLoad />}
@@ -225,9 +227,7 @@ const GameScreen = ({navigation, route}) => {
               setDuration(data.duration);
             }}
             onProgress={({currentTime}) => setCurrentTime(currentTime)}
-            onEnd={() => {
-              setCompleted(true);
-            }}
+            onEnd={() => setCompleted(true)}
           />
         )}
       </View>
@@ -253,11 +253,6 @@ const GameScreen = ({navigation, route}) => {
                       <GameBtn
                         key={i}
                         index={i}
-                        // title={
-                        //   i == 1
-                        //     ? '12345678901234567890123456789012345678901234567890123456789012345678901234567890'
-                        //     : answer.title
-                        // }
                         title={answer.title}
                         onPress={() => handleAnswerSelection(answer)}
                       />

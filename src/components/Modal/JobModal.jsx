@@ -1,11 +1,11 @@
 import React from 'react';
 import style from './style';
-import Modal from 'react-native-modal';
-// import {View} from 'react-native';
 import {ModalBtn} from '..';
-import {GlobalStyle} from '../../utils/GlobalStyle';
+import Modal from 'react-native-modal';
 import LottieView from 'lottie-react-native';
+import {GlobalStyle} from '../../utils/GlobalStyle';
 import {Text, View} from 'react-native-animatable';
+
 const JobModal = ({visible, onPress}) => {
   return (
     <Modal
@@ -31,9 +31,9 @@ const JobModal = ({visible, onPress}) => {
         />
         <View style={style.JobBtn} animation={'fadeInUpBig'} duration={300}>
           <ModalBtn
-            onPress={onPress}
             green
             title="Next"
+            onPress={onPress}
             textStyle={style.JobBtnText}
           />
         </View>

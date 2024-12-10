@@ -1,12 +1,24 @@
-import {View, TextInput} from 'react-native';
-import React, {useState} from 'react';
-import {ContBox, Correct, Error, TimeService} from '..';
+import moment from 'moment';
 import {styles} from './style';
 import RenderDot from './renderDot';
+import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {useGeolocation} from '../../hooks';
+import {View, TextInput} from 'react-native';
+import {ContBox, Correct, Error, TimeService} from '..';
 import {useNavigation} from '@react-navigation/native';
 
-const Number = ({handleBtn, handleAdd}) => {
+import {
+  NumberCreate,
+  NumberUpdate,
+  prayer_streak,
+} from '../../redux/actions/UserAction';
+
+const Number = () => {
+  const dispatch = useDispatch();
   const {goBack} = useNavigation();
+  const {location} = useGeolocation();
+
   const [add, setAdd] = useState(false);
   const [err, setErr] = useState({show: false, msg: ''});
   const [time, setTime] = useState({hours: '', minutes: '', seconds: ''});
@@ -21,20 +33,43 @@ const Number = ({handleBtn, handleAdd}) => {
     );
   };
   */
+
+  const handleNumber = async () => {
+    const data = {
+      id: null,
+      end_time: null,
+      startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+      statusName: 'timer',
+      lat: location.latitude,
+      long: location.longitude,
+    };
+
+    try {
+      const {id, start_time} = await NumberCreate(data);
+
+      const end_time = moment()
+        .add(time.minutes, 'minute')
+        .format('YYYY-MM-DD HH:mm:ss');
+      const startTime = moment(start_time, 'YYYY-MM-DD HH:mm:ss');
+      const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss');
+
+      const goal = endTime.diff(startTime, 'minutes');
+      const dataTwo = {id, end_time, goal};
+      await NumberUpdate(dataTwo, goBack, setAdd);
+      dispatch(prayer_streak());
+    } catch (error) {
+      console.error('Error in handleNumber:', error);
+    }
+  };
+
   const handleSave = () => {
-    if (!time.minutes) {
+    if (time.minutes) {
+      handleNumber();
+    } else {
       setTime({hours: '', minutes: '', seconds: ''});
       setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
       setTimeout(() => {
         setErr({show: false, msg: ''});
-      }, 2000);
-    } else {
-      handleBtn();
-      setAdd(true);
-      handleAdd(setAdd);
-      setTimeout(() => {
-        setAdd(false);
-        goBack();
       }, 2000);
     }
   };

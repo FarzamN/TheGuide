@@ -5,6 +5,7 @@ import PasswordInput from './Inputs/PasswordInput';
 import FullImage from './Helper/FullImage';
 import CustomButton from './Button/CustomButton';
 import Loader from './Modal/Loader';
+import StreakModal from './Modal/StreakModal.jsx';
 import Error from './Modal/Error';
 import MainHeader from './Header/MainHeader';
 import Text from './Text/Text';
@@ -73,6 +74,7 @@ export {
   FullImage,
   CustomButton,
   Loader,
+  StreakModal,
   Error,
   MainHeader,
   AuthBody,

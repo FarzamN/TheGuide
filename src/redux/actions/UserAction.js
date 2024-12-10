@@ -38,7 +38,7 @@ export const getBibleSchoolApi = load => {
     } catch (error) {
       load(false);
       console.log('error getBibleSchoolApi', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
@@ -57,7 +57,7 @@ export const bassChalo = async () => {
     const res = await response.json();
   } catch (error) {
     console.log('error bassChalo', error);
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
   }
 };
 
@@ -82,7 +82,7 @@ export const getBibleSchoolApiUpdate = () => {
       }
     } catch (error) {
       console.log('error getBibleSchoolApi', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
@@ -103,7 +103,7 @@ export const complete_assigment = ids => {
         console.log('res', res);
       }
     } catch (error) {
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.log('error complete_assigment', error);
     }
   });
@@ -126,12 +126,12 @@ export const eventApi = load => {
       });
       const result = await response.json();
       load(false);
-      if (result.status === true) {
+      if (result.status) {
         dispatch({type: GET_EVENT, payload: result.data});
       }
     } catch (error) {
       load(false);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.error('Error fetching eventApi data:', error);
     }
   };
@@ -333,7 +333,7 @@ export const getGameApi = (load, id) => {
         redirect: 'follow',
       });
       const result = await response.json();
-      if (result.success === true) {
+      if (result.success) {
         load(false);
         dispatch({type: GET_GAME, payload: result.data[0]});
       } else {
@@ -341,13 +341,13 @@ export const getGameApi = (load, id) => {
       }
     } catch (error) {
       load(false);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.error('Error fetching getGameApi data:', error);
     }
   };
 };
 
-export const getGameIdAPI = async (id, gameID, load) => {
+export const getGameIdAPI = async (id, load) => {
   load(true);
   const url = `${Base_Url}game-questions-ids/${id}`;
   const token = await AsyncStorage.getItem('token');
@@ -362,62 +362,69 @@ export const getGameIdAPI = async (id, gameID, load) => {
     load(false);
     if (res.success) {
       const getID = res.gameQuestionsIds.map(item => item.id);
-      gameID(getID);
     }
   } catch (error) {
     load(false);
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
     console.log('Error in getGameIdAPI:', error);
   }
 };
 
-export const gameQuestionAPI = async (item, question_id) => {
-  const url = `${Base_Url}user_game_question/store`;
-  const myData = new FormData();
-  myData.append('game_id', item.id);
-  myData.append('assignment_id', item.assignment_id);
-  myData.append('lesson_id', item.lesson_id);
-  myData.append('course_id', item.course_id);
-  myData.append('question_id', question_id);
+export const gameQuestionAPI = (item, question_ids) => {
+  return async dispatch => {
+    for (const id of question_ids) {
+      const url = `${Base_Url}user_game_question/store`;
+      const myData = new FormData();
+      myData.append('game_id', item.id);
+      myData.append('assignment_id', item.assignment_id);
+      myData.append('lesson_id', item.lesson_id);
+      myData.append('course_id', item.course_id);
+      myData.append('question_id', id);
+      myData.append('status', 'COMPLETED');
+      myData.append('completed_on', new Date());
+      myData.append('is_correct', 1);
 
-  // question_id.forEach(id => myData.append('question_id', id));
-  myData.append('status', 'COMPLETED');
-  myData.append('is_correct', 1);
+      const myHeaders = new Headers();
+      const token = await AsyncStorage.getItem('token');
+      myHeaders.append('Authorization', `Bearer ${token}`);
 
-  console.log('myData', myData);
-  const myHeaders = new Headers();
-  const token = await AsyncStorage.getItem('token');
-  myHeaders.append('Authorization', `Bearer ${token}`);
-  try {
-    const response = await fetch(url, {
-      body: myData,
-      method: 'POST',
-      headers: myHeaders,
-    });
-    const res = await response.json();
-    // console.log('gameQuestionAPI res', res);
-  } catch (error) {
-    Toast.show('Server side error');
-    console.log('Error in gameQuestionAPI:', error);
-  }
+      dispatch(getBibleSchoolApiUpdate());
+      try {
+        const response = await fetch(url, {
+          body: myData,
+          method: 'POST',
+          headers: myHeaders,
+        });
+
+        const res = await response.json();
+        if (res.success) {
+          console.log(`Success for question_id: ${id}`, res);
+        }
+      } catch (error) {
+        // Toast.show(`Error with question_id ${id}: ${error.message}`);
+        // console.log(`Error for question_id ${id}:`, error);
+      }
+    }
+  };
 };
 
 export const prayerCreate = async (data, setData) => {
   const url = `${Base_Url}prayer-create-update/${null}?`;
+  console.log('url', url);
   const myData = new FormData();
   const ud = await AsyncStorage.getItem('user_details');
   const userData = JSON.parse(ud);
   myData.append('user_id', userData.user_id);
   myData.append('type', 'Personal');
   myData.append('prayer_type', 'Pray');
-  myData.append('status', data.statusName);
+  myData.append('status', 'count down');
   myData.append('timer', 0);
   myData.append('count_down', 0);
   myData.append('number', 0);
   myData.append('lat', data.lat);
   myData.append('long', data.long);
   myData.append('start_time', data.startTime);
-  myData.append('end_time', data.end_time);
+  myData.append('end_time', null);
   myData.append('goal', 0);
   myData.append('video_id', 0);
 
@@ -436,12 +443,13 @@ export const prayerCreate = async (data, setData) => {
       // Toast.show('Prayer created successfully');
     }
   } catch (error) {
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
     console.log('Error in prayerCreateUpdate:', error);
   }
 };
 
 export const prayerUpdate = async data => {
+  console.log('data', data);
   const url = `${Base_Url}prayer-update/${data.id}`;
   const myData = new FormData();
 
@@ -460,17 +468,17 @@ export const prayerUpdate = async data => {
       headers: myHeaders,
     });
     const res = await response.json();
-    console.log('prayerUpdate', res);
     if (res.status) {
       Toast.show('Prayer created successfully');
     }
   } catch (error) {
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
     console.log('Error in prayerCreateUpdate:', error);
   }
 };
 
 export const TimerCreate = async (data, setData) => {
+  console.log('data TimerCreate', data);
   const url = `${Base_Url}prayer-create-update/${null}?`;
   const myData = new FormData();
   const ud = await AsyncStorage.getItem('user_details');
@@ -504,18 +512,18 @@ export const TimerCreate = async (data, setData) => {
       // Toast.show('Prayer created successfully');
     }
   } catch (error) {
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
     console.log('Error in TimerCreate:', error);
   }
 };
 
 export const TimerUpdate = async data => {
-  console.log('TimerUpdate goal', data.goal);
+  console.log('data TimerUpdate', data);
   const url = `${Base_Url}prayer-update/${data.id}`;
   const myData = new FormData();
 
   myData.append('goal', data.goal);
-  myData.append('end_time', data.end_time);
+  -myData.append('end_time', data.end_time);
 
   const myHeaders = new Headers();
   const token = await AsyncStorage.getItem('token');
@@ -528,50 +536,109 @@ export const TimerUpdate = async data => {
     });
     const res = await response.json();
     console.log('prayerUpdate', res);
+    console.log('data', data);
     if (res.status) {
       Toast.show('Prayer created successfully');
     }
   } catch (error) {
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
     console.log('Error in TimerUpdate:', error);
   }
 };
 
 export const NumberCreate = async data => {
-  const url = `${Base_Url}prayer-create-update/${null}?`;
+  const url = `${Base_Url}prayer-create-update/${data.id}?`;
   const myData = new FormData();
-  const ud = await AsyncStorage.getItem('user_details');
-  const userData = JSON.parse(ud);
-  myData.append('user_id', userData.user_id);
-  myData.append('type', 'Personal');
-  myData.append('prayer_type', 'Pray');
-  myData.append('status', data.statusName);
-  myData.append('timer', 0);
-  myData.append('count_down', 0);
-  myData.append('number', 0);
-  myData.append('lat', data.lat);
-  myData.append('long', data.long);
-  myData.append('start_time', data.startTime);
-  myData.append('end_time', data.end_time);
-  myData.append('goal', 0);
-  myData.append('video_id', 0);
-
-  const myHeaders = new Headers();
-  const token = await AsyncStorage.getItem('token');
-  myHeaders.append('Authorization', `Bearer ${token}`);
   try {
+    // Fetch user details from AsyncStorage
+    const ud = await AsyncStorage.getItem('user_details');
+    const userData = JSON.parse(ud);
+
+    // Append data to FormData
+    myData.append('user_id', userData.user_id);
+    myData.append('type', 'Personal');
+    myData.append('prayer_type', 'Pray');
+    myData.append('status', data.statusName);
+    myData.append('timer', 0);
+    myData.append('count_down', 0);
+    myData.append('number', 0);
+    myData.append('lat', data.lat);
+    myData.append('long', data.long);
+    myData.append('start_time', data.startTime);
+    myData.append('end_time', data.end_time);
+    myData.append('goal', 0);
+    myData.append('video_id', 0);
+
+    // Set headers with token
+    const token = await AsyncStorage.getItem('token');
+    const myHeaders = new Headers({
+      Authorization: `Bearer ${token}`,
+    });
+
+    // Make POST request
     const response = await fetch(url, {
       body: myData,
       method: 'POST',
       headers: myHeaders,
     });
     const res = await response.json();
+
+    // Handle successful response
     if (res.status) {
-      Toast.show('Prayer created successfully');
+      return res.prayer; // Return the response for further use
+    } else {
+      throw new Error('NumberCreate failed: ' + res.message);
     }
   } catch (error) {
-    Toast.show('Server side error');
-    console.log('Error in TimerCreate:', error);
+    console.error('Error in NumberCreate:', error);
+    throw error; // Ensure error propagates to the calling function
+  }
+};
+
+export const NumberUpdate = async (data, goBack, setAdd) => {
+  if (!data.id || !data.goal || !data.end_time) {
+    console.error('Invalid data passed to NumberUpdate:');
+    console.log(data);
+    return;
+  }
+
+  const url = `${Base_Url}prayer-update/${data.id}`;
+  const myData = new FormData();
+
+  try {
+    // Append necessary fields to FormData
+    myData.append('goal', data.goal);
+    myData.append('end_time', data.end_time);
+
+    // Set headers with token
+    const token = await AsyncStorage.getItem('token');
+    const myHeaders = new Headers({
+      Authorization: `Bearer ${token}`,
+    });
+
+    // Make POST request
+    const response = await fetch(url, {
+      body: myData,
+      method: 'POST',
+      headers: myHeaders,
+    });
+    const res = await response.json();
+
+    // Handle successful response
+    if (res.status) {
+      console.log('NumberUpdate successful:', res);
+      goBack(); // Navigate back after a successful update
+      setAdd(true);
+      setTimeout(() => {
+        setAdd(false);
+      }, 2000);
+      Toast.show('Prayer updated successfully');
+    } else {
+      throw new Error('NumberUpdate failed: ' + res.message);
+    }
+  } catch (error) {
+    console.error('Error in NumberUpdate:', error);
+    // Toast.show('Server side error');
   }
 };
 
@@ -588,7 +655,7 @@ export const prayerGupportGoal = () => {
         dispatch({type: PRAYER_SUPPORT_GOAL, payload: res.data});
       }
     } catch (error) {
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.log('Error in prayerGupportGoal:', error);
     }
   };
@@ -610,7 +677,7 @@ export const pray_status = load => {
       }
     } catch (error) {
       load(false);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.log('Error in pray_status:', error);
     }
   };
@@ -630,7 +697,7 @@ export const prayer_streak = () => {
         dispatch({type: PRAYER_STREAK, payload: res.levels.current_streak});
       }
     } catch (error) {
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.log('Error in prayer_streak:', error);
     }
   };
@@ -646,17 +713,16 @@ export const bible_streak = () => {
       const response = await fetch(url, {headers});
       const res = await response.json();
       if (res.status) {
-        dispatch({type: BIBLE_TIME, payload: '0'});
         dispatch({type: BIBLE_STREAK, payload: res.streak});
       }
     } catch (error) {
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.log('Error in bible_streak:', error);
     }
   };
 };
 
-export const inc_and_dec = value => {
+export const inc_and_dec = (value, setShowStreak) => {
   return async dispatch => {
     const url = `${Base_Url}bible-streak/${value}`;
     const headers = new Headers();
@@ -669,9 +735,10 @@ export const inc_and_dec = value => {
       if (status) {
         dispatch(prayer_streak());
         dispatch(bible_streak());
+        setShowStreak(true);
       }
     } catch (error) {
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.log('Error in inc_and_dec:', error);
     }
   };

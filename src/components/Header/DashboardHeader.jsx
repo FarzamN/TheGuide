@@ -12,11 +12,12 @@ const DashboardHeader = ({onPray}) => {
   const {navigate, dispatch} = useNavigation();
 
   const userDetail = useSelector(state => state.userDetails);
-  const pray_streak = useSelector(state => state.pray_streak);
   const pray_time = useSelector(state => state.pray_time);
   const bible_streak = useSelector(state => state.bible_streak);
   const bible_time = useSelector(state => state.bible_time);
-  console.log('bible_streak', bible_streak);
+  const pray_streak = useSelector(state => state.pray_streak);
+  let cleanStreak = parseInt(pray_streak.replace('x', ''), 10);
+
   const notiHandler = () => {
     //    navigate('Notification');
   };
@@ -49,25 +50,26 @@ const DashboardHeader = ({onPray}) => {
       <View style={GlobalStyle.evenly}>
         {[
           {
+            onPress: null,
+            title: 'Bible',
+            time: bible_time,
             status: bible_streak || '0',
-            time: 'Bible', //bible_time,
-            title: 'Streak',
-            onPress: null, // No press action for Bible streak
           },
           {
-            status: pray_streak || '0x',
+            title: 'Pray',
+            onPress: onPray,
             time: pray_time,
-            title: 'Mins',
-            onPress: onPray, // Pray streak press action
+            status: cleanStreak,
           },
         ].map((item, index) => {
-          const isComplete = item.time === 0;
+          const isComplete =
+            item.title == 'Pray' ? pray_time == 0 : bible_time === 'done';
 
           return (
             <TouchableOpacity
               key={index}
-              activeOpacity={item.onPress ? 0.5 : 1}
               onPress={item.onPress}
+              activeOpacity={item.onPress ? 0.5 : 1}
               style={[style.box, GlobalStyle.justify]}>
               <View style={[GlobalStyle.justify, {width: '45%'}]}>
                 {isComplete ? (

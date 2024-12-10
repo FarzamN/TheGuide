@@ -1,9 +1,10 @@
 import {
   GET_CITY,
   GET_STATE,
+  EMAIL_PASS,
   GET_COUNTRY,
-  USER_DETAILS,
   API_SUCCESS,
+  USER_DETAILS,
 } from '../reducer/Holder';
 import moment from 'moment';
 import {Base_Url} from '../../utils/Urls';
@@ -51,14 +52,14 @@ export const LoginApi = (data, load, err) => {
       }
     } catch (error) {
       load(false);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
       console.log('error LoginApi', error);
     }
   };
 };
 
 export const checkAuth = async (data, index, load, setError) => {
-  console.log('data', data);
+  load(true);
   const url = `${Base_Url}check-authentication`;
 
   const myData = new FormData();
@@ -71,7 +72,6 @@ export const checkAuth = async (data, index, load, setError) => {
       body: myData,
     });
     const res = await response.json();
-    console.log(res.status);
     load(false);
     if (res.status === true) {
       index(2);
@@ -79,7 +79,7 @@ export const checkAuth = async (data, index, load, setError) => {
       if (res.errors) {
         setError({
           visible: true,
-          msg: 'GIven email & phone number are taken',
+          msg: 'Given email & phone number are taken',
         });
 
         setTimeout(() => {
@@ -87,7 +87,6 @@ export const checkAuth = async (data, index, load, setError) => {
         }, 2000);
       } else {
         const errorMessages = [];
-        console.log('errorMessages', errorMessages);
         for (const [field, messages] of Object.entries(res.errors)) {
           errorMessages.push(`${field}: ${messages.join(', ')}`);
         }
@@ -104,78 +103,84 @@ export const checkAuth = async (data, index, load, setError) => {
     console.log({res});
   } catch (error) {
     console.log('error checkAuth', error);
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
   }
 };
-export const registerApi = async (
+
+export const registerApi = (
   data,
   bday,
   gender,
   city,
   state,
   country,
-  back,
+  navigate,
   load,
   setError,
+  setSuccess,
 ) => {
-  load(true);
-  const url = `${Base_Url}register`;
-  const myData = new FormData();
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}register`;
+    const myData = new FormData();
 
-  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-  myData.append('first_name', data.f_name);
-  myData.append('last_name', data.l_name);
-  myData.append('email', data.email);
-  myData.append('phone', data.number);
-  myData.append('password', data.password);
-  myData.append('confirm_password', data.password);
-  myData.append('gender', 'any');
-  myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
-  myData.append('city', city);
-  myData.append('state', state);
-  myData.append('country', country);
-  myData.append('type', 'father');
-  myData.append('time_zone', timeZone);
-  const myHeaders = new Headers();
-  myHeaders.append('Accept', 'application/json');
-  myHeaders.append('Content-Type', 'multipart/form-data');
+    myData.append('first_name', data.f_name);
+    myData.append('last_name', data.l_name);
+    myData.append('email', data.email);
+    myData.append('phone', data.number);
+    myData.append('password', data.password);
+    myData.append('confirm_password', data.password);
+    myData.append('gender', 'any');
+    myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
+    myData.append('city', city);
+    myData.append('state', state);
+    myData.append('country', country);
+    myData.append('type', 'father');
+    myData.append('time_zone', timeZone);
+    const myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Content-Type', 'multipart/form-data');
 
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: myHeaders,
-      body: myData,
-    });
-
-    const responseData = await response.json();
-
-    if (responseData.success == true) {
-      back();
-      load(false);
-      Toast.show('Registered sucessfull. Now sign in!');
-    } else {
-      load(false);
-      const errorMessages = [];
-      if (responseData.errors) {
-        for (const [field, messages] of Object.entries(responseData.errors)) {
-          errorMessages.push(`${field}: ${messages.join(', ')}`);
-        }
-      }
-      setError({
-        visible: true,
-        msg: errorMessages.join('\n'),
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: myHeaders,
+        body: myData,
       });
 
-      setTimeout(() => {
-        setError({visible: false, msg: ''});
-      }, 2000);
+      const responseData = await response.json();
+      if (responseData.success) {
+        navigate('login');
+        dispatch({type: EMAIL_PASS, payload: data});
+        load(false);
+        setSuccess({visible: true, msg: 'Registered sucessfull. Now sign in!'});
+        setTimeout(() => {
+          setSuccess({visible: false, msg: ''});
+        }, 3000);
+      } else {
+        load(false);
+        const errorMessages = [];
+        if (responseData.errors) {
+          for (const [field, messages] of Object.entries(responseData.errors)) {
+            errorMessages.push(`${field}: ${messages.join(', ')}`);
+          }
+        }
+        setError({
+          visible: true,
+          msg: errorMessages.join('\n'),
+        });
+        setTimeout(() => {
+          setError({visible: false, msg: ''});
+        }, 2000);
+      }
+    } catch (error) {
+      load(false);
+      console.log('Network or other error in RegisterApi:', error);
+      // Toast.show('Server side error');
     }
-  } catch (error) {
-    load(false);
-    console.log('Network or other error in RegisterApi:', error);
-    Toast.show('Server side error');
-  }
+  };
 };
 
 export const checkApi = () => {
@@ -187,7 +192,7 @@ export const checkApi = () => {
         .catch(error => console.log('Simple GET Request error:', error));
     } catch (error) {
       console.log('error checkApi', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
@@ -209,7 +214,7 @@ export const LogOutApi = () => {
       const respons = await res.json();
     } catch (error) {
       console.log('error LogOutApi', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
@@ -238,7 +243,7 @@ export const getCoutry = () => {
       }
     } catch (error) {
       console.log('error getCoutry', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
@@ -257,7 +262,7 @@ export const getCity = () => {
       }
     } catch (error) {
       console.log('error getCity', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
@@ -276,7 +281,7 @@ export const getState = () => {
       }
     } catch (error) {
       console.log('error getState', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
@@ -298,7 +303,7 @@ export const getStateByCountry = async (countryID, load, data) => {
   } catch (error) {
     load(false);
     console.log('error getStateByCountry', error);
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
   }
 };
 
@@ -319,7 +324,7 @@ export const getCityByState = async (stateID, load, data) => {
   } catch (error) {
     load(false);
     console.log('error getCityByState', error);
-    Toast.show('Server side error');
+    // Toast.show('Server side error');
   }
 };
 
@@ -373,7 +378,7 @@ export const editProfile = (
     } catch (error) {
       load(false);
       console.log('error editProfile', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
@@ -411,7 +416,7 @@ export const updateImage = (id, image, onClose) => {
       // }
     } catch (error) {
       console.log('error updateImage', error);
-      Toast.show('Server side error');
+      // Toast.show('Server side error');
     }
   };
 };
