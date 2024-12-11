@@ -195,7 +195,7 @@ const GameScreen = ({navigation, route}) => {
         subTitle={item.game_title}
       />
 
-      {[
+      {/* {[
         {n: 'id', c: item.id},
         {n: 'currentTime', c: Math.ceil(currentTime)},
         {n: 'quesion length', c: gameQuestions.length},
@@ -203,7 +203,7 @@ const GameScreen = ({navigation, route}) => {
         {n: 'prev Question Time', c: previousQuestionTime},
       ].map(({n, c}) => (
         <Text key={n} center title={n + ' ' + c} />
-      ))}
+      ))} */}
 
       <View>
         {isBuffering && <NorLoad />}

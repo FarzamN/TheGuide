@@ -1,10 +1,10 @@
-import {View} from 'react-native';
-import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import {styles} from './style';
-import {GlobalStyle} from '../../utils/GlobalStyle';
 import {Text} from '..';
+import React from 'react';
+import {styles} from './style';
+import {View} from 'react-native';
 import {end, start} from '../../utils/Data';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ContBox = ({children, label}) => {
   return (

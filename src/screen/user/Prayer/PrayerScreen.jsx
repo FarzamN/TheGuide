@@ -17,34 +17,17 @@ import Timer from '../../../components/Timer/Timer';
 import NumberComp from '../../../components/Timer/Number';
 import DatePicker from 'react-native-date-picker';
 
-import TimerBtnModal from './prayComp/TimerBtnModal';
-import {useGeolocation} from '../../../hooks';
-import {
-  NumberCreate,
-  NumberUpdate,
-  prayer_streak,
-  prayerCreate,
-  prayerUpdate,
-  TimerCreate,
-  TimerUpdate,
-} from '../../../redux/actions/UserAction';
+import {prayer_streak} from '../../../redux/actions/UserAction';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-simple-toast';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import Sound from 'react-native-sound';
 import {Image_Url} from '../../../utils/Urls';
 
 const PrayerScreen = () => {
   const dispatch = useDispatch();
-  const {navigate, getParent, goBack} = useNavigation();
-
-  const {location} = useGeolocation();
-  const number_minutes = useSelector(state => state.number_minutes);
-
-  const [timerData, setAPItimerData] = useState({});
-  const [counterData, setAPIcounterData] = useState({});
+  const {navigate, getParent} = useNavigation();
 
   const [remainingTime, setRemainingTime] = useState(null);
   const [savedTime, setSavedTime] = useState('20:00'); // Default time
@@ -138,74 +121,6 @@ const PrayerScreen = () => {
   }).format('YYYY-MM-DD HH:mm:ss'),
   */
 
-  // console.log(location);
-  const handleCounterStart = () => {
-    const dataOne = {
-      lat: location.latitude,
-      long: location.longitude,
-      startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-    };
-    prayerCreate(dataOne, setAPIcounterData);
-  };
-
-  const playSound = () => {
-    const sound = new Sound('notification.mp3', Sound.MAIN_BUNDLE, error => {
-      if (error) {
-        console.log('Failed to load the sound', error);
-        return;
-      }
-      // Play the sound
-      sound.play(success => {
-        if (success) {
-          console.log('Sound played successfully');
-        } else {
-          console.log('Playback failed due to audio decoding errors');
-        }
-        sound.release(); // Release the sound resource after playback
-      });
-    });
-  };
-
-  const handleCounterEnd = () => {
-    const end_time = moment().format('YYYY-MM-DD HH:mm:ss');
-    const startTime = moment(counterData.start_time, 'YYYY-MM-DD HH:mm:ss');
-    const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss');
-
-    const goal = endTime.diff(startTime, 'minutes');
-
-    const dataTwo = {goal, end_time, id: counterData.id};
-
-    prayerUpdate(dataTwo);
-    dispatch(prayer_streak());
-    playSound();
-  };
-
-  const handleTimerStart = () => {
-    const data = {
-      end_time: null,
-      startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-      statusName: CTNSelect,
-      lat: location.latitude,
-      long: location.longitude,
-    };
-    setTimeout(() => {
-      handleMap();
-    }, 1300);
-    TimerCreate(data, setAPItimerData);
-  };
-
-  const handleTimerEnd = () => {
-    const end_time = moment().format('YYYY-MM-DD HH:mm:ss');
-    const startTime = moment(timerData.start_time, 'YYYY-MM-DD HH:mm:ss');
-    const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss');
-    const goal = endTime.diff(startTime, 'minutes');
-
-    const data = {goal, end_time, id: timerData.id};
-    TimerUpdate(data);
-    dispatch(prayer_streak());
-    playSound();
-  };
-
   useFocusEffect(
     useCallback(() => {
       getParent()?.setOptions({
@@ -235,13 +150,9 @@ const PrayerScreen = () => {
           ))}
         </View>
         {CTNSelect === 'count down' ? (
-          <CountDown
-            location={location}
-            handleEnd={handleCounterEnd}
-            handleStart={handleCounterStart}
-          />
+          <CountDown />
         ) : CTNSelect === 'timer' ? (
-          <Timer handleEnd={handleTimerEnd} handleStart={handleTimerStart} />
+          <Timer />
         ) : (
           <NumberComp />
         )}

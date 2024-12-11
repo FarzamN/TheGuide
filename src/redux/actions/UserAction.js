@@ -448,37 +448,42 @@ export const prayerCreate = async (data, setData) => {
   }
 };
 
-export const prayerUpdate = async data => {
-  console.log('data', data);
-  const url = `${Base_Url}prayer-update/${data.id}`;
-  const myData = new FormData();
+export const prayerUpdate = (data, val) => {
+  return async dispatch => {
+    const url = `${Base_Url}prayer-update/${data.id}`;
+    const myData = new FormData();
 
-  const ud = await AsyncStorage.getItem('user_details');
-  const userData = JSON.parse(ud);
-  myData.append('goal', data.goal);
-  myData.append('end_time', data.end_time);
+    const ud = await AsyncStorage.getItem('user_details');
+    const userData = JSON.parse(ud);
+    myData.append('goal', data.goal);
+    myData.append('end_time', data.end_time);
 
-  const myHeaders = new Headers();
-  const token = await AsyncStorage.getItem('token');
-  myHeaders.append('Authorization', `Bearer ${token}`);
-  try {
-    const response = await fetch(url, {
-      body: myData,
-      method: 'POST',
-      headers: myHeaders,
-    });
-    const res = await response.json();
-    if (res.status) {
-      Toast.show('Prayer created successfully');
+    const myHeaders = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {
+        body: myData,
+        method: 'POST',
+        headers: myHeaders,
+      });
+      const res = await response.json();
+      dispatch(prayer_streak());
+      if (res.status) {
+        if (val === 'show') {
+          Toast.show('Prayer created successfully');
+        } else {
+          console.log('silent update');
+        }
+      }
+    } catch (error) {
+      // Toast.show('Server side error');
+      console.log('Error in prayerCreateUpdate:', error);
     }
-  } catch (error) {
-    // Toast.show('Server side error');
-    console.log('Error in prayerCreateUpdate:', error);
-  }
+  };
 };
 
 export const TimerCreate = async (data, setData) => {
-  console.log('data TimerCreate', data);
   const url = `${Base_Url}prayer-create-update/${null}?`;
   const myData = new FormData();
   const ud = await AsyncStorage.getItem('user_details');
@@ -517,33 +522,38 @@ export const TimerCreate = async (data, setData) => {
   }
 };
 
-export const TimerUpdate = async data => {
-  console.log('data TimerUpdate', data);
-  const url = `${Base_Url}prayer-update/${data.id}`;
-  const myData = new FormData();
+export const TimerUpdate = (data, val) => {
+  return async dispatch => {
+    console.log(data, val);
+    const url = `${Base_Url}prayer-update/${data.id}`;
+    const myData = new FormData();
 
-  myData.append('goal', data.goal);
-  -myData.append('end_time', data.end_time);
+    myData.append('goal', data.goal);
+    myData.append('end_time', data.end_time);
 
-  const myHeaders = new Headers();
-  const token = await AsyncStorage.getItem('token');
-  myHeaders.append('Authorization', `Bearer ${token}`);
-  try {
-    const response = await fetch(url, {
-      body: myData,
-      method: 'POST',
-      headers: myHeaders,
-    });
-    const res = await response.json();
-    console.log('prayerUpdate', res);
-    console.log('data', data);
-    if (res.status) {
-      Toast.show('Prayer created successfully');
+    const myHeaders = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {
+        body: myData,
+        method: 'POST',
+        headers: myHeaders,
+      });
+      const res = await response.json();
+      dispatch(prayer_streak());
+      if (res.status) {
+        if (val === 'show') {
+          Toast.show('Prayer created successfully');
+        } else {
+          console.log('Prayer updated successfully');
+        }
+      }
+    } catch (error) {
+      // Toast.show('Server side error');
+      console.log('Error in TimerUpdate:', error);
     }
-  } catch (error) {
-    // Toast.show('Server side error');
-    console.log('Error in TimerUpdate:', error);
-  }
+  };
 };
 
 export const NumberCreate = async data => {
@@ -595,7 +605,7 @@ export const NumberCreate = async data => {
   }
 };
 
-export const NumberUpdate = async (data, goBack, setAdd) => {
+export const NumberUpdate = async (data, setAdd) => {
   if (!data.id || !data.goal || !data.end_time) {
     console.error('Invalid data passed to NumberUpdate:');
     console.log(data);
@@ -627,7 +637,6 @@ export const NumberUpdate = async (data, goBack, setAdd) => {
     // Handle successful response
     if (res.status) {
       console.log('NumberUpdate successful:', res);
-      goBack(); // Navigate back after a successful update
       setAdd(true);
       setTimeout(() => {
         setAdd(false);

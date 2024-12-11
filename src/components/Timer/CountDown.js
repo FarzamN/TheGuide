@@ -5,38 +5,88 @@ import {TextInput, View} from 'react-native';
 import {ContBox, Error, TimeService} from '..';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import React, {useEffect, useRef, useState} from 'react';
+import moment from 'moment';
+import {useGeolocation} from '../../hooks';
+import {
+  prayer_streak,
+  prayerCreate,
+  prayerUpdate,
+} from '../../redux/actions/UserAction';
+import {Image_Url} from '../../utils/Urls';
+import {useNavigation} from '@react-navigation/native';
+import {playSound} from '../../utils/Constants';
+import {useDispatch} from 'react-redux';
 
-const CountDown = ({handleStart, handleEnd, location}) => {
+const CountDown = () => {
+  const {navigate} = useNavigation();
+  const dispatch = useDispatch();
+  const {location} = useGeolocation();
+
   const countdownRef = useRef(null);
+
+  const [counterData, setAPIcounterData] = useState({});
   const [isRunning, setIsRunning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const [counterSelect, setCounterSelect] = useState(0);
   const [err, setErr] = useState({show: false, msg: ''});
   const [time, setTime] = useState({hours: '00', minutes: '60', seconds: '00'});
 
-  const handlePress = id => {
-    if (id === 1) {
-      console.log('saving');
-    } else if (id === 2) {
-      if (isRunning) {
-        stopCountdown();
-        handleEnd();
-      } else {
-        startCountdown();
-        handleStart();
-      }
-      setCounterSelect(id);
-    } else if (id === 3) {
-      resetCountdown();
-      setCounterSelect(id);
-    }
-    // if (!time.minutes) {
-    //   setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
-    //   setTimeout(() => {
-    //     setErr({show: false, msg: ''});
-    //   }, 2000);
-    // } else {
+  const handleMap = () =>
+    navigate('webview', {uri: Image_Url + 'prayer/webview/map'});
 
-    // }
+  const handleStart = () => {
+    const dataOne = {
+      lat: location.latitude,
+      long: location.longitude,
+      startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+    };
+    prayerCreate(dataOne, setAPIcounterData);
+    setTimeout(() => {
+      handleMap();
+    }, 1300);
+  };
+
+  const handleEnd = val => {
+    const end_time = moment().format('YYYY-MM-DD HH:mm:ss');
+    const startTime = moment(counterData.start_time, 'YYYY-MM-DD HH:mm:ss');
+    const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss');
+
+    const goal = endTime.diff(startTime, 'minutes');
+
+    const dataTwo = {goal, end_time, id: counterData.id};
+
+    dispatch(prayerUpdate(dataTwo, val));
+    dispatch(prayer_streak());
+    playSound();
+  };
+
+  const handlePress = id => {
+    switch (id) {
+      case 1: // Pause or Resume
+        if (isRunning) {
+          clearInterval(countdownRef.current);
+          setIsPaused(true);
+          handleEnd('dShow');
+        } else {
+          setIsPaused(false);
+          startCountdown();
+          handleStart();
+        }
+        break;
+      case 2: // Start or Stop
+        if (isRunning) {
+          stopCountdown();
+          handleEnd('show');
+        } else {
+          startCountdown();
+          handleStart();
+        }
+        break;
+      case 3: // Reset
+        resetCountdown();
+        break;
+    }
+    setCounterSelect(id);
   };
 
   useEffect(() => {
@@ -45,7 +95,7 @@ const CountDown = ({handleStart, handleEnd, location}) => {
       parseInt(time.minutes || '0') * 60 +
       parseInt(time.seconds || '0');
 
-    if (isRunning) {
+    if (isRunning && !isPaused) {
       const timerId = setInterval(() => {
         if (totalSeconds <= 0) {
           setIsRunning(false);
@@ -67,51 +117,43 @@ const CountDown = ({handleStart, handleEnd, location}) => {
     } else {
       clearInterval(countdownRef.current);
     }
-    if (location.lat !== undefined) {
-      if (totalSeconds <= 0) {
-        setIsRunning(false);
-        handleEnd();
-        resetCountdown();
-        clearInterval(countdownRef.current);
-        return;
-      }
-    }
 
     return () => clearInterval(countdownRef.current);
-  }, [isRunning]);
+  }, [isRunning, isPaused]);
 
   const startCountdown = () => {
     setIsRunning(true);
-    // if (validateInput()) {
-    // }
+    setIsPaused(false);
   };
 
   const stopCountdown = () => {
     setIsRunning(false);
+    setIsPaused(false);
   };
 
   const resetCountdown = () => {
-    if (isRunning) {
-      handleEnd(); // Ensure handleEnd is called during reset
-    }
     setIsRunning(false);
-    setTime({hours: '', minutes: '', seconds: ''});
+    setIsPaused(false);
+    setTime({hours: '00', minutes: '00', seconds: '00'});
   };
 
-  const validateInput = () => {
-    const {hours, minutes, seconds} = time;
-    const isValid =
-      (hours === '' || (parseInt(hours) >= 0 && parseInt(hours) < 12)) &&
-      (minutes === '' || (parseInt(minutes) >= 0 && parseInt(minutes) < 60)) &&
-      (seconds === '' || (parseInt(seconds) >= 0 && parseInt(seconds) < 60));
-    if (!isValid) {
-      setTime({hours: '', minutes: '', seconds: ''});
-      setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
-      setTimeout(() => {
-        setErr({show: false, msg: ''});
-      }, 2000);
+  const getButtonData = () => {
+    if (isRunning && !isPaused) {
+      return [
+        {title: 'Pause', id: 1},
+        {title: 'Save', id: 2},
+      ];
+    } else if (isPaused) {
+      return [
+        {title: 'Start', id: 1},
+        {title: 'Continue', id: 2},
+      ];
+    } else {
+      return [
+        {title: 'Start', id: 2},
+        {title: 'Reset', id: 3},
+      ];
     }
-    return isValid;
   };
 
   const renderTimeBox = (label, value, field) => (
@@ -126,20 +168,14 @@ const CountDown = ({handleStart, handleEnd, location}) => {
             [field]: text,
           }));
         }}
-        /*onChangeText={text => {
-          if (/^\d*$/.test(text)) {
-            setTime(prevTime => ({
-              ...prevTime,
-              [field]: text.padStart(2, '0'), // Ensure double-digit formatting
-            }));
-          }
-        }} */
         placeholder="00"
         maxLength={2}
         placeholderTextColor={'#787677'}
       />
     </ContBox>
   );
+
+  const buttonData = getButtonData();
 
   return (
     <>
@@ -152,11 +188,7 @@ const CountDown = ({handleStart, handleEnd, location}) => {
       </View>
 
       <View style={[GlobalStyle.evenly, styles.TimeCont]}>
-        {[
-          // {title: 'Save', id: 1},
-          {title: isRunning ? 'Stop' : 'Start', id: 2},
-          {title: 'Reset', id: 3},
-        ].map((i, ix) => (
+        {buttonData.map((i, ix) => (
           <TimeService
             key={ix}
             data={i}
@@ -171,3 +203,177 @@ const CountDown = ({handleStart, handleEnd, location}) => {
 };
 
 export default CountDown;
+
+// import {styles} from './style';
+// import RenderDot from './renderDot';
+// import Sound from 'react-native-sound';
+// import {TextInput, View} from 'react-native';
+// import {ContBox, Error, TimeService} from '..';
+// import {GlobalStyle} from '../../utils/GlobalStyle';
+// import React, {useEffect, useRef, useState} from 'react';
+
+// const CountDown = ({handleStart, handleEnd, location}) => {
+//   const countdownRef = useRef(null);
+//   const [isRunning, setIsRunning] = useState(false);
+//   const [counterSelect, setCounterSelect] = useState(0);
+//   const [err, setErr] = useState({show: false, msg: ''});
+//   const [time, setTime] = useState({hours: '00', minutes: '60', seconds: '00'});
+
+//   const handlePress = id => {
+//     if (id === 1) {
+//       console.log('saving');
+//     } else if (id === 2) {
+//       if (isRunning) {
+//         stopCountdown();
+//         handleEnd();
+//       } else {
+//         startCountdown();
+//         handleStart();
+//       }
+//       setCounterSelect(id);
+//     } else if (id === 3) {
+//       resetCountdown();
+//       setCounterSelect(id);
+//     }
+//     // if (!time.minutes) {
+//     //   setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
+//     //   setTimeout(() => {
+//     //     setErr({show: false, msg: ''});
+//     //   }, 2000);
+//     // } else {
+
+//     // }
+//   };
+
+//   useEffect(() => {
+//     let totalSeconds =
+//       (parseInt(time.hours || '0') % 12) * 3600 +
+//       parseInt(time.minutes || '0') * 60 +
+//       parseInt(time.seconds || '0');
+
+//     if (isRunning) {
+//       const timerId = setInterval(() => {
+//         if (totalSeconds <= 0) {
+//           setIsRunning(false);
+//           resetCountdown();
+//           clearInterval(timerId);
+//           return;
+//         }
+//         totalSeconds--;
+//         const hrs = Math.floor(totalSeconds / 3600);
+//         const mins = Math.floor((totalSeconds % 3600) / 60);
+//         const secs = totalSeconds % 60;
+//         setTime({
+//           hours: String(hrs).padStart(2, '0'),
+//           minutes: String(mins).padStart(2, '0'),
+//           seconds: String(secs).padStart(2, '0'),
+//         });
+//       }, 1000);
+//       countdownRef.current = timerId;
+//     } else {
+//       clearInterval(countdownRef.current);
+//     }
+//     if (location.lat !== undefined) {
+//       if (totalSeconds <= 0) {
+//         setIsRunning(false);
+//         handleEnd();
+//         resetCountdown();
+//         clearInterval(countdownRef.current);
+//         return;
+//       }
+//     }
+
+//     return () => clearInterval(countdownRef.current);
+//   }, [isRunning]);
+
+//   const startCountdown = () => {
+//     // if (validateInput()) {
+//     setIsRunning(true);
+//     // }
+//   };
+
+//   const stopCountdown = () => {
+//     setIsRunning(false);
+//   };
+
+//   const resetCountdown = () => {
+//     if (isRunning) {
+//       handleEnd(); // Ensure handleEnd is called during reset
+//     }
+//     setIsRunning(false);
+//     setTime({hours: '', minutes: '', seconds: ''});
+//   };
+
+//   const validateInput = () => {
+//     const {hours, minutes, seconds} = time;
+//     const isValid =
+//       (hours === '' || (parseInt(hours) >= 0 && parseInt(hours) < 12)) &&
+//       (minutes === '' || (parseInt(minutes) >= 0 && parseInt(minutes) < 60)) &&
+//       (seconds === '' || (parseInt(seconds) >= 0 && parseInt(seconds) < 60));
+//     if (!isValid) {
+//       setTime({hours: '', minutes: '', seconds: ''});
+//       setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
+//       setTimeout(() => {
+//         setErr({show: false, msg: ''});
+//       }, 2000);
+//     }
+//     return isValid;
+//   };
+
+//   const renderTimeBox = (label, value, field) => (
+//     <ContBox label={label}>
+//       <TextInput
+//         style={styles.inputText}
+//         keyboardType="number-pad"
+//         value={value}
+//         onChangeText={text => {
+//           setTime(prevTime => ({
+//             ...prevTime,
+//             [field]: text,
+//           }));
+//         }}
+//         /*onChangeText={text => {
+//           if (/^\d*$/.test(text)) {
+//             setTime(prevTime => ({
+//               ...prevTime,
+//               [field]: text.padStart(2, '0'), // Ensure double-digit formatting
+//             }));
+//           }
+//         }} */
+//         placeholder="00"
+//         maxLength={2}
+//         placeholderTextColor={'#787677'}
+//       />
+//     </ContBox>
+//   );
+
+//   return (
+//     <>
+//       <View style={styles.MainBox}>
+//         {renderTimeBox('Hour', time.hours, 'hours')}
+//         <RenderDot />
+//         {renderTimeBox('Min', time.minutes, 'minutes')}
+//         <RenderDot />
+//         {renderTimeBox('Sec', time.seconds, 'seconds')}
+//       </View>
+
+//       <View style={[GlobalStyle.evenly, styles.TimeCont]}>
+//         {[
+//           // {title: isRunning ? 'Continue' : 'Save', id: 1},
+//           {title: isRunning ? 'Save' : 'Start', id: 2},
+//           {title: 'Reset', id: 3},
+//         ].map((i, ix) => (
+//           <TimeService
+//             key={ix}
+//             data={i}
+//             focus={counterSelect === i.id}
+//             onPress={() => handlePress(i.id)}
+//           />
+//         ))}
+//       </View>
+//       <Error message={err.msg} visible={err.show} />
+//     </>
+//   );
+// };
+
+// export default CountDown;

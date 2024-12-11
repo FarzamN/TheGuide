@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
   TimeCont: {
     width: '90%',
     alignSelf: 'center',
-    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

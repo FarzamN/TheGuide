@@ -13,15 +13,20 @@ import {
   NumberUpdate,
   prayer_streak,
 } from '../../redux/actions/UserAction';
+import {Image_Url} from '../../utils/Urls';
 
 const Number = () => {
   const dispatch = useDispatch();
-  const {goBack} = useNavigation();
+  const {navigate} = useNavigation();
   const {location} = useGeolocation();
 
   const [add, setAdd] = useState(false);
+  const [timerSelect, setTimerSelect] = useState(false);
   const [err, setErr] = useState({show: false, msg: ''});
   const [time, setTime] = useState({hours: '', minutes: '', seconds: ''});
+
+  const handleMap = () =>
+    navigate('webview', {uri: Image_Url + 'prayer/webview/map'});
 
   /*
   const isValidTime = time => {
@@ -55,7 +60,7 @@ const Number = () => {
 
       const goal = endTime.diff(startTime, 'minutes');
       const dataTwo = {id, end_time, goal};
-      await NumberUpdate(dataTwo, goBack, setAdd);
+      await NumberUpdate(dataTwo, setAdd);
       dispatch(prayer_streak());
     } catch (error) {
       console.error('Error in handleNumber:', error);
@@ -65,6 +70,7 @@ const Number = () => {
   const handleSave = () => {
     if (time.minutes) {
       handleNumber();
+      setTimeout(() => handleMap(), 1500);
     } else {
       setTime({hours: '', minutes: '', seconds: ''});
       setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
@@ -74,37 +80,42 @@ const Number = () => {
     }
   };
 
-  const validateInput = () => {
-    const {hours, minutes, seconds} = time;
-    const isValid =
-      (hours === '' || (parseInt(hours) >= 0 && parseInt(hours) < 12)) &&
-      (minutes === '' || (parseInt(minutes) >= 0 && parseInt(minutes) < 60)) &&
-      (seconds === '' || (parseInt(seconds) >= 0 && parseInt(seconds) < 60));
-    if (!isValid) {
-      setTime({hours: '', minutes: '', seconds: ''});
-      setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
-      setTimeout(() => {
-        setErr({show: false, msg: ''});
-      }, 2000);
-    }
-    return isValid;
-  };
+  /*
+const validateInput = () => {
+  const {hours, minutes, seconds} = time;
+  const isValid =
+    (hours === '' || (parseInt(hours) >= 0 && parseInt(hours) < 12)) &&
+    (minutes === '' || (parseInt(minutes) >= 0 && parseInt(minutes) < 60)) &&
+    (seconds === '' || (parseInt(seconds) >= 0 && parseInt(seconds) < 60));
+  if (!isValid) {
+    setTime({hours: '', minutes: '', seconds: ''});
+    setErr({show: true, msg: 'Please enter valid time in 12-hour format!'});
+    setTimeout(() => {
+      setErr({show: false, msg: ''});
+    }, 2000);
+  }
+  return isValid;
+};
+ */
 
   const renderTimeBox = (key, value) => (
     <ContBox label={key.charAt(0).toUpperCase() + key.slice(1)}>
       <TextInput
-        style={styles.inputText}
-        keyboardType="number-pad"
         value={value}
-        onChangeText={text => setTime(prev => ({...prev, [key]: text}))}
         maxLength={2}
         placeholder="00"
-        onSubmitEditing={handleSave}
+        style={styles.inputText}
+        keyboardType="number-pad"
         placeholderTextColor={'#787677'}
+        onChangeText={text => setTime(prev => ({...prev, [key]: text}))}
       />
     </ContBox>
   );
 
+  const handleBTN = () => {
+    handleSave();
+    setTimerSelect(pre => !pre);
+  };
   return (
     <>
       <View style={styles.MainBox}>
@@ -115,7 +126,15 @@ const Number = () => {
         {renderTimeBox('seconds', time.seconds)}
       </View>
       <View style={{alignSelf: 'center', marginBottom: 20}}>
-        <TimeService data={{title: 'Save'}} onPress={handleSave} />
+        {/* <TimeService data={{title: 'Save'}} onPress={handleSave} /> */}
+        {['Save'].map((i, ix) => (
+          <TimeService
+            key={ix}
+            data={{title: i}}
+            onPress={handleBTN}
+            focus={timerSelect}
+          />
+        ))}
       </View>
       <Correct visible={add} text={'Pray Added'} />
       <Error message={err.msg} visible={err.show} />

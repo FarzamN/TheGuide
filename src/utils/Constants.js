@@ -1,3 +1,4 @@
+import Sound from 'react-native-sound';
 import {EmailRegix} from './Urls';
 import {Dimensions, Platform} from 'react-native';
 
@@ -28,4 +29,22 @@ export const emailPattern = {
 
 export const required = type => {
   return `${type} is Required`;
+};
+
+export const playSound = () => {
+  const sound = new Sound('notification.mp3', Sound.MAIN_BUNDLE, error => {
+    if (error) {
+      console.log('Failed to load the sound', error);
+      return;
+    }
+    // Play the sound
+    sound.play(success => {
+      if (success) {
+        console.log('Sound played successfully');
+      } else {
+        console.log('Playback failed due to audio decoding errors');
+      }
+      sound.release(); // Release the sound resource after playback
+    });
+  });
 };

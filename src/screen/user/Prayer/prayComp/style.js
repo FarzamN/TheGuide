@@ -41,6 +41,7 @@ export const style = StyleSheet.create({
     width: 87,
     borderWidth: 1,
     borderRadius: 10,
+    margin: 10,
   },
   timeChangeText: {
     fontSize: 12,
