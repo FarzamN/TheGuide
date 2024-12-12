@@ -524,7 +524,7 @@ export const TimerCreate = async (data, setData) => {
 
 export const TimerUpdate = (data, val) => {
   return async dispatch => {
-    console.log(data, val);
+    console.log('goal of TimerUpdate', data.goal);
     const url = `${Base_Url}prayer-update/${data.id}`;
     const myData = new FormData();
 
@@ -733,6 +733,7 @@ export const bible_streak = () => {
 
 export const inc_and_dec = (value, setShowStreak) => {
   return async dispatch => {
+    console.log('inc_and_dec ki api chlgai');
     const url = `${Base_Url}bible-streak/${value}`;
     const headers = new Headers();
     const token = await AsyncStorage.getItem('token');
@@ -747,7 +748,7 @@ export const inc_and_dec = (value, setShowStreak) => {
         setShowStreak(true);
       }
     } catch (error) {
-      // Toast.show('Server side error');
+      Toast.show('Server side error');
       console.log('Error in inc_and_dec:', error);
     }
   };

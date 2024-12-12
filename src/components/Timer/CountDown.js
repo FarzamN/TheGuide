@@ -82,6 +82,10 @@ const CountDown = () => {
           handleStart();
         }
         break;
+      case 4: // Reset
+        stopCountdown();
+        setIsPaused(false);
+        break;
       case 3: // Reset
         resetCountdown();
         break;
@@ -146,7 +150,7 @@ const CountDown = () => {
     } else if (isPaused) {
       return [
         {title: 'Start', id: 1},
-        {title: 'Continue', id: 2},
+        {title: 'Save', id: 4},
       ];
     } else {
       return [

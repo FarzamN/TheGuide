@@ -48,6 +48,7 @@ const Home = () => {
       if (savedDate === today) {
         Toast.show('Todays Streak is given');
         console.log('API already hit today. Skipping...');
+        dispatch({type: BIBLE_TIME, payload: 'done'});
         return; // API already hit today
       }
 
@@ -76,6 +77,7 @@ const Home = () => {
 
         // Save today's date in AsyncStorage
         await AsyncStorage.setItem('lastAPICallDate', today);
+
         console.log("API called and today's date saved.");
       }
     } catch (error) {

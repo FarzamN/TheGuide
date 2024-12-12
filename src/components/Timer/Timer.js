@@ -50,9 +50,9 @@ const Timer = () => {
   const handleEnd = val => {
     const end_time = moment().format('YYYY-MM-DD HH:mm:ss');
     const startTime = moment(timerData.start_time, 'YYYY-MM-DD HH:mm:ss');
-    const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss');
+    const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss').add(10, 'seconds');
     const goal = endTime.diff(startTime, 'minutes');
-
+    console.log({startTime, goal, endTime});
     const data = {goal, end_time, id: timerData.id};
     dispatch(TimerUpdate(data, val));
     dispatch(prayer_streak());
@@ -107,8 +107,8 @@ const Timer = () => {
         }
         setIsRunning(prev => !prev);
         break;
-      case 3: // Save
-        handleStart(time);
+      case 3: // useless Save
+        // handleStart(time);
         setTime({hours: '00', minutes: '00', seconds: '00'});
         setIsRunning(false);
         setIsPaused(false);
@@ -155,7 +155,7 @@ const Timer = () => {
     } else if (isPaused) {
       return [
         {title: 'Start', id: 1},
-        {title: 'Continue', id: 2},
+        {title: 'Save', id: 3},
       ];
     } else {
       return [
