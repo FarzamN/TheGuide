@@ -1,17 +1,12 @@
 import React from 'react';
-import {View} from 'react-native';
-import Modal from 'react-native-modal';
 import style from './style';
+import {View} from 'react-native';
 import {ModalBtn, Text} from '..';
-import {LogOutApi} from '../../redux/actions/AuthAction';
-import {useDispatch} from 'react-redux';
+import Modal from 'react-native-modal';
 
-const LogoutModal = ({visible, onClose}) => {
-  const dispatch = useDispatch();
+const LogoutModal = props => {
+  const {visible, onClose, text, onPress} = props;
 
-  const logout = () => {
-    dispatch(LogOutApi());
-  };
   return (
     <Modal
       animationIn={'fadeIn'}
@@ -21,12 +16,8 @@ const LogoutModal = ({visible, onClose}) => {
       onBackdropPress={onClose}
       style={style.logoutBox}>
       <View style={[style.LogoutContainer]}>
-        <Text
-          center
-          style={style.LogoutText}
-          title={'Are you sure you want to Logout?'}
-        />
-        <ModalBtn onPress={logout} title="Yes" />
+        <Text center style={style.LogoutText} title={text} />
+        <ModalBtn onPress={onPress} title="Yes" />
         <ModalBtn green onPress={onClose} title="No" />
       </View>
     </Modal>

@@ -13,6 +13,7 @@ import {
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {playSound} from '../../utils/Constants';
 
 export const getBibleSchoolApi = load => {
   return async dispatch => {
@@ -388,7 +389,7 @@ export const gameQuestionAPI = (item, question_ids) => {
       const token = await AsyncStorage.getItem('token');
       myHeaders.append('Authorization', `Bearer ${token}`);
 
-      dispatch(getBibleSchoolApiUpdate());
+      // dispatch(getBibleSchoolApiUpdate());
       try {
         const response = await fetch(url, {
           body: myData,
@@ -402,7 +403,7 @@ export const gameQuestionAPI = (item, question_ids) => {
         }
       } catch (error) {
         // Toast.show(`Error with question_id ${id}: ${error.message}`);
-        // console.log(`Error for question_id ${id}:`, error);
+        console.log(`Error for question_id ${id}:`, error);
       }
     }
   };
@@ -410,21 +411,19 @@ export const gameQuestionAPI = (item, question_ids) => {
 
 export const prayerCreate = async (data, setData) => {
   const url = `${Base_Url}prayer-create-update/${null}?`;
-  console.log('url', url);
   const myData = new FormData();
   const ud = await AsyncStorage.getItem('user_details');
   const userData = JSON.parse(ud);
   myData.append('user_id', userData.user_id);
   myData.append('type', 'Personal');
   myData.append('prayer_type', 'Pray');
-  myData.append('status', 'count down');
+  myData.append('status', 'Countdown');
   myData.append('timer', 0);
   myData.append('count_down', 0);
   myData.append('number', 0);
   myData.append('lat', data.lat);
   myData.append('long', data.long);
   myData.append('start_time', data.startTime);
-  myData.append('end_time', null);
   myData.append('goal', 0);
   myData.append('video_id', 0);
 
@@ -472,8 +471,7 @@ export const prayerUpdate = (data, val) => {
       if (res.status) {
         if (val === 'show') {
           Toast.show('Prayer created successfully');
-        } else {
-          console.log('silent update');
+          playSound();
         }
       }
     } catch (error) {
@@ -491,14 +489,13 @@ export const TimerCreate = async (data, setData) => {
   myData.append('user_id', userData.user_id);
   myData.append('type', 'Personal');
   myData.append('prayer_type', 'Pray');
-  myData.append('status', data.statusName);
+  myData.append('status', 'Timer');
   myData.append('timer', 0);
   myData.append('count_down', 0);
   myData.append('number', 0);
   myData.append('lat', data.lat);
   myData.append('long', data.long);
   myData.append('start_time', data.startTime);
-  myData.append('end_time', data.end_time);
   myData.append('goal', 0);
   myData.append('video_id', 0);
 
@@ -524,7 +521,6 @@ export const TimerCreate = async (data, setData) => {
 
 export const TimerUpdate = (data, val) => {
   return async dispatch => {
-    console.log('goal of TimerUpdate', data.goal);
     const url = `${Base_Url}prayer-update/${data.id}`;
     const myData = new FormData();
 
@@ -545,8 +541,7 @@ export const TimerUpdate = (data, val) => {
       if (res.status) {
         if (val === 'show') {
           Toast.show('Prayer created successfully');
-        } else {
-          console.log('Prayer updated successfully');
+          playSound();
         }
       }
     } catch (error) {
@@ -560,22 +555,19 @@ export const NumberCreate = async data => {
   const url = `${Base_Url}prayer-create-update/${data.id}?`;
   const myData = new FormData();
   try {
-    // Fetch user details from AsyncStorage
     const ud = await AsyncStorage.getItem('user_details');
     const userData = JSON.parse(ud);
 
-    // Append data to FormData
     myData.append('user_id', userData.user_id);
     myData.append('type', 'Personal');
     myData.append('prayer_type', 'Pray');
-    myData.append('status', data.statusName);
+    myData.append('status', 'Number');
     myData.append('timer', 0);
     myData.append('count_down', 0);
     myData.append('number', 0);
     myData.append('lat', data.lat);
     myData.append('long', data.long);
     myData.append('start_time', data.startTime);
-    myData.append('end_time', data.end_time);
     myData.append('goal', 0);
     myData.append('video_id', 0);
 
@@ -636,7 +628,6 @@ export const NumberUpdate = async (data, setAdd) => {
 
     // Handle successful response
     if (res.status) {
-      console.log('NumberUpdate successful:', res);
       setAdd(true);
       setTimeout(() => {
         setAdd(false);

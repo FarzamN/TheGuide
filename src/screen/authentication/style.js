@@ -1,6 +1,7 @@
 import {Font} from '../../utils/Font';
 import {StyleSheet} from 'react-native';
 import {width} from '../../utils/Constants';
+import {Color} from '../../utils/Color';
 
 export const style = StyleSheet.create({
   forget: {
@@ -23,7 +24,23 @@ export const style = StyleSheet.create({
   loginImage: {
     width: '100%',
     height: 180,
-    // marginTop: -10,
+  },
+  term: {
+    color: Color.status,
+    textTransform: 'capitalize',
+    textDecorationLine: 'underline',
+  },
+  termBTN: {width: '50%', alignSelf: 'center'},
+  TermHeading: {
+    color: Color.black,
+    fontSize: 20,
+    fontFamily: Font.font700,
+    marginBottom: 10,
+  },
+  termBox: {
+    flex: 1,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
   },
   regsterImage: {
     width,
@@ -33,6 +50,6 @@ export const style = StyleSheet.create({
   },
   smBtn: {
     width: '49%',
-    marginTop: 30,
+    marginTop: 15,
   },
 });

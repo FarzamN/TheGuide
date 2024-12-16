@@ -25,6 +25,7 @@ export const style = StyleSheet.create({
     width: 20,
     height: 20,
   },
+  Pbtn: {width: '85%', alignSelf: 'center', marginTop: 15},
   profileMainWrap: {
     width: 130,
     height: 130,

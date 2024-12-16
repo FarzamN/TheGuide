@@ -89,5 +89,11 @@ export const style = StyleSheet.create({
     borderRadius: 100,
     right: 10,
     top: 10,
+    backgroundColor: 'black',
+    borderRadius: 100,
+    width: 30,
+    aspectRatio: 1 / 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

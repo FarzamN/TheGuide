@@ -2,6 +2,8 @@ import {TimeService} from '..';
 import {styles} from './style';
 import ContBox from './contBox';
 import RenderDot from './renderDot';
+import Toast from 'react-native-simple-toast';
+
 import {View, TextInput} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import React, {useRef, useState, useEffect} from 'react';
@@ -35,9 +37,7 @@ const Timer = () => {
 
   const handleStart = () => {
     const data = {
-      end_time: null,
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-      statusName: 'timer',
       lat: location.latitude,
       long: location.longitude,
     };
@@ -52,11 +52,9 @@ const Timer = () => {
     const startTime = moment(timerData.start_time, 'YYYY-MM-DD HH:mm:ss');
     const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss').add(10, 'seconds');
     const goal = endTime.diff(startTime, 'minutes');
-    console.log({startTime, goal, endTime});
     const data = {goal, end_time, id: timerData.id};
     dispatch(TimerUpdate(data, val));
     dispatch(prayer_streak());
-    if (val === 'show') playSound();
   };
 
   const incrementTime = () => {
@@ -107,10 +105,10 @@ const Timer = () => {
         }
         setIsRunning(prev => !prev);
         break;
-      case 3: // useless Save
-        // handleStart(time);
+      case 3: // useless Save  start after puase
         setTime({hours: '00', minutes: '00', seconds: '00'});
         setIsRunning(false);
+        Toast.show('Prayer created successfully');
         setIsPaused(false);
         break;
       case 4: // Reset

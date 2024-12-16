@@ -6,6 +6,7 @@ import {
   CustomButton,
   LogoutModal,
   ImagePickerModal,
+  ModalBtn,
 } from '../../../components';
 import {style} from './style';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -13,7 +14,11 @@ import {Color} from '../../../utils/Color';
 import {useSelector, useDispatch} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
 import {useFocusEffect} from '@react-navigation/native';
-import {updateImage} from '../../../redux/actions/AuthAction';
+import {
+  deleteAccount,
+  LogOutApi,
+  updateImage,
+} from '../../../redux/actions/AuthAction';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {useImagePicker} from '../../../hooks';
@@ -25,7 +30,10 @@ const Profile = ({navigation}) => {
   const {image, onClose, picker, setPicker, requestGalleryPermission} =
     useImagePicker();
   const userDetail = useSelector(state => state.userDetails);
+
   const [showLogout, setShowLogout] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [load, setLoad] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -40,10 +48,7 @@ const Profile = ({navigation}) => {
       dispatch(updateImage(userDetail.user_id, image, onClose));
     }
   }, [image]);
-  console.log(
-    'userdetail?.date_of_birth',
-    moment(userDetail?.date_of_birth).format(),
-  );
+
   return (
     <ProfileBody>
       <ScrollView style={GlobalStyle.Padding}>
@@ -89,12 +94,29 @@ const Profile = ({navigation}) => {
 
           <CustomButton
             onPress={() => navigate('editProfile')}
-            style={{width: '85%', alignSelf: 'center', marginTop: 15}}
+            style={style.Pbtn}
             title={'More information'}
+          />
+          <ModalBtn
+            onPress={() => setShowDelete(true)}
+            style={[style.Pbtn, {backgroundColor: 'red'}]}
+            textStyle={{color: 'white'}}
+            title={load ? 'Loading...' : 'Delete Account'}
           />
         </View>
       </ScrollView>
-      <LogoutModal onClose={() => setShowLogout(false)} visible={showLogout} />
+      <LogoutModal
+        visible={showLogout}
+        onClose={() => setShowLogout(false)}
+        onPress={() => dispatch(LogOutApi())}
+        text="Are you sure you want to Logout?"
+      />
+      <LogoutModal
+        visible={showDelete}
+        onClose={() => setShowDelete(false)}
+        onPress={() => dispatch(deleteAccount(setLoad))}
+        text="Are you sure you want to Delete this Account?"
+      />
       <ImagePickerModal
         source={{uri: image ? image.uri : userDetail.profile_image}}
         visible={picker}

@@ -13,4 +13,5 @@ export const Color = {
   background: '#F8F9FB',
   orange: '#F9841D',
   textGrey: '#787777',
+  status: '#0808C2',
 };

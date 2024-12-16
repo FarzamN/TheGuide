@@ -18,7 +18,7 @@ const StreakModal = ({visible, onPress}) => {
         <Text
           center
           style={style.LogoutText}
-          title={'Your got your todays streak'}
+          title={'You got your streak today!'}
         />
         <ModalBtn green onPress={onPress} title="OKay" />
       </View>

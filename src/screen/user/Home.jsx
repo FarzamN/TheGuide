@@ -46,7 +46,7 @@ const Home = () => {
       const savedDate = await AsyncStorage.getItem('lastAPICallDate');
       const today = moment().format('DD-MM-YYYY');
       if (savedDate === today) {
-        Toast.show('Todays Streak is given');
+        Toast.show('Todays Bible Streak is complete!');
         console.log('API already hit today. Skipping...');
         dispatch({type: BIBLE_TIME, payload: 'done'});
         return; // API already hit today

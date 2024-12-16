@@ -100,7 +100,8 @@ const Login = ({navigation}) => {
         disabled={load}
         onPress={handleSubmit(onSubmit)}
       />
-      <View style={GlobalStyle.height} />
+
+      <View style={{height: 20}} />
       <WhiteBtn
         title="Create a new account"
         onPress={() => navigate('register')}

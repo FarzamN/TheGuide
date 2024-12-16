@@ -1,10 +1,10 @@
-import React, {forwardRef, useState} from 'react';
-import {useController} from 'react-hook-form';
-import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
-import {Color} from '../../utils/Color';
-import {Font} from '../../utils/Font';
 import {Validation} from '..';
+import {Font} from '../../utils/Font';
+import {Color} from '../../utils/Color';
+import {useController} from 'react-hook-form';
+import React, {forwardRef, useState} from 'react';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
 
 const MainInput = forwardRef((props, ref) => {
   const [password, setPassword] = useState(true);
@@ -21,9 +21,9 @@ const MainInput = forwardRef((props, ref) => {
       <View style={[styles.smallbox, props.style]}>
         <Icon
           size={18}
+          type={props.type}
           style={{width: 25}}
           name={props.icName}
-          type={props.type}
           color={Color.placeholderTextColor}
         />
         <TextInput

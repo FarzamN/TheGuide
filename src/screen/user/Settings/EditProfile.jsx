@@ -13,7 +13,7 @@ import {style} from './style';
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Color} from '../../../utils/Color';
-import DatePicker from 'react-native-modal-datetime-picker';
+import DatePicker from 'react-native-date-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
 import {editProfile} from '../../../redux/actions/AuthAction';
@@ -35,22 +35,16 @@ const EditProfile = ({navigation}) => {
   const [date, setDate] = useState(
     new Date(moment(userdetail?.date_of_birth).format()),
   );
-  console.log('date', date);
-  // const [date, setDate] = useState(
-  //   userdetail?.date_of_birth
-  //     ? new Date(userdetail?.date_of_birth)
-  //     : new Date(),
-  // );
 
-  // Initialize bday state with date_of_birth or set default values
   const [bday, setBday] = useState(() => {
-    const dateOfBirth = userdetail.date_of_birth; // e.g., "1998-06-10"
+    const dateOfBirth = moment(userdetail?.date_of_birth).format('MM-YY-DD');
+
     if (dateOfBirth) {
       const [year, month, day] = dateOfBirth.split('-');
       return {
         visible: false,
         day,
-        month: moment(dateOfBirth).format('MMMM'), // Convert numeric month to name
+        month: moment(userdetail?.date_of_birth).format('MMMM'),
         year,
       };
     }
@@ -77,13 +71,21 @@ const EditProfile = ({navigation}) => {
       ),
     );
   };
+
   const data = [
     {
       icon: 'person',
       p: 'Name',
       name: 'f_name',
       disable: false,
-      df: userdetail.name,
+      df: userdetail.first_name,
+    },
+    {
+      icon: 'person',
+      p: 'Name',
+      name: 'l_name',
+      disable: false,
+      df: userdetail.last_name,
     },
     {
       icon: 'email',
@@ -131,7 +133,7 @@ const EditProfile = ({navigation}) => {
               defaultValue={df}
               icName={icon}
               disable={!disable}
-              type={IconType.MaterialIcons}
+              type={'MaterialIcons'}
               key={name}
               control={control}
               name={name}
@@ -141,14 +143,14 @@ const EditProfile = ({navigation}) => {
             />
           );
         })}
-        <View style={{height: 20}} />
 
-        {/* Gender Dropdown */}
+        {/* 
+        <View style={{height: 20}} />
         <GenderDropDown
           white
           onSelect={setGender}
           df={{key: userdetail.gender, value: userdetail.gender}}
-        />
+        /> */}
 
         {/* Birthday Button */}
         <BirthdayBtn
@@ -206,9 +208,10 @@ const EditProfile = ({navigation}) => {
       </ScrollView>
 
       <DatePicker
-        isDarkModeEnabled={false}
         modal
-        isVisible={bday.visible}
+        theme="light"
+        buttonColor="black"
+        open={bday.visible}
         date={date}
         mode="date"
         onConfirm={selectedDate => {

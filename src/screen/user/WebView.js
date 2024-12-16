@@ -1,9 +1,9 @@
 import {style} from './style';
 import React, {useCallback} from 'react';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-import {TouchableOpacity, SafeAreaView} from 'react-native';
+import Icon from 'react-native-dynamic-vector-icons';
 import {WebView as WebViewComp} from 'react-native-webview';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import {TouchableOpacity, SafeAreaView, View} from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const WebView = ({route}) => {
@@ -20,12 +20,7 @@ const WebView = ({route}) => {
   return (
     <SafeAreaView style={GlobalStyle.flex}>
       <TouchableOpacity style={style.closeBTN} onPress={goBack}>
-        <Icon
-          name="close-circle"
-          type={IconType.Ionicons}
-          size={30}
-          color="#000"
-        />
+        <Icon name="cross" type={'Entypo'} size={20} color="#fff" />
       </TouchableOpacity>
       <WebViewComp style={GlobalStyle.flex} source={{uri}} />
     </SafeAreaView>

@@ -5,6 +5,7 @@ import {
   GET_COUNTRY,
   API_SUCCESS,
   USER_DETAILS,
+  GET_HTML,
 } from '../reducer/Holder';
 import moment from 'moment';
 import {Base_Url} from '../../utils/Urls';
@@ -346,18 +347,15 @@ export const editProfile = (
     const myData = new FormData();
 
     myData.append('first_name', data.f_name);
-    myData.append('gender', gender);
-    myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
-    {
-      city && myData.append('city', city.id);
-    }
-    {
-      state && myData.append('state', state.id);
-    }
-    {
-      country && myData.append('country', country.id);
-    }
+    myData.append('last_name', data.l_name);
 
+    myData.append('date_of_birth', bday.toString());
+
+    country.id == null && myData.append('country', country.id);
+    city.id == null && myData.append('city', city.id);
+    state.id == null && myData.append('state', state.id);
+
+    console.log(myData);
     const myHeaders = new Headers();
     const token = await AsyncStorage.getItem('token');
 
@@ -372,8 +370,12 @@ export const editProfile = (
       load(false);
       if (res.success) {
         goBack();
-        console.log('in profile edit api res.user_data', res.user_data);
+        console.log('return data', res.user_data);
         dispatch({type: USER_DETAILS, payload: res.user_data});
+        await AsyncStorage.setItem(
+          'user_details',
+          JSON.stringify(res.user_data),
+        );
       }
     } catch (error) {
       load(false);
@@ -387,7 +389,6 @@ export const updateImage = (id, image, onClose) => {
   return async dispatch => {
     try {
       const url = `${Base_Url}user-profile/image/upload/${id}`;
-      // const url = `https://theguide.us/api/v1/profile/image/upload`;
       const token = await AsyncStorage.getItem('token');
       const myData = new FormData();
 
@@ -395,8 +396,6 @@ export const updateImage = (id, image, onClose) => {
 
       const myHeaders = new Headers();
       myHeaders.append('Authorization', `Bearer ${token}`);
-
-      console.log('image ==>', image);
 
       const response = await fetch(url, {
         body: myData,
@@ -417,6 +416,47 @@ export const updateImage = (id, image, onClose) => {
     } catch (error) {
       console.log('error updateImage', error);
       // Toast.show('Server side error');
+    }
+  };
+};
+
+export const getHtml = (type, load) => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}${type}-app`;
+    try {
+      const response = await fetch(url);
+      const res = await response.json();
+      load(false);
+      if (res.status) {
+        dispatch({type: GET_HTML, payload: res.data});
+      }
+    } catch (error) {
+      load(false);
+      console.log('error', error);
+    }
+  };
+};
+
+export const deleteAccount = load => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}delete-user-app`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+
+    try {
+      const response = await fetch(url, {method: 'POST', headers});
+      const res = await response.json();
+      load(false);
+      if (res.status) {
+        await AsyncStorage.removeItem('user_details');
+        dispatch({type: USER_DETAILS, payload: null});
+      }
+    } catch (error) {
+      load(false);
+      console.log('error', error);
     }
   };
 };

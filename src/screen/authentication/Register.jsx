@@ -215,6 +215,31 @@ const Register = ({navigation}) => {
               })
             }
           />
+          <View style={{height: 20}} />
+          <View style={style.termBox}>
+            {[
+              {
+                t: 'By Registering you are agreeing to our ',
+                isNav: false,
+                press: null,
+              },
+              {
+                t: 'terms & conditions ',
+                isNav: true,
+                press: () => navigate('term', {type: 'terms-and-conditions'}),
+              },
+              {t: 'and ', isNav: false, press: null},
+              {
+                isNav: true,
+                t: 'privacy policy ',
+                press: () => navigate('term', {type: 'privacy-and-policy'}),
+              },
+            ].map(({t, isNav, press}, index) => (
+              <TouchableOpacity onPress={press} key={index}>
+                <Text style={isNav && style.term} title={t} />
+              </TouchableOpacity>
+            ))}
+          </View>
           <View style={GlobalStyle.between}>
             <WhiteBtn
               title="Back"

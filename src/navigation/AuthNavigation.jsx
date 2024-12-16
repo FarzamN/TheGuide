@@ -1,7 +1,14 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {City, Country, Login, Register, State} from '../screen/authentication';
+import {
+  City,
+  Country,
+  Login,
+  Register,
+  State,
+  Term,
+} from '../screen/authentication';
 
 const AuthNavigation = () => {
   const {Navigator, Screen} = createNativeStackNavigator();
@@ -11,6 +18,7 @@ const AuthNavigation = () => {
     {n: 'country', c: Country},
     {n: 'city', c: City},
     {n: 'state', c: State},
+    {n: 'term', c: Term},
   ];
   return (
     <NavigationContainer>

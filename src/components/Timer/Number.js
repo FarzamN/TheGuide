@@ -42,7 +42,6 @@ const Number = () => {
   const handleNumber = async () => {
     const data = {
       id: null,
-      end_time: null,
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       statusName: 'timer',
       lat: location.latitude,

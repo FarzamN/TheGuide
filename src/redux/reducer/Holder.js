@@ -13,6 +13,7 @@ export const PRAYER_STREAK = 'PRAYER_STREAK';
 export const BIBLE_TIME = 'BIBLE_TIME';
 export const BIBLE_STREAK = 'BIBLE_STREAK';
 export const EMAIL_PASS = 'EMAIL_PASS';
+export const GET_HTML = 'GET_HTML';
 
 const initial_state = {
   userDetails: false,
@@ -30,6 +31,7 @@ const initial_state = {
   bible_streak: '0',
   bible_time: 'Due',
   email_pass: {},
+  get_html: '',
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -108,6 +110,11 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         email_pass: action.payload,
+      };
+    case GET_HTML:
+      return {
+        ...state,
+        get_html: action.payload,
       };
     default: {
       return state;
