@@ -14,7 +14,6 @@ const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
 
-  // hell
   useEffect(() => {
     fetchData();
   }, []);
@@ -45,14 +44,13 @@ const App = () => {
     dispatch({type: USER_DETAILS, payload: JSON.parse(userData)});
   };
 
-  setTimeout(() => {
-    Splash.hide();
-  }, 5000);
-
   useEffect(() => {
     getUserDetails();
     // requestStoragePermission();
     navigationColor.setNavigationColor(Color.white);
+    setTimeout(() => {
+      Splash.hide();
+    }, 5000);
   }, []);
   return <>{userDetails ? <DrawerNavigation /> : <AuthNavigation />}</>;
 };

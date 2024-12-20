@@ -15,6 +15,7 @@ import {
   getGameIdAPI,
   getBibleSchoolApiUpdate,
   gameQuestionAPI,
+  getBibleSchoolApi,
 } from '../../../redux/actions/UserAction';
 
 import {style} from './style';
@@ -40,6 +41,7 @@ const GameScreen = ({navigation, route}) => {
   const videoRef = useRef(null);
   const [getGameID, setGetGameID] = useState([]);
   const [load, setLoad] = useState(false);
+  const [loadAssigment, setLoadAssigment] = useState(false);
   const [error, setError] = useState(false);
   const [correct, setCorrect] = useState(false);
   const [completed, setCompleted] = useState(false);
@@ -120,11 +122,8 @@ const GameScreen = ({navigation, route}) => {
   const handleJob = () => {
     // deleteFile();
     setCompleted(false);
-    dispatch(getBibleSchoolApiUpdate());
-    dispatch(gameQuestionAPI(item, getGameID));
-    setTimeout(() => {
-      goBack();
-    }, 100);
+    // dispatch(getBibleSchoolApi(setLoadAssigment));
+    dispatch(gameQuestionAPI(item, getGameID, goBack, setLoadAssigment));
   };
 
   useEffect(() => {
@@ -266,7 +265,7 @@ const GameScreen = ({navigation, route}) => {
       <Loader visible={load} />
       <Error visible={error} game />
       <Correct visible={correct} game />
-      <JobModal visible={completed} onPress={handleJob} />
+      <JobModal load={loadAssigment} visible={completed} onPress={handleJob} />
       <DownloadProgress
         visible={isDownloading}
         percentage={downloadProgress}

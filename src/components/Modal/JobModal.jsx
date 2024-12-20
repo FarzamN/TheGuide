@@ -6,7 +6,7 @@ import LottieView from 'lottie-react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {Text, View} from 'react-native-animatable';
 
-const JobModal = ({visible, onPress}) => {
+const JobModal = ({visible, onPress, load}) => {
   return (
     <Modal
       backdropOpacity={0.7}
@@ -32,9 +32,9 @@ const JobModal = ({visible, onPress}) => {
         <View style={style.JobBtn} animation={'fadeInUpBig'} duration={300}>
           <ModalBtn
             green
-            title="Next"
             onPress={onPress}
             textStyle={style.JobBtnText}
+            title={load ? 'Please Wait...' : 'Next'}
           />
         </View>
       </View>

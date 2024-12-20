@@ -41,5 +41,6 @@ export default StyleSheet.create({
     borderColor: Color.placeholderTextColor,
     marginTop: 15,
     paddingHorizontal: 15,
+    height: 45,
   },
 });

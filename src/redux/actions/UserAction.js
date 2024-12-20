@@ -371,8 +371,9 @@ export const getGameIdAPI = async (id, load) => {
   }
 };
 
-export const gameQuestionAPI = (item, question_ids) => {
+export const gameQuestionAPI = (item, question_ids, goBack, load) => {
   return async dispatch => {
+    load(true);
     for (const id of question_ids) {
       const url = `${Base_Url}user_game_question/store`;
       const myData = new FormData();
@@ -389,7 +390,6 @@ export const gameQuestionAPI = (item, question_ids) => {
       const token = await AsyncStorage.getItem('token');
       myHeaders.append('Authorization', `Bearer ${token}`);
 
-      // dispatch(getBibleSchoolApiUpdate());
       try {
         const response = await fetch(url, {
           body: myData,
@@ -398,10 +398,14 @@ export const gameQuestionAPI = (item, question_ids) => {
         });
 
         const res = await response.json();
+        load(false);
         if (res.success) {
+          dispatch(getBibleSchoolApiUpdate());
+          goBack();
           console.log(`Success for question_id: ${id}`, res);
         }
       } catch (error) {
+        load(false);
         // Toast.show(`Error with question_id ${id}: ${error.message}`);
         console.log(`Error for question_id ${id}:`, error);
       }

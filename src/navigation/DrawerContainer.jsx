@@ -17,15 +17,20 @@ const DrawerContainer = props => {
   const ud = useSelector(state => state.userDetails);
 
   const handleShare = async () => {
-    const options = {
-      title: 'Share App',
-      message: iOS ? ud.share_link_app_store : ud.share_link_play_store,
-    };
-    await Share.open(options);
+    try {
+      const options = {
+        title: 'Share App',
+        message: iOS ? ud.share_link_app_store : ud.share_link_play_store,
+      };
+      await Share.open(options);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Body restyle={{backgroundColor: '#F3F3FF'}}>
       <TouchableOpacity
+        hitSlop={{top: 20, left: 20, bottom: 20, right: 20}}
         onPress={() => props.navigation.closeDrawer()}
         style={[style.backIcon, GlobalStyle.justify]}>
         <Icon
