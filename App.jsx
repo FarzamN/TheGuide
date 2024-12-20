@@ -14,6 +14,7 @@ const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
 
+  // hell
   useEffect(() => {
     fetchData();
   }, []);
