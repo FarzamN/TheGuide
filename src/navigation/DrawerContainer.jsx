@@ -5,22 +5,23 @@ import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import {Color} from '../utils/Color';
+import Share from 'react-native-share';
+import {iOS} from '../utils/Constants';
 import {useSelector} from 'react-redux';
 import {GlobalStyle} from '../utils/GlobalStyle';
 import {Text, FullImage, Body} from '../components';
 import {View, Image, TouchableOpacity} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
-import Share from 'react-native-share';
 
 const DrawerContainer = props => {
-  const userDetail = useSelector(state => state.userDetails);
+  const ud = useSelector(state => state.userDetails);
 
   const handleShare = async () => {
     const options = {
       title: 'Share App',
-      message: 'https://play.google.com/store/apps/details?id=com.prayforlife',
-    }
-    const shareResponse = await Share.open(options);
+      message: iOS ? ud.share_link_app_store : ud.share_link_play_store,
+    };
+    await Share.open(options);
   };
   return (
     <Body restyle={{backgroundColor: '#F3F3FF'}}>
@@ -38,9 +39,9 @@ const DrawerContainer = props => {
         <Image
           resizeMode="cover"
           style={style.AvatarBox}
-          source={{uri: userDetail.profile_image}}
+          source={{uri: ud.profile_image}}
         />
-        <Text style={style.Title} title={userDetail.name} />
+        <Text style={style.Title} title={ud.name} />
       </View>
 
       <DrawerContentScrollView {...props}>
