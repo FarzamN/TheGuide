@@ -1,15 +1,15 @@
-import {SafeAreaView, StatusBar} from 'react-native';
+import {SafeAreaView, StatusBar, View} from 'react-native';
 import React from 'react';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {Color} from '../../utils/Color';
 
 const Body = ({children, restyle}) => {
   return (
-    <SafeAreaView style={[GlobalStyle.Container, restyle]}>
+    <View style={[GlobalStyle.Container, restyle]}>
+      <SafeAreaView style={{backgroundColor: Color.status}} />
       <StatusBar backgroundColor={Color.status} barStyle={'light-content'} />
-
       {children}
-    </SafeAreaView>
+    </View>
   );
 };
 

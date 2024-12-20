@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
+import { iOS } from '../../utils/Constants';
 
 export const style = StyleSheet.create({
   listContainer: {
@@ -88,7 +89,7 @@ export const style = StyleSheet.create({
     position: 'absolute',
     borderRadius: 100,
     right: 10,
-    top: 10,
+    top: iOS ? 80 : 10,
     backgroundColor: 'black',
     borderRadius: 100,
     width: 30,

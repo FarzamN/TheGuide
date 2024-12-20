@@ -12,10 +12,18 @@ import {Body, FullImage} from '../components';
 import {GlobalStyle} from '../utils/GlobalStyle';
 import {View, TouchableOpacity} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import Share from 'react-native-share';
 
 const DrawerContainer = props => {
   const userDetail = useSelector(state => state.userDetails);
 
+  const handleShare = async () => {
+    const options = {
+      title: 'Share App',
+      message: 'https://play.google.com/store/apps/details?id=com.prayforlife',
+    }
+    const shareResponse = await Share.open(options);
+  };
   return (
     <Body restyle={{backgroundColor: '#F3F3FF'}}>
       <TouchableOpacity
@@ -46,7 +54,7 @@ const DrawerContainer = props => {
           {
             icon: 'sharealt',
             type: IconType.AntDesign,
-            // onPress: () => props.navigation.navigate('profile'),
+            onPress: handleShare,
           },
           {
             icon: 'settings-outline',
