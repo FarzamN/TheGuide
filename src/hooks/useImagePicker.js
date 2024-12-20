@@ -1,8 +1,9 @@
 import {useState} from 'react';
-import {iOS} from '../utils/Constants';
+import {android, iOS} from '../utils/Constants';
 import {openPicker} from 'react-native-image-crop-picker';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-
+import Toast from "react-native-simple-toast"
+import { Platform } from 'react-native';
 const useImagePicker = () => {
   const [image, setImage] = useState(null);
   const [picker, setPicker] = useState(false);
@@ -29,9 +30,15 @@ const useImagePicker = () => {
 
   const requestGalleryPermission = async () => {
     try {
-      const permission = iOS
-        ? PERMISSIONS.IOS.PHOTO_LIBRARY
-        : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+      // const permission = iOS
+      //   ? PERMISSIONS.IOS.PHOTO_LIBRARY
+      //   : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+
+        const permission =
+        iOS && Platform.Version >= 14
+          ? PERMISSIONS.IOS.PHOTO_LIBRARY
+          :  android ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE 
+          :  PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY;
 
       const result = await request(permission, {
         title: 'App Gallery Permission',
@@ -45,7 +52,7 @@ const useImagePicker = () => {
         console.log('You can access the gallery');
         galleryLaunch();
       } else {
-        console.log('Gallery permission denied');
+        Toast.show('Gallery permission denied');
       }
     } catch (err) {
       console.warn(err, 'catch error gallery picker');

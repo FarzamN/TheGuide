@@ -1,0 +1,3 @@
+hit this line in root
+
+ cd node_modules/react-native/scripts && npm install wrap-ansi && cd ../../..      

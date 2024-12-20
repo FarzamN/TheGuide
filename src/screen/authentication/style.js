@@ -1,6 +1,6 @@
 import {Font} from '../../utils/Font';
 import {StyleSheet} from 'react-native';
-import {width} from '../../utils/Constants';
+import {iOS, width} from '../../utils/Constants';
 import {Color} from '../../utils/Color';
 
 export const style = StyleSheet.create({
@@ -23,7 +23,7 @@ export const style = StyleSheet.create({
   },
   loginImage: {
     width: '100%',
-    height: 180,
+    height: iOS ?  250 : 180,
   },
   term: {
     color: Color.status,
