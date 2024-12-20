@@ -11,7 +11,13 @@ export const style = StyleSheet.create({
     width: 25,
     height: 25,
   },
-  AvatarBox: {marginLeft: 10},
+  AvatarBox: {
+    marginLeft: 10,
+    width: 100,
+    height: 100,
+    borderRadius: 100,
+    marginVertical: 10,
+  },
   logo: {
     width: 150,
     height: 50,

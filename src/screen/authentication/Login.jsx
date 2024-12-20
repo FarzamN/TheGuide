@@ -1,4 +1,3 @@
-import React, {useLayoutEffect, useState} from 'react';
 import {
   Text,
   Error,
@@ -8,10 +7,11 @@ import {
   CustomButton,
 } from '../../components';
 import {style} from './style';
-import {useDispatch, useSelector} from 'react-redux';
+import {View} from 'react-native';
 import {useForm} from 'react-hook-form';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-import {View, TouchableOpacity} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import React, {useLayoutEffect, useState} from 'react';
 import {LoginApi} from '../../redux/actions/AuthAction';
 import {IconType} from 'react-native-dynamic-vector-icons';
 import {emailPattern, required} from '../../utils/Constants';

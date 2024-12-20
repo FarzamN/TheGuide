@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {MD3Colors} from 'react-native-paper';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {style} from './style';
 import {Color} from '../../utils/Color';
+import {View, Text, TouchableOpacity} from 'react-native';
+import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 const Keyboard = ({onPressKey, onDelete, onDone, visible}) => {
   const renderKey = value => (
@@ -27,19 +26,19 @@ const Keyboard = ({onPressKey, onDelete, onDone, visible}) => {
             onPress={onDone}>
             <Icon
               size={25}
-              color={Color.White}
+              color={Color.white}
               name="checkmark-done"
               type={IconType.Ionicons}
             />
           </TouchableOpacity>
           {renderKey('0')}
           <TouchableOpacity
-            style={[style.key, {backgroundColor: MD3Colors.error50}]}
+            style={[style.key, {backgroundColor: 'red'}]}
             onPress={onDelete}>
             <Icon
               size={22}
               name="delete"
-              color={Colors.White}
+              color={Color.white}
               type={IconType.Feather}
             />
           </TouchableOpacity>

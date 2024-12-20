@@ -4,13 +4,11 @@ import {
   DrawerItemList,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import {Text} from '../components';
 import {Color} from '../utils/Color';
 import {useSelector} from 'react-redux';
-import {Avatar} from 'react-native-paper';
-import {Body, FullImage} from '../components';
 import {GlobalStyle} from '../utils/GlobalStyle';
-import {View, TouchableOpacity} from 'react-native';
+import {Text, FullImage, Body} from '../components';
+import {View, Image, TouchableOpacity} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import Share from 'react-native-share';
 
@@ -37,9 +35,9 @@ const DrawerContainer = props => {
         />
       </TouchableOpacity>
       <View style={GlobalStyle.justify}>
-        <Avatar.Image
+        <Image
+          resizeMode="cover"
           style={style.AvatarBox}
-          size={100}
           source={{uri: userDetail.profile_image}}
         />
         <Text style={style.Title} title={userDetail.name} />

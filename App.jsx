@@ -51,7 +51,7 @@ const App = () => {
 
   useEffect(() => {
     getUserDetails();
-    requestStoragePermission();
+    // requestStoragePermission();
     navigationColor.setNavigationColor(Color.white);
   }, []);
   return <>{userDetails ? <DrawerNavigation /> : <AuthNavigation />}</>;
