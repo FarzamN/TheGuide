@@ -20,13 +20,14 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   bassChalo,
   bariWaliAPI,
-  inc_and_dec,
-  bible_streak,
+  bible_streak_inc,
   prayer_streak,
   getBibleSchoolApi,
   prayerGupportGoal,
   complete_assigment,
   getBibleSchoolApiUpdate,
+  bible_streak_dec,
+  bible_streak,
 } from '../../redux/actions/UserAction';
 
 const Home = () => {
@@ -72,7 +73,8 @@ const Home = () => {
       const allSameDate = dates.every(date => date === today);
       if (allSameDate) {
         // Call the API
-        dispatch(inc_and_dec('increment', setShowStreak));
+        dispatch(bible_streak_inc(setShowStreak));
+        dispatch(bible_streak_dec());
         dispatch({type: BIBLE_TIME, payload: 'done'});
 
         // Save today's date in AsyncStorage

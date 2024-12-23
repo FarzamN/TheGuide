@@ -122,10 +122,10 @@ const Register = ({navigation}) => {
   } = useForm({mode: 'all'});
   return (
     <AuthBody
-      ref={scrollViewRef}
-      Sub="Enter your personal information"
       heading="Welcome!"
+      ref={scrollViewRef}
       styles={style.regsterImage}
+      Sub="Enter your personal information"
       source={require('../../assets/image/registerBanner.png')}>
       {index == 1 ? (
         <>

@@ -6,6 +6,7 @@ import {
   API_SUCCESS,
   USER_DETAILS,
   GET_HTML,
+  BIBLE_TIME,
 } from '../reducer/Holder';
 import moment from 'moment';
 import {Base_Url} from '../../utils/Urls';
@@ -213,6 +214,7 @@ export const LogOutApi = () => {
         headers: myHeaders,
       });
       const respons = await res.json();
+      dispatch({type: BIBLE_TIME, payload: 'Due'});
     } catch (error) {
       console.log('error LogOutApi', error);
       // Toast.show('Server side error');
@@ -445,13 +447,13 @@ export const deleteAccount = load => {
     const headers = new Headers();
     const token = await AsyncStorage.getItem('token');
     headers.append('Authorization', `Bearer ${token}`);
-
     try {
       const response = await fetch(url, {method: 'POST', headers});
       const res = await response.json();
       load(false);
       if (res.status) {
         await AsyncStorage.removeItem('user_details');
+        dispatch({type: BIBLE_TIME, payload: 'Due'});
         dispatch({type: USER_DETAILS, payload: null});
       }
     } catch (error) {

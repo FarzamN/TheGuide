@@ -726,10 +726,9 @@ export const bible_streak = () => {
   };
 };
 
-export const inc_and_dec = (value, setShowStreak) => {
+export const bible_streak_inc = setShowStreak => {
   return async dispatch => {
-    console.log('inc_and_dec ki api chlgai');
-    const url = `${Base_Url}bible-streak/${value}`;
+    const url = `${Base_Url}bible-streak/increment`;
     const headers = new Headers();
     const token = await AsyncStorage.getItem('token');
     headers.append('Authorization', `Bearer ${token}`);
@@ -744,7 +743,31 @@ export const inc_and_dec = (value, setShowStreak) => {
       }
     } catch (error) {
       Toast.show('Server side error');
-      console.log('Error in inc_and_dec:', error);
+      console.log('Error in bible_streak_inc:', error);
+    }
+  };
+};
+
+export const bible_streak_dec = () => {
+  return async dispatch => {
+    const url = `${Base_Url}update/bible/decrement/room`;
+    const body = new FormData();
+    body.append(
+      'last_bible_streak ',
+      moment().format('YYYY-MM-DD , h:mm:ss a'),
+    );
+
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+
+    try {
+      const response = await fetch(url, {method: 'POST', body, headers});
+      const res = await response.json();
+      console.log('bible_streak_dec => res =>', res);
+    } catch (error) {
+      // Toast.show('Server side error');
+      console.log('Error in bible_streak_dec:', error);
     }
   };
 };

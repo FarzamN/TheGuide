@@ -118,10 +118,10 @@ const Profile = ({navigation}) => {
         text="Are you sure you want to Delete this Account?"
       />
       <ImagePickerModal
-        source={{uri: image ? image.uri : userDetail.profile_image}}
         visible={picker}
         onClose={onClose}
         onUpload={requestGalleryPermission}
+        source={{uri: image ? image.uri : userDetail.profile_image}}
       />
     </ProfileBody>
   );

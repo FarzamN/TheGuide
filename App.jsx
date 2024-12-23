@@ -52,7 +52,8 @@ const App = () => {
       Splash.hide();
     }, 5000);
   }, []);
-  return <>{userDetails ? <DrawerNavigation /> : <AuthNavigation />}</>;
+
+  return userDetails ? <DrawerNavigation /> : <AuthNavigation />;
 };
 
 export default App;

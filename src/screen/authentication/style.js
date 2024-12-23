@@ -23,7 +23,7 @@ export const style = StyleSheet.create({
   },
   loginImage: {
     width: '100%',
-    height: iOS ?  250 : 180,
+    height: iOS ? 250 : 180,
   },
   term: {
     color: Color.status,
@@ -43,7 +43,7 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
   },
   regsterImage: {
-    width,
+    width: '100%',
     height: 185,
     marginBottom: -30,
     resizeMode: 'contain',
@@ -53,3 +53,34 @@ export const style = StyleSheet.create({
     marginTop: 15,
   },
 });
+
+const DeliveryCheck = name => {
+  if (name === 'sameday') {
+    setSelectedDeliveryOption(prev => {
+      if (prev === name) {
+        setCheck({sameday: false, nextday: false, priority: false});
+        return null;
+      }
+      setCheck({sameday: true, nextday: false, priority: false});
+      return name;
+    });
+  } else if (name === 'nextday') {
+    setSelectedDeliveryOption(prev => {
+      if (prev === name) {
+        setCheck({sameday: false, nextday: false, priority: false});
+        return null;
+      }
+      setCheck({sameday: false, nextday: true, priority: false});
+      return name;
+    });
+  } else if (name === 'priority') {
+    setSelectedDeliveryOption(prev => {
+      if (prev === name) {
+        setCheck({sameday: false, nextday: false, priority: false});
+        return null;
+      }
+      setCheck({sameday: false, nextday: false, priority: true});
+      return name;
+    });
+  }
+};
