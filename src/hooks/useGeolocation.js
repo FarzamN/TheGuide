@@ -15,7 +15,7 @@ const useGeolocation = () => {
       if (android) {
         permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
       } else if (iOS) {
-        permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
+        permission = PERMISSIONS.IOS.LOCATION_ALWAYS;
       }
 
       const result = await check(permission);

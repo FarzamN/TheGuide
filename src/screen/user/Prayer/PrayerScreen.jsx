@@ -1,29 +1,29 @@
-import {ScrollView, View} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
 import {
   Body,
-  DashboardHeader,
-  TimeChangeModal,
   DonateModal,
   AboutStreak,
+  DashboardHeader,
+  TimeChangeModal,
 } from '../../../components';
-import TimeBar from './prayComp/timeBar';
-import PraySwitch from './prayComp/praySwitch';
-import {GlobalStyle} from '../../../utils/GlobalStyle';
-import {style} from '../style';
-import TimeChange from './prayComp/timeChange';
-import CountDown from '../../../components/Timer/CountDown';
-import Timer from '../../../components/Timer/Timer';
-import NumberComp from '../../../components/Timer/Number';
-import DatePicker from 'react-native-date-picker';
 
-import {prayer_streak} from '../../../redux/actions/UserAction';
 import moment from 'moment';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {style} from '../style';
+import {useDispatch} from 'react-redux';
+import TimeBar from './prayComp/timeBar';
+import {ScrollView, View} from 'react-native';
 import Toast from 'react-native-simple-toast';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
 import {Image_Url} from '../../../utils/Urls';
+import TimeChange from './prayComp/timeChange';
+import PraySwitch from './prayComp/praySwitch';
+import DatePicker from 'react-native-date-picker';
+import Timer from '../../../components/Timer/Timer';
+import {GlobalStyle} from '../../../utils/GlobalStyle';
+import NumberComp from '../../../components/Timer/Number';
+import CountDown from '../../../components/Timer/CountDown';
+import React, {useCallback, useEffect, useState} from 'react';
+import {prayer_streak} from '../../../redux/actions/UserAction';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const PrayerScreen = () => {
   const dispatch = useDispatch();
@@ -134,9 +134,9 @@ const PrayerScreen = () => {
       <DashboardHeader />
       <ScrollView>
         <TimeBar
-          time={remainingTime || 'Loading...'}
-          onCalender={handleCalender}
           onMap={handleMap}
+          onCalender={handleCalender}
+          time={remainingTime || 'Loading...'}
           onTime={() => setClock({visible: true, time: ''})}
         />
         <View style={[GlobalStyle.between, style.SwitchCont]}>

@@ -35,6 +35,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>TheGuide need access to your location to show in map</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>TheGuide need access to your location to show in map</string>
+
 <key>NSPhotoLibraryUsageDescription</key>
 <string>TheGuide need access to your photo library to upload pictures.</string>
 <key>NSPhotoLibraryAddUsageDescription</key>
@@ -78,7 +83,6 @@
   <string>Octicons.ttf</string>
   <string>Zocial.ttf</string>
   <string>Fontisto.ttf</string>
-
   <string>Montserrat-Black.ttf</string>
   <string>Montserrat-Bold.ttf</string>
   <string>Montserrat-ExtraBold.ttf</string>
@@ -88,8 +92,8 @@
   <string>Montserrat-Regular.ttf</string>
   <string>Montserrat-SemiBold.ttf</string>
   <string>Montserrat-Thin.ttf</string>
-
 </array>
+
   <key>LSApplicationQueriesSchemes</key>
   <array>
     <string>whatsapp</string>
