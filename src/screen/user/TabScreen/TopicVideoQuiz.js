@@ -203,7 +203,7 @@ const TopicVideoQuiz = ({navigation}) => {
                 <Text
                   style={{
                     color: Color.LineDarkBlue,
-                    fontFamily: Font.font700,
+                    fontWeight: '700',
                     fontSize: 15,
                     textAlign: 'center',
                     right: 7,
@@ -220,7 +220,7 @@ const TopicVideoQuiz = ({navigation}) => {
           <ScrollView showsVerticalScrollIndicator={false}>
             <Text
               style={{
-                fontFamily: Font.font700,
+                fontWeight: '700',
                 fontSize: 18,
                 color: '#3F4ADA',
               }}>
@@ -268,7 +268,7 @@ const TopicVideoQuiz = ({navigation}) => {
               />
               <Text
                 style={{
-                  fontFamily: Font.font700,
+                  fontWeight: '700',
                   color: 'white',
                   fontSize: 12,
                   bottom: 3,
@@ -308,7 +308,7 @@ const TopicVideoQuiz = ({navigation}) => {
               />
               <Text
                 style={{
-                  fontFamily: Font.font700,
+                  fontWeight: '700',
                   color: 'white',
                   fontSize: 12,
                   bottom: 5,

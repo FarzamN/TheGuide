@@ -15,7 +15,7 @@ export const style = StyleSheet.create({
   time: {
     fontSize: 15,
     color: '#F52326',
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   iconBox: {
     padding: 5,
@@ -33,7 +33,7 @@ export const style = StyleSheet.create({
   },
   switchText: {
     fontSize: 11,
-    fontFamily: Font.font500,
+    fontWeight: '500',
     textTransform: 'capitalize',
   },
   TimeCont: {
@@ -46,7 +46,7 @@ export const style = StyleSheet.create({
   timeChangeText: {
     fontSize: 12,
     color: Color.white,
-    fontFamily: Font.font500,
+    fontWeight: '500',
   },
   TimeChangeCont: {
     padding: 7,

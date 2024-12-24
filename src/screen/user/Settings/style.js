@@ -6,7 +6,7 @@ export const style = StyleSheet.create({
   logoutText: {
     fontSize: 11,
     color: Color.white,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   logout: {
     backgroundColor: Color.white,
@@ -46,7 +46,7 @@ export const style = StyleSheet.create({
   },
   heading: {
     color: Color.white,
-    fontFamily: Font.font600,
+    fontWeight: '600',
     fontSize: 20,
   },
   editImgWrap: {

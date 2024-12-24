@@ -43,7 +43,7 @@ export default BibleTopic;
 
 const styles = StyleSheet.create({
   MainTxt: {
-    fontFamily: Font.font500,
+    fontWeight: '500',
     color: 'white',
     textAlign: 'center',
     fontSize: 20,

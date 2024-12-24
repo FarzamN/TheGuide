@@ -9,7 +9,7 @@ export const style = StyleSheet.create({
     marginTop: 10,
     color: '#ABABAD',
     marginHorizontal: 5,
-    fontFamily: Font.font400,
+    fontWeight: '400',
   },
   alreadyBox: {
     height: 50,
@@ -18,7 +18,7 @@ export const style = StyleSheet.create({
   already: {
     fontSize: 14,
     color: '#ABABAD',
-    fontFamily: Font.font400,
+    fontWeight: '400',
     textDecorationLine: 'underline',
   },
   loginImage: {
@@ -34,7 +34,7 @@ export const style = StyleSheet.create({
   TermHeading: {
     color: Color.black,
     fontSize: 20,
-    fontFamily: Font.font700,
+    fontWeight: '700',
     marginBottom: 10,
   },
   termBox: {

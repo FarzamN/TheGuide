@@ -14,13 +14,13 @@ export const style = StyleSheet.create({
   GameTitle: {
     fontSize: 22,
     color: '#5D5F6B',
-    fontFamily: Font.font600,
+    fontWeight: '600',
     marginTop: 10,
   },
   GameSubText: {
     fontSize: 16,
     color: Color.Sky,
-    fontFamily: Font.font500,
+    fontWeight: '500',
     marginTop: 10,
     textAlign: 'right',
   },

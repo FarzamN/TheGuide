@@ -19,7 +19,7 @@ export default StyleSheet.create({
   label: {
     color: Color.white,
     fontSize: 13,
-    fontFamily: Font.font500,
+    fontWeight: '500',
     paddingHorizontal: 10,
     marginBottom: 4,
   },
@@ -32,7 +32,7 @@ export default StyleSheet.create({
     width: '83%',
     color: Color.black,
     marginHorizontal: 5,
-    fontFamily: Font.font400,
+    fontWeight: '400',
   },
   SearchBox: {
     borderRadius: 20,

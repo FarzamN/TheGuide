@@ -89,7 +89,7 @@ const SelectGameModal = props => {
                 <Text
                   style={{
                     color: 'white',
-                    fontFamily: Font.font500,
+                    fontWeight: '500',
                     fontSize: 22,
                     textShadowColor: '#F54600',
                     textShadowOffset: {width: 1, height: 1},
@@ -108,7 +108,7 @@ const SelectGameModal = props => {
           <Text
             style={{
               color: '#C7D4FC',
-              fontFamily: Font.font500,
+              fontWeight: '500',
               fontSize: 15,
             }}>
             Complete all games to get bonus key
@@ -116,7 +116,7 @@ const SelectGameModal = props => {
           <Text
             style={{
               color: '#FFFF00',
-              fontFamily: Font.font500,
+              fontWeight: '500',
               fontSize: 22,
             }}>
             50 Bonus Tokens

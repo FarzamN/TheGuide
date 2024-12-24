@@ -4,7 +4,7 @@ import {Font} from '../utils/Font';
 export const style = StyleSheet.create({
   Title: {
     fontSize: 15,
-    fontFamily: Font.font600,
+    fontWeight: '600',
     marginTop: 10,
   },
   icon: {
@@ -37,6 +37,6 @@ export const style = StyleSheet.create({
   },
   tabBarLabel: {
     fontSize: 9,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
 });

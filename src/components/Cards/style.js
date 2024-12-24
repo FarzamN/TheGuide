@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     color: black,
-    fontFamily: Font.font500,
+    fontWeight: '500',
   },
   RoleCardContainer: {
     backgroundColor: '#F8F8F8',
@@ -55,14 +55,14 @@ export const styles = StyleSheet.create({
   },
   AssigmentTitle: {
     fontSize: 20,
-    fontFamily: Font.font700,
+    fontWeight: '700',
     color: white,
   },
   AssigmentSubtitle: {
     fontSize: 13,
     color: white,
     marginBottom: 5,
-    fontFamily: Font.font600,
+    fontWeight: '600',
     textAlign: 'right',
   },
   AssigmentPlayButton: {
@@ -116,7 +116,7 @@ export const styles = StyleSheet.create({
   Text: {
     color: white,
     fontSize: 14,
-    fontFamily: Font.font600,
+    fontWeight: '600',
     textTransform: 'capitalize',
   },
   secBox: {
@@ -144,7 +144,7 @@ export const styles = StyleSheet.create({
   dateText: {
     color: white,
     fontSize: 10,
-    fontFamily: Font.font700,
+    fontWeight: '700',
   },
   iconBackground: {
     padding: 3,
@@ -155,7 +155,7 @@ export const styles = StyleSheet.create({
   EventName: {
     fontSize: 17,
     color: '#FFAB00',
-    fontFamily: Font.font700,
+    fontWeight: '700',
     backgroundColor: 'rgba(128, 128, 128, 0.7)',
     borderRadius: 10,
   },
@@ -166,13 +166,13 @@ export const styles = StyleSheet.create({
 
     color: white,
     maxWidth: '95%',
-    fontFamily: Font.font600,
+    fontWeight: '600',
     textTransform: 'capitalize',
   },
   endText: {
     fontSize: 9,
     color: white,
-    fontFamily: Font.font500,
+    fontWeight: '500',
     width: '70%',
   },
   bookBtn: {width: '30%', height: 25},

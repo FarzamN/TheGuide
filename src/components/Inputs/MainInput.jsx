@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     height: '100%',
     color: Color.black,
-    fontFamily: Font.font500,
+    fontWeight: '500',
   },
   smallbox: {
     alignSelf: 'center',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   Text: {
     color: Color.white,
-    fontFamily: Font.font500,
+    fontWeight: '500',
     fontSize: 14,
   },
 });

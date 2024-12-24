@@ -36,7 +36,7 @@ export default StyleSheet.create({
     fontSize: 16,
     color: Color.Sky,
     textAlign: 'center',
-    fontFamily: Font.font500,
+    fontWeight: '500',
   },
 
   // logout ----------------------------
@@ -53,7 +53,7 @@ export default StyleSheet.create({
   LogoutText: {
     color: '#777777',
     fontSize: 18,
-    fontFamily: Font.font600,
+    fontWeight: '600',
     textAlign: 'center',
     marginBottom: 10,
   },
@@ -65,17 +65,17 @@ export default StyleSheet.create({
   },
   JobBtnText: {
     fontSize: 16,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   JobHead: {
     fontSize: 45,
     color: '#FFDF00',
-    fontFamily: Font.font700,
+    fontWeight: '700',
   },
   JobComp: {
     fontSize: 25,
     color: Color.white,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   JobLottie: {
     height: 300,
@@ -104,20 +104,20 @@ export default StyleSheet.create({
   DpText: {
     fontSize: 20,
     color: Color.Sky,
-    fontFamily: Font.font500,
+    fontWeight: '500',
   },
 
   // =--------- donate modal style
   boldText: {
     marginBottom: 8,
     color: Color.black,
-    fontFamily: Font.font600,
+    fontWeight: '600',
     fontSize: 15,
   },
   nomText: {
     marginBottom: 8,
     color: Color.black,
-    fontFamily: Font.font500,
+    fontWeight: '500',
     fontSize: 15,
   },
   DonateBtn: {width: '75%', height: 47},

@@ -50,9 +50,9 @@ const Login = ({navigation}) => {
 
   return (
     <AuthBody
-      Sub="Login to continue using the app"
       heading="Welcome Back!"
       styles={style.loginImage}
+      Sub="Login to continue using the app"
       source={require('../../assets/image/loginBanner.png')}>
       <View style={GlobalStyle.height} />
 

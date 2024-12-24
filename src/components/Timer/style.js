@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     fontSize: 11,
     color: '#446683',
     marginVertical: 5,
-    fontFamily: Font.font500,
+    fontWeight: '500',
   },
   InputCon: {
     width: 70,

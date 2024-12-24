@@ -46,12 +46,12 @@ const BibleBottomBtn = ({num, margH, selectTabs, onPress, title}) => {
 const styles = StyleSheet.create({
   titleSty: {
     color: 'white',
-    fontFamily: Font.font500,
+    fontWeight: '500',
     fontSize: 16,
   },
   nameSty: {
     color: 'white',
-    fontFamily: Font.font700,
+    fontWeight: '700',
     fontSize: 30,
     bottom: 10,
     textShadowColor: 'rgba(0, 0, 0, 0.75)',

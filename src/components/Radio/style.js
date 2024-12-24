@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   Heading: {
     fontSize: 15,
     color: Color.black,
-    fontFamily: Font.font500,
+    fontWeight: '500',
     textTransform: 'capitalize',
   },
   row: {

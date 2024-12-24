@@ -22,11 +22,11 @@ export const style = StyleSheet.create({
   num: {
     fontSize: 13,
     color: Color.white,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   btmTitle: {
     fontSize: 11,
-    fontFamily: Font.font600,
+    fontWeight: '600',
     color: Color.textGrey,
   },
 

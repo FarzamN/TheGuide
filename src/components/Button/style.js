@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   font: {
     fontSize: 14,
     color: Color.white,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   whiteStyle: {
     height: 48,
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
   whiteFont: {
     fontSize: 14,
     color: Color.black,
-    fontFamily: Font.font400,
+    fontWeight: '400',
   },
 
   BDayBtn: {
@@ -46,13 +46,13 @@ export const styles = StyleSheet.create({
     marginTop: 20,
     color: Color.black,
     paddingHorizontal: 5,
-    fontFamily: Font.font400,
+    fontWeight: '400',
   },
   BDayText: {
     color: Color.black,
     fontSize: 14,
     marginHorizontal: 10,
-    fontFamily: Font.font400,
+    fontWeight: '400',
   },
   CountryContainer: {
     height: 50,
@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
   },
   CountryText: {
     marginHorizontal: 10,
-    fontFamily: Font.font400,
+    fontWeight: '400',
   },
   PCont: {
     height: 50,
@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
   Ptitle: {
     fontSize: 14,
     color: Color.white,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   ModalBtnCont: {
     height: 50,
@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
   },
   ModalBtnText: {
     fontSize: 16,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
 
   // -------------- game buttons
@@ -99,7 +99,7 @@ export const styles = StyleSheet.create({
   },
   GameBTNText: {
     color: Color.white,
-    fontFamily: Font.font500,
+    fontWeight: '500',
     maxWidth: '90%',
     textTransform: 'capitalize',
     textAlign: 'center',

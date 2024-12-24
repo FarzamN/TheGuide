@@ -12,12 +12,12 @@ export const style = StyleSheet.create({
   },
   inputStyles: {
     color: Color.black,
-    fontFamily: Font.font400,
+    fontWeight: '400',
     textTransform: 'capitalize',
   },
   dropdownTextStyles: {
     color: Color.black,
-    fontFamily: Font.font400,
+    fontWeight: '400',
     textTransform: 'capitalize',
   },
 });

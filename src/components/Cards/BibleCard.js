@@ -139,12 +139,12 @@ const styles = StyleSheet.create({
   },
   DueTxt: {
     color: 'white',
-    fontFamily: Font.font400,
+    fontWeight: '400',
     fontSize: 16,
   },
   TitleSty: {
     color: '#48abf9',
-    fontFamily: Font.font700,
+    fontWeight: '700',
     fontSize: 16,
     bottom: 2,
   },
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   DualBtnTx: {
     color: 'white',
-    fontFamily: Font.font500,
+    fontWeight: '500',
     fontSize: 14,
   },
 });

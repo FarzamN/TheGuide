@@ -1,9 +1,19 @@
-const yourNum = 3700;
-const total = 6000;
+// const yourNum = 3700;
+// const total = 6000;
 
-const Percentage = (yourNum / total) * 100;
+// const Percentage = (yourNum / total) * 100;
 
-console.log(Math.floor(Percentage.toFixed(0, 2)));
+// console.log(Math.floor(Percentage.toFixed(0, 2)));
+
+let arr = [];
+
+for (i = 1; i <= 10; i++) {
+  arr.push(i);
+}
+
+console.log(arr.map((item, i) => arr.length % item));
+
+// console.log(Math.floor(Math.random() * arr));
 
 // import {style} from './style';
 // import {ScrollView, View} from 'react-native';

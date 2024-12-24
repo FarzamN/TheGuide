@@ -10,7 +10,7 @@ export const style = StyleSheet.create({
   },
   heading: {
     fontSize: 23,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   text: {
     fontSize: 14,

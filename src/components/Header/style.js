@@ -20,12 +20,12 @@ export default StyleSheet.create({
   logout: {
     fontSize: 17,
     color: '#8FBFFE',
-    fontFamily: Font.font700,
+    fontWeight: '700',
   },
   title: {
     fontSize: 14,
     color: 'red',
-    fontFamily: Font.font700,
+    fontWeight: '700',
   },
   BannerImage: {
     width: width,
@@ -41,7 +41,7 @@ export default StyleSheet.create({
   ProfileTitle: {
     fontSize: 18,
     color: Color.white,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   HeadRow: {
     marginTop: 10,
@@ -67,13 +67,13 @@ export default StyleSheet.create({
   data: {
     fontSize: 13,
     marginTop: 5,
-    fontFamily: Font.font700,
+    fontWeight: '700',
   },
   subText: {
     fontSize: 14,
     marginTop: 5,
     color: '#666',
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
   line: {
     width: 1,
@@ -95,16 +95,16 @@ export default StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
     color: Color.white,
-    fontFamily: Font.font700,
+    fontWeight: '700',
   },
   GameSubTitle: {
     fontSize: 16,
     color: Color.white,
-    fontFamily: Font.font500,
+    fontWeight: '500',
   },
   prayLevel: {
     width: '70%',
     fontSize: 20,
-    fontFamily: Font.font600,
+    fontWeight: '600',
   },
 });
