@@ -1,4 +1,4 @@
-package com.theguide
+package com.theguide.us
 
 import android.app.Application
 import com.facebook.react.PackageList

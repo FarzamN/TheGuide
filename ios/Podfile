@@ -1,6 +1,9 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
+$RNFirebaseAsStaticFramework = true
+ENV['NO_FLIPPER'] = "1"
+
 def node_require(script)
     # Resolve script with node to allow for hoisting
     require Pod::Executable.execute_command('node', ['-p',
@@ -38,7 +41,6 @@ setup_permissions([
   # 'SpeechRecognition',
   # 'StoreKit',
 ])
-
 pod 'lottie-ios', '~> 3.4.0' # Use a compatible version with your React Native project
 
 # If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
@@ -50,7 +52,7 @@ pod 'lottie-ios', '~> 3.4.0' # Use a compatible version with your React Native p
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+flipper_config = FlipperConfiguration.disabled
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -69,7 +71,9 @@ target 'TheGuide' do
     # you should disable the next line.
     :flipper_configuration => flipper_config,
     # An absolute path to your application root.
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :hermes_enabled => true,
+    :fabric_enabled => false
   )
 
   target 'TheGuideTests' do
@@ -84,5 +88,17 @@ target 'TheGuide' do
       config[:reactNativePath],
       :mac_catalyst_enabled => false
     )
+    
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['ENABLE_BITCODE'] = 'NO'
+        config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+        
+        if target.name == 'lottie-ios'
+          config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+          config.build_settings['ENABLE_MODULES'] = 'YES'
+        end
+      end
+    end
   end
 end

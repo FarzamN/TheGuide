@@ -3,9 +3,9 @@ import style from './style';
 import {FullImage, Text} from '..';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch, useSelector} from 'react-redux';
+import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 const DashboardHeader = ({onPray}) => {
   const dispatched = useDispatch();

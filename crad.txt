@@ -1,4 +1,4 @@
-keytool -genkeypair -v -storetype PKCS12 -keystore the-guide-key.keystore -alias the-guide-key -keyalg RSA -keysize 2048 -validity 10000
+sudo keytool -genkey -v -keystore my-upload-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
 
 password: TheGuideKeyStorePassword
 

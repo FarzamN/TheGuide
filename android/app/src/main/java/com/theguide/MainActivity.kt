@@ -1,4 +1,4 @@
-package com.theguide
+package com.theguide.us
 
 import android.os.Bundle;
 import org.devio.rn.splashscreen.SplashScreen;

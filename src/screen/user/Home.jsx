@@ -20,14 +20,14 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   bassChalo,
   bariWaliAPI,
-  bible_streak_inc,
+  bible_streak,
   prayer_streak,
+  bible_streak_dec,
+  bible_streak_inc,
   getBibleSchoolApi,
   prayerGupportGoal,
   complete_assigment,
   getBibleSchoolApiUpdate,
-  bible_streak_dec,
-  bible_streak,
 } from '../../redux/actions/UserAction';
 
 const Home = () => {

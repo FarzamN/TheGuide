@@ -204,6 +204,8 @@ export const LogOutApi = () => {
     const url = `${Base_Url}logout`;
     await AsyncStorage.removeItem('user_details');
     dispatch({type: USER_DETAILS, payload: null});
+    dispatch({type: BIBLE_TIME, payload: 'Due'});
+    await AsyncStorage.removeItem('lastAPICallDate');
 
     const token = await AsyncStorage.getItem('token');
     const myHeaders = new Headers();
@@ -214,7 +216,6 @@ export const LogOutApi = () => {
         headers: myHeaders,
       });
       const respons = await res.json();
-      dispatch({type: BIBLE_TIME, payload: 'Due'});
     } catch (error) {
       console.log('error LogOutApi', error);
       // Toast.show('Server side error');
