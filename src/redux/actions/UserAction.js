@@ -390,6 +390,8 @@ export const gameQuestionAPI = (item, question_ids, goBack, load) => {
       const token = await AsyncStorage.getItem('token');
       myHeaders.append('Authorization', `Bearer ${token}`);
 
+      dispatch(getBibleSchoolApiUpdate());
+      goBack();
       try {
         const response = await fetch(url, {
           body: myData,
@@ -400,8 +402,6 @@ export const gameQuestionAPI = (item, question_ids, goBack, load) => {
         const res = await response.json();
         load(false);
         if (res.success) {
-          dispatch(getBibleSchoolApiUpdate());
-          goBack();
           console.log(`Success for question_id: ${id}`, res);
         }
       } catch (error) {

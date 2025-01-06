@@ -20,20 +20,20 @@ import {
 
 import {style} from './style';
 import Video from 'react-native-video';
-import Toast from 'react-native-simple-toast';
 import {Image_Url} from '../../../utils/Urls';
-import {BackHandler, ScrollView, View} from 'react-native';
+import Toast from 'react-native-simple-toast';
 import {useFileDownloader} from '../../../hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
-import {useFocusEffect} from '@react-navigation/native';
+import {BackHandler, ScrollView, View} from 'react-native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {handleAnswer, shuffleArray, transformGameQuestions} from './gameFun';
 import React, {useRef, useEffect, useState, Fragment, useCallback} from 'react';
 
-const GameScreen = ({navigation, route}) => {
+const GameScreen = ({route}) => {
   const {item} = route.params;
   const dispatch = useDispatch();
-  const {goBack, getParent} = navigation;
+  const {goBack, getParent} = useNavigation();
   const get_game = useSelector(state => state.get_game);
   const {downloadFile, downloadProgress, isDownloading, deleteFile} =
     useFileDownloader();
@@ -83,13 +83,23 @@ const GameScreen = ({navigation, route}) => {
   }, [fileUrl]);
 */
 
+  // useEffect(() => {
+  //   if (showQuestion && currentQuestion && !allQuestionsCompleted) {
+  //     setIsPaused(true);
+  //   } else {
+  //     setTimeout(() => setIsPaused(false), 300);
+  //   }
+  // }, [showQuestion, allQuestionsCompleted]);
+
   useEffect(() => {
     if (showQuestion && currentQuestion && !allQuestionsCompleted) {
       setIsPaused(true);
+    } else if (correct) {
+      setIsPaused(true); // Pause the video when the correct modal is shown
     } else {
       setTimeout(() => setIsPaused(false), 300);
     }
-  }, [showQuestion, allQuestionsCompleted]);
+  }, [showQuestion, allQuestionsCompleted, correct, error]);
 
   const seekVideo = () => {
     if (videoRef.current && currentQuestion) {
@@ -194,7 +204,7 @@ const GameScreen = ({navigation, route}) => {
         subTitle={item.game_title}
       />
 
-      {/* {[
+      {[
         {n: 'id', c: item.id},
         {n: 'currentTime', c: Math.ceil(currentTime)},
         {n: 'quesion length', c: gameQuestions.length},
@@ -202,15 +212,15 @@ const GameScreen = ({navigation, route}) => {
         {n: 'prev Question Time', c: previousQuestionTime},
       ].map(({n, c}) => (
         <Text key={n} center title={n + ' ' + c} />
-      ))} */}
+      ))}
 
       <View>
         {isBuffering && <NorLoad />}
         {fileUrl && (
           <Video
             ref={videoRef}
-            // controls={true}
-            controls={false}
+            controls={true}
+            // controls={false}
             paused={isPaused}
             resizeMode="contain"
             style={style.videoPlayer}
@@ -276,3 +286,5 @@ const GameScreen = ({navigation, route}) => {
 };
 
 export default GameScreen;
+
+// im getting an issue in here when a question is showing and user is answered right and corrent modal is showing in middle of this video is playing for a while and bcz of this some questions are getting missed
