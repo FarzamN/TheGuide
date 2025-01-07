@@ -374,8 +374,11 @@ export const getGameIdAPI = async (id, load) => {
 export const gameQuestionAPI = (item, question_ids, goBack, load) => {
   return async dispatch => {
     load(true);
-    for (const id of question_ids) {
+
+    // Helper function to handle individual requests
+    const handleQuestionRequest = async id => {
       const url = `${Base_Url}user_game_question/store`;
+
       const myData = new FormData();
       myData.append('game_id', item.id);
       myData.append('assignment_id', item.assignment_id);
@@ -383,32 +386,50 @@ export const gameQuestionAPI = (item, question_ids, goBack, load) => {
       myData.append('course_id', item.course_id);
       myData.append('question_id', id);
       myData.append('status', 'COMPLETED');
-      myData.append('completed_on', new Date());
+      myData.append('completed_on', new Date().toISOString());
       myData.append('is_correct', 1);
 
-      const myHeaders = new Headers();
-      const token = await AsyncStorage.getItem('token');
-      myHeaders.append('Authorization', `Bearer ${token}`);
-
-      dispatch(getBibleSchoolApiUpdate());
-      goBack();
       try {
+        const token = await AsyncStorage.getItem('token');
+        const headers = {Authorization: `Bearer ${token}`};
+
         const response = await fetch(url, {
-          body: myData,
           method: 'POST',
-          headers: myHeaders,
+          headers,
+          body: myData,
         });
 
         const res = await response.json();
-        load(false);
+
         if (res.success) {
           console.log(`Success for question_id: ${id}`, res);
+          return true;
+        } else {
+          console.error(`Failed for question_id: ${id}`, res);
+          return false;
         }
       } catch (error) {
-        load(false);
-        // Toast.show(`Error with question_id ${id}: ${error.message}`);
-        console.log(`Error for question_id ${id}:`, error);
+        console.error(`Error for question_id ${id}:`, error.message);
+        return false;
       }
+    };
+
+    try {
+      const results = await Promise.all(
+        question_ids.map(id => handleQuestionRequest(id)),
+      );
+
+      const allSuccessful = results.every(result => result);
+      load(false);
+      if (allSuccessful) {
+        goBack();
+        dispatch(getBibleSchoolApiUpdate());
+      }
+    } catch (error) {
+      load(false);
+      console.error('Error while processing questions:', error.message);
+    } finally {
+      load(false);
     }
   };
 };

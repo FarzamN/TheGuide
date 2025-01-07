@@ -56,11 +56,17 @@ const GameScreen = ({route}) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [allQuestionsCompleted, setAllQuestionsCompleted] = useState(false);
   const [previousQuestionTime, setPreviousQuestionTime] = useState(0); // New state
-  // console.log('gameQuestions', gameQuestions);
+
   const currentQuestion = gameQuestions[currentQuestionIndex];
   const progress = duration ? currentTime / duration : 0;
   const [videoPath, setVideoPath] = useState(null);
 
+  // finding answer
+  const answering = currentQuestion?.answers?.map(e => {
+    if (e.isCorrect) {
+      return e.title;
+    }
+  });
   const fileUrl = get_game?.game_header_data?.[0]?.file?.[0]?.src;
 
   const handleDownload = async () => {
@@ -82,14 +88,6 @@ const GameScreen = ({route}) => {
     }
   }, [fileUrl]);
 */
-
-  // useEffect(() => {
-  //   if (showQuestion && currentQuestion && !allQuestionsCompleted) {
-  //     setIsPaused(true);
-  //   } else {
-  //     setTimeout(() => setIsPaused(false), 300);
-  //   }
-  // }, [showQuestion, allQuestionsCompleted]);
 
   useEffect(() => {
     if (showQuestion && currentQuestion && !allQuestionsCompleted) {
@@ -204,23 +202,27 @@ const GameScreen = ({route}) => {
         subTitle={item.game_title}
       />
 
-      {[
+      {/* {[
         {n: 'id', c: item.id},
         {n: 'currentTime', c: Math.ceil(currentTime)},
-        {n: 'quesion length', c: gameQuestions.length},
+        {
+          n: 'quesion length',
+          c: currentQuestionIndex + 1 + '/' + gameQuestions.length,
+        },
         {n: 'next Question Time', c: currentQuestion?.startTime},
         {n: 'prev Question Time', c: previousQuestionTime},
+        {n: 'Correct answer is:', c: answering},
       ].map(({n, c}) => (
         <Text key={n} center title={n + ' ' + c} />
-      ))}
+      ))} */}
 
       <View>
         {isBuffering && <NorLoad />}
         {fileUrl && (
           <Video
             ref={videoRef}
-            controls={true}
-            // controls={false}
+            // controls={true}
+            controls={false}
             paused={isPaused}
             resizeMode="contain"
             style={style.videoPlayer}
@@ -286,5 +288,3 @@ const GameScreen = ({route}) => {
 };
 
 export default GameScreen;
-
-// im getting an issue in here when a question is showing and user is answered right and corrent modal is showing in middle of this video is playing for a while and bcz of this some questions are getting missed

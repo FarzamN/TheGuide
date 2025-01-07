@@ -51,7 +51,6 @@ export const transformGameQuestions = (gameQuestions, id) => {
 
       const correctAnswer =
         questionData.answers[3]?.correct_answer?.toLowerCase();
-
       const delayTime =
         questionData.answers.find(answer => answer.label === 'time')
           ?.question || 0;
