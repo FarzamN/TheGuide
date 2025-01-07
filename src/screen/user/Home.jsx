@@ -25,7 +25,7 @@ import {
   bible_streak_dec,
   bible_streak_inc,
   getBibleSchoolApi,
-  prayerGupportGoal,
+  prayerSupportGoal,
   complete_assigment,
   getBibleSchoolApiUpdate,
 } from '../../redux/actions/UserAction';
@@ -107,7 +107,7 @@ const Home = () => {
 
   useEffect(() => {
     bassChalo();
-    dispatch(prayerGupportGoal());
+    dispatch(prayerSupportGoal());
     dispatch(prayer_streak());
     dispatch(bible_streak());
   }, []);

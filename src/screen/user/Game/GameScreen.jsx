@@ -129,9 +129,10 @@ const GameScreen = ({route}) => {
 
   const handleJob = () => {
     // deleteFile();
-    setCompleted(false);
     // dispatch(getBibleSchoolApi(setLoadAssigment));
-    dispatch(gameQuestionAPI(item, getGameID, goBack, setLoadAssigment));
+    dispatch(
+      gameQuestionAPI(item, getGameID, goBack, setLoadAssigment, setCompleted),
+    );
   };
 
   useEffect(() => {

@@ -371,7 +371,13 @@ export const getGameIdAPI = async (id, load) => {
   }
 };
 
-export const gameQuestionAPI = (item, question_ids, goBack, load) => {
+export const gameQuestionAPI = (
+  item,
+  question_ids,
+  goBack,
+  load,
+  completed,
+) => {
   return async dispatch => {
     load(true);
 
@@ -422,6 +428,7 @@ export const gameQuestionAPI = (item, question_ids, goBack, load) => {
       const allSuccessful = results.every(result => result);
       load(false);
       if (allSuccessful) {
+        completed(false);
         goBack();
         dispatch(getBibleSchoolApiUpdate());
       }
@@ -667,7 +674,7 @@ export const NumberUpdate = async (data, setAdd) => {
   }
 };
 
-export const prayerGupportGoal = () => {
+export const prayerSupportGoal = () => {
   return async dispatch => {
     const url = `${Base_Url}prayer-support-goal`;
     const headers = new Headers();
@@ -681,7 +688,7 @@ export const prayerGupportGoal = () => {
       }
     } catch (error) {
       // Toast.show('Server side error');
-      console.log('Error in prayerGupportGoal:', error);
+      console.log('Error in prayerSupportGoal:', error);
     }
   };
 };

@@ -1,11 +1,10 @@
-import {ModalBtn, Text} from '..';
 import React from 'react';
 import style from './style';
+import {ModalBtn, Text} from '..';
 import {View} from 'react-native';
 import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-import {width} from '../../utils/Constants';
 
 const DonateModal = ({visible, onClose, onPress}) => {
   const data = useSelector(state => state.pray_support_gola);
