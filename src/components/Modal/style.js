@@ -29,6 +29,8 @@ export default StyleSheet.create({
   },
   LottieView: {
     height: 150,
+    resizeMode: 'contain',
+    width: 120,
     alignSelf: 'center',
   },
   ModalText: {
@@ -78,8 +80,10 @@ export default StyleSheet.create({
     fontWeight: '600',
   },
   JobLottie: {
-    height: 300,
-    marginBottom: 15,
+    height: 200,
+    marginVertical: 60,
+    resizeMode: 'contain',
+    width: 200,
   },
 
   NorCont: {

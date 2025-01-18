@@ -18,7 +18,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Font} from '../../../utils/Font';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import VideoPlayer from 'react-native-video-player';
-import LottieView from 'lottie-react-native';
 import {end, start} from '../../../utils/Data';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -345,7 +344,7 @@ const TopicVideoQuiz = ({navigation}) => {
                   ],
                 },
               ]}>
-              <LottieView
+              {/* <LottieView
                 style={{
                   height: '100%',
                   width: '100%',
@@ -354,7 +353,7 @@ const TopicVideoQuiz = ({navigation}) => {
                 autoPlay
                 loop
                 // speed={0.7}
-              />
+              /> */}
             </Animated.View>
           )}
         </View>

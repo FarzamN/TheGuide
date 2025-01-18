@@ -1,13 +1,11 @@
-import { ActivityIndicator, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {  StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Modal from 'react-native-modal'
 import LinearGradient from 'react-native-linear-gradient'
-import { Font } from '../../utils/Font'
 import Icon, { IconType } from 'react-native-dynamic-vector-icons';
 import { Color } from '../../utils/Color'
 import ModeCard from '../Cards/ModeCard'
 
-const SCREEN_HEIGHT = Dimensions.get('window').height
 
 const ChooseModeModal = (props) => {
 

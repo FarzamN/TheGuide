@@ -1,8 +1,7 @@
 import React from 'react';
 import style from './style';
-import {ModalBtn} from '..';
+import {FullImage, ModalBtn} from '..';
 import Modal from 'react-native-modal';
-import LottieView from 'lottie-react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {Text, View} from 'react-native-animatable';
 
@@ -23,12 +22,12 @@ const JobModal = ({visible, onPress, load}) => {
         <Text style={style.JobComp} animation={'fadeInLeft'} duration={200}>
           Assigment Completed!
         </Text>
-        <LottieView
-          loop={false}
-          autoPlay
+
+        <FullImage
           style={style.JobLottie}
-          source={require('../../assets/lottie/complete.json')}
+          source={require('../../assets/image/badge.png')}
         />
+
         <View style={style.JobBtn} animation={'fadeInUpBig'} duration={300}>
           <ModalBtn
             green

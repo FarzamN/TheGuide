@@ -2,8 +2,8 @@ import React from 'react';
 import style from './style';
 import Modal from 'react-native-modal';
 import {View, Text} from 'react-native';
-import LottieView from 'lottie-react-native';
 import {Color} from '../../utils/Color';
+import {FullImage} from '..';
 
 const Error = ({message, visible, game}) => {
   return (
@@ -18,12 +18,8 @@ const Error = ({message, visible, game}) => {
           : [style.MainModal, style.Modal_Container]
       }>
       <View style={style.ModalContainer}>
-        <LottieView
-          autoPlay
-          loop={false}
-          style={style.LottieView}
-          source={require('../../assets/lottie/error.json')}
-        />
+      <FullImage source={require('../../assets/image/wrong.png')} style={style.LottieView}/>
+
         {message && (
           <Text style={[style.ModalText, {color: 'red'}]}>{message}</Text>
         )}

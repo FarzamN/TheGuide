@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import Modal from 'react-native-modal';
-import LottieView from 'lottie-react-native';
 import style from './style';
+import Modal from 'react-native-modal';
+import {Color} from '../../utils/Color';
+import {View, Text, ActivityIndicator} from 'react-native';
 
 const Loader = ({visible}) => {
   return (
@@ -16,10 +16,10 @@ const Loader = ({visible}) => {
           style.ModalContainer,
           {backgroundColor: '#FCFCFC', borderWidth: 0.8},
         ]}>
-        <LottieView
-          autoPlay
+        <ActivityIndicator
+          size={80}
+          color={Color.Sky}
           style={style.LottieView}
-          source={require('../../assets/lottie/loader.json')}
         />
 
         <Text style={style.ModalText}>{'Please Wait...'}</Text>

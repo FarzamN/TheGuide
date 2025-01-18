@@ -1,3 +1,4 @@
+
 import React, {useEffect} from 'react';
 import {Color} from './src/utils/Color';
 import Splash from 'react-native-splash-screen';

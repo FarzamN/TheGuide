@@ -1,10 +1,9 @@
-import {Text} from '..';
+import {FullImage, Text} from '..';
 import React from 'react';
 import style from './style';
 import {View} from 'react-native';
 import Modal from 'react-native-modal';
 import {Color} from '../../utils/Color';
-import LottieView from 'lottie-react-native';
 
 const Correct = ({visible, text, game}) => {
   return (
@@ -19,12 +18,8 @@ const Correct = ({visible, text, game}) => {
           : style.CorrectnErrorModal
       }>
       <View style={style.ModalContainer}>
-        <LottieView
-          autoPlay
-          loop={false}
-          style={style.LottieView}
-          source={require('../../assets/lottie/correct.json')}
-        />
+       
+        <FullImage source={require('../../assets/image/ok.png')} style={style.LottieView}/>
         {!game && <Text title={text} center style={style.LogoutText} />}
       </View>
     </Modal>

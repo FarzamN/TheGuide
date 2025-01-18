@@ -17,7 +17,6 @@ import {Color} from '../../../utils/Color';
 import TestHeader from '../../../components/Header/TestHeader';
 import LinearGradient from 'react-native-linear-gradient';
 import {CustomButton} from '../../../components';
-import LottieView from 'lottie-react-native';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -354,7 +353,7 @@ const BibleTest = () => {
                       ],
                     },
                   ]}>
-                  <LottieView
+                  {/* <LottieView
                     style={{
                       height: '100%',
                       width: '100%',
@@ -363,7 +362,7 @@ const BibleTest = () => {
                     autoPlay
                     loop
                     // speed={0.7}
-                  />
+                  /> */}
                 </Animated.View>
               )}
             </TouchableOpacity>
