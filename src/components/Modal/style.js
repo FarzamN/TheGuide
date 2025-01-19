@@ -146,4 +146,6 @@ export default StyleSheet.create({
     alignSelf: 'center',
     marginTop: 10,
   },
+
+  streakImage: {height: 170, width: 170, alignSelf: 'center'}
 });
