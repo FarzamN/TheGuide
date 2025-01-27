@@ -2,6 +2,7 @@ import React from 'react';
 import style from './style';
 import Modal from 'react-native-modal';
 import {Color} from '../../utils/Color';
+import { iOS } from '../../utils/Constants';
 import {View, Text, ActivityIndicator} from 'react-native';
 
 const Loader = ({visible}) => {
@@ -17,9 +18,9 @@ const Loader = ({visible}) => {
           {backgroundColor: '#FCFCFC', borderWidth: 0.8},
         ]}>
         <ActivityIndicator
-          size={80}
           color={Color.Sky}
           style={style.LottieView}
+          size={iOS ? "large" : 80}
         />
 
         <Text style={style.ModalText}>{'Please Wait...'}</Text>
