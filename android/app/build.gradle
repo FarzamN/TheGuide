@@ -119,6 +119,8 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-splash-screen')
+    implementation project(':react-native-sound')
+    
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
