@@ -42,8 +42,10 @@ const Login = ({navigation}) => {
   } = useForm({
     mode: 'all',
     defaultValues: {
-      email: savedEP.email,
-      password: savedEP.pass,
+      // email: savedEP.email,
+      // password: savedEP.pass
+      email: "helloapple@gmail.com",
+      password: "123"
     },
   });
 

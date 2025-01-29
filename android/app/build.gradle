@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.theguideus"
+    namespace "com.theguide.us"
     defaultConfig {
-        applicationId "com.theguideus"
+        applicationId "com.theguide.us"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -105,7 +105,6 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            // signingConfig signingConfigs.release
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
@@ -120,8 +119,6 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-splash-screen')
-    implementation("com.facebook.react:flipper-integration")
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.29'
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

@@ -406,7 +406,6 @@ export const updateImage = (id, image, onClose) => {
         headers: myHeaders,
       });
       const res = await response.json();
-      console.log('res', res);
       if (res.success) {
         onClose();
         Toast.show('Successfuly upload image');

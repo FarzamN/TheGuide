@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {android, iOS} from '../utils/Constants';
-import {openPicker} from 'react-native-image-crop-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Toast from 'react-native-simple-toast';
 import {Platform} from 'react-native';
@@ -10,21 +10,27 @@ const useImagePicker = () => {
 
   const galleryLaunch = async () => {
     try {
-      const item = await openPicker({
+      const options = {
         mediaType: 'photo',
-        cropping: true,
-      });
-      setImage({
-        name: item.path,
-        uri: item.path,
-        type: item.mime,
+        includeBase64: false,
+      };
+      
+      launchImageLibrary(options, response => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.errorCode) {
+          console.log('ImagePicker Error:', response.errorMessage);
+        } else if (response.assets && response.assets.length > 0) {
+          const item = response.assets[0];
+          setImage({
+            name: item.fileName,
+            uri: item.uri,
+            type: item.type,
+          });
+        }
       });
     } catch (error) {
-      if (error.code === 'E_PICKER_CANCELLED') {
-        console.log('User cancelled image picker');
-      } else {
-        console.log('ImagePicker Error:', error.message);
-      }
+      console.log('ImagePicker Error:', error.message);
     }
   };
 

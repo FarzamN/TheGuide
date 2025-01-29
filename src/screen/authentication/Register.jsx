@@ -226,7 +226,7 @@ const Register = ({navigation}) => {
               {
                 t: 'terms & conditions ',
                 isNav: true,
-                press: () => navigate('term', {type: 'terms-and-conditions'}),
+                press: () => navigate('term', {type: 'terms-and-conditions'})
               },
               {t: 'and ', isNav: false, press: null},
               {
