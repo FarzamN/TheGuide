@@ -1,28 +1,28 @@
-import {TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
 import {
+  Text,
+  Error,
+  Loader,
+  Correct,
+  WhiteBtn,
   AuthBody,
+  MainInput,
+  CountryBtn,
   BirthdayBtn,
   CustomButton,
-  MainInput,
   GenderDropDown,
-  Text,
-  WhiteBtn,
-  CountryBtn,
-  Loader,
-  Error,
-  Correct,
 } from '../../components';
+import moment from 'moment';
 import {style} from './style';
 import {useForm} from 'react-hook-form';
-import {emailPattern, required} from '../../utils/Constants';
-import {GlobalStyle} from '../../utils/GlobalStyle';
-import {RegisterInput} from '../../utils/Data';
-import {IconType} from 'react-native-dynamic-vector-icons';
-import DatePicker from 'react-native-date-picker';
-import moment from 'moment';
-import {checkApi, checkAuth, registerApi} from '../../redux/actions/AuthAction';
 import {useDispatch} from 'react-redux';
+import {RegisterInput} from '../../utils/Data';
+import DatePicker from 'react-native-date-picker';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import {TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {IconType} from 'react-native-dynamic-vector-icons';
+import {emailPattern, required} from '../../utils/Constants';
+import { checkAuth, registerApi} from '../../redux/actions/AuthAction';
 
 const Register = ({navigation}) => {
   const dispatch = useDispatch();

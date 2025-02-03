@@ -1,9 +1,9 @@
 import {useState} from 'react';
-import {android, iOS} from '../utils/Constants';
+import {android} from '../utils/Constants';
+import Toast from 'react-native-simple-toast';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import Toast from 'react-native-simple-toast';
-import {Platform} from 'react-native';
+
 const useImagePicker = () => {
   const [image, setImage] = useState(null);
   const [picker, setPicker] = useState(false);
@@ -14,7 +14,7 @@ const useImagePicker = () => {
         mediaType: 'photo',
         includeBase64: false,
       };
-      
+
       launchImageLibrary(options, response => {
         if (response.didCancel) {
           console.log('User cancelled image picker');
@@ -36,12 +36,17 @@ const useImagePicker = () => {
 
   const requestGalleryPermission = async () => {
     try {
-      const permission =
-        iOS && Platform.Version >= 14
-          ? PERMISSIONS.IOS.PHOTO_LIBRARY
-          : android
-          ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
-          : PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY;
+      /*
+const permission =
+iOS && Platform.Version >= 14
+? PERMISSIONS.IOS.PHOTO_LIBRARY
+: android
+? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+: PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY;
+*/
+      const permission = android
+        ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+        : PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY;
 
       const result = await request(permission, {
         title: 'App Gallery Permission',

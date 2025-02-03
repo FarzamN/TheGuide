@@ -46,7 +46,7 @@
 	<string>TheGuide need access to your location to show in map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>TheGuide need access to your location to show in map</string>
-	<key>NSPhotoLibraryUsageDescription</key>
+	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>TheGuide need access to your photo library to upload pictures.</string>
 	<key>UIAppFonts</key>
 	<array>

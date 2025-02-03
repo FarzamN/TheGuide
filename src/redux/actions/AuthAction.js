@@ -66,7 +66,6 @@ export const checkAuth = async (data, index, load, setError) => {
 
   const myData = new FormData();
   myData.append('email', data.email);
-  myData.append('phone', data.number);
 
   try {
     const response = await fetch(url, {
@@ -81,7 +80,7 @@ export const checkAuth = async (data, index, load, setError) => {
       if (res.errors) {
         setError({
           visible: true,
-          msg: 'Given email & phone number are taken',
+          msg: 'Given email is taken',
         });
 
         setTimeout(() => {

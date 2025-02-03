@@ -1,15 +1,15 @@
-import {useDispatch} from 'react-redux';
-import {ActivityIndicator, ScrollView, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Body, CustomButton, FullImage, Text} from '../../components';
-import {useNavigation} from '@react-navigation/native';
 import {style} from './style';
-import {useSelector} from 'react-redux';
-import {getHtml} from '../../redux/actions/AuthAction';
-import {width} from '../../utils/Constants';
-import RenderHtml from 'react-native-render-html';
+import {useDispatch} from 'react-redux';
 import {Color} from '../../utils/Color';
+import {useSelector} from 'react-redux';
+import {width} from '../../utils/Constants';
+import React, {useEffect, useState} from 'react';
+import RenderHtml from 'react-native-render-html';
 import {GlobalStyle} from '../../utils/GlobalStyle';
+import {useNavigation} from '@react-navigation/native';
+import {getHtml} from '../../redux/actions/AuthAction';
+import {ActivityIndicator, ScrollView, View} from 'react-native';
+import {Body, CustomButton, FullImage, Text} from '../../components';
 
 const Term = ({route}) => {
   const {type} = route.params;

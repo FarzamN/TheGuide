@@ -24,17 +24,19 @@ export const RegisterInput = [
     p: 'Email',
     name: 'email',
   },
+  /*
   {
     icon: 'phone',
     p: 'Phone Number',
     name: 'number',
     title: 'UK and USA Phone Number',
   },
-  // {
-  //   icon: 'pin-drop',
-  //   p: 'Address',
-  //   name: 'address',
-  // },
+  {
+    icon: 'pin-drop',
+    p: 'Address',
+    name: 'address',
+  },
+  */
   {
     icon: 'lock',
     p: 'Password',
