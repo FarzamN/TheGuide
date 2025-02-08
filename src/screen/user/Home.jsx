@@ -5,6 +5,7 @@ import {
   StreakModal,
   DashboardHeader,
   HomeAssigmentCard,
+  GuestModal,
 } from '../../components';
 import moment from 'moment';
 import {style} from './style';
@@ -29,17 +30,21 @@ import {
   complete_assigment,
   getBibleSchoolApiUpdate,
 } from '../../redux/actions/UserAction';
+import {defaultData} from '../../utils/Data';
 
 const Home = () => {
   const dispatch = useDispatch();
   const {navigate, getParent} = useNavigation();
 
+  const userDetail = useSelector(state => state.userDetails);
+  const isGuest = userDetail === 'guest'
   const [showStreak, setShowStreak] = useState(false);
   const [load, setLoad] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const data = useSelector(state => state.get_bible_school);
   const api_success = useSelector(state => state.api_success);
   const [complete, setCompleted] = useState({ids: [], isCompleted: false});
+const [showGuest,setShowGuest] = useState(false)
 
   const checkDate = async () => {
     try {
@@ -91,26 +96,31 @@ const Home = () => {
     setShowStreak(false);
     dispatch(getBibleSchoolApiUpdate());
   };
-
   useEffect(() => {
-    if (api_success == 0) {
-      dispatch(bariWaliAPI());
+    if (!isGuest) {
+      if (api_success == 0) {
+        dispatch(bariWaliAPI());
+      }
+      bassChalo();
+      dispatch(getBibleSchoolApi(setLoad));
     }
-    bassChalo();
-    dispatch(getBibleSchoolApi(setLoad));
-  }, [api_success]);
-
+  }, [api_success, isGuest]);
+  
   useEffect(() => {
-    checkDate();
-    checkComplete();
-  }, [data]);
-
+    if (!isGuest) {
+      checkDate();
+      checkComplete();
+    }
+  }, [data, isGuest]);
+  
   useEffect(() => {
-    bassChalo();
-    dispatch(prayerSupportGoal());
-    dispatch(prayer_streak());
-    dispatch(bible_streak());
-  }, []);
+    if (!isGuest) {
+      bassChalo();
+      dispatch(prayerSupportGoal());
+      dispatch(prayer_streak());
+      dispatch(bible_streak());
+    }
+  }, [isGuest]);
 
   const checkComplete = () => {
     if (!data || data.length === 0) {
@@ -150,31 +160,41 @@ const Home = () => {
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(getBibleSchoolApi(setLoad));
       getParent().setOptions({
         tabBarStyle: GlobalStyle.showBar,
       });
-    }, []),
+      if (!isGuest) {
+        dispatch(getBibleSchoolApi(setLoad));
+      }
+    }, [isGuest]),
   );
-  return (
+  const handleGameNav = (item) => {
+    if (isGuest) {
+      setShowGuest(true);
+      setTimeout(() => {
+        setShowGuest(false);
+      }, 2000);
+    } else {
+      navigate('game', { item });
+    }
+  };
+    return (
     <Body>
       <DashboardHeader />
       <FlatList
-        data={data}
         refreshing={refresh}
         onRefresh={onRefresh}
-        ListEmptyComponent={<Empty title={emp} />}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, i) => i.toString()}
+        ListEmptyComponent={<Empty title={emp} />}
         contentContainerStyle={style.listContainer}
+        data={isGuest ? defaultData : data}
         renderItem={({item}) => (
-          <HomeAssigmentCard
-            data={item}
-            onPress={() => navigate('game', {item})}
-          />
+          <HomeAssigmentCard data={item} onPress={() => handleGameNav(item)} />
         )}
       />
       <Loader visible={load} />
+      <GuestModal visible={showGuest}/>
       <StreakModal visible={showStreak} onPress={handleStreak} />
     </Body>
   );

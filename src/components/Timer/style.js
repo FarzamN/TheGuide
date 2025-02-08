@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Font} from '../../utils/Font';
+import { tab } from '../../utils/Constants';
 
 export const styles = StyleSheet.create({
   MainBox: {
@@ -13,14 +14,14 @@ export const styles = StyleSheet.create({
     marginBottom: 30,
   },
   label: {
-    fontSize: 11,
+    fontSize: tab ? 17: 11,
     color: '#446683',
     marginVertical: 5,
     fontWeight: '500',
   },
   InputCon: {
-    width: 70,
-    height: 80,
+    width: tab ?100 : 70,
+    height:tab? 110 :  80,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#A9A9A9',

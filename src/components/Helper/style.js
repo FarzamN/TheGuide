@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {width} from '../../utils/Constants';
+import {tab, width} from '../../utils/Constants';
 import {Color} from '../../utils/Color';
 
 export const style = StyleSheet.create({
@@ -11,7 +11,7 @@ export const style = StyleSheet.create({
   },
   helperText: {
     color: 'red',
-    fontSize: 14,
+    fontSize:tab ?18 : 14,
     marginTop: 7,
   },
 

@@ -53,3 +53,22 @@ export const RegisterInput = [
 
 export const start = {x: 0, y: 0};
 export const end = {x: 1, y: 0};
+
+export const defaultData = [
+  {
+    course_name: 'Bible Study',
+    game_title: 'Interact!',
+    image_app: '/image_app/1062109500.png',
+    game_status : 'INCOMPLETE'
+  },  {
+    course_name: 'Learn Bible',
+    game_title: 'Interact!',
+    image_app: '/image_app/1062109500.png',
+    game_status : 'INCOMPLETE'
+  },  {
+    course_name: 'Study of Bible',
+    game_title: 'Interact!',
+    image_app: '/image_app/1062109500.png',
+    game_status : 'INCOMPLETE'
+  },
+];

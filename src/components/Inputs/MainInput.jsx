@@ -5,6 +5,7 @@ import {useController} from 'react-hook-form';
 import React, {forwardRef, useState} from 'react';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
+import { tab } from '../../utils/Constants';
 
 const MainInput = forwardRef((props, ref) => {
   const [password, setPassword] = useState(true);
@@ -20,10 +21,10 @@ const MainInput = forwardRef((props, ref) => {
     <View>
       <View style={[styles.smallbox, props.style]}>
         <Icon
-          size={18}
           type={props.type}
           style={{width: 25}}
           name={props.icName}
+          size={tab ? 25 : 18}
           color={Color.placeholderTextColor}
         />
         <TextInput
@@ -47,7 +48,7 @@ const MainInput = forwardRef((props, ref) => {
           <TouchableOpacity onPress={() => setPassword(pre => !pre)}>
             <Icon
               type={IconType.Entypo}
-              size={18}
+              size={tab ? 25 : 18}
               color={Color.black}
               name={password ? 'eye' : 'eye-with-line'}
             />
@@ -61,11 +62,12 @@ const MainInput = forwardRef((props, ref) => {
 
 const styles = StyleSheet.create({
   InputStyles: {
-    width: '80%',
-    fontSize: 13,
+    width: tab ? "90%" : '80%',
+    fontSize: tab ? 18 : 13,
     height: '100%',
     color: Color.black,
     fontWeight: '500',
+    paddingLeft:tab ? 20 : 0
   },
   smallbox: {
     alignSelf: 'center',
@@ -74,14 +76,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     paddingHorizontal: 10,
-    height: 48,
+    height: tab ? 70 : 48,
     backgroundColor: Color.background,
-    borderRadius: 20,
+    borderRadius: tab ? 50 : 20,
   },
   Text: {
     color: Color.white,
     fontWeight: '500',
-    fontSize: 14,
+    fontSize: tab ? 18 : 14,
   },
 });
 export default MainInput;

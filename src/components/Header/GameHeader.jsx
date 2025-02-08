@@ -7,11 +7,12 @@ import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {Color} from '../../utils/Color';
 import {style as icStyle} from '../../navigation/style';
 import {Bar} from 'react-native-progress';
-import {width} from '../../utils/Constants';
+import {tab, width} from '../../utils/Constants';
 
 const GameHeader = ({title, onClose, subTitle, progress}) => {
   return (
     <ImageBackground
+    resizeMode={tab ? "repeat" : undefined}
       style={style.GameBannerImage}
       source={require('../../assets/image/game-banner.png')}>
       <View style={{height: 10}} />
@@ -24,7 +25,7 @@ const GameHeader = ({title, onClose, subTitle, progress}) => {
           onPress={onClose}
           style={[icStyle.backIcon, GlobalStyle.justify]}>
           <Icon
-            size={20}
+            size={tab ?25 : 20}
             name="close"
             color={Color.black}
             type={IconType.Ionicons}
@@ -37,7 +38,7 @@ const GameHeader = ({title, onClose, subTitle, progress}) => {
         width={width - 50}
         color="#06FF2F"
         unfilledColor={Color.background}
-        height={12}
+        height={tab ? 20 :12}
         borderRadius={20}
         borderColor="#113283"
         style={{alignSelf: 'center'}}

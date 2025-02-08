@@ -1,17 +1,18 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../../utils/Color';
 import {Font} from '../../../utils/Font';
+import { tab } from '../../../utils/Constants';
 
 export const style = StyleSheet.create({
   logoutText: {
-    fontSize: 11,
+    fontSize:tab ?15 : 11,
     color: Color.white,
     fontWeight: '600',
   },
   logout: {
     backgroundColor: Color.white,
     borderRadius: 50,
-    width: 35,
+    width: tab ? 50 : 35,
     aspectRatio: 1 / 1,
     alignSelf: 'center',
   },
@@ -19,22 +20,24 @@ export const style = StyleSheet.create({
     backgroundColor: Color.white,
     padding: 7,
     borderRadius: 50,
+    width: tab ? 50 : 35,
+
     aspectRatio: 1 / 1,
   },
   logoutImg: {
-    width: 20,
-    height: 20,
+    width:  tab ? 25 :20,
+    height: tab ? 25 :20,
   },
   Pbtn: {width: '85%', alignSelf: 'center', marginTop: 15},
   profileMainWrap: {
-    width: 130,
-    height: 130,
+    width:tab ? 200 : 130,
+    height:tab ? 200 : 130,
     marginVertical: 10,
     alignSelf: 'center',
   },
   profileImgWrap: {
-    width: 130,
-    height: 130,
+    width:tab ? 200 : 130,
+    height:tab ? 200 : 130,
     borderRadius: 100,
     overflow: 'hidden',
     alignSelf: 'center',
@@ -47,10 +50,10 @@ export const style = StyleSheet.create({
   heading: {
     color: Color.white,
     fontWeight: '600',
-    fontSize: 20,
+    fontSize: tab ?25 : 20,
   },
   editImgWrap: {
-    width: 20,
+    width: tab ? 30 : 20,
     aspectRatio: 1 / 1,
     position: 'absolute',
     right: 0,

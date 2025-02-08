@@ -4,9 +4,10 @@ import {
   WhiteBtn,
   MainInput,
   CustomButton,
+  Text,
 } from '../../components';
 import {style} from './style';
-import {View} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {useForm} from 'react-hook-form';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,6 +15,7 @@ import React, {useLayoutEffect, useState} from 'react';
 import {LoginApi} from '../../redux/actions/AuthAction';
 import {IconType} from 'react-native-dynamic-vector-icons';
 import {emailPattern, required} from '../../utils/Constants';
+import {USER_DETAILS} from '../../redux/reducer/Holder';
 
 const Login = ({navigation}) => {
   const {navigate} = navigation;
@@ -34,6 +36,8 @@ const Login = ({navigation}) => {
     }
   }, [email_pass, setValue]);
 
+  const handleGuest = () => 
+    dispatch({type: USER_DETAILS, payload: 'guest'});
   const {
     control,
     handleSubmit,
@@ -43,7 +47,7 @@ const Login = ({navigation}) => {
     mode: 'all',
     defaultValues: {
       email: savedEP.email,
-      password: savedEP.pass
+      password: savedEP.pass,
     },
   });
 
@@ -54,7 +58,9 @@ const Login = ({navigation}) => {
       Sub="Login to continue using the app"
       source={require('../../assets/image/loginBanner.png')}>
       <View style={GlobalStyle.height} />
-
+      <TouchableOpacity style={style.guestBtn} onPress={handleGuest}>
+        <Text title={'Guest'} style={style.guestText} />
+      </TouchableOpacity>
       {[
         {
           name: 'email',

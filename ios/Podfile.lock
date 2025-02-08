@@ -997,7 +997,7 @@ PODS:
     - react-native-video/Video (= 5.2.1)
   - react-native-video/Video (5.2.1):
     - React-Core
-  - react-native-webview (13.13.1):
+  - react-native-webview (13.13.2):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1719,7 +1719,7 @@ SPEC CHECKSUMS:
   react-native-simple-toast: 645b68c26e43786fc05e3d7401de2b057f139054
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: c26780b224543c62d5e1b2a7244a5cd1b50e8253
-  react-native-webview: 6bda09cc1b0685a54b6b034c40e4c7b6d7b796a3
+  react-native-webview: 8e2945726829fd58d50a87620908076e300872fe
   React-nativeconfig: ba9a2e54e2f0882cf7882698825052793ed4c851
   React-NativeModulesApple: 8d11ff8955181540585c944cf48e9e7236952697
   React-perflogger: ed4e0c65781521e0424f2e5e40b40cc7879d737e

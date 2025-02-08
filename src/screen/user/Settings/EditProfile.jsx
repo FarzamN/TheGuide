@@ -19,6 +19,7 @@ import {GlobalStyle} from '../../../utils/GlobalStyle';
 import {editProfile} from '../../../redux/actions/AuthAction';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import {tab} from '../../../utils/Constants';
 
 const EditProfile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -114,13 +115,18 @@ const EditProfile = ({navigation}) => {
   return (
     <ProfileBody>
       <ScrollView style={GlobalStyle.Padding}>
-        <View style={[GlobalStyle.between, GlobalStyle.mtop]}>
+        <View
+          style={[
+            GlobalStyle.between,
+            GlobalStyle.mtop,
+            {marginVertical: tab ? 10 : 0},
+          ]}>
           <View />
           <Text style={style.heading} title="More Information" />
           <TouchableOpacity
             onPress={goBack}
             style={[GlobalStyle.justify, style.logoutImgWrap]}>
-            <Icon name="close" type={IconType.AntDesign} color={Color.black} />
+            <Icon name="close" size={tab ?25 :18}type={IconType.AntDesign} color={Color.black} />
           </TouchableOpacity>
         </View>
 

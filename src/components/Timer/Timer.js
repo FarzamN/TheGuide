@@ -1,4 +1,4 @@
-import {TimeService} from '..';
+import {GuestModal, TimeService} from '..';
 import {styles} from './style';
 import ContBox from './contBox';
 import RenderDot from './renderDot';
@@ -12,7 +12,7 @@ import {
   TimerCreate,
   TimerUpdate,
 } from '../../redux/actions/UserAction';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useGeolocation} from '../../hooks';
 import moment from 'moment';
 import {playSound} from '../../utils/Constants';
@@ -24,18 +24,35 @@ const Timer = () => {
   const {location} = useGeolocation();
   const {navigate} = useNavigation();
 
+  const userDetail = useSelector((state) => state.userDetails);
+  const isGuest = userDetail === 'guest';
+
   const timerRef = useRef(null);
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [timerSelect, setTimerSelect] = useState(0);
   const [time, setTime] = useState({hours: '00', minutes: '00', seconds: '00'});
+  const [showGuest, setShowGuest] = useState(false);
 
   const [timerData, setAPItimerData] = useState({});
 
   const handleMap = () =>
     navigate('webview', {uri: Image_Url + 'prayer/webview/map'});
 
+  const showErr = () => {
+    setShowGuest(true);
+    setTimeout(() => {
+      setShowGuest(false);
+    }, 2000);
+  };
+  
+
+
   const handleStart = () => {
+    if (isGuest) {
+      showErr();
+      return;
+    }
     const data = {
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       lat: location.latitude,
@@ -82,6 +99,10 @@ const Timer = () => {
   };
 
   const handlePress = id => {
+    if (isGuest) {
+      showErr();
+      return;
+    }
     switch (id) {
       case 2: // Start or Stop
         if (isRunning) {
@@ -185,6 +206,8 @@ const Timer = () => {
           />
         ))}
       </View>
+      <GuestModal visible={showGuest}  />
+
     </>
   );
 };

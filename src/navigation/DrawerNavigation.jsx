@@ -5,6 +5,7 @@ import UserNavigation from './UserNavigation';
 import DrawerContainer from './DrawerContainer';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
+import { tab } from '../utils/Constants';
 // import AllMessages from './AllMessages'; // Replace these with actual components
 // import AllRead from './AllRead'; // Replace these with actual components
 // import AllTournament from './AllTournament'; // Replace these with actual components
@@ -39,7 +40,7 @@ const DrawerNavigation = () => {
                 <FullImage
                   color={focused ? Color.orange : '#787878'}
                   source={i.img}
-                  style={{width: 20, height: 20}}
+                  style={{width: tab ? 30 : 20, height:tab ? 30 : 20}}
                 />
               ),
             }}

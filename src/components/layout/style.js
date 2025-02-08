@@ -1,7 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
-import {Font} from '../../utils/Font';
-import {width} from '../../utils/Constants';
+import {fontScale, tab, width} from '../../utils/Constants';
 
 export const style = StyleSheet.create({
   logo: {
@@ -9,11 +8,11 @@ export const style = StyleSheet.create({
     width: 220,
   },
   heading: {
-    fontSize: 23,
+   fontSize: tab ? 50 : 23,
     fontWeight: '600',
   },
   text: {
-    fontSize: 14,
+    fontSize: tab ? 19 : 14,
     color: '#B7B8BC',
   },
   container: {

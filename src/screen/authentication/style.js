@@ -1,9 +1,19 @@
 import {Font} from '../../utils/Font';
 import {StyleSheet} from 'react-native';
-import {iOS, width} from '../../utils/Constants';
+import {iOS, tab, width} from '../../utils/Constants';
 import {Color} from '../../utils/Color';
 
 export const style = StyleSheet.create({
+  guestText: {color: Color.white, fontSize: tab ? 18 : 14, fontWeight: '600'},
+  guestBtn: {
+    paddingHorizontal:tab ? 18 : 25,
+    paddingVertical: tab ? 8 :10,
+    alignSelf: 'flex-end',
+    backgroundColor: 'grey',
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   forget: {
     fontSize: 16,
     marginTop: 10,
@@ -16,14 +26,14 @@ export const style = StyleSheet.create({
     marginTop: 20,
   },
   already: {
-    fontSize: 14,
+    fontSize: tab ? 18 : 14,
     color: '#ABABAD',
     fontWeight: '400',
     textDecorationLine: 'underline',
   },
   loginImage: {
     width: '100%',
-    height: iOS ? 250 : 180,
+    height: tab ? 400 : iOS ? 250 : 180,
   },
   term: {
     color: Color.status,
@@ -44,7 +54,8 @@ export const style = StyleSheet.create({
   },
   regsterImage: {
     width: '100%',
-    height: 185,
+    // height: 185,
+    height: tab ? 370 : 185,
     marginBottom: -30,
     resizeMode: 'contain',
   },
@@ -53,34 +64,3 @@ export const style = StyleSheet.create({
     marginTop: 15,
   },
 });
-
-const DeliveryCheck = name => {
-  if (name === 'sameday') {
-    setSelectedDeliveryOption(prev => {
-      if (prev === name) {
-        setCheck({sameday: false, nextday: false, priority: false});
-        return null;
-      }
-      setCheck({sameday: true, nextday: false, priority: false});
-      return name;
-    });
-  } else if (name === 'nextday') {
-    setSelectedDeliveryOption(prev => {
-      if (prev === name) {
-        setCheck({sameday: false, nextday: false, priority: false});
-        return null;
-      }
-      setCheck({sameday: false, nextday: true, priority: false});
-      return name;
-    });
-  } else if (name === 'priority') {
-    setSelectedDeliveryOption(prev => {
-      if (prev === name) {
-        setCheck({sameday: false, nextday: false, priority: false});
-        return null;
-      }
-      setCheck({sameday: false, nextday: false, priority: true});
-      return name;
-    });
-  }
-};

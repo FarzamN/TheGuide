@@ -37,8 +37,11 @@ import TimeService from '../screen/user/Prayer/prayComp/TimeService';
 import DownloadProgress from './Modal/downloadProgress';
 import DonateModal from './Modal/DonateModal';
 import AboutStreak from './Modal/AboutStreak';
-
+import GuestModal from './Modal/GuestModal.jsx';
+import GuestScreen from './Helper/GuestScreen.jsx';
 export {
+  GuestScreen,
+  GuestModal,
   AboutStreak,
   DonateModal,
   DownloadProgress,

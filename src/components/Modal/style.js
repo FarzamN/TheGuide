@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
 import {Font} from '../../utils/Font';
-import {width} from '../../utils/Constants';
+import {tab, width} from '../../utils/Constants';
 
 export default StyleSheet.create({
   MainModal: {
@@ -33,6 +33,12 @@ export default StyleSheet.create({
     width: 120,
     alignSelf: 'center',
   },
+  goToLogin:{
+    height:tab ? 60 : 45,
+    alignSelf:'center',
+    width: "55%",
+    marginVertical:20
+  },
   ModalText: {
     padding: 20,
     fontSize: 16,
@@ -49,12 +55,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 30,
     paddingHorizontal: 30,
-    width: '90%',
+    width:tab ?'70%' : '90%',
     alignSelf: 'center',
   },
   LogoutText: {
     color: '#777777',
-    fontSize: 18,
+    fontSize: tab ? 22 : 18,
     fontWeight: '600',
     textAlign: 'center',
     marginBottom: 10,
@@ -88,9 +94,8 @@ export default StyleSheet.create({
 
   NorCont: {
     backgroundColor: 'rgba(0,0,0,0.4)',
-    // backgroundColor: Color.white,
-    width: width - 30,
-    height: 200,
+    width:tab ? width - 100 :  width - 30,
+    height:tab ? 250 : 200,
     borderRadius: 10,
     alignSelf: 'center',
     position: 'absolute',

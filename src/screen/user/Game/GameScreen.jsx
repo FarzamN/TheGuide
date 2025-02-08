@@ -218,7 +218,7 @@ const GameScreen = ({route}) => {
       ))} */}
 
       <View>
-        {isBuffering && <NorLoad />}
+        {!isBuffering && <NorLoad />}
         {fileUrl && (
           <Video
             ref={videoRef}

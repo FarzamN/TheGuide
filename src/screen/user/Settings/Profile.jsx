@@ -7,6 +7,8 @@ import {
   LogoutModal,
   ImagePickerModal,
   ModalBtn,
+  GuestModal,
+  GuestScreen,
 } from '../../../components';
 import {style} from './style';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -23,6 +25,7 @@ import {ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {useImagePicker} from '../../../hooks';
 import moment from 'moment';
+import {tab} from '../../../utils/Constants';
 
 const Profile = ({navigation}) => {
   const {navigate, goBack} = navigation;
@@ -30,7 +33,7 @@ const Profile = ({navigation}) => {
   const {image, onClose, picker, setPicker, requestGalleryPermission} =
     useImagePicker();
   const userDetail = useSelector(state => state.userDetails);
-
+  const isGuest = userDetail === 'guest';
   const [showLogout, setShowLogout] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [load, setLoad] = useState(false);
@@ -51,60 +54,89 @@ const Profile = ({navigation}) => {
 
   return (
     <ProfileBody>
-      <ScrollView style={GlobalStyle.Padding}>
-        <View style={[GlobalStyle.between, GlobalStyle.mtop]}>
-          <TouchableOpacity onPress={() => setShowLogout(true)}>
-            <FullImage
-              style={[GlobalStyle.justify, style.logout]}
-              ImageStyle={style.logoutImg}
-              source={require('../../../assets/image/logput.png')}
-            />
-            <Text title="Logout" style={style.logoutText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={goBack}
-            style={[GlobalStyle.justify, style.logoutImgWrap]}>
-            <Icon name="close" type={IconType.AntDesign} color={Color.black} />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <View style={style.profileMainWrap}>
+      {isGuest ? (
+        <View style={GlobalStyle.Padding}>
+          <View style={[GlobalStyle.between, GlobalStyle.mtop]}>
+            <View />
             <TouchableOpacity
-              style={style.editImgWrap}
-              onPress={() => setPicker(true)}>
-              <FullImage source={require('../../../assets/image/pencil.png')} />
+              onPress={goBack}
+              style={[GlobalStyle.justify, style.logoutImgWrap]}>
+              <Icon
+                name="close"
+                size={tab ? 25 : 18}
+                type={IconType.AntDesign}
+                color={Color.black}
+              />
             </TouchableOpacity>
-            <FullImage
-              style={style.profileImgWrap}
-              ImageStyle={style.profileImg}
-              source={{uri: userDetail.profile_image}}
+          </View>
+          <GuestScreen mtop={"20%"}/>
+        </View>
+      ) : (
+        <ScrollView style={GlobalStyle.Padding}>
+          <View style={[GlobalStyle.between, GlobalStyle.mtop]}>
+            <TouchableOpacity onPress={() => setShowLogout(true)}>
+              <FullImage
+                style={[GlobalStyle.justify, style.logout]}
+                ImageStyle={style.logoutImg}
+                source={require('../../../assets/image/logput.png')}
+              />
+              <Text title="Logout" style={style.logoutText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={goBack}
+              style={[GlobalStyle.justify, style.logoutImgWrap]}>
+              <Icon
+                name="close"
+                size={tab ? 25 : 18}
+                type={IconType.AntDesign}
+                color={Color.black}
+              />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <View style={style.profileMainWrap}>
+              <TouchableOpacity
+                style={style.editImgWrap}
+                onPress={() => setPicker(true)}>
+                <FullImage
+                  source={require('../../../assets/image/pencil.png')}
+                />
+              </TouchableOpacity>
+              <FullImage
+                style={style.profileImgWrap}
+                ImageStyle={style.profileImg}
+                source={{uri: userDetail.profile_image}}
+              />
+            </View>
+            <ProfileBtn title={userDetail.name} />
+            <ProfileBtn title={userDetail.email} />
+            <View style={GlobalStyle.between}>
+              <ProfileBtn small title={'Age: ' + userDetail.age} />
+              <ProfileBtn small title={userDetail.user_city} />
+            </View>
+            <View style={GlobalStyle.between}>
+              <ProfileBtn small title={userDetail.user_country} />
+              <ProfileBtn small title={userDetail.user_state} />
+            </View>
+            <ProfileBtn title={userDetail.phone_number} />
+
+            <CustomButton
+              onPress={() => navigate('editProfile')}
+              style={style.Pbtn}
+              title={'More information'}
+            />
+            <ModalBtn
+              onPress={() => setShowDelete(true)}
+              style={[
+                style.Pbtn,
+                {borderColor: 'red', backgroundColor: 'white'},
+              ]}
+              textStyle={{color: 'red'}}
+              title={load ? 'Loading...' : 'Delete Account'}
             />
           </View>
-          <ProfileBtn title={userDetail.name} />
-          <ProfileBtn title={userDetail.email} />
-          <View style={GlobalStyle.between}>
-            <ProfileBtn small title={'Age: ' + userDetail.age} />
-            <ProfileBtn small title={userDetail.user_city} />
-          </View>
-          <View style={GlobalStyle.between}>
-            <ProfileBtn small title={userDetail.user_country} />
-            <ProfileBtn small title={userDetail.user_state} />
-          </View>
-          <ProfileBtn title={userDetail.phone_number} />
-
-          <CustomButton
-            onPress={() => navigate('editProfile')}
-            style={style.Pbtn}
-            title={'More information'}
-          />
-          <ModalBtn
-            onPress={() => setShowDelete(true)}
-            style={[style.Pbtn, {backgroundColor: 'red'}]}
-            textStyle={{color: 'white'}}
-            title={load ? 'Loading...' : 'Delete Account'}
-          />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
       <LogoutModal
         visible={showLogout}
         onClose={() => setShowLogout(false)}

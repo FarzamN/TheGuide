@@ -8,7 +8,7 @@ import {
 
 import moment from 'moment';
 import {style} from '../style';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import TimeBar from './prayComp/timeBar';
 import {ScrollView, View} from 'react-native';
 import Toast from 'react-native-simple-toast';
@@ -28,6 +28,9 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 const PrayerScreen = () => {
   const dispatch = useDispatch();
   const {navigate, getParent} = useNavigation();
+  
+  const userDetail = useSelector(state => state.userDetails);
+  const isGuest = userDetail === 'guest'
 
   const [remainingTime, setRemainingTime] = useState(null);
   const [savedTime, setSavedTime] = useState('20:00'); // Default time

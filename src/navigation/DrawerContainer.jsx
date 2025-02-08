@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/drawer';
 import {Color} from '../utils/Color';
 import Share from 'react-native-share';
-import {iOS} from '../utils/Constants';
+import {iOS, tab} from '../utils/Constants';
 import {useSelector} from 'react-redux';
 import {GlobalStyle} from '../utils/GlobalStyle';
 import {Text, FullImage, Body} from '../components';
@@ -15,7 +15,7 @@ import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 const DrawerContainer = props => {
   const ud = useSelector(state => state.userDetails);
-
+  const isGuest = ud === 'guest';
   const handleShare = async () => {
     try {
       const options = {
@@ -37,16 +37,20 @@ const DrawerContainer = props => {
           name="chevron-left"
           type={IconType.Entypo}
           color={Color.black}
-          size={20}
+          size={tab ? 30 : 20}
         />
       </TouchableOpacity>
       <View style={GlobalStyle.justify}>
         <Image
           resizeMode="cover"
           style={style.AvatarBox}
-          source={{uri: ud.profile_image}}
+          source={
+            isGuest
+              ? require('../assets/image/default.jpg')
+              : {uri: ud.profile_image}
+          }
         />
-        <Text style={style.Title} title={ud.name} />
+        <Text style={style.Title} title={isGuest ? 'Guest' : ud.name} />
       </View>
 
       <DrawerContentScrollView {...props}>
@@ -68,7 +72,7 @@ const DrawerContainer = props => {
         ].map(item => (
           <TouchableOpacity key={item.icon} onPress={item.onPress}>
             <Icon
-              size={25}
+              size={tab ? 30 : 25}
               key={item.icon}
               name={item.icon}
               type={item.type}

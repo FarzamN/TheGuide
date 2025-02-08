@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {Font} from '../../utils/Font';
 import {Color} from '../../utils/Color';
+import {tab} from '../../utils/Constants';
 
 const {white, black} = Color;
 export const styles = StyleSheet.create({
@@ -9,12 +10,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ImageBox: {
-    width: 200,
-    height: 200,
+    width: tab ? 230 : 200,
+    height: tab ? 230 : 200,
     marginVertical: 10,
   },
   text: {
-    fontSize: 18,
+    fontSize: tab ? 25 : 18,
     color: black,
     fontWeight: '500',
   },
@@ -27,8 +28,12 @@ export const styles = StyleSheet.create({
 
   HomeCardCont: {
     marginBottom: 10,
-    borderRadius: 20,
+    borderRadius: tab ? 30 : 20,
     backgroundColor: black,
+    height: tab ? 135 : 100,
+    width: tab? '85%' :'100%' ,
+    alignSelf:'center',
+
   },
   HomeTextCont: {flexDirection: 'row', alignItems: 'flex-start'},
   // ---------------------
@@ -37,8 +42,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   AssigmentCard: {
-    borderRadius: 20,
+    borderRadius: tab ? 30 : 20,
     overflow: 'hidden',
+    height: tab ? 135 : 100,
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 10,
@@ -54,12 +60,12 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   AssigmentTitle: {
-    fontSize: 20,
+    fontSize: tab ? 30 : 20,
     fontWeight: '700',
     color: white,
   },
   AssigmentSubtitle: {
-    fontSize: 13,
+    fontSize: tab ? 20 : 13,
     color: white,
     marginBottom: 5,
     fontWeight: '600',
@@ -68,13 +74,13 @@ export const styles = StyleSheet.create({
   AssigmentPlayButton: {
     backgroundColor: white,
     paddingHorizontal: 15,
-    paddingVertical: 7,
-    borderRadius: 20,
-    width: 90,
+    paddingVertical: tab ? 15 : 7,
+    borderRadius: tab ? 50 : 20,
+    width: tab ? 120 : 90,
     marginBottom: 8,
   },
   AssigmentPlayText: {
-    fontSize: 13,
+    fontSize: tab ? 17 : 13,
     color: '#000',
     fontWeight: 'bold',
   },
@@ -130,20 +136,22 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 10,
     borderRadius: 10,
-    height: 150,
+    width:tab ?'85%' : "100%",
+    alignSelf:'center',
+    height: tab ? 250 : 150,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: Color.grey,
     justifyContent: 'space-between',
   },
   dateBanner: {
-    width: 30,
-    height: 50,
+    width: tab ? 50 : 30,
+    height:tab ? 70 :  50,
     marginRight: 5,
   },
   dateText: {
     color: white,
-    fontSize: 10,
+    fontSize: tab ? 15 : 10,
     fontWeight: '700',
   },
   iconBackground: {
@@ -153,14 +161,14 @@ export const styles = StyleSheet.create({
     backgroundColor: '#201B1E',
   },
   EventName: {
-    fontSize: 17,
+    fontSize: tab ? 25 : 17,
     color: '#FFAB00',
     fontWeight: '700',
     backgroundColor: 'rgba(128, 128, 128, 0.7)',
     borderRadius: 10,
   },
   EventTitle: {
-    fontSize: 11,
+    fontSize: tab ? 17 : 11,
     backgroundColor: 'rgba(128, 128, 128, 0.7)',
     borderRadius: 10,
 
@@ -170,11 +178,14 @@ export const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   endText: {
-    fontSize: 9,
+    fontSize: tab ? 15 : 9,
     color: white,
     fontWeight: '500',
+    
     width: '70%',
+    backgroundColor: 'rgba(128, 128, 128, 0.7)',
+
   },
-  bookBtn: {width: '30%', height: 25},
-  bookText: {fontSize: 12, fontFamily: Font.font500},
+  bookBtn: {width: '30%', height: tab ? 40 : 25},
+  bookText: {fontSize: tab ? 18 : 12, fontWeight: '500'},
 });

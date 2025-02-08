@@ -21,8 +21,8 @@ import {GlobalStyle} from '../../utils/GlobalStyle';
 import {TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {IconType} from 'react-native-dynamic-vector-icons';
-import {emailPattern, required} from '../../utils/Constants';
-import { checkAuth, registerApi} from '../../redux/actions/AuthAction';
+import {emailPattern, required, tab} from '../../utils/Constants';
+import {checkAuth, registerApi} from '../../redux/actions/AuthAction';
 
 const Register = ({navigation}) => {
   const dispatch = useDispatch();
@@ -62,16 +62,17 @@ const Register = ({navigation}) => {
         setError({visible: false, msg: ''});
       }, 2000);
     };
+    /*
+if (gender === '') {
+  handleError('Please select gender');
+  return;
+}
 
-    // if (gender === '') {
-    //   handleError('Please select gender');
-    //   return;
-    // }
-
-    if (bday.day === null || bday.month === null || bday.year === null) {
-      handleError('Please select birthday');
-      return;
-    }
+if (bday.day === null || bday.month === null || bday.year === null) {
+  handleError('Please select birthday');
+  return;
+}
+*/
 
     if (Country.name === null) {
       handleError('Please select country');
@@ -226,7 +227,7 @@ const Register = ({navigation}) => {
               {
                 t: 'terms & conditions ',
                 isNav: true,
-                press: () => navigate('term', {type: 'terms-and-conditions'})
+                press: () => navigate('term', {type: 'terms-and-conditions'}),
               },
               {t: 'and ', isNav: false, press: null},
               {
@@ -236,7 +237,7 @@ const Register = ({navigation}) => {
               },
             ].map(({t, isNav, press}, index) => (
               <TouchableOpacity onPress={press} key={index}>
-                <Text style={isNav && style.term} title={t} />
+                <Text style={[isNav && style.term,{fontSize: tab ? 18 : 14}]} title={t} />
               </TouchableOpacity>
             ))}
           </View>

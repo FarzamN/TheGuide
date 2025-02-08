@@ -2,10 +2,10 @@ import moment from 'moment';
 import {styles} from './style';
 import RenderDot from './renderDot';
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useGeolocation} from '../../hooks';
 import {View, TextInput} from 'react-native';
-import {ContBox, Correct, Error, TimeService} from '..';
+import {ContBox, Correct, Error, GuestModal, TimeService} from '..';
 import {useNavigation} from '@react-navigation/native';
 
 import {
@@ -20,11 +20,21 @@ const Number = () => {
   const {navigate} = useNavigation();
   const {location} = useGeolocation();
 
+  const userDetail = useSelector((state) => state.userDetails);
+  const isGuest = userDetail === 'guest';
+
   const [add, setAdd] = useState(false);
   const [timerSelect, setTimerSelect] = useState(false);
   const [err, setErr] = useState({show: false, msg: ''});
   const [time, setTime] = useState({hours: '', minutes: '', seconds: ''});
-
+  
+  const [showGuest, setShowGuest] = useState(false);
+  const showErr = () => {
+    setShowGuest(true);
+    setTimeout(() => {
+      setShowGuest(false);
+    }, 2000);
+  };
   const handleMap = () =>
     navigate('webview', {uri: Image_Url + 'prayer/webview/map'});
 
@@ -40,6 +50,7 @@ const Number = () => {
   */
 
   const handleNumber = async () => {
+   
     const data = {
       id: null,
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -112,6 +123,10 @@ const validateInput = () => {
   );
 
   const handleBTN = () => {
+    if (isGuest) {
+      showErr();
+      return;
+    }
     handleSave();
     setTimerSelect(pre => !pre);
   };
@@ -135,6 +150,8 @@ const validateInput = () => {
           />
         ))}
       </View>
+      <GuestModal visible={showGuest}  />
+
       <Correct visible={add} text={'Pray Added'} />
       <Error message={err.msg} visible={err.show} />
     </>

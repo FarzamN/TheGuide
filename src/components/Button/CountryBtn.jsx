@@ -5,6 +5,7 @@ import {Color} from '../../utils/Color';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {TouchableOpacity, View} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import { tab } from '../../utils/Constants';
 
 const CountryBtn = ({title, name, onPress}) => {
   return (
@@ -13,7 +14,7 @@ const CountryBtn = ({title, name, onPress}) => {
       style={[styles.CountryContainer, GlobalStyle.between]}>
       <View style={GlobalStyle.row}>
         <Icon
-          size={20}
+          size={tab ?30 :20}
           name={name}
           type={IconType.MaterialIcons}
           color={Color.placeholderTextColor}
@@ -21,7 +22,8 @@ const CountryBtn = ({title, name, onPress}) => {
         <Text style={styles.CountryText} title={title} />
       </View>
       <Icon
-        size={20}
+          size={tab ?30 :20}
+
         type={IconType.Entypo}
         name="chevron-small-down"
         color={Color.placeholderTextColor}

@@ -31,7 +31,7 @@ const TimeBar = ({onMap, onTime, onVideo, onCalender, time}) => {
             key={ix}
             onPress={press}
             style={[style.iconBox, GlobalStyle.shadow]}>
-            <FullImage style={{width: 18, height: 18}} source={icon} />
+            <FullImage style={style.timeIcon} source={icon} />
           </TouchableOpacity>
         ))}
       </View>

@@ -1,7 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
-import {Font} from '../../utils/Font';
-import {width} from '../../utils/Constants';
+import {tab, width} from '../../utils/Constants';
 
 export default StyleSheet.create({
   container: {
@@ -17,19 +16,20 @@ export default StyleSheet.create({
     width: 70,
     height: 60,
   },
+  dashboardHeadImage: {width: tab ? 25: 17, height: tab ? 25: 17},
   logout: {
     fontSize: 17,
     color: '#8FBFFE',
     fontWeight: '700',
   },
   title: {
-    fontSize: 14,
+    fontSize: tab ?20 : 14,
     color: 'red',
     fontWeight: '700',
   },
   BannerImage: {
     width: width,
-    height: 230,
+    height:tab ? 300 : 230,
     marginBottom: -30,
   },
   ProfileImage: {
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   ProfileTitle: {
-    fontSize: 18,
+    fontSize: tab ?25 : 18,
     color: Color.white,
     fontWeight: '600',
   },
@@ -58,19 +58,19 @@ export default StyleSheet.create({
 
   // ------------------------------------------------
   box: {
-    width: '43%',
+    width: tab ? "40%" : '43%',
     borderRadius: 10,
-    paddingVertical: 5,
     flexDirection: 'row',
     backgroundColor: Color.white,
+    paddingVertical: tab ? 15 :5,
   },
   data: {
-    fontSize: 13,
+    fontSize: tab ?17 : 13,
     marginTop: 5,
     fontWeight: '700',
   },
   subText: {
-    fontSize: 14,
+    fontSize: tab ? 18 : 14,
     marginTop: 5,
     color: '#666',
     fontWeight: '600',
@@ -88,23 +88,25 @@ export default StyleSheet.create({
   // -------------------------------
   GameBannerImage: {
     width,
-    height: 200,
+    height: tab ?250 : 200,
     marginBottom: -50,
   },
   GameTitle: {
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize:tab ? 30 : 20,
+    marginBottom:tab ? 20 : 10,
     color: Color.white,
     fontWeight: '700',
   },
   GameSubTitle: {
-    fontSize: 16,
+    fontSize:tab ?22 : 16,
     color: Color.white,
     fontWeight: '500',
   },
   prayLevel: {
     width: '70%',
-    fontSize: 20,
+    fontSize:tab ?30 : 20,
+
+
     fontWeight: '600',
   },
 });

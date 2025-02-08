@@ -23,8 +23,8 @@ const HomeAssigmentCard = ({data, onPress}) => {
         <View style={styles.HomeTextCont}>
           {disabled && (
             <Image
-              style={styles.AssigmentImg}
-              resizeMode="contain"
+            resizeMode="contain"
+            style={styles.AssigmentImg}
               source={require('../../assets/image/okicon.png')}
             />
           )}

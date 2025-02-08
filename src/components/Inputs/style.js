@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
-import {width} from '../../utils/Constants';
+import {tab, width} from '../../utils/Constants';
 import {Font} from '../../utils/Font';
 
 export default StyleSheet.create({
@@ -28,19 +28,19 @@ export default StyleSheet.create({
   },
 
   SearchInput: {
-    fontSize: 14,
-    width: '83%',
+    fontSize: tab ?18 :14,
+    width: tab ? "90%" : '83%',
     color: Color.black,
     marginHorizontal: 5,
     fontWeight: '400',
   },
   SearchBox: {
-    borderRadius: 20,
+    borderRadius: tab ? 50 : 20,
     borderWidth: 1,
     backgroundColor: Color.background,
     borderColor: Color.placeholderTextColor,
     marginTop: 15,
     paddingHorizontal: 15,
-    height: 45,
+    height: tab ? 70 : 45,
   },
 });

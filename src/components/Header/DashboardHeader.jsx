@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
+import { tab } from '../../utils/Constants';
 
 const DashboardHeader = ({onPray}) => {
   const dispatched = useDispatch();
@@ -30,7 +31,7 @@ const DashboardHeader = ({onPray}) => {
       <View style={[GlobalStyle.between, style.HeadRow]}>
         <TouchableOpacity onPress={openDrawer}>
           <Image
-            style={{width: 17, height: 17}}
+            style={style.dashboardHeadImage}
             resizeMode="contain"
             source={require('../../assets/image/menu.png')}
           />
@@ -41,7 +42,7 @@ const DashboardHeader = ({onPray}) => {
           <TouchableOpacity onPress={notiHandler}>
             <Image
               resizeMode="contain"
-              style={{width: 17, height: 17}}
+            style={style.dashboardHeadImage}
               source={require('../../assets/image/notifaction.png')}
             />
           </TouchableOpacity>
@@ -74,7 +75,7 @@ const DashboardHeader = ({onPray}) => {
               <View style={[GlobalStyle.justify, {width: '45%'}]}>
                 {isComplete ? (
                   <Icon
-                    size={30}
+                    size={tab ? 40 :30}
                     color="#22CA5D"
                     type={IconType.Ionicons}
                     name="checkmark-done-circle-outline"

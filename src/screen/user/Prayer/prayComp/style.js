@@ -1,10 +1,12 @@
 import {StyleSheet} from 'react-native';
 import {Font} from '../../../../utils/Font';
 import {Color} from '../../../../utils/Color';
+import { tab } from '../../../../utils/Constants';
 
 export const style = StyleSheet.create({
   barCont: {
-    padding: 10,
+    paddingHorizontal:  10,
+    paddingVertical: tab ? 20: 10 ,
     width: '90%',
     marginTop: 10,
     alignSelf: 'center',
@@ -13,9 +15,9 @@ export const style = StyleSheet.create({
     backgroundColor: '#EEEEEE',
   },
   time: {
-    fontSize: 15,
     color: '#F52326',
     fontWeight: '600',
+    fontSize: tab ? 20 : 15,
   },
   iconBox: {
     padding: 5,
@@ -25,20 +27,21 @@ export const style = StyleSheet.create({
     borderColor: Color.lightgrey,
     backgroundColor: Color.white,
   },
+  timeIcon: {width: tab ? 25 : 18, height:tab ? 25 : 18},
   switchCont: {
-    height: 30,
-    width: 90,
-    borderRadius: 10,
+    height: tab ? 40 : 30,
+    width: tab ? 120: 90,
+    borderRadius:tab ? 15 : 10,
     alignSelf: 'center',
   },
   switchText: {
-    fontSize: 11,
     fontWeight: '500',
+    fontSize: tab  ? 15: 11,
     textTransform: 'capitalize',
   },
   TimeCont: {
-    height: 35,
-    width: 87,
+    height: tab ?45: 35,
+    width:tab ? 120: 87,
     borderWidth: 1,
     borderRadius: 10,
     margin: 10,
