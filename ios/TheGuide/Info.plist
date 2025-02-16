@@ -46,8 +46,10 @@
 	<string>TheGuide need access to your location to show in map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>TheGuide need access to your location to show in map</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo permission will may used to upload profile photo.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Photo permission will may used to upload photo.</string>
+	<string>Photo permission will may used to upload profile photo.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

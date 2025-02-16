@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {android} from '../utils/Constants';
 import Toast from 'react-native-simple-toast';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import {request, check, PERMISSIONS, RESULTS, openSettings} from 'react-native-permissions';
 
 const useImagePicker = () => {
   const [image, setImage] = useState(null);
@@ -36,34 +36,27 @@ const useImagePicker = () => {
 
   const requestGalleryPermission = async () => {
     try {
-      /*
-const permission =
-iOS && Platform.Version >= 14
-? PERMISSIONS.IOS.PHOTO_LIBRARY
-: android
-? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
-: PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY;
-*/
       const permission = android
         ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
         : PERMISSIONS.IOS.PHOTO_LIBRARY_ADD_ONLY;
 
-      const result = await request(permission, {
-        title: 'App Gallery Permission',
-        message: 'The Guide needs access to your gallery',
-        buttonNeutral: 'Ask Me Later',
-        buttonNegative: 'Cancel',
-        buttonPositive: 'OK',
-      });
+      const status = await check(permission);
 
-      if (result === RESULTS.GRANTED) {
-        console.log('You can access the gallery');
+      if (status === RESULTS.GRANTED) {
         galleryLaunch();
-      } else {
-        Toast.show('Gallery permission denied');
+      } else if (status === RESULTS.DENIED) {
+        const result = await request(permission);
+        if (result === RESULTS.GRANTED) {
+          galleryLaunch();
+        } else {
+          Toast.show('Gallery permission denied');
+        }
+      } else if (status === RESULTS.BLOCKED) {
+        Toast.show('Gallery permission blocked. Enable it in settings.');
+        openSettings();
       }
     } catch (err) {
-      console.warn(err, 'catch error gallery picker');
+      console.warn(err, 'Error requesting gallery permission');
     }
   };
 

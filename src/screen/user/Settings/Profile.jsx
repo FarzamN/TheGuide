@@ -24,7 +24,6 @@ import {
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {useImagePicker} from '../../../hooks';
-import moment from 'moment';
 import {tab} from '../../../utils/Constants';
 
 const Profile = ({navigation}) => {
