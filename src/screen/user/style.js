@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
-import { iOS, tab } from '../../utils/Constants';
+import {iOS, tab} from '../../utils/Constants';
 
 export const style = StyleSheet.create({
   listContainer: {
@@ -60,8 +60,8 @@ export const style = StyleSheet.create({
   // ------- Switch styles
   SwitchCont: {
     paddingHorizontal: tab ? 8 : 2,
-    paddingVertical: tab ? 8 : 2
-,    width: '90%',
+    paddingVertical: tab ? 8 : 2,
+    width: '90%',
     marginTop: 15,
     borderWidth: 1,
     borderRadius: 10,
@@ -90,7 +90,7 @@ export const style = StyleSheet.create({
     position: 'absolute',
     borderRadius: 100,
     right: 10,
-    top: iOS ? 80 : 10,
+    top: iOS ? 40 : 10,
     backgroundColor: 'black',
     borderRadius: 100,
     width: 30,
