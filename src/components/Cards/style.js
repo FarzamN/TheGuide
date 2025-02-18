@@ -31,9 +31,8 @@ export const styles = StyleSheet.create({
     borderRadius: tab ? 30 : 20,
     backgroundColor: black,
     height: tab ? 135 : 100,
-    width: tab? '85%' :'100%' ,
-    alignSelf:'center',
-
+    width: tab ? '85%' : '100%',
+    alignSelf: 'center',
   },
   HomeTextCont: {flexDirection: 'row', alignItems: 'flex-start'},
   // ---------------------
@@ -133,20 +132,26 @@ export const styles = StyleSheet.create({
 
   // ---------- event card
   EventCardContainer: {
-    marginBottom: 10,
-    paddingBottom: 10,
-    borderRadius: 10,
-    width:tab ?'85%' : "100%",
-    alignSelf:'center',
+    width: tab ? '85%' : '100%',
+    alignSelf: 'center',
     height: tab ? 250 : 150,
+    marginBottom: 10,
+    borderRadius: 10,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: Color.grey,
+  },
+  EventCardImage: {
+    flex: 1,
+
+    paddingBottom: 10,
+
     justifyContent: 'space-between',
   },
+
   dateBanner: {
     width: tab ? 50 : 30,
-    height:tab ? 70 :  50,
+    height: tab ? 70 : 50,
     marginRight: 5,
   },
   dateText: {
@@ -181,10 +186,9 @@ export const styles = StyleSheet.create({
     fontSize: tab ? 15 : 9,
     color: white,
     fontWeight: '500',
-    
+
     width: '70%',
     backgroundColor: 'rgba(128, 128, 128, 0.7)',
-
   },
   bookBtn: {width: '30%', height: tab ? 40 : 25},
   bookText: {fontSize: tab ? 18 : 12, fontWeight: '500'},

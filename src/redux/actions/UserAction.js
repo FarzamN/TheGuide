@@ -115,16 +115,8 @@ export const eventApi = load => {
     load(true);
     const url = `${Base_Url}get/events`;
     const myHeaders = new Headers();
-    const token = await AsyncStorage.getItem('token');
-
-    myHeaders.append('Authorization', `Bearer ${token}`);
-
     try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow',
-      });
+      const response = await fetch(url);
       const result = await response.json();
       load(false);
       if (result.status) {

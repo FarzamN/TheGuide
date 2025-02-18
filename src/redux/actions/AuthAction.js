@@ -1,12 +1,12 @@
 import {
+  GET_HTML,
   GET_CITY,
   GET_STATE,
   EMAIL_PASS,
+  BIBLE_TIME,
   GET_COUNTRY,
   API_SUCCESS,
   USER_DETAILS,
-  GET_HTML,
-  BIBLE_TIME,
 } from '../reducer/Holder';
 import moment from 'moment';
 import {Base_Url} from '../../utils/Urls';
@@ -74,18 +74,18 @@ export const checkAuth = async (data, index, load, setError) => {
     });
     const res = await response.json();
     load(false);
-    if (res.status === true) {
+    if (res.status === "success") {
       index(2);
     } else if (res.status === 'error') {
       if (res.errors) {
-        setError({
-          visible: true,
-          msg: 'Given email is taken',
-        });
+    setError({
+      visible: true,
+      msg: 'Given email is already taken',
+    });
 
-        setTimeout(() => {
-          setError({visible: false, msg: ''});
-        }, 2000);
+    setTimeout(() => {
+      setError({visible: false, msg: ''});
+    }, 2000);
       } else {
         const errorMessages = [];
         for (const [field, messages] of Object.entries(res.errors)) {
@@ -101,7 +101,6 @@ export const checkAuth = async (data, index, load, setError) => {
         }, 2000);
       }
     }
-    console.log({res});
   } catch (error) {
     console.log('error checkAuth', error);
     // Toast.show('Server side error');
@@ -352,12 +351,14 @@ export const editProfile = (
     myData.append('last_name', data.l_name);
 
     myData.append('date_of_birth', bday.toString());
+    myData.append('country', country.id)
+    myData.append('city', city.id)
+    myData.append('state', state.id)
 
-    country.id == null && myData.append('country', country.id);
-    city.id == null && myData.append('city', city.id);
-    state.id == null && myData.append('state', state.id);
+    // country.id == null && ;
+    // city.id == null && ;
+    // state.id == null && ;
 
-    console.log(myData);
     const myHeaders = new Headers();
     const token = await AsyncStorage.getItem('token');
 
@@ -369,6 +370,7 @@ export const editProfile = (
         body: myData,
       });
       const res = await response.json();
+      console.log('edit profile api', res)
       load(false);
       if (res.success) {
         goBack();

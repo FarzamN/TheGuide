@@ -110,14 +110,14 @@ const Profile = ({navigation}) => {
             <ProfileBtn title={userDetail.name} />
             <ProfileBtn title={userDetail.email} />
             <View style={GlobalStyle.between}>
-              <ProfileBtn small title={'Age: ' + userDetail.age} />
+              <ProfileBtn small title={'Age: ' + userDetail.age } />
               <ProfileBtn small title={userDetail.user_city} />
             </View>
             <View style={GlobalStyle.between}>
               <ProfileBtn small title={userDetail.user_country} />
               <ProfileBtn small title={userDetail.user_state} />
             </View>
-            <ProfileBtn title={userDetail.phone_number} />
+            {/* <ProfileBtn title={userDetail.phone_number} /> */}
 
             <CustomButton
               onPress={() => navigate('editProfile')}

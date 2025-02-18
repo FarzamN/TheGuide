@@ -18,7 +18,7 @@ const HomeAssigmentCard = ({data, onPress}) => {
       ]}>
       <ImageBackground
         resizeMode="stretch"
-        source={{uri: Image_Url + data.image_app}}
+        source={{uri: data.image_guest ? data.image_guest : Image_Url + data.image_app}}
         style={styles.AssigmentCard}>
         <View style={styles.HomeTextCont}>
           {disabled && (

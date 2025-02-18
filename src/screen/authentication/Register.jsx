@@ -280,7 +280,7 @@ if (bday.day === null || bday.month === null || bday.year === null) {
         }}
         onCancel={() => setBday({visible: false, day: '', month: '', year: ''})}
       />
-      <Loader visible={load} />
+      {/* <Loader visible={load} /> */}
       <Error message={error.msg} visible={error.visible} />
       <Correct message={success.msg} visible={success.visible} />
     </AuthBody>

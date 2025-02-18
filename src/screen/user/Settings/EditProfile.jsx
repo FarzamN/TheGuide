@@ -96,7 +96,7 @@ const EditProfile = ({navigation}) => {
 
       df: userdetail.email,
     },
-    {
+   /* {
       icon: 'phone',
       df: userdetail.phone_number,
       p: 'Phone Number',
@@ -104,6 +104,7 @@ const EditProfile = ({navigation}) => {
       disable: true,
       title: 'UK and USA Phone Number',
     },
+    */
   ];
 
   const {

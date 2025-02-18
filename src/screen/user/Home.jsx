@@ -142,12 +142,14 @@ const [showGuest,setShowGuest] = useState(false)
   };
 
   const onRefresh = () => {
-    setRefresh(true);
-    dispatch(prayer_streak());
-    bassChalo();
-    dispatch(getBibleSchoolApi(setLoad));
-    dispatch(bible_streak());
-    setRefresh(false);
+    if (!isGuest) {
+      setRefresh(true);
+      dispatch(prayer_streak());
+      bassChalo();
+      dispatch(getBibleSchoolApi(setLoad));
+      dispatch(bible_streak());
+      setRefresh(false);
+    }
   };
 
   const emp = "You don't have any game";
