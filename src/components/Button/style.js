@@ -34,26 +34,24 @@ export const styles = StyleSheet.create({
   },
 
   BDayBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
     height: tab ? 70 : 50,
     marginTop:tab ? 13 : 5,
     borderRadius:tab ? 50: 20,
-    alignItems: 'center',
-    flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor: Color.background,
   },
   BDayTitle: {
-    fontSize: tab ? 19 : 14,
-    marginTop: 20,
-    color: Color.black,
-    paddingHorizontal: 5,
     fontWeight: '400',
+    color: Color.black,
+    fontSize: tab ? 19 : 14,
   },
   BDayText: {
-    color: Color.black,
-    fontSize: tab ? 18 :14 , 
-    marginHorizontal: 10,
     fontWeight: '400',
+    color: Color.black,
+    marginHorizontal: 10,
+    fontSize: tab ? 18 :14 , 
   },
   CountryContainer: {
     height: tab ? 80 : 50,
@@ -90,6 +88,12 @@ export const styles = StyleSheet.create({
   ModalBtnText: {
     fontSize: tab ? 18 : 16,
     fontWeight: '600',
+  },
+
+  BDayCont:{
+    marginTop: 20,
+    paddingHorizontal: 5,
+    marginBottom:5
   },
 
   // -------------- game buttons

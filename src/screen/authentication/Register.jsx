@@ -176,6 +176,7 @@ if (bday.day === null || bday.month === null || bday.year === null) {
           <View style={{height: 20}} />
           {/* <GenderDropDown onSelect={setGender} /> */}
           <BirthdayBtn
+            optional
             day={bday.day}
             month={bday.month}
             year={bday.year}
@@ -237,7 +238,10 @@ if (bday.day === null || bday.month === null || bday.year === null) {
               },
             ].map(({t, isNav, press}, index) => (
               <TouchableOpacity onPress={press} key={index}>
-                <Text style={[isNav && style.term,{fontSize: tab ? 18 : 14}]} title={t} />
+                <Text
+                  style={[isNav && style.term, {fontSize: tab ? 18 : 14}]}
+                  title={t}
+                />
               </TouchableOpacity>
             ))}
           </View>

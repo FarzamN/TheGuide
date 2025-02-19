@@ -1,17 +1,25 @@
 import {Text} from '..';
 import React from 'react';
 import {styles} from './style';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {Color} from '../../utils/Color';
+import { GlobalStyle } from '../../utils/GlobalStyle';
 
-const BirthdayBtn = ({onPress, month, day, year, white}) => {
+const BirthdayBtn = ({onPress, month, day, year, white, optional}) => {
   return (
     <>
+    <View style={[GlobalStyle.row,styles.BDayCont]}>
       <Text
         style={[styles.BDayTitle, {color: white ? Color.white : Color.black}]}
-        title="BirthDay"
+        title={'BirthDay'}
       />
-
+      {optional && (
+        <Text
+          style={[styles.BDayTitle, {color: Color.grey}]}
+          title={' (Optional)'}
+        />
+      )}
+      </View>
       <TouchableOpacity onPress={onPress} style={styles.BDayBtn}>
         <Text style={styles.BDayText} title={day || 'Day'} />
 
