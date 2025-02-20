@@ -171,7 +171,7 @@ const EditProfile = ({navigation}) => {
         {/* Country, State, City Buttons */}
         <CountryBtn
           name="flag"
-          title={Country.name || 'Country world'}
+          title={Country.name || 'Country'}
           onPress={() =>
             navigate('country', {
               val: Country.name,
