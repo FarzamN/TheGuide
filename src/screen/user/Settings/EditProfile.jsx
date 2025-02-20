@@ -6,6 +6,7 @@ import {
   BirthdayBtn,
   CustomButton,
   GenderDropDown,
+  Error,
 } from '../../../components';
 
 import moment from 'moment';
@@ -28,10 +29,14 @@ const EditProfile = ({navigation}) => {
 
   const [load, setLoad] = useState(false);
   const [gender, setGender] = useState(userdetail.gender || '');
-  const [City, setCity] = useState({name: null, id: null});
-  const [State, setState] = useState({name: null, id: null});
   const [error, setError] = useState({visible: false, msg: ''});
-  const [Country, setCountry] = useState({name: null, id: null});
+
+  const [City, setCity] = useState({name: userdetail.user_city, id: null});
+  const [State, setState] = useState({name: userdetail.user_state, id: null});
+  const [Country, setCountry] = useState({
+    name: userdetail.user_country,
+    id: null,
+  });
 
   const [date, setDate] = useState(
     new Date(moment(userdetail?.date_of_birth).format()),
@@ -58,6 +63,25 @@ const EditProfile = ({navigation}) => {
   });
 
   const onSubmit = data => {
+    const handleError = msg => {
+      setError({visible: true, msg});
+      setTimeout(() => {
+        setError({visible: false, msg: ''});
+      }, 2000);
+    };
+
+    if (Country.name === null) {
+      handleError('Please Select Country');
+      return;
+    }
+    if (State.name === null) {
+      handleError('Please Select State');
+      return;
+    }
+    if (City.name === null) {
+      handleError('Please Select City');
+      return;
+    }
     dispatch(
       editProfile(
         userdetail.user_id,
@@ -96,7 +120,7 @@ const EditProfile = ({navigation}) => {
 
       df: userdetail.email,
     },
-   /* {
+    /* {
       icon: 'phone',
       df: userdetail.phone_number,
       p: 'Phone Number',
@@ -127,7 +151,12 @@ const EditProfile = ({navigation}) => {
           <TouchableOpacity
             onPress={goBack}
             style={[GlobalStyle.justify, style.logoutImgWrap]}>
-            <Icon name="close" size={tab ?25 :18}type={IconType.AntDesign} color={Color.black} />
+            <Icon
+              name="close"
+              size={tab ? 25 : 18}
+              type={IconType.AntDesign}
+              color={Color.black}
+            />
           </TouchableOpacity>
         </View>
 
@@ -171,7 +200,7 @@ const EditProfile = ({navigation}) => {
         {/* Country, State, City Buttons */}
         <CountryBtn
           name="flag"
-          title={Country.name || 'Country world'}
+          title={Country.name || 'Country'}
           onPress={() =>
             navigate('country', {
               val: Country.name,
@@ -239,8 +268,10 @@ const EditProfile = ({navigation}) => {
           })
         }
       />
+      <Error visible={error.visible} message={error.msg} />
     </ProfileBody>
   );
 };
 
 export default EditProfile;
+
