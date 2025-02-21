@@ -6,11 +6,12 @@ import {
   BirthdayBtn,
   CustomButton,
   GenderDropDown,
+  Error,
 } from '../../../components';
 
 import moment from 'moment';
 import {style} from './style';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Color} from '../../../utils/Color';
 import DatePicker from 'react-native-date-picker';
@@ -28,27 +29,41 @@ const EditProfile = ({navigation}) => {
 
   const [load, setLoad] = useState(false);
   const [gender, setGender] = useState(userdetail.gender || '');
-  const [City, setCity] = useState({name: null, id: null});
-  const [State, setState] = useState({name: null, id: null});
   const [error, setError] = useState({visible: false, msg: ''});
-  const [Country, setCountry] = useState({name: null, id: null});
+
+  const [City, setCity] = useState({
+    name: userdetail.user_city,
+    id: userdetail.user_city_id,
+  });
+  const [State, setState] = useState({
+    name: userdetail.user_state,
+    id: userdetail.user_state_id,
+  });
+  const [Country, setCountry] = useState({
+    name: userdetail.user_country,
+    id: userdetail.user_country_id,
+  });
 
   const [date, setDate] = useState(
     new Date(moment(userdetail?.date_of_birth).format()),
   );
 
+
   const [bday, setBday] = useState(() => {
-    const dateOfBirth = moment(userdetail?.date_of_birth).format('MM-YY-DD');
+    const dateOfBirth = moment(userdetail?.date_of_birth).format(
+      'MMMM-YYYY-DD',
+    );
 
     if (dateOfBirth) {
-      const [year, month, day] = dateOfBirth.split('-');
+      const [month, year, day] = dateOfBirth.split('-');
       return {
         visible: false,
         day,
-        month: moment(userdetail?.date_of_birth).format('MMMM'),
+        month,
         year,
       };
     }
+
     return {
       visible: false,
       day: '',
@@ -58,6 +73,25 @@ const EditProfile = ({navigation}) => {
   });
 
   const onSubmit = data => {
+    const handleError = msg => {
+      setError({visible: true, msg});
+      setTimeout(() => {
+        setError({visible: false, msg: ''});
+      }, 2000);
+    };
+
+    if (Country.id === null) {
+      handleError('Please Select Country');
+      return;
+    }
+    if (State.id === null) {
+      handleError('Please Select State');
+      return;
+    }
+    if (City.id === null) {
+      handleError('Please Select City');
+      return;
+    }
     dispatch(
       editProfile(
         userdetail.user_id,
@@ -96,7 +130,7 @@ const EditProfile = ({navigation}) => {
 
       df: userdetail.email,
     },
-   /* {
+    /* {
       icon: 'phone',
       df: userdetail.phone_number,
       p: 'Phone Number',
@@ -106,6 +140,20 @@ const EditProfile = ({navigation}) => {
     },
     */
   ];
+  const [prevCountryId, setPrevCountryId] = useState(
+    userdetail.user_country_id,
+  );
+
+  useEffect(() => {
+    if (prevCountryId !== Country.id) {
+      setState({name: null, id: null});
+      setCity({name: null, id: null});
+      setPrevCountryId(Country.id);
+    }
+    if (userdetail.user_state_id !== State.id) {
+      setCity({name: null, id: null});
+    }
+  }, [Country.id, State.id]);
 
   const {
     control,
@@ -127,7 +175,12 @@ const EditProfile = ({navigation}) => {
           <TouchableOpacity
             onPress={goBack}
             style={[GlobalStyle.justify, style.logoutImgWrap]}>
-            <Icon name="close" size={tab ?25 :18}type={IconType.AntDesign} color={Color.black} />
+            <Icon
+              name="close"
+              size={tab ? 25 : 18}
+              type={IconType.AntDesign}
+              color={Color.black}
+            />
           </TouchableOpacity>
         </View>
 
@@ -239,6 +292,7 @@ const EditProfile = ({navigation}) => {
           })
         }
       />
+      <Error visible={error.visible} message={error.msg} />
     </ProfileBody>
   );
 };

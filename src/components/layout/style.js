@@ -8,7 +8,7 @@ export const style = StyleSheet.create({
     width: 220,
   },
   heading: {
-   fontSize: tab ? 50 : 23,
+    fontSize: tab ? 50 : 23,
     fontWeight: '600',
   },
   text: {
@@ -17,5 +17,13 @@ export const style = StyleSheet.create({
   },
   container: {
     backgroundColor: Color.white,
+  },
+  closeButton: {
+    backgroundColor: Color.white,
+    borderRadius: 50,
+    width: tab ? 50 : 35,
+    aspectRatio: 1 / 1,
+    position: 'absolute',
+    right: 20,
   },
 });

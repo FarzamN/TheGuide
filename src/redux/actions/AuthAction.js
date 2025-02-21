@@ -350,14 +350,11 @@ export const editProfile = (
     myData.append('first_name', data.f_name);
     myData.append('last_name', data.l_name);
 
-    myData.append('date_of_birth', bday.toString());
+    myData.append('date_of_birth', moment(bday).format('MMMM DD YYYY'));
     myData.append('country', country.id)
     myData.append('city', city.id)
     myData.append('state', state.id)
-
-    // country.id == null && ;
-    // city.id == null && ;
-    // state.id == null && ;
+console.log(myData)
 
     const myHeaders = new Headers();
     const token = await AsyncStorage.getItem('token');
@@ -370,11 +367,9 @@ export const editProfile = (
         body: myData,
       });
       const res = await response.json();
-      console.log('edit profile api', res)
       load(false);
       if (res.success) {
         goBack();
-        console.log('return data', res.user_data);
         dispatch({type: USER_DETAILS, payload: res.user_data});
         await AsyncStorage.setItem(
           'user_details',

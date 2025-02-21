@@ -37,6 +37,7 @@ const Country = ({navigation, route}) => {
 
   return (
     <AuthBody
+      close
       Sub="Select Your Country"
       heading="Welcome!"
       styles={style.regsterImage}
