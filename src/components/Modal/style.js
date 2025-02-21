@@ -138,6 +138,8 @@ export default StyleSheet.create({
     marginLeft: 80,
   },
   AboutStreakBox: {
+    alignSelf:'center',
+    width:tab ?'70%' : '90%',
     justifyContent: 'center',
     margin: 0,
     marginBottom: 100,
