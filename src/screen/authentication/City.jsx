@@ -53,6 +53,7 @@ const City = ({navigation, route}) => {
 
   return (
     <AuthBody
+    close
       heading="Welcome!"
       Sub="Select Your City"
       styles={style.regsterImage}

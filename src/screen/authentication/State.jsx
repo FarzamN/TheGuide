@@ -51,6 +51,7 @@ const State = ({navigation, route}) => {
 
   return (
     <AuthBody
+    close
       heading="Welcome!"
       Sub="Select Your State"
       styles={style.regsterImage}

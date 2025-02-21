@@ -51,6 +51,7 @@ const Profile = ({navigation}) => {
     }
   }, [image]);
 
+
   return (
     <ProfileBody>
       {isGuest ? (
