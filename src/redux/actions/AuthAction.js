@@ -354,7 +354,6 @@ export const editProfile = (
     myData.append('country', country.id)
     myData.append('city', city.id)
     myData.append('state', state.id)
-console.log(myData)
 
     const myHeaders = new Headers();
     const token = await AsyncStorage.getItem('token');

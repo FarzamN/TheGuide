@@ -43,9 +43,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>TheGuide Need Camera Permission</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Location Permission will me used to show your location in map while praying</string>
+	<string>Location permission will be used to show your location on the map while praying</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location Permission will me used to show your location in map while praying</string>
+	<string>Location permission will be used to show your location on the map while praying</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo permission will may used to upload profile photo.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
