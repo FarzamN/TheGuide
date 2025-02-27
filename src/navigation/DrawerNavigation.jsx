@@ -69,7 +69,7 @@ const DrawerNavigation = () => {
 export default DrawerNavigation;
 
 export const AllMessages = () => {
-  const {Navigator, Screen} = createDrawerNavigator();
+  const {Navigator, Screen} = createNativeStackNavigator();
   return (
     <Navigator
       initialRouteName={'inbox'}

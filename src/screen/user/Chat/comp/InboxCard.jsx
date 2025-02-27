@@ -1,13 +1,14 @@
-import {View, Text} from 'react-native';
 import React from 'react';
-import {GlobalStyle} from '../../../../utils/GlobalStyle';
-import {FullImage} from '../../../../components';
-import {style} from './style';
 import moment from 'moment';
+import {style} from './style';
+import {FullImage} from '../../../../components';
+import {GlobalStyle} from '../../../../utils/GlobalStyle';
+import {View, Text, TouchableOpacity} from 'react-native';
 
-const InboxCard = ({data, index}) => {
+const InboxCard = ({data, index, onPress}) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={[
         GlobalStyle.row,
         style.inboxCont,
@@ -28,7 +29,7 @@ const InboxCard = ({data, index}) => {
         </View>
         <Text style={style.lastMsg}>{data.lastMsg}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

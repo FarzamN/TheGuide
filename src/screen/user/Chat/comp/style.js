@@ -34,4 +34,36 @@ export const style = StyleSheet.create({
   lastMsg: {color: Color.grey, fontSize: 14, fontWeight: '500'},
   createdAt: {color: Color.grey, fontSize: 12, fontWeight: '500'},
 
+  modalStyle: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    margin: 0,
+    paddingRight: 10,
+  },
+  menuContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    width: 150,
+  },
+  menuItem: {
+    paddingVertical: 10,
+    width: '100%',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    justifyContent:'space-between'
+  },
+  menuText: {
+    fontSize: 18,
+    color: '#333',
+  },
+  chatImage:{
+    width:40,
+    height:40,
+    borderRadius:100,
+    overflow:'hidden',
+  },
+
 });
