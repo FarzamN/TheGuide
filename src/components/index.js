@@ -39,7 +39,10 @@ import DonateModal from './Modal/DonateModal';
 import AboutStreak from './Modal/AboutStreak';
 import GuestModal from './Modal/GuestModal.jsx';
 import GuestScreen from './Helper/GuestScreen.jsx';
+import SearchBar from './Helper/SearchBar.jsx';
+
 export {
+  SearchBar,
   GuestScreen,
   GuestModal,
   AboutStreak,

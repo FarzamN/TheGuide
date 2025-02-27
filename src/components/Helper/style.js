@@ -49,4 +49,19 @@ export const style = StyleSheet.create({
     fontWeight: 'bold',
     color: Color.Blue,
   },
+
+  SearchContainer: {
+marginHorizontal: 20,
+    borderBottomWidth: 1,
+    height: 55,
+    borderColor: Color.Main,
+  },
+  SearchInput: {
+    fontSize: 15,
+    color: Color.black,
+    fontWeight: "500",
+    maxWidth: '89%',
+    marginLeft:5
+  },
+
 });

@@ -6,8 +6,12 @@ import StatusScreen from '../user/Status/StatusScreen';
 import EventScreen from '../user/Event/EventScreen.jsx';
 import PrayerScreen from '../user/Prayer/PrayerScreen.jsx';
 import WebView from './WebView';
+import ChatScreen from './Chat/chatScreen.jsx';
+import Inbox from './Chat/inbox.jsx';
 
 export {
+  Inbox,
+  ChatScreen,
   WebView,
   Home,
   EditProfile,
