@@ -1,7 +1,6 @@
 import {
   Text,
   Error,
-  Loader,
   Correct,
   WhiteBtn,
   AuthBody,
@@ -9,7 +8,6 @@ import {
   CountryBtn,
   BirthdayBtn,
   CustomButton,
-  GenderDropDown,
 } from '../../components';
 import moment from 'moment';
 import {style} from './style';
@@ -23,6 +21,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {IconType} from 'react-native-dynamic-vector-icons';
 import {emailPattern, required, tab} from '../../utils/Constants';
 import {checkAuth, registerApi} from '../../redux/actions/AuthAction';
+import {styles as birthdayStyle} from '../../components/Button/style';
 
 const Register = ({navigation}) => {
   const dispatch = useDispatch();
@@ -175,12 +174,33 @@ if (bday.day === null || bday.month === null || bday.year === null) {
         <>
           <View style={{height: 20}} />
           {/* <GenderDropDown onSelect={setGender} /> */}
-          <BirthdayBtn
+          {/* <BirthdayBtn
             optional
             day={bday.day}
             month={bday.month}
             year={bday.year}
             onPress={() => setBday({visible: true})}
+          /> */}
+          <Text
+            title={'Birthyear'}
+            style={birthdayStyle.BDayTitle}
+          />
+          <MainInput
+            icName='cake'
+            name='birthyear'
+            control={control}
+            placeholder='Birthyear'
+            keyboardType="number-pad"
+            isError={errors?.birthyear}
+            type={IconType.MaterialIcons}
+            message={errors?.birthyear?.message}
+            rules={{
+              required: "Birthyear is required",
+              maxLength:  {
+                value: 4,
+                message: "use 2000 year format",
+              },
+            }}
           />
           <CountryBtn
             name="flag"
@@ -284,7 +304,6 @@ if (bday.day === null || bday.month === null || bday.year === null) {
         }}
         onCancel={() => setBday({visible: false, day: '', month: '', year: ''})}
       />
-      {/* <Loader visible={load} /> */}
       <Error message={error.msg} visible={error.visible} />
       <Correct message={success.msg} visible={success.visible} />
     </AuthBody>

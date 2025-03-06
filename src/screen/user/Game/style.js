@@ -4,23 +4,23 @@ import {Color} from '../../../utils/Color';
 
 export const style = StyleSheet.create({
   videoPlayer: {
-    width:tab ? width - 100 :  width - 30,
-    height:tab ? 250 : 200,
     borderRadius: 10,
     overflow: 'hidden',
     alignSelf: 'center',
+    height: tab ? 250 : 200,
+    width: tab ? width - 100 : width - 30,
   },
   GameTitle: {
-    fontSize: tab ?30 :22,
+    marginTop: 10,
     color: '#5D5F6B',
     fontWeight: '600',
-    marginTop: 10,
+    fontSize: tab ? 30 : 22,
   },
   GameSubText: {
     fontSize: 16,
+    marginTop: 10,
     color: Color.Sky,
     fontWeight: '500',
-    marginTop: 10,
     textAlign: 'right',
   },
   errorText: {

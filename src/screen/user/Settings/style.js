@@ -1,46 +1,48 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../../utils/Color';
-import {Font} from '../../../utils/Font';
-import { tab } from '../../../utils/Constants';
+import {tab} from '../../../utils/Constants';
 
 export const style = StyleSheet.create({
   logoutText: {
-    fontSize:tab ?15 : 11,
-    color: Color.white,
     fontWeight: '600',
+    color: Color.white,
+    fontSize: tab ? 15 : 11,
   },
   logout: {
-    backgroundColor: Color.white,
     borderRadius: 50,
-    width: tab ? 50 : 35,
     aspectRatio: 1 / 1,
     alignSelf: 'center',
+    width: tab ? 50 : 35,
+    backgroundColor: Color.white,
   },
   logoutImgWrap: {
-    backgroundColor: Color.white,
     padding: 7,
     borderRadius: 50,
-    width: tab ? 50 : 35,
-
     aspectRatio: 1 / 1,
+    width: tab ? 50 : 35,
+    backgroundColor: Color.white,
   },
   logoutImg: {
-    width:  tab ? 25 :20,
-    height: tab ? 25 :20,
+    width: tab ? 25 : 20,
+    height: tab ? 25 : 20,
   },
-  Pbtn: {width: '85%', alignSelf: 'center', marginTop: 15},
-  profileMainWrap: {
-    width:tab ? 200 : 130,
-    height:tab ? 200 : 130,
-    marginVertical: 10,
+  Pbtn: {
+    width: '85%',
+    marginTop: 15,
     alignSelf: 'center',
   },
+  profileMainWrap: {
+    marginVertical: 10,
+    alignSelf: 'center',
+    width: tab ? 200 : 130,
+    height: tab ? 200 : 130,
+  },
   profileImgWrap: {
-    width:tab ? 200 : 130,
-    height:tab ? 200 : 130,
     borderRadius: 100,
     overflow: 'hidden',
     alignSelf: 'center',
+    width: tab ? 200 : 130,
+    height: tab ? 200 : 130,
   },
   profileImg: {
     width: '100%',
@@ -48,17 +50,17 @@ export const style = StyleSheet.create({
     resizeMode: 'cover',
   },
   heading: {
-    color: Color.white,
     fontWeight: '600',
-    fontSize: tab ?25 : 20,
+    color: Color.white,
+    fontSize: tab ? 25 : 20,
   },
   editImgWrap: {
-    width: tab ? 30 : 20,
+    top: 10,
+    right: 0,
+    zIndex: 99,
     aspectRatio: 1 / 1,
     position: 'absolute',
-    right: 0,
-    top: 10,
-    zIndex: 99,
+    width: tab ? 30 : 20,
   },
   editImg: {},
 });

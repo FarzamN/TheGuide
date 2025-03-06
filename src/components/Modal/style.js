@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
-import {Font} from '../../utils/Font';
 import {tab, width} from '../../utils/Constants';
 
 export default StyleSheet.create({
@@ -28,42 +27,42 @@ export default StyleSheet.create({
     backgroundColor: Color.white,
   },
   LottieView: {
-    height: 150,
-    resizeMode: 'contain',
     width: 120,
+    height: 150,
     alignSelf: 'center',
+    resizeMode: 'contain',
   },
   goToLogin:{
-    height:tab ? 60 : 45,
-    alignSelf:'center',
     width: "55%",
-    marginVertical:20
+    marginVertical:20,
+    alignSelf:'center',
+    height:tab ? 60 : 45,
   },
   ModalText: {
     padding: 20,
     fontSize: 16,
     color: Color.Sky,
-    textAlign: 'center',
     fontWeight: '500',
+    textAlign: 'center',
   },
 
   // logout ----------------------------
 
   LogoutContainer: {
     borderRadius: 20,
-    backgroundColor: Color.white,
-    justifyContent: 'center',
     paddingVertical: 30,
+    alignSelf: 'center',
     paddingHorizontal: 30,
     width:tab ?'70%' : '90%',
-    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: Color.white,
   },
   LogoutText: {
     color: '#777777',
-    fontSize: tab ? 22 : 18,
+    marginBottom: 10,
     fontWeight: '600',
     textAlign: 'center',
-    marginBottom: 10,
+    fontSize: tab ? 22 : 18,
   },
 
   //  Winner Modal -----------------------
@@ -82,24 +81,24 @@ export default StyleSheet.create({
   },
   JobComp: {
     fontSize: 25,
-    color: Color.white,
     fontWeight: '600',
+    color: Color.white,
   },
   JobLottie: {
+    width: 200,
     height: 200,
     marginVertical: 60,
     resizeMode: 'contain',
-    width: 200,
   },
 
   NorCont: {
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    width:tab ? width - 100 :  width - 30,
-    height:tab ? 250 : 200,
+    zIndex: 9,
     borderRadius: 10,
     alignSelf: 'center',
     position: 'absolute',
-    zIndex: 9,
+    height:tab ? 250 : 200,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    width:tab ? width - 100 :  width - 30,
   },
   NorText: {
     color: Color.white,
@@ -118,40 +117,40 @@ export default StyleSheet.create({
 
   // =--------- donate modal style
   boldText: {
-    marginBottom: 8,
-    color: Color.black,
-    fontWeight: '600',
     fontSize: 15,
+    marginBottom: 8,
+    fontWeight: '600',
+    color: Color.black,
   },
   nomText: {
-    marginBottom: 8,
-    color: Color.black,
-    fontWeight: '500',
     fontSize: 15,
+    marginBottom: 8,
+    fontWeight: '500',
+    color: Color.black,
   },
   DonateBtn: {width: '75%', height: 47},
   arrowImg: {
-    alignSelf: 'center',
     width: 100,
     height: 100,
-    marginBottom: 10,
     marginLeft: 80,
+    marginBottom: 10,
+    alignSelf: 'center',
   },
   AboutStreakBox: {
+    margin: 0,
     alignSelf:'center',
+    marginBottom: 100,
     width:tab ?'70%' : '90%',
     justifyContent: 'center',
-    margin: 0,
-    marginBottom: 100,
   },
   AboutStreakCont: {
-    backgroundColor: Color.white,
+    width: '90%',
+    marginTop: 10,
     borderRadius: 10,
     paddingVertical: 20,
-    paddingHorizontal: 15,
-    width: '90%',
     alignSelf: 'center',
-    marginTop: 10,
+    paddingHorizontal: 15,
+    backgroundColor: Color.white,
   },
 
   streakImage: {height: 170, width: 170, alignSelf: 'center'}

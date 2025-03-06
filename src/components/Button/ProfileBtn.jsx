@@ -1,11 +1,8 @@
-import {View} from 'react-native';
+import {Text} from '..';
 import React from 'react';
 import {styles} from './style';
-import {Text} from '..';
-import {width} from '../../utils/Constants';
+import {View} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-
-//  small ? '48%' : '100%'
 
 const ProfileBtn = ({title, small}) => {
   return (

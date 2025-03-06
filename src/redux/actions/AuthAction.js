@@ -74,18 +74,18 @@ export const checkAuth = async (data, index, load, setError) => {
     });
     const res = await response.json();
     load(false);
-    if (res.status === "success") {
+    if (res.status === 'success') {
       index(2);
     } else if (res.status === 'error') {
       if (res.errors) {
-    setError({
-      visible: true,
-      msg: 'Given email is already taken',
-    });
+        setError({
+          visible: true,
+          msg: 'Given email is already taken',
+        });
 
-    setTimeout(() => {
-      setError({visible: false, msg: ''});
-    }, 2000);
+        setTimeout(() => {
+          setError({visible: false, msg: ''});
+        }, 2000);
       } else {
         const errorMessages = [];
         for (const [field, messages] of Object.entries(res.errors)) {
@@ -133,7 +133,8 @@ export const registerApi = (
     myData.append('password', data.password);
     myData.append('confirm_password', data.password);
     myData.append('gender', 'any');
-    myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
+    // myData.append('date_of_birth', moment(bday).format('MMMM Do YYYY'));
+    myData.append('date_of_birth', 'January 01 ' + data.birthyear);
     myData.append('city', city);
     myData.append('state', state);
     myData.append('country', country);
@@ -350,10 +351,11 @@ export const editProfile = (
     myData.append('first_name', data.f_name);
     myData.append('last_name', data.l_name);
 
-    myData.append('date_of_birth', moment(bday).format('MMMM DD YYYY'));
-    myData.append('country', country.id)
-    myData.append('city', city.id)
-    myData.append('state', state.id)
+    // myData.append('date_of_birth', moment(bday).format('MMMM DD YYYY'));
+    myData.append('date_of_birth', 'January 01 ' + data.birthyear);
+    myData.append('country', country.id);
+    myData.append('city', city.id);
+    myData.append('state', state.id);
 
     const myHeaders = new Headers();
     const token = await AsyncStorage.getItem('token');

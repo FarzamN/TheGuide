@@ -1,8 +1,8 @@
 import React from 'react';
 import {styles} from './style';
+import { tab } from '../../utils/Constants';
 import {Text, TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-import { tab } from '../../utils/Constants';
 
 const GameBtn = ({title, onPress, index}) => {
   const colors = ['#00CE64', '#FD8D34', '#0088FE', '#792DFD'];

@@ -1,11 +1,12 @@
-import {TouchableOpacity} from 'react-native';
+import {Text} from '..';
 import React from 'react';
 import {styles} from './style';
-import {Text} from '..';
 import {Color} from '../../utils/Color';
+import {TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 
-const ModalBtn = ({onPress, green, title, textStyle, style}) => {
+const ModalBtn = props => {
+  const {onPress, green, title, textStyle, style} = props;
   return (
     <TouchableOpacity
       style={[

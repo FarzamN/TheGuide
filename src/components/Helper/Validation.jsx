@@ -1,6 +1,6 @@
-import {Text} from 'react-native';
 import React from 'react';
 import {style} from './style';
+import {Text} from 'react-native';
 
 const Validation = props => {
   const {isError, message} = props;

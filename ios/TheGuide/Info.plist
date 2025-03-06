@@ -43,9 +43,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>TheGuide Need Camera Permission</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Place a dot on our public map while you are praying. </string>
+	<string>only a yellow spot will be shown near your location. No personal details will be shown.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Place a dot on our public map while you are praying. </string>
+	<string>only a yellow spot will be shown near your location. No personal details will be shown.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo permission will may used to upload profile photo.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

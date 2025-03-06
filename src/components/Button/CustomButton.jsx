@@ -1,26 +1,26 @@
 import React from 'react';
+import {styles} from './style';
+import {end, start} from '../../utils/Data';
 import {Text, TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import LinearGradient from 'react-native-linear-gradient';
-import {styles} from './style';
-import {end, start} from '../../utils/Data';
 
 const CustomButton = ({
-  onPress,
-  style,
-  textStyle,
-  title,
   load,
-  marginTop,
+  style,
+  title,
+  onPress,
   disabled,
+  marginTop,
+  textStyle,
 }) => {
   return (
     <TouchableOpacity
-      disabled={disabled}
-      onPress={onPress}
+    onPress={onPress}
+    disabled={disabled}
       style={[
-        styles.containerStyle,
         GlobalStyle.row,
+        styles.containerStyle,
         {marginTop: marginTop},
         style,
       ]}>

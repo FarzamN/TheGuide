@@ -4,7 +4,6 @@ import {styles} from './style';
 import {View} from 'react-native';
 import {Color} from '../../utils/Color';
 import {Bar} from 'react-native-progress';
-import {width} from '../../utils/Constants';
 import {end, start} from '../../utils/Data';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import LinearGradient from 'react-native-linear-gradient';

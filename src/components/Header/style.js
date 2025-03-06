@@ -4,33 +4,32 @@ import {tab, width} from '../../utils/Constants';
 
 export default StyleSheet.create({
   container: {
+    height: 50,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    height: 50,
-    backgroundColor: Color.white,
-    // borderRadius: 10,
     paddingHorizontal: 15,
+    backgroundColor: Color.white,
+    justifyContent: 'space-between',
   },
   ImageBox: {
     width: 70,
     height: 60,
   },
-  dashboardHeadImage: {width: tab ? 25: 17, height: tab ? 25: 17},
+  dashboardHeadImage: {width: tab ? 25 : 17, height: tab ? 25 : 17},
   logout: {
     fontSize: 17,
     color: '#8FBFFE',
     fontWeight: '700',
   },
   title: {
-    fontSize: tab ?20 : 14,
     color: 'red',
     fontWeight: '700',
+    fontSize: tab ? 20 : 14,
   },
   BannerImage: {
     width: width,
-    height:tab ? 300 : 230,
     marginBottom: -30,
+    height: tab ? 300 : 230,
   },
   ProfileImage: {
     width: 45,
@@ -39,9 +38,9 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   ProfileTitle: {
-    fontSize: tab ?25 : 18,
-    color: Color.white,
     fontWeight: '600',
+    color: Color.white,
+    fontSize: tab ? 25 : 18,
   },
   HeadRow: {
     marginTop: 10,
@@ -50,30 +49,30 @@ export default StyleSheet.create({
     paddingHorizontal: 14,
   },
   nameBox: {
-    backgroundColor: Color.LineDarkBlue,
     borderRadius: 5,
     paddingVertical: 2,
+    backgroundColor: Color.LineDarkBlue,
   },
   name: {color: Color.white, fontSize: 13},
 
   // ------------------------------------------------
   box: {
-    width: tab ? "40%" : '43%',
     borderRadius: 10,
     flexDirection: 'row',
+    width: tab ? '40%' : '43%',
     backgroundColor: Color.white,
-    paddingVertical: tab ? 15 :5,
+    paddingVertical: tab ? 15 : 5,
   },
   data: {
-    fontSize: tab ?17 : 13,
     marginTop: 5,
     fontWeight: '700',
+    fontSize: tab ? 17 : 13,
   },
   subText: {
-    fontSize: tab ? 18 : 14,
     marginTop: 5,
     color: '#666',
     fontWeight: '600',
+    fontSize: tab ? 18 : 14,
   },
   line: {
     width: 1,
@@ -88,25 +87,23 @@ export default StyleSheet.create({
   // -------------------------------
   GameBannerImage: {
     width,
-    height: tab ?250 : 200,
     marginBottom: -50,
+    height: tab ? 250 : 200,
   },
   GameTitle: {
-    fontSize:tab ? 30 : 20,
-    marginBottom:tab ? 20 : 10,
-    color: Color.white,
     fontWeight: '700',
+    color: Color.white,
+    fontSize: tab ? 30 : 20,
+    marginBottom: tab ? 20 : 10,
   },
   GameSubTitle: {
-    fontSize:tab ?22 : 16,
-    color: Color.white,
     fontWeight: '500',
+    color: Color.white,
+    fontSize: tab ? 22 : 16,
   },
   prayLevel: {
     width: '70%',
-    fontSize:tab ?30 : 20,
-
-
     fontWeight: '600',
+    fontSize: tab ? 30 : 20,
   },
 });

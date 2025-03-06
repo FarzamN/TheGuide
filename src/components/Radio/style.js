@@ -1,21 +1,19 @@
 import {StyleSheet} from 'react-native';
-import {Font} from '../../utils/Font';
 import {Color} from '../../utils/Color';
-import { tab } from '../../utils/Constants';
+import {tab} from '../../utils/Constants';
 
 export const styles = StyleSheet.create({
   Heading: {
-    fontSize: tab ? 20 : 15,
-    color: Color.black,
     fontWeight: '500',
+    color: Color.black,
+    fontSize: tab ? 20 : 15,
     textTransform: 'capitalize',
   },
   row: {
-    overflow: 'hidden',
-    height:tab ?70 : 50,
     marginTop: 5,
-    // borderRadius: 10,
-   borderColor:Color.grey,
-   borderBottomWidth:1
+    overflow: 'hidden',
+    borderBottomWidth: 1,
+    height: tab ? 70 : 50,
+    borderColor: Color.grey,
   },
 });

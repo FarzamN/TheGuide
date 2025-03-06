@@ -1,23 +1,22 @@
-import {GuestModal, TimeService} from '..';
+import moment from 'moment';
 import {styles} from './style';
 import ContBox from './contBox';
 import RenderDot from './renderDot';
-import Toast from 'react-native-simple-toast';
-
+import {GuestModal, TimeService} from '..';
+import {useGeolocation} from '../../hooks';
+import {Image_Url} from '../../utils/Urls';
 import {View, TextInput} from 'react-native';
+import Toast from 'react-native-simple-toast';
 import {GlobalStyle} from '../../utils/GlobalStyle';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import React, {useRef, useState, useEffect} from 'react';
+
 import {
-  prayer_streak,
   TimerCreate,
   TimerUpdate,
+  prayer_streak,
 } from '../../redux/actions/UserAction';
-import {useDispatch, useSelector} from 'react-redux';
-import {useGeolocation} from '../../hooks';
-import moment from 'moment';
-import {playSound} from '../../utils/Constants';
-import {Image_Url} from '../../utils/Urls';
-import {useNavigation} from '@react-navigation/native';
 
 const Timer = () => {
   const dispatch = useDispatch();

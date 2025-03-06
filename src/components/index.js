@@ -7,7 +7,6 @@ import CustomButton from './Button/CustomButton';
 import Loader from './Modal/Loader';
 import StreakModal from './Modal/StreakModal.jsx';
 import Error from './Modal/Error';
-import MainHeader from './Header/MainHeader';
 import Text from './Text/Text';
 import AuthBody from './layout/AuthBody';
 import WhiteBtn from './Button/WhiteBtn';
@@ -79,6 +78,5 @@ export {
   Loader,
   StreakModal,
   Error,
-  MainHeader,
   AuthBody,
 };

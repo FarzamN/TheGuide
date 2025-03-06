@@ -1,26 +1,27 @@
 import {
   Text,
+  Error,
   MainInput,
   CountryBtn,
   ProfileBody,
   BirthdayBtn,
   CustomButton,
   GenderDropDown,
-  Error,
 } from '../../../components';
 
 import moment from 'moment';
 import {style} from './style';
-import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {Color} from '../../../utils/Color';
+import {tab} from '../../../utils/Constants';
+import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-native-date-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
 import {editProfile} from '../../../redux/actions/AuthAction';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
-import {tab} from '../../../utils/Constants';
+import {styles as birthdayStyle} from '../../../components/Button/style';
 
 const EditProfile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -30,6 +31,9 @@ const EditProfile = ({navigation}) => {
   const [load, setLoad] = useState(false);
   const [gender, setGender] = useState(userdetail.gender || '');
   const [error, setError] = useState({visible: false, msg: ''});
+
+  const getBDAY = moment(userdetail?.date_of_birth).format('yyyy');
+  console.log(getBDAY);
 
   const [City, setCity] = useState({
     name: userdetail.user_city,
@@ -47,7 +51,6 @@ const EditProfile = ({navigation}) => {
   const [date, setDate] = useState(
     new Date(moment(userdetail?.date_of_birth).format()),
   );
-
 
   const [bday, setBday] = useState(() => {
     const dateOfBirth = moment(userdetail?.date_of_birth).format(
@@ -210,9 +213,9 @@ const EditProfile = ({navigation}) => {
           white
           onSelect={setGender}
           df={{key: userdetail.gender, value: userdetail.gender}}
-        /> */}
+        />
 
-        {/* Birthday Button */}
+        Birthday Button
         <BirthdayBtn
           white
           day={bday.day}
@@ -220,7 +223,33 @@ const EditProfile = ({navigation}) => {
           year={bday.year}
           onPress={() => setBday({...bday, visible: true})}
         />
+         */}
 
+        <Text
+          title={'Birthyear'}
+          style={[
+            birthdayStyle.BDayTitle,
+            {color: 'white', marginTop: 20, marginBottom: -10},
+          ]}
+        />
+        <MainInput
+          icName="cake"
+          isError={errors?.birthyear}
+          name="birthyear"
+          control={control}
+          defaultValue={getBDAY}
+          placeholder="Birthyear"
+          keyboardType="number-pad"
+          type={IconType.MaterialIcons}
+          message={errors?.birthyear?.message}
+          rules={{
+            required: 'Birthyear is required',
+            maxLength: {
+              value: 4,
+              message: 'use 2000 year format',
+            },
+          }}
+        />
         {/* Country, State, City Buttons */}
         <CountryBtn
           name="flag"

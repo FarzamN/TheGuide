@@ -1,18 +1,18 @@
 import {StyleSheet} from 'react-native';
-import {tab, width} from '../../utils/Constants';
 import {Color} from '../../utils/Color';
+import {tab, width} from '../../utils/Constants';
 
 export const style = StyleSheet.create({
   Divider: {
-    width: width - 20,
     height: 1,
+    width: width - 20,
     borderRadius: 100,
     backgroundColor: 'grey',
   },
   helperText: {
     color: 'red',
-    fontSize:tab ?18 : 14,
     marginTop: 7,
+    fontSize: tab ? 18 : 14,
   },
 
   ImageContainer: {
@@ -22,27 +22,27 @@ export const style = StyleSheet.create({
     alignSelf: 'center',
   },
   IconBox: {
-    position: 'absolute',
-    backgroundColor: Color.white,
-    borderRadius: 100,
     bottom: 5,
     right: 15,
     padding: 4,
+    borderRadius: 100,
+    position: 'absolute',
+    backgroundColor: Color.white,
   },
 
   KeyboardRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
     paddingVertical: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
   key: {
-    backgroundColor: Color.white,
     width: '18%',
     borderRadius: 10,
     aspectRatio: 1 / 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Color.white,
   },
   keyText: {
     fontSize: 20,
