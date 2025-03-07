@@ -1,29 +1,17 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {styles} from './style';
 import {CustomButton, Text} from '..';
-import {Color} from '../../utils/Color';
+import {Image_Url} from '../../utils/Urls';
 import {View, ImageBackground} from 'react-native';
 import {GlobalStyle} from '../../utils/GlobalStyle';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
-import {Image_Url} from '../../utils/Urls';
-import moment from 'moment';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {tab} from '../../utils/Constants';
+import {useNavigation} from '@react-navigation/native';
 
 const EventCard = ({data}) => {
   const {navigate, getParent} = useNavigation();
   const event = data?.event_origin.split('-').join(' ');
 
-  useFocusEffect(
-    useCallback(() => {
-      getParent().setOptions({
-        tabBarStyle: GlobalStyle.showBar,
-      });
-    }, []),
-  );
   return (
-    <View
-      style={styles.EventCardContainer}>
+    <View style={styles.EventCardContainer}>
       <ImageBackground
         source={{
           uri:
@@ -34,7 +22,7 @@ const EventCard = ({data}) => {
         style={[styles.EventCardImage, GlobalStyle.shadow]}>
         <View style={[GlobalStyle.between, GlobalStyle.Padding]}>
           <View style={{flexDirection: 'row', width: '75%'}}>
-            {data.streak && (
+            {data.streak === 'none' && (
               <ImageBackground
                 style={[styles.dateBanner, GlobalStyle.justify]}
                 resizeMode="contain"

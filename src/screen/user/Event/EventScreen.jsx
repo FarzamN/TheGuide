@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
-import {GlobalStyle} from '../../../utils/GlobalStyle';
-import {Body, DashboardHeader, EventCard, Loader} from '../../../components';
 import EventHead from './eventComp/eventHead';
 import EventBottom from './eventComp/eventBottom';
 import {useDispatch, useSelector} from 'react-redux';
+import {GlobalStyle} from '../../../utils/GlobalStyle';
 import {eventApi} from '../../../redux/actions/UserAction';
+import React, {useCallback, useEffect, useState} from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {Body, DashboardHeader, EventCard, Loader} from '../../../components';
 
 const EventScreen = () => {
   const dispatch = useDispatch();
