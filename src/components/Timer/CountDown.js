@@ -1,21 +1,23 @@
+import moment from 'moment';
 import { styles } from './style';
 import RenderDot from './renderDot';
+import { Image_Url } from '../../utils/Urls';
+import { useGeolocation } from '../../hooks';
 import Toast from 'react-native-simple-toast';
 import { TextInput, View } from 'react-native';
-import { ContBox, Error, GuestModal, TimeService } from '..';
+import { playSound } from '../../utils/Constants';
 import { GlobalStyle } from '../../utils/GlobalStyle';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
-import moment from 'moment';
-import { useGeolocation } from '../../hooks';
+import { ContBox, Error, GuestModal, TimeService } from '..';
+
 import {
   prayer_streak,
   prayerCreate,
   prayerUpdate,
 } from '../../redux/actions/UserAction';
-import { Image_Url } from '../../utils/Urls';
-import { useNavigation } from '@react-navigation/native';
-import { playSound } from '../../utils/Constants';
-import { useDispatch, useSelector } from 'react-redux';
+
 
 const CountDown = () => {
   const { navigate } = useNavigation();
@@ -111,7 +113,7 @@ const CountDown = () => {
       case 4: // Reset
         stopCountdown();
         setIsPaused(false);
-        playSound();
+        playSound('notification.mp3');
         break;
       case 5: // Save start after pause
         handleStart();

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Color} from './Color';
-import { tab } from './Constants';
+import {tab} from './Constants';
 
 export const GlobalStyle = StyleSheet.create({
   flex: {flex: 1},
@@ -55,7 +55,7 @@ export const GlobalStyle = StyleSheet.create({
   },
   showBar: {
     display: 'flex',
-    height:tab ?100 : 80
+    height: tab ? 100 : 80,
   },
   HideBar: {
     display: 'none',

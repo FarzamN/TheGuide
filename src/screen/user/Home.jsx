@@ -2,10 +2,13 @@ import {
   Body,
   Empty,
   Loader,
+  GuestModal,
   StreakModal,
   DashboardHeader,
   HomeAssigmentCard,
-  GuestModal,
+  RequestModal,
+  AskRequestModal,
+  AddSponsorModal,
 } from '../../components';
 import moment from 'moment';
 import {style} from './style';
@@ -36,15 +39,19 @@ const Home = () => {
   const dispatch = useDispatch();
   const {navigate, getParent} = useNavigation();
 
-  const userDetail = useSelector(state => state.userDetails);
-  const isGuest = userDetail === 'guest'
-  const [showStreak, setShowStreak] = useState(false);
-  const [load, setLoad] = useState(false);
-  const [refresh, setRefresh] = useState(false);
   const data = useSelector(state => state.get_bible_school);
   const api_success = useSelector(state => state.api_success);
+  const userDetail = useSelector(state => state.userDetails);
+  const isGuest = userDetail === 'guest';
+
+  const [load, setLoad] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [showGuest, setShowGuest] = useState(false);
+  const [showStreak, setShowStreak] = useState(false);
+  const [requestModal, setRequestModal] = useState(false);
+  const [addSponsorModal, setAddSponsorModal] = useState(false);
+  const [askRequestModal, setAskRequestModal] = useState(false);
   const [complete, setCompleted] = useState({ids: [], isCompleted: false});
-const [showGuest,setShowGuest] = useState(false)
 
   const checkDate = async () => {
     try {
@@ -96,6 +103,7 @@ const [showGuest,setShowGuest] = useState(false)
     setShowStreak(false);
     dispatch(getBibleSchoolApiUpdate());
   };
+
   useEffect(() => {
     if (!isGuest) {
       if (api_success == 0) {
@@ -105,14 +113,14 @@ const [showGuest,setShowGuest] = useState(false)
       dispatch(getBibleSchoolApi(setLoad));
     }
   }, [api_success, isGuest]);
-  
+
   useEffect(() => {
     if (!isGuest) {
       checkDate();
       checkComplete();
     }
   }, [data, isGuest]);
-  
+
   useEffect(() => {
     if (!isGuest) {
       bassChalo();
@@ -170,19 +178,21 @@ const [showGuest,setShowGuest] = useState(false)
       }
     }, [isGuest]),
   );
-  const handleGameNav = (item) => {
+
+  const handleGameNav = item => {
     if (isGuest) {
       setShowGuest(true);
       setTimeout(() => {
         setShowGuest(false);
       }, 2000);
     } else {
-      navigate('game', { item });
+      navigate('game', {item});
     }
   };
-    return (
+
+  return (
     <Body>
-      <DashboardHeader />
+      <DashboardHeader onRequest={() => setRequestModal(true)} />
       <FlatList
         refreshing={refresh}
         onRefresh={onRefresh}
@@ -196,8 +206,32 @@ const [showGuest,setShowGuest] = useState(false)
         )}
       />
       <Loader visible={load} />
-      <GuestModal visible={showGuest}/>
+      <GuestModal visible={showGuest} />
       <StreakModal visible={showStreak} onPress={handleStreak} />
+      <RequestModal
+        onask={() => {
+          setRequestModal(false);
+          setTimeout(() => {
+            setAskRequestModal(true);
+          }, 500);
+        }}
+        onadd={() => {
+          setRequestModal(false);
+          setTimeout(() => {
+            setAddSponsorModal(true);
+          }, 1000);
+        }}
+        visible={requestModal}
+        onClose={() => setRequestModal(false)}
+      />
+      <AskRequestModal
+        visible={askRequestModal}
+        onClose={() => setAskRequestModal(false)}
+      />
+      <AddSponsorModal
+        visible={addSponsorModal}
+        onClose={() => setAddSponsorModal(false)}
+      />
     </Body>
   );
 };

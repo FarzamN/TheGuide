@@ -38,7 +38,13 @@ import DonateModal from './Modal/DonateModal';
 import AboutStreak from './Modal/AboutStreak';
 import GuestModal from './Modal/GuestModal.jsx';
 import GuestScreen from './Helper/GuestScreen.jsx';
+import RequestModal from './Modal/requestModal.jsx';
+import AskRequestModal from './Modal/askRequestModal.jsx';
+import AddSponsorModal from './Modal/addSponsorModal.jsx';
 export {
+  AddSponsorModal,
+  AskRequestModal,
+  RequestModal,
   GuestScreen,
   GuestModal,
   AboutStreak,

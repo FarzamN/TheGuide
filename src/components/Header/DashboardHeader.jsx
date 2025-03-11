@@ -1,14 +1,16 @@
 import React from 'react';
 import style from './style';
 import {FullImage, Text} from '..';
+import {Bar} from 'react-native-progress';
+import {tab} from '../../utils/Constants';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
-import { tab } from '../../utils/Constants';
+import {Color} from '../../utils/Color';
 
-const DashboardHeader = ({onPray}) => {
+const DashboardHeader = ({onPray, onRequest}) => {
   const dispatched = useDispatch();
   const {navigate, dispatch} = useNavigation();
 
@@ -17,6 +19,7 @@ const DashboardHeader = ({onPray}) => {
   const bible_streak = useSelector(state => state.bible_streak);
   const bible_time = useSelector(state => state.bible_time);
   const pray_streak = useSelector(state => state.pray_streak);
+
   let cleanStreak = parseInt(pray_streak.replace('x', ''), 10);
 
   const notiHandler = () => {
@@ -29,24 +32,53 @@ const DashboardHeader = ({onPray}) => {
       style={style.BannerImage}
       source={require('../../assets/image/game-banner.png')}>
       <View style={[GlobalStyle.between, style.HeadRow]}>
-        <TouchableOpacity onPress={openDrawer}>
+        {/* <TouchableOpacity onPress={openDrawer}>
           <Image
             style={style.dashboardHeadImage}
             resizeMode="contain"
             source={require('../../assets/image/menu.png')}
           />
+        </TouchableOpacity> */}
+        <TouchableOpacity style={[GlobalStyle.justify]} onPress={openDrawer}>
+          <FullImage
+            sizeMode="cover"
+            style={style.ProfileImage}
+            source={{
+              uri: userDetail?.profile_image,
+            }}
+          />
+          <View style={style.nameBox}>
+            <Text center fontScaling style={style.name} title={'1x'} />
+          </View>
         </TouchableOpacity>
         {/* profile image here */}
-        <Text style={style.ProfileTitle} title={'Revival Bible School'} />
-        <View>
-          <TouchableOpacity onPress={notiHandler}>
-            <Image
-              resizeMode="contain"
-            style={style.dashboardHeadImage}
-              source={require('../../assets/image/notifaction.png')}
-            />
-          </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity style={style.pointBox} onPress={onRequest}>
+          <Text
+            center
+            style={style.ProfileTitle}
+            title={'Click here to request points'}
+          />
+          <Bar
+            progress={0}
+            width={200}
+            color={Color.white}
+            unfilledColor={Color.Non}
+            height={5}
+            borderRadius={20}
+            borderColor={Color.white}
+            style={{alignSelf: 'center', marginTop: 6}}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={notiHandler}>
+          <Image
+            resizeMode="contain"
+            style={style.dashboardCartImage}
+            tintColor={'white'}
+            source={require('../../assets/image/cart.png')}
+          />
+        </TouchableOpacity>
       </View>
       <View style={GlobalStyle.evenly}>
         {[
@@ -75,7 +107,7 @@ const DashboardHeader = ({onPray}) => {
               <View style={[GlobalStyle.justify, {width: '45%'}]}>
                 {isComplete ? (
                   <Icon
-                    size={tab ? 40 :30}
+                    size={tab ? 40 : 30}
                     color="#22CA5D"
                     type={IconType.Ionicons}
                     name="checkmark-done-circle-outline"
@@ -101,7 +133,8 @@ const DashboardHeader = ({onPray}) => {
 
 export default DashboardHeader;
 
-/*<TouchableOpacity
+/*
+<TouchableOpacity
             onPress={() => navigate('profile')}
             style={{marginLeft: 7}}>
             <FullImage
@@ -119,4 +152,5 @@ export default DashboardHeader;
                 title={userDetail?.name}
               />
             </View>
-</TouchableOpacity>*/
+</TouchableOpacity>
+*/

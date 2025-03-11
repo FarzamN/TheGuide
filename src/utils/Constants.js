@@ -31,8 +31,8 @@ export const required = type => {
   return `${type} is Required`;
 };
 
-export const playSound = () => {
-  const sound = new Sound('notification.mp3', Sound.MAIN_BUNDLE, error => {
+export const playSound = (file) => {
+  const sound = new Sound(file, Sound.MAIN_BUNDLE, error => {
     if (error) {
       console.log('Failed to load the sound', error);
       return;

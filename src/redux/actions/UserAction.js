@@ -1,19 +1,19 @@
 import {
   GET_GAME,
   GET_EVENT,
-  API_SUCCESS,
+  BIBLE_TIME,
   PRAYER_TIME,
+  PRAY_STATUS,
+  API_SUCCESS,
+  BIBLE_STREAK,
   PRAYER_STREAK,
   GET_BIBLE_SCHOOL,
   PRAYER_SUPPORT_GOAL,
-  PRAY_STATUS,
-  BIBLE_TIME,
-  BIBLE_STREAK,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {playSound} from '../../utils/Constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getBibleSchoolApi = load => {
   return async dispatch => {
@@ -495,7 +495,7 @@ export const prayerUpdate = (data, val) => {
       if (res.status) {
         if (val === 'show') {
           Toast.show('Prayer created successfully');
-          playSound();
+          playSound('notification.mp3');
         }
       }
     } catch (error) {
@@ -565,7 +565,7 @@ export const TimerUpdate = (data, val) => {
       if (res.status) {
         if (val === 'show') {
           Toast.show('Prayer created successfully');
-          playSound();
+          playSound('notification.mp3');
         }
       }
     } catch (error) {

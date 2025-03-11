@@ -129,7 +129,7 @@ export const registerApi = (
     myData.append('first_name', data.f_name);
     myData.append('last_name', data.l_name);
     myData.append('email', data.email);
-    myData.append('phone', data.number);
+    myData.append('phone', "000000");
     myData.append('password', data.password);
     myData.append('confirm_password', data.password);
     myData.append('gender', 'any');

@@ -7,7 +7,7 @@ import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useNavigation} from '@react-navigation/native';
 
 const EventCard = ({data}) => {
-  const {navigate, getParent} = useNavigation();
+  const {navigate} = useNavigation();
   const event = data?.event_origin.split('-').join(' ');
 
   return (

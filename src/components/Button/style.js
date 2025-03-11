@@ -82,7 +82,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     borderWidth: 1,
     height: tab ? 70 : 48,
-    borderRadius: tab ? 50 : 20,
+    borderRadius: tab ? 30 : 20,
   },
   ModalBtnText: {
     fontWeight: '600',

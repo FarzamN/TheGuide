@@ -16,6 +16,8 @@ export default StyleSheet.create({
     height: 60,
   },
   dashboardHeadImage: {width: tab ? 25 : 17, height: tab ? 25 : 17},
+  dashboardCartImage: {width: tab ? 35 : 30, height: tab ? 35 : 30},
+
   logout: {
     fontSize: 17,
     color: '#8FBFFE',
@@ -32,28 +34,34 @@ export default StyleSheet.create({
     height: tab ? 300 : 230,
   },
   ProfileImage: {
-    width: 45,
-    height: 45,
+    width: 40,
+    height: 40,
     borderRadius: 25,
     overflow: 'hidden',
   },
   ProfileTitle: {
     fontWeight: '600',
     color: Color.white,
-    fontSize: tab ? 25 : 18,
+    fontSize: tab ? 25 : 16,
+  },
+  pointBox: {
+    // borderWidth: 1,
+    borderRadius: 10,
+    borderColor: Color.white,
+    width: '70%',
   },
   HeadRow: {
     marginTop: 10,
-    marginBottom: 20,
     paddingVertical: 10,
     paddingHorizontal: 14,
   },
   nameBox: {
+    width: 40,
     borderRadius: 5,
     paddingVertical: 2,
     backgroundColor: Color.LineDarkBlue,
   },
-  name: {color: Color.white, fontSize: 13},
+  name: {color: Color.white, fontSize: 11},
 
   // ------------------------------------------------
   box: {

@@ -32,11 +32,11 @@ export default StyleSheet.create({
     alignSelf: 'center',
     resizeMode: 'contain',
   },
-  goToLogin:{
-    width: "55%",
-    marginVertical:20,
-    alignSelf:'center',
-    height:tab ? 60 : 45,
+  goToLogin: {
+    width: '55%',
+    marginVertical: 20,
+    alignSelf: 'center',
+    height: tab ? 60 : 45,
   },
   ModalText: {
     padding: 20,
@@ -53,7 +53,7 @@ export default StyleSheet.create({
     paddingVertical: 30,
     alignSelf: 'center',
     paddingHorizontal: 30,
-    width:tab ?'70%' : '90%',
+    width: tab ? '70%' : '90%',
     justifyContent: 'center',
     backgroundColor: Color.white,
   },
@@ -96,9 +96,9 @@ export default StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'center',
     position: 'absolute',
-    height:tab ? 250 : 200,
+    height: tab ? 250 : 200,
     backgroundColor: 'rgba(0,0,0,0.4)',
-    width:tab ? width - 100 :  width - 30,
+    width: tab ? width - 100 : width - 30,
   },
   NorText: {
     color: Color.white,
@@ -138,9 +138,9 @@ export default StyleSheet.create({
   },
   AboutStreakBox: {
     margin: 0,
-    alignSelf:'center',
+    alignSelf: 'center',
     marginBottom: 100,
-    width:tab ?'70%' : '90%',
+    width: tab ? '70%' : '90%',
     justifyContent: 'center',
   },
   AboutStreakCont: {
@@ -153,5 +153,37 @@ export default StyleSheet.create({
     backgroundColor: Color.white,
   },
 
-  streakImage: {height: 170, width: 170, alignSelf: 'center'}
+  streakImage: {height: 170, width: 170, alignSelf: 'center'},
+
+  // =--------- Request modal style
+
+  RequestBox: {
+    margin: 0,
+    justifyContent: 'flex-end',
+    backgroundColor: Color.Non,
+  },
+  RequestContainer: {
+    borderRadius: 20,
+    paddingVertical: 30,
+    alignSelf: 'center',
+    paddingHorizontal: 30,
+    width: tab ? '70%' : '90%',
+    justifyContent: 'center',
+    backgroundColor: Color.white,
+  },
+
+  // =--------- ask request modal style
+
+  askRequestBox: {
+    margin: 0,
+    justifyContent: 'center',
+    backgroundColor: Color.Non,
+  },
+
+  amountInput: {
+    borderWidth: 1,
+    borderColor: 'black',
+    marginTop: 10,
+    marginBottom: 10,
+  },
 });
