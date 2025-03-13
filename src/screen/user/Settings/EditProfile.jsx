@@ -6,7 +6,7 @@ import {
   ProfileBody,
   BirthdayBtn,
   CustomButton,
-  GenderDropDown,
+  DropDown,
 } from '../../../components';
 
 import moment from 'moment';
@@ -209,8 +209,9 @@ const EditProfile = ({navigation}) => {
 
         {/* 
         <View style={{height: 20}} />
-        <GenderDropDown
+        <DropDown
           white
+          data={genderData}
           onSelect={setGender}
           df={{key: userdetail.gender, value: userdetail.gender}}
         />

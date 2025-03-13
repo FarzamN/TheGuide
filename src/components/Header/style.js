@@ -15,8 +15,14 @@ export default StyleSheet.create({
     width: 70,
     height: 60,
   },
-  dashboardHeadImage: {width: tab ? 25 : 17, height: tab ? 25 : 17},
-  dashboardCartImage: {width: tab ? 35 : 30, height: tab ? 35 : 30},
+  dashboardHeadImage: {
+    width: tab ? 25 : 17,
+    height: tab ? 25 : 17,
+  },
+  dashboardCartImage: {
+    width: tab ? 35 : 30,
+    height: tab ? 35 : 30,
+  },
 
   logout: {
     fontSize: 17,
@@ -34,10 +40,10 @@ export default StyleSheet.create({
     height: tab ? 300 : 230,
   },
   ProfileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 25,
     overflow: 'hidden',
+    width: tab ? 55 : 40,
+    height: tab ? 55 : 40,
+    borderRadius: tab ? 50 : 25,
   },
   ProfileTitle: {
     fontWeight: '600',
@@ -45,10 +51,9 @@ export default StyleSheet.create({
     fontSize: tab ? 25 : 16,
   },
   pointBox: {
-    // borderWidth: 1,
+    width: '70%',
     borderRadius: 10,
     borderColor: Color.white,
-    width: '70%',
   },
   HeadRow: {
     marginTop: 10,
@@ -61,7 +66,11 @@ export default StyleSheet.create({
     paddingVertical: 2,
     backgroundColor: Color.LineDarkBlue,
   },
-  name: {color: Color.white, fontSize: 11},
+  name: {
+    fontWeight: '500',
+    color: Color.white,
+    fontSize: tab ? 15 : 11,
+  },
 
   // ------------------------------------------------
   box: {
@@ -80,7 +89,7 @@ export default StyleSheet.create({
     marginTop: 5,
     color: '#666',
     fontWeight: '600',
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
   },
   line: {
     width: 1,

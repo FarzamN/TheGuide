@@ -11,7 +11,7 @@ const GuestScreen = ({mtop}) => {
 
   const handleLogout = () => dispatch({type: USER_DETAILS, payload: null});
   return (
-    <View style={[style.ModalContainer, {marginTop: mtop,  width: tab ? '70%' : '90%',}]}>
+    <View style={[style.ModalContainer, {marginTop: mtop,  width: tab ? '60%' : '90%',}]}>
       <FullImage
         source={{
           uri: 'https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/warning-icon.png',

@@ -7,30 +7,38 @@ import {useForm} from 'react-hook-form';
 import {useSelector} from 'react-redux';
 import {Color} from '../../utils/Color';
 import {tab} from '../../utils/Constants';
-import {MainInput, ModalBtn, Text} from '..';
+import {genderData} from '../../utils/Data';
 import QRCode from 'react-native-qrcode-styled';
-import {GlobalStyle} from '../../utils/GlobalStyle';
 import {IconType} from 'react-native-dynamic-vector-icons';
+import {DropDown, MainInput, ModalBtn, Text, Validation} from '..';
 
 const AskRequestModal = props => {
   const {onClose, visible} = props;
   const userDetail = useSelector(state => state.userDetails);
   const [sent, setSent] = useState(false);
-  const [getData, setData] = useState({
-    name: 'Farzam',
-    link: 'https://www.youtube.com/',
-  });
+  const [sponsor, setSponsor] = useState(null);
+  const [sponsorError, setSponsorError] = useState({show: false, msg: ''});
+
+  const link = `https://www.youtube.com/`
+ 
   const onSubmit = data => {
-    setSent(true);
+    if (sponsor === null) {
+      setSponsorError({show: true, msg: 'Please select Sponsor'});
+    } else {
+      setSponsorError({show: false, msg: ''});
+      setSent(true);
+    }
   };
 
   const handleShare = async () => {
     try {
       const options = {
         title: 'Share Request',
-        message: getData.link,
+        message: link,
       };
       await Share.open(options);
+      setSent(false);
+      onClose();
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +68,7 @@ const AskRequestModal = props => {
             <Text
               center
               style={[style.LogoutText, {marginTop: 10}]}
-              title={`Click the Button and send the link to (${getData.name})`}
+              title="Click the button and share the link with your sponsor"
             />
             <ModalBtn green title="Get Link" onPress={handleShare} />
             <Text
@@ -69,19 +77,26 @@ const AskRequestModal = props => {
               title={'or have your sponsor scan the QR code'}
             />
             <QRCode
-              data={getData.link}
-              style={{alignSelf: 'center'}}
+              data={link}
               marginTop={10}
+              style={{alignSelf: 'center'}}
               pieceSize={tab ? 6 : 4}
             />
           </>
         ) : (
           <>
-            <View style={GlobalStyle.row}>
-              <Text center style={style.LogoutText} title={'From: '} />
+            <DropDown
+              data={genderData}
+              placeholder="Sponsor"
+              onSelect={setSponsor}
+              boxStyles={style.amountInput}
+              // df={{key: userdetail.gender, value: userdetail.gender}}
+            />
+            <Validation
+              message={sponsorError.msg}
+              isError={sponsorError.show}
+            />
 
-              <Text center style={style.LogoutText} title={userDetail.name} />
-            </View>
             <MainInput
               style={style.amountInput}
               icName="cake"
@@ -96,7 +111,7 @@ const AskRequestModal = props => {
                 required: 'amount is required',
               }}
             />
-            <ModalBtn green title="Submit" onPress={onSubmit} />
+            <ModalBtn green title="Submit" onPress={handleSubmit(onSubmit)} />
           </>
         )}
       </View>

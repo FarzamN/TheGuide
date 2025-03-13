@@ -14,6 +14,7 @@ export const BIBLE_TIME = 'BIBLE_TIME';
 export const BIBLE_STREAK = 'BIBLE_STREAK';
 export const EMAIL_PASS = 'EMAIL_PASS';
 export const GET_HTML = 'GET_HTML';
+export const USER_TOTAL_POINTS = "USER_TOTAL_POINTS"
 
 const initial_state = {
   userDetails: false,
@@ -27,11 +28,12 @@ const initial_state = {
   pray_support_gola: {},
   api_success: 5,
   pray_streak: '0',
-  pray_time: '60',
+  pray_time: '1',
   bible_streak: '0',
   bible_time: 'Due',
   email_pass: {},
   get_html: '',
+  user_total_points: 0,
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -115,6 +117,11 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         get_html: action.payload,
+      };
+    case USER_TOTAL_POINTS:
+      return {
+        ...state,
+        user_total_points: action.payload,
       };
     default: {
       return state;

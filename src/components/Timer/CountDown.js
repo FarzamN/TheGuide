@@ -34,7 +34,7 @@ const CountDown = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [counterSelect, setCounterSelect] = useState(0);
   const [err, setErr] = useState({ show: false, msg: '' });
-  const [time, setTime] = useState({ hours: '', minutes: '60', seconds: '' });
+  const [time, setTime] = useState({ hours: '', minutes: userDetail.age <= 12 ? "10" : "30", seconds: '' });
   const [showGuest, setShowGuest] = useState(false);
 
   const handleMap = () =>

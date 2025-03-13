@@ -74,7 +74,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 15,
     width: tab ? 120 : 90,
     backgroundColor: white,
-    borderRadius: tab ? 50 : 20,
+    borderRadius: tab ? 25 : 20,
+
     paddingVertical: tab ? 15 : 7,
   },
   AssigmentPlayText: {

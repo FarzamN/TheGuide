@@ -13,7 +13,7 @@ import moment from 'moment';
 import {style} from './style';
 import {useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
-import {RegisterInput} from '../../utils/Data';
+import {genderData, RegisterInput} from '../../utils/Data';
 import DatePicker from 'react-native-date-picker';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {TouchableOpacity, View} from 'react-native';
@@ -173,7 +173,7 @@ if (bday.day === null || bday.month === null || bday.year === null) {
       ) : (
         <>
           <View style={{height: 20}} />
-          {/* <GenderDropDown onSelect={setGender} /> */}
+          {/* <DropDown onSelect={setGender} data={genderData}/> */}
           {/* <BirthdayBtn
             optional
             day={bday.day}

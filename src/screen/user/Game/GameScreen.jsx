@@ -13,9 +13,10 @@ import {
 import {
   getGameApi,
   getGameIdAPI,
-  getBibleSchoolApiUpdate,
   gameQuestionAPI,
   getBibleSchoolApi,
+  getBibleSchoolApiUpdate,
+  update_user_app_total_points,
 } from '../../../redux/actions/UserAction';
 
 import {style} from './style';
@@ -35,6 +36,8 @@ const GameScreen = ({route}) => {
   const dispatch = useDispatch();
   const {goBack, getParent} = useNavigation();
   const get_game = useSelector(state => state.get_game);
+  const previous_points = useSelector(state => state.user_total_points);
+
   const {downloadFile, downloadProgress, isDownloading, deleteFile} =
     useFileDownloader();
 
@@ -130,9 +133,12 @@ const GameScreen = ({route}) => {
   const handleJob = () => {
     // deleteFile();
     // dispatch(getBibleSchoolApi(setLoadAssigment));
+
     dispatch(
       gameQuestionAPI(item, getGameID, goBack, setLoadAssigment, setCompleted),
     );
+    const points = gameQuestions.length + previous_points;
+    dispatch(update_user_app_total_points(points));
   };
 
   useEffect(() => {
@@ -190,11 +196,14 @@ const GameScreen = ({route}) => {
     const {remove} = addEventListener('hardwareBackPress', backAction);
     return () => remove();
   }, []);
+
   return (
     <Body>
       <GameHeader
         onClose={goBack}
-        /*onClose={() => {
+        /*
+        handleJob
+        onClose={() => {
           goBack();
           deleteFile();
         }}*/

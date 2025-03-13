@@ -10,7 +10,6 @@ import Error from './Modal/Error';
 import Text from './Text/Text';
 import AuthBody from './layout/AuthBody';
 import WhiteBtn from './Button/WhiteBtn';
-import GenderDropDown from './Dropdown/GenderDropDown';
 import BirthdayBtn from './Button/BirthdayBtn';
 import CountryBtn from './Button/CountryBtn';
 import CountryCityRadio from './Radio/CountryCityRadio';
@@ -41,6 +40,7 @@ import GuestScreen from './Helper/GuestScreen.jsx';
 import RequestModal from './Modal/requestModal.jsx';
 import AskRequestModal from './Modal/askRequestModal.jsx';
 import AddSponsorModal from './Modal/addSponsorModal.jsx';
+import DropDown from "./Dropdown/DropDown.jsx"
 export {
   AddSponsorModal,
   AskRequestModal,
@@ -72,7 +72,7 @@ export {
   CountryCityRadio,
   CountryBtn,
   BirthdayBtn,
-  GenderDropDown,
+  DropDown,
   WhiteBtn,
   Text,
   Body,

@@ -8,28 +8,30 @@ export const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 1.5,
     overflow: 'hidden',
-    height: tab ? 70 : 48,
+    height: tab ? 60 : 48,
     borderColor: '#DB9638',
-    borderRadius: tab ? 50 : 20,
+    borderRadius: tab ? 25 : 20,
+
   },
 
   font: {
     color: Color.white,
     fontWeight: '600',
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
   },
   whiteStyle: {
     marginTop: 5,
     borderWidth: 1.5,
     borderColor: '#C8C8CA',
-    height: tab ? 70 : 48,
-    borderRadius: tab ? 50 : 20,
+    height: tab ? 60 : 48,
+    borderRadius: tab ? 25 : 20,
+
     backgroundColor: Color.white,
   },
   whiteFont: {
     fontWeight: '400',
     color: Color.black,
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
   },
 
   BDayBtn: {
@@ -37,7 +39,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     height: tab ? 70 : 50,
     marginTop: tab ? 13 : 5,
-    borderRadius: tab ? 50 : 20,
+    borderRadius: tab ? 25 : 20,
+
     justifyContent: 'space-around',
     backgroundColor: Color.background,
   },
@@ -50,19 +53,20 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
     color: Color.black,
     marginHorizontal: 10,
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
   },
   CountryContainer: {
     height: tab ? 80 : 50,
     marginTop: tab ? 20 : 15,
-    borderRadius: tab ? 50 : 20,
+    borderRadius: tab ? 25 : 20,
+
     paddingHorizontal: tab ? 25 : 15,
     backgroundColor: Color.background,
   },
   CountryText: {
     fontWeight: '400',
     marginHorizontal: 10,
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
   },
   PCont: {
     borderWidth: 1,
@@ -75,13 +79,13 @@ export const styles = StyleSheet.create({
   Ptitle: {
     fontWeight: '600',
     color: Color.white,
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
   },
   ModalBtnCont: {
     width: '100%',
     marginTop: 10,
     borderWidth: 1,
-    height: tab ? 70 : 48,
+    height: tab ? 60 : 48,
     borderRadius: tab ? 30 : 20,
   },
   ModalBtnText: {

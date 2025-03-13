@@ -2,10 +2,12 @@ import style from './style';
 import {ModalBtn, Text} from '..';
 import Modal from 'react-native-modal';
 import {Image, View} from 'react-native';
+import { useSelector } from 'react-redux';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AboutStreak = () => {
+  const userDetails = useSelector(state => state.userDetails);
   const [aboutStreak, setAboutStreak] = useState(false);
 
   const checkVisibility = async () => {
@@ -47,7 +49,7 @@ const AboutStreak = () => {
         <Text
           center
           style={style.LogoutText}
-          title="Pray 60 minutes to get your streak!"
+          title={`Pray ${userDetails.age <= 12 ? "10" : "30"} minutes to get your streak!`}
         />
         <ModalBtn green onPress={onClose} title="I Understand!" />
       </View>

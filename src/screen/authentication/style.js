@@ -3,7 +3,7 @@ import {Color} from '../../utils/Color';
 import {iOS, tab} from '../../utils/Constants';
 
 export const style = StyleSheet.create({
-  guestText: {color: Color.white, fontSize: tab ? 18 : 14, fontWeight: '600'},
+  guestText: {color: Color.white, fontSize: tab ? 16 : 14, fontWeight: '600'},
   guestBtn: {
     borderRadius: 50,
     alignItems: 'center',
@@ -27,7 +27,7 @@ export const style = StyleSheet.create({
   already: {
     color: '#ABABAD',
     fontWeight: '400',
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
     textDecorationLine: 'underline',
   },
   loginImage: {

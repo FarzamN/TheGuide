@@ -12,7 +12,7 @@ export const style = StyleSheet.create({
   helperText: {
     color: 'red',
     marginTop: 7,
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
   },
 
   ImageContainer: {

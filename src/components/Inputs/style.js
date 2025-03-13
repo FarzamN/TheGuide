@@ -30,7 +30,7 @@ export default StyleSheet.create({
     fontWeight: '400',
     color: Color.black,
     marginHorizontal: 5,
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
     width: tab ? '90%' : '83%',
   },
   SearchBox: {
@@ -38,7 +38,8 @@ export default StyleSheet.create({
     marginTop: 15,
     height: tab ? 70 : 45,
     paddingHorizontal: 15,
-    borderRadius: tab ? 50 : 20,
+    borderRadius: tab ? 25 : 20,
+
     backgroundColor: Color.background,
     borderColor: Color.placeholderTextColor,
   },

@@ -32,6 +32,8 @@ import {
   prayerSupportGoal,
   complete_assigment,
   getBibleSchoolApiUpdate,
+  save_user_prayer_streak,
+  get_user_app_total_points,
 } from '../../redux/actions/UserAction';
 import {defaultData} from '../../utils/Data';
 
@@ -42,6 +44,10 @@ const Home = () => {
   const data = useSelector(state => state.get_bible_school);
   const api_success = useSelector(state => state.api_success);
   const userDetail = useSelector(state => state.userDetails);
+
+  const pray_time = useSelector(state => state.pray_time);
+  const bible_time = useSelector(state => state.bible_time);
+
   const isGuest = userDetail === 'guest';
 
   const [load, setLoad] = useState(false);
@@ -99,6 +105,14 @@ const Home = () => {
     }
   };
 
+  const updateBiblenPrayer = () => {
+    const Pray_is_done = pray_time == 0;
+    const bible_is_done = bible_time === 'done';
+    if (Pray_is_done && bible_is_done) {
+      save_user_prayer_streak();
+    }
+  };
+
   const handleStreak = () => {
     setShowStreak(false);
     dispatch(getBibleSchoolApiUpdate());
@@ -118,8 +132,15 @@ const Home = () => {
     if (!isGuest) {
       checkDate();
       checkComplete();
+      updateBiblenPrayer();
     }
   }, [data, isGuest]);
+
+  useEffect(() => {
+    if (!isGuest) {
+      updateBiblenPrayer();
+    }
+  }, [checkDate, isGuest]);
 
   useEffect(() => {
     if (!isGuest) {
@@ -127,6 +148,7 @@ const Home = () => {
       dispatch(prayerSupportGoal());
       dispatch(prayer_streak());
       dispatch(bible_streak());
+      dispatch(get_user_app_total_points())
     }
   }, [isGuest]);
 

@@ -53,7 +53,7 @@ export default StyleSheet.create({
     paddingVertical: 30,
     alignSelf: 'center',
     paddingHorizontal: 30,
-    width: tab ? '70%' : '90%',
+    width: tab ? '60%' : '90%',
     justifyContent: 'center',
     backgroundColor: Color.white,
   },
@@ -140,7 +140,7 @@ export default StyleSheet.create({
     margin: 0,
     alignSelf: 'center',
     marginBottom: 100,
-    width: tab ? '70%' : '90%',
+    width: tab ? '60%' : '90%',
     justifyContent: 'center',
   },
   AboutStreakCont: {
@@ -167,7 +167,7 @@ export default StyleSheet.create({
     paddingVertical: 30,
     alignSelf: 'center',
     paddingHorizontal: 30,
-    width: tab ? '70%' : '90%',
+    width: tab ? '60%' : '90%',
     justifyContent: 'center',
     backgroundColor: Color.white,
   },
@@ -184,6 +184,5 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     marginTop: 10,
-    marginBottom: 10,
   },
 });

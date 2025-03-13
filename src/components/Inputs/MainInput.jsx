@@ -76,14 +76,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '100%',
     paddingHorizontal: 10,
-    height: tab ? 70 : 48,
+    height: tab ? 60 : 48,
     backgroundColor: Color.background,
-    borderRadius: tab ? 50 : 20,
+    
+    borderRadius: tab ? 25 : 20,
+
   },
   Text: {
     color: Color.white,
     fontWeight: '500',
-    fontSize: tab ? 18 : 14,
+    fontSize: tab ? 16 : 14,
   },
 });
 export default MainInput;

@@ -19,7 +19,6 @@ const DashboardHeader = ({onPray, onRequest}) => {
   const bible_streak = useSelector(state => state.bible_streak);
   const bible_time = useSelector(state => state.bible_time);
   const pray_streak = useSelector(state => state.pray_streak);
-
   let cleanStreak = parseInt(pray_streak.replace('x', ''), 10);
 
   const notiHandler = () => {
@@ -92,6 +91,7 @@ const DashboardHeader = ({onPray, onRequest}) => {
             title: 'Pray',
             onPress: onPray,
             time: pray_time,
+            //^  == "00" ? userDetail.age <= 12 ? "10" : "30" : pray_time
             status: cleanStreak,
           },
         ].map((item, index) => {

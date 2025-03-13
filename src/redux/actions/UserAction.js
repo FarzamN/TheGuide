@@ -8,6 +8,7 @@ import {
   BIBLE_STREAK,
   PRAYER_STREAK,
   GET_BIBLE_SCHOOL,
+  USER_TOTAL_POINTS,
   PRAYER_SUPPORT_GOAL,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
@@ -788,6 +789,80 @@ export const bible_streak_dec = () => {
     } catch (error) {
       // Toast.show('Server side error');
       console.log('Error in bible_streak_dec:', error);
+    }
+  };
+};
+
+export const save_user_prayer_streak = async () => {
+  const url = `${Base_Url}save-user-prayer-played-data`;
+
+  const formData = new FormData();
+  formData.append('prayed_for_the_day', 1);
+  formData.append('played_for_the_day', 1);
+
+  const headers = new Headers();
+  const token = await AsyncStorage.getItem('token');
+  headers.append('Authorization', `Bearer ${token}`);
+
+  try {
+    const response = await fetch(url, {
+      headers,
+      method: 'POST',
+      body: formData,
+    });
+    const {status} = await response.json();
+    if (status === 'success') {
+      console.log('save_user_prayer_streak is success');
+    }
+  } catch (error) {
+    Toast.show('Server side error');
+    console.log('Error in save_user_prayer_streak:', error);
+  }
+};
+
+export const update_user_app_total_points = points => {
+  return async dispatch => {
+    const url = `${Base_Url}update-user-app-total-points`;
+    const myData = new FormData();
+    myData.append('user_app_total_points', points);
+
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+
+    try {
+      const response = await fetch(url, {
+        headers,
+        body: myData,
+        method: 'POST',
+      });
+      const res = await response.json();
+      if (res.status === 'success') {
+        dispatch(get_user_app_total_points());
+        // dispatch({type: USER_TOTAL_POINTS, payload: res.user_app_total_points});
+      }
+    } catch (error) {
+      Toast.show('Server side error');
+      console.log('Error in update_user_app_total_points:', error);
+    }
+  };
+};
+
+export const get_user_app_total_points = () => {
+  return async dispatch => {
+    const url = `${Base_Url}get-user-app-total-points`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      if (res.status === 'success') {
+        dispatch({type: USER_TOTAL_POINTS, payload: res.user_app_total_points});
+      }
+    } catch (error) {
+      // Toast.show('Server side error');
+      console.log('Error in update_user_app_total_points:', error);
     }
   };
 };
