@@ -34,6 +34,7 @@ import {
   getBibleSchoolApiUpdate,
   save_user_prayer_streak,
   get_user_app_total_points,
+  studentRoleGivenAPI,
 } from '../../redux/actions/UserAction';
 import {defaultData} from '../../utils/Data';
 
@@ -43,6 +44,7 @@ const Home = () => {
 
   const data = useSelector(state => state.get_bible_school);
   const api_success = useSelector(state => state.api_success);
+  const student_role_given = useSelector(state => state.student_role_givens);
   const userDetail = useSelector(state => state.userDetails);
 
   const pray_time = useSelector(state => state.pray_time);
@@ -105,11 +107,29 @@ const Home = () => {
     }
   };
 
-  const updateBiblenPrayer = () => {
-    const Pray_is_done = pray_time == 0;
-    const bible_is_done = bible_time === 'done';
-    if (Pray_is_done && bible_is_done) {
-      save_user_prayer_streak();
+  const updateBiblenPrayer = async () => {
+    try {
+      const lastUpdateDate = await AsyncStorage.getItem('lastUpdateDate');
+      const today = moment().format('DD-MM-YYYY');
+
+      const Pray_is_done = pray_time == 0;
+      const bible_is_done = bible_time === 'done';
+
+      if (Pray_is_done && bible_is_done) {
+        // Ensure the function is only executed once per day
+        if (lastUpdateDate === today) {
+          return;
+        }
+
+        // Call the function to update the streak
+        save_user_prayer_streak();
+
+        // Save today's date to prevent multiple updates
+        await AsyncStorage.setItem('lastUpdateDate', today);
+        console.log('User prayer streak updated.');
+      }
+    } catch (error) {
+      console.error('Error updating prayer streak:', error);
     }
   };
 
@@ -122,6 +142,9 @@ const Home = () => {
     if (!isGuest) {
       if (api_success == 0) {
         dispatch(bariWaliAPI());
+      }
+      if (student_role_given == 0) {
+        studentRoleGivenAPI();
       }
       bassChalo();
       dispatch(getBibleSchoolApi(setLoad));
@@ -148,7 +171,7 @@ const Home = () => {
       dispatch(prayerSupportGoal());
       dispatch(prayer_streak());
       dispatch(bible_streak());
-      dispatch(get_user_app_total_points())
+      dispatch(get_user_app_total_points());
     }
   }, [isGuest]);
 
@@ -208,13 +231,19 @@ const Home = () => {
         setShowGuest(false);
       }, 2000);
     } else {
+      dispatch(get_user_app_total_points());
       navigate('game', {item});
     }
   };
 
   return (
     <Body>
-      <DashboardHeader onRequest={() => setRequestModal(true)} />
+      <DashboardHeader
+        onRequest={() => {
+          dispatch(get_user_app_total_points());
+          setRequestModal(true);
+        }}
+      />
       <FlatList
         refreshing={refresh}
         onRefresh={onRefresh}

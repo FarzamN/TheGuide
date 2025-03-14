@@ -7,7 +7,14 @@ import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {View, ImageBackground, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  ImageBackground,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Linking,
+} from 'react-native';
 import {Color} from '../../utils/Color';
 
 const DashboardHeader = ({onPray, onRequest}) => {
@@ -19,10 +26,18 @@ const DashboardHeader = ({onPray, onRequest}) => {
   const bible_streak = useSelector(state => state.bible_streak);
   const bible_time = useSelector(state => state.bible_time);
   const pray_streak = useSelector(state => state.pray_streak);
+  const pool_points = useSelector(state => state.user_total_points);
+
   let cleanStreak = parseInt(pray_streak.replace('x', ''), 10);
 
-  const notiHandler = () => {
-    //    navigate('Notification');
+  const handleShopping = () => {
+    if (pool_points == 0) {
+      Alert.alert(
+        'You have no points in your pool. Please request points from a sponsor.',
+      );
+      return;
+    }
+    Linking.openURL('https://theguide.us/shop-with-points');
   };
   const openDrawer = () => dispatch(DrawerActions.openDrawer());
   return (
@@ -47,7 +62,12 @@ const DashboardHeader = ({onPray, onRequest}) => {
             }}
           />
           <View style={style.nameBox}>
-            <Text center fontScaling style={style.name} title={'1x'} />
+            <Text
+              center
+              fontScaling
+              style={style.name}
+              title={userDetail.user_game_prayer_total_streak}
+            />
           </View>
         </TouchableOpacity>
         {/* profile image here */}
@@ -56,7 +76,11 @@ const DashboardHeader = ({onPray, onRequest}) => {
           <Text
             center
             style={style.ProfileTitle}
-            title={'Click here to request points'}
+            title={
+              pool_points > 0
+                ? `My Points: ${pool_points}`
+                : 'Click here to request points'
+            }
           />
           <Bar
             progress={0}
@@ -70,7 +94,7 @@ const DashboardHeader = ({onPray, onRequest}) => {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={notiHandler}>
+        <TouchableOpacity onPress={handleShopping}>
           <Image
             resizeMode="contain"
             style={style.dashboardCartImage}

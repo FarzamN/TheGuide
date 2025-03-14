@@ -10,8 +10,7 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
     height: tab ? 60 : 48,
     borderColor: '#DB9638',
-    borderRadius: tab ? 25 : 20,
-
+    borderRadius: tab ? 35 : 20,
   },
 
   font: {
@@ -24,7 +23,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#C8C8CA',
     height: tab ? 60 : 48,
-    borderRadius: tab ? 25 : 20,
+    borderRadius: tab ? 35 : 20,
 
     backgroundColor: Color.white,
   },
@@ -56,10 +55,9 @@ export const styles = StyleSheet.create({
     fontSize: tab ? 16 : 14,
   },
   CountryContainer: {
-    height: tab ? 80 : 50,
+    height: tab ? 60 : 48,
     marginTop: tab ? 20 : 15,
-    borderRadius: tab ? 25 : 20,
-
+    borderRadius: tab ? 35 : 20,
     paddingHorizontal: tab ? 25 : 15,
     backgroundColor: Color.background,
   },

@@ -19,7 +19,7 @@ const AskRequestModal = props => {
   const [sponsor, setSponsor] = useState(null);
   const [sponsorError, setSponsorError] = useState({show: false, msg: ''});
 
-  const link = `https://www.youtube.com/`
+  const link = `https://theguide.us/get-kid-sponsor-popup/${userDetail.user_id}`
  
   const onSubmit = data => {
     if (sponsor === null) {

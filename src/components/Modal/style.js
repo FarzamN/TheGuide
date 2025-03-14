@@ -18,13 +18,20 @@ export default StyleSheet.create({
     backgroundColor: Color.Non,
   },
   ModalContainer: {
-    width: '70%',
+    width: tab ? "50%" : '70%',
     borderWidth: 1,
     borderRadius: 20,
     alignSelf: 'center',
     justifyContent: 'center',
     borderColor: Color.black,
     backgroundColor: Color.white,
+  },
+  LoadingBox: {
+    width: tab ? 100 : 70,
+    height: tab ? 100 : 70,
+    marginTop:20,
+    alignSelf: 'center',
+    resizeMode: 'contain',
   },
   LottieView: {
     width: 120,
@@ -40,10 +47,10 @@ export default StyleSheet.create({
   },
   ModalText: {
     padding: 20,
-    fontSize: 16,
     color: Color.Sky,
     fontWeight: '500',
     textAlign: 'center',
+    fontSize: tab ? 20 :  16,
   },
 
   // logout ----------------------------

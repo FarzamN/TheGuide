@@ -1,4 +1,3 @@
-
 import React, {useEffect} from 'react';
 import {Color} from './src/utils/Color';
 import Splash from 'react-native-splash-screen';
@@ -14,6 +13,7 @@ import {getCity, getCoutry, getState} from './src/redux/actions/AuthAction';
 const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -39,6 +39,7 @@ const App = () => {
       console.error('Error fetching data:', error);
     }
   };
+
   const getUserDetails = async () => {
     const userData = await AsyncStorage.getItem('user_details');
     dispatch({type: USER_DETAILS, payload: JSON.parse(userData)});

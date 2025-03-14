@@ -10,6 +10,7 @@ import {
   GET_BIBLE_SCHOOL,
   USER_TOTAL_POINTS,
   PRAYER_SUPPORT_GOAL,
+  IS_SPONSOR,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -309,6 +310,24 @@ export const bariWaliAPI = () => {
       console.log('Error in courseAPI:', error);
     }
   };
+};
+
+export const studentRoleGivenAPI = async () => {
+  const url = `${Base_Url}assign-student-role-user`;
+  const myHeaders = new Headers();
+  const token = await AsyncStorage.getItem('token');
+
+  myHeaders.append('Authorization', `Bearer ${token}`);
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: myHeaders,
+    });
+    const result = await response.json();
+  } catch (error) {
+    console.error('Error fetching studentRoleGivenAPI data:', error);
+  }
 };
 
 export const getGameApi = (load, id) => {
@@ -859,6 +878,7 @@ export const get_user_app_total_points = () => {
       const res = await response.json();
       if (res.status === 'success') {
         dispatch({type: USER_TOTAL_POINTS, payload: res.user_app_total_points});
+        dispatch({type: IS_SPONSOR, payload: res.ever_been_sponsored});
       }
     } catch (error) {
       // Toast.show('Server side error');

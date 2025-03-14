@@ -7,6 +7,7 @@ import {
   GET_COUNTRY,
   API_SUCCESS,
   USER_DETAILS,
+  STUDENT_ROLE_GIVEN,
 } from '../reducer/Holder';
 import moment from 'moment';
 import {Base_Url} from '../../utils/Urls';
@@ -42,6 +43,10 @@ export const LoginApi = (data, load, err) => {
         dispatch({
           type: API_SUCCESS,
           payload: res.user_data.user_game_api_status,
+        });
+        dispatch({
+          type: STUDENT_ROLE_GIVEN,
+          payload: res.student_role_given,
         });
 
         load(false);
@@ -129,7 +134,7 @@ export const registerApi = (
     myData.append('first_name', data.f_name);
     myData.append('last_name', data.l_name);
     myData.append('email', data.email);
-    myData.append('phone', "000000");
+    myData.append('phone', '000000');
     myData.append('password', data.password);
     myData.append('confirm_password', data.password);
     myData.append('gender', 'any');

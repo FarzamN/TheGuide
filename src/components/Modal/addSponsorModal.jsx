@@ -1,26 +1,26 @@
+import React from 'react';
 import style from './style';
 import {View} from 'react-native';
 import {ModalBtn, Text} from '..';
-import React, {useState} from 'react';
 import Modal from 'react-native-modal';
 import Share from 'react-native-share';
 import {Color} from '../../utils/Color';
 import {tab} from '../../utils/Constants';
+import { useSelector } from 'react-redux';
 import QRCode from 'react-native-qrcode-styled';
 
 const AddSponsorModal = props => {
   const {onClose, visible} = props;
+  const userDetail = useSelector(state => state.userDetails);
 
-  const [getData, setData] = useState({
-    name: 'Farzam',
-    link: 'https://www.youtube.com/',
-  });
+  const link = `https://theguide.us/get-kid-sponsor-popup/${userDetail.user_id}`
+
 
   const handleShare = async () => {
     try {
       const options = {
         title: 'Share Request',
-        message: getData.link,
+        message: link,
       };
       await Share.open(options);
     } catch (error) {
@@ -29,11 +29,11 @@ const AddSponsorModal = props => {
   };
   return (
     <Modal
+    isVisible={visible}
       animationIn={'fadeInUp'}
       animationOut={'fadeOut'}
-      isVisible={visible}
-      onBackButtonPress={onClose}
       onBackdropPress={onClose}
+      onBackButtonPress={onClose}
       style={style.askRequestBox}>
       <View style={[style.RequestContainer]}>
         <Text
@@ -44,8 +44,8 @@ const AddSponsorModal = props => {
         <Text
           center
           style={[style.LogoutText, {marginTop: 10}]}
-          title={`Click the Button and send the link to (${getData.name})`}
-        />
+          title="Click the button and share the link with your sponsor"
+          />
         <ModalBtn green title="Get Link" onPress={handleShare} />
         <Text
           center
@@ -53,10 +53,10 @@ const AddSponsorModal = props => {
           title={'or have your sponsor scan the QR code'}
         />
         <QRCode
-          data={getData.link}
-          style={{alignSelf: 'center'}}
+          data={link}
           marginTop={10}
           pieceSize={tab ? 6 : 4}
+          style={{alignSelf: 'center'}}
         />
       </View>
     </Modal>

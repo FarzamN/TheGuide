@@ -5,7 +5,7 @@ import {useController} from 'react-hook-form';
 import React, {forwardRef, useState} from 'react';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
-import { tab } from '../../utils/Constants';
+import {tab} from '../../utils/Constants';
 
 const MainInput = forwardRef((props, ref) => {
   const [password, setPassword] = useState(true);
@@ -62,12 +62,12 @@ const MainInput = forwardRef((props, ref) => {
 
 const styles = StyleSheet.create({
   InputStyles: {
-    width: tab ? "90%" : '80%',
+    width: tab ? '90%' : '80%',
     fontSize: tab ? 18 : 13,
     height: '100%',
     color: Color.black,
     fontWeight: '500',
-    paddingLeft:tab ? 20 : 0
+    paddingLeft: tab ? 20 : 0,
   },
   smallbox: {
     alignSelf: 'center',
@@ -78,9 +78,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     height: tab ? 60 : 48,
     backgroundColor: Color.background,
-    
-    borderRadius: tab ? 25 : 20,
 
+    borderRadius: tab ? 35 : 20,
   },
   Text: {
     color: Color.white,

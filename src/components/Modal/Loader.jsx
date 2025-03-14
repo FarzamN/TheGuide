@@ -1,9 +1,10 @@
+import {Text} from '..';
 import React from 'react';
 import style from './style';
+import {View} from 'react-native';
 import Modal from 'react-native-modal';
 import {Color} from '../../utils/Color';
-import { iOS } from '../../utils/Constants';
-import {View, Text, ActivityIndicator} from 'react-native';
+import LoaderKit from 'react-native-loader-kit';
 
 const Loader = ({visible}) => {
   return (
@@ -17,13 +18,13 @@ const Loader = ({visible}) => {
           style.ModalContainer,
           {backgroundColor: '#FCFCFC', borderWidth: 0.8},
         ]}>
-        <ActivityIndicator
+        <LoaderKit
           color={Color.Sky}
-          style={style.LottieView}
-          size={iOS ? "large" : 80}
+          name={'BallClipRotatePulse'}
+          style={style.LoadingBox}
         />
 
-        <Text style={style.ModalText}>{'Please Wait...'}</Text>
+        <Text style={style.ModalText} title={'Please Wait...'} />
       </View>
     </Modal>
   );

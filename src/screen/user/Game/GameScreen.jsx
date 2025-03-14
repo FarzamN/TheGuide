@@ -37,6 +37,7 @@ const GameScreen = ({route}) => {
   const {goBack, getParent} = useNavigation();
   const get_game = useSelector(state => state.get_game);
   const previous_points = useSelector(state => state.user_total_points);
+  const userDetail = useSelector(state => state.userDetails);
 
   const {downloadFile, downloadProgress, isDownloading, deleteFile} =
     useFileDownloader();
@@ -137,7 +138,11 @@ const GameScreen = ({route}) => {
     dispatch(
       gameQuestionAPI(item, getGameID, goBack, setLoadAssigment, setCompleted),
     );
-    const points = gameQuestions.length + previous_points;
+    const getNumber = parseInt(
+      userDetail.user_game_prayer_total_streak.replace('X', ''),
+      10,
+    );
+    const points = gameQuestions.length * getNumber + previous_points;
     dispatch(update_user_app_total_points(points));
   };
 
