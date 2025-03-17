@@ -1,25 +1,29 @@
 import React from 'react';
 import style from './style';
-import {FullImage, ModalBtn} from '..';
 import Modal from 'react-native-modal';
-import {GlobalStyle} from '../../utils/GlobalStyle';
+import {useSelector} from 'react-redux';
 import {Text, View} from 'react-native-animatable';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import {FullImage, MinistoryDocationCard, ModalBtn} from '..';
 
 const JobModal = ({visible, onPress, load}) => {
+  const ministry_project = useSelector(state => state.ministry_project);
+
   return (
     <Modal
-      backdropOpacity={0.7}
       isVisible={visible}
       animationIn="zoomIn"
-      animationInTiming={400}
+      backdropOpacity={0.7}
       animationOut="zoomOut"
-      animationOutTiming={400}
-      backdropColor="#3750D9">
-      <View style={GlobalStyle.justify} animation={'fadeIn'} duration={100}>
-        <Text style={style.JobHead} animation={'fadeInLeft'} duration={200}>
+      backdropColor="#3750D9"
+      animationInTiming={400}
+      animationOutTiming={400}>
+      <View style={GlobalStyle.justify} animation="fadeIn" duration={100}>
+        <MinistoryDocationCard data={ministry_project} />
+        <Text style={style.JobHead} animation="fadeInLeft" duration={200}>
           Good Job
         </Text>
-        <Text style={style.JobComp} animation={'fadeInLeft'} duration={200}>
+        <Text style={style.JobComp} animation="fadeInLeft" duration={200}>
           Assigment Completed!
         </Text>
 
@@ -28,7 +32,7 @@ const JobModal = ({visible, onPress, load}) => {
           source={require('../../assets/image/badge.png')}
         />
 
-        <View style={style.JobBtn} animation={'fadeInUpBig'} duration={300}>
+        <View style={style.JobBtn} animation="fadeInUpBig" duration={300}>
           <ModalBtn
             green
             onPress={onPress}

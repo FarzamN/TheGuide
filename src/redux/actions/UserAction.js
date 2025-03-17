@@ -11,6 +11,7 @@ import {
   USER_TOTAL_POINTS,
   PRAYER_SUPPORT_GOAL,
   IS_SPONSOR,
+  MINISTRY_PROJECT,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -883,6 +884,25 @@ export const get_user_app_total_points = () => {
     } catch (error) {
       // Toast.show('Server side error');
       console.log('Error in update_user_app_total_points:', error);
+    }
+  };
+};
+
+export const get_rendom_ministry_project_to_donate = () => {
+  return async dispatch => {
+    const url = `${Base_Url}get-random-ministry-project-to-donate`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      if (res.status === 'success') {
+        dispatch({type: MINISTRY_PROJECT, payload: res.project});
+      }
+    } catch (error) {
+      // Toast.show('Server side error');
+      console.log('Error in get_rendom_ministry_project_to_donate:', error);
     }
   };
 };

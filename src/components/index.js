@@ -40,8 +40,11 @@ import GuestScreen from './Helper/GuestScreen.jsx';
 import RequestModal from './Modal/requestModal.jsx';
 import AskRequestModal from './Modal/askRequestModal.jsx';
 import AddSponsorModal from './Modal/addSponsorModal.jsx';
-import DropDown from "./Dropdown/DropDown.jsx"
+import DropDown from './Dropdown/DropDown.jsx';
+import MinistoryDocationCard from './Cards/ministoryDocationCard.jsx';
+
 export {
+  MinistoryDocationCard,
   AddSponsorModal,
   AskRequestModal,
   RequestModal,

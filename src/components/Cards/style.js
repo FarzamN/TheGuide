@@ -142,7 +142,7 @@ export const styles = StyleSheet.create({
     height: tab ? 250 : 150,
     width: tab ? '85%' : '100%',
   },
-  
+
   EventCardImage: {
     flex: 1,
     paddingBottom: 10,
@@ -190,4 +190,22 @@ export const styles = StyleSheet.create({
   },
   bookBtn: {width: '30%', height: tab ? 40 : 25},
   bookText: {fontSize: tab ? 18 : 12, fontWeight: '500'},
+
+  // -------- Ministory Donate Card
+
+  ministoryCont: {
+    backgroundColor: 'white',
+    width: '100%',
+    borderRadius: 20,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ministoryTitle: {
+    fontSize: 18,
+    fontWeight: '500',
+    marginBottom: 10,
+  },
+
+  ministoryImage: {width: '95%', height: 200, borderRadius: 20, borderWidth: 2},
 });

@@ -48,6 +48,7 @@ export default StyleSheet.create({
   ProfileTitle: {
     fontWeight: '600',
     color: Color.white,
+    textAlign: 'center',
     fontSize: tab ? 25 : 16,
   },
   pointBox: {

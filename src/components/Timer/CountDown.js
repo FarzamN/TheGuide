@@ -1,16 +1,16 @@
 import moment from 'moment';
-import { styles } from './style';
+import {styles} from './style';
 import RenderDot from './renderDot';
-import { Image_Url } from '../../utils/Urls';
-import { useGeolocation } from '../../hooks';
+import {Image_Url} from '../../utils/Urls';
+import {useGeolocation} from '../../hooks';
 import Toast from 'react-native-simple-toast';
-import { TextInput, View } from 'react-native';
-import { playSound } from '../../utils/Constants';
-import { GlobalStyle } from '../../utils/GlobalStyle';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useRef, useState } from 'react';
-import { ContBox, Error, GuestModal, TimeService } from '..';
+import {TextInput, View} from 'react-native';
+import {playSound} from '../../utils/Constants';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useRef, useState} from 'react';
+import {ContBox, Error, GuestModal, TimeService} from '..';
 
 import {
   prayer_streak,
@@ -18,13 +18,12 @@ import {
   prayerUpdate,
 } from '../../redux/actions/UserAction';
 
-
 const CountDown = () => {
-  const { navigate } = useNavigation();
+  const {navigate} = useNavigation();
   const dispatch = useDispatch();
-  const { location } = useGeolocation();
+  const {location} = useGeolocation();
 
-  const userDetail = useSelector((state) => state.userDetails);
+  const userDetail = useSelector(state => state.userDetails);
   const isGuest = userDetail === 'guest';
 
   const countdownRef = useRef(null);
@@ -33,12 +32,13 @@ const CountDown = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [counterSelect, setCounterSelect] = useState(0);
-  const [err, setErr] = useState({ show: false, msg: '' });
-  const [time, setTime] = useState({ hours: '', minutes: userDetail.age <= 12 ? "10" : "30", seconds: '' });
+  const [err, setErr] = useState({show: false, msg: ''});
+  const toReset = userDetail.age <= 12 ? '10' : '30';
+  const [time, setTime] = useState({hours: '', minutes: toReset, seconds: ''});
   const [showGuest, setShowGuest] = useState(false);
 
   const handleMap = () =>
-    navigate('webview', { uri: Image_Url + 'prayer/webview/map' });
+    navigate('webview', {uri: Image_Url + 'prayer/webview/map'});
 
   const showErr = () => {
     setShowGuest(true);
@@ -65,7 +65,7 @@ const CountDown = () => {
     }, 1300);
   };
 
-  const handleEnd = (val) => {
+  const handleEnd = val => {
     if (isGuest) {
       showErr();
       return;
@@ -76,13 +76,13 @@ const CountDown = () => {
     const endTime = moment(end_time, 'YYYY-MM-DD HH:mm:ss');
 
     const goal = endTime.diff(startTime, 'minutes');
-    const dataTwo = { goal, end_time, id: counterData.id };
+    const dataTwo = {goal, end_time, id: counterData.id};
 
     dispatch(prayerUpdate(dataTwo, val));
     dispatch(prayer_streak());
   };
 
-  const handlePress = (id) => {
+  const handlePress = id => {
     if (isGuest) {
       showErr();
       return;
@@ -175,24 +175,24 @@ const CountDown = () => {
   const resetCountdown = () => {
     setIsRunning(false);
     setIsPaused(false);
-    setTime({ hours: '', minutes: '60', seconds: '' });
+    setTime({hours: '', minutes: toReset, seconds: ''});
   };
 
   const getButtonData = () => {
     if (isRunning && !isPaused) {
       return [
-        { title: 'Pause', id: 1 },
-        { title: 'Save', id: 2 },
+        {title: 'Pause', id: 1},
+        {title: 'Save', id: 2},
       ];
     } else if (isPaused) {
       return [
-        { title: 'Start', id: 1 },
-        { title: 'Save', id: 4 },
+        {title: 'Start', id: 1},
+        {title: 'Save', id: 4},
       ];
     } else {
       return [
-        { title: 'Start', id: 2 },
-        { title: 'Reset', id: 3 },
+        {title: 'Start', id: 2},
+        {title: 'Reset', id: 3},
       ];
     }
   };
@@ -203,8 +203,8 @@ const CountDown = () => {
         style={styles.inputText}
         keyboardType="number-pad"
         value={value}
-        onChangeText={(text) =>
-          setTime((prevTime) => ({
+        onChangeText={text =>
+          setTime(prevTime => ({
             ...prevTime,
             [field]: text,
           }))

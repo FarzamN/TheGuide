@@ -17,6 +17,7 @@ import {
   getBibleSchoolApi,
   getBibleSchoolApiUpdate,
   update_user_app_total_points,
+  get_rendom_ministry_project_to_donate,
 } from '../../../redux/actions/UserAction';
 
 import {style} from './style';
@@ -142,11 +143,15 @@ const GameScreen = ({route}) => {
       userDetail.user_game_prayer_total_streak.replace('X', ''),
       10,
     );
-    const points = gameQuestions.length * getNumber + previous_points;
-    dispatch(update_user_app_total_points(points));
+    const point = gameQuestions.length * getNumber;
+    const twentyFivePercent = point * 0.25;
+    const seventyFivePercent = point * 0.75;
+    const point_of_user = seventyFivePercent + previous_points;
+    dispatch(update_user_app_total_points(point_of_user));
   };
 
   useEffect(() => {
+    dispatch(get_rendom_ministry_project_to_donate());
     dispatch(getGameApi(setLoad, item.id));
     getGameIdAPI(item.id, setLoad);
   }, []);
@@ -289,10 +294,11 @@ const GameScreen = ({route}) => {
         )}
       </ScrollView>
 
-      <Loader visible={load} />
+      {/* <Loader visible={load} /> */}
       <Error visible={error} game />
       <Correct visible={correct} game />
-      <JobModal load={loadAssigment} visible={completed} onPress={handleJob} />
+      <JobModal visible={completed} load={loadAssigment} onPress={handleJob} />
+      {/* completed */}
       <DownloadProgress
         visible={isDownloading}
         percentage={downloadProgress}

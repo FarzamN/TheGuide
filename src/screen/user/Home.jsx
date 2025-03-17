@@ -4,11 +4,11 @@ import {
   Loader,
   GuestModal,
   StreakModal,
-  DashboardHeader,
-  HomeAssigmentCard,
   RequestModal,
   AskRequestModal,
   AddSponsorModal,
+  DashboardHeader,
+  HomeAssigmentCard,
 } from '../../components';
 import moment from 'moment';
 import {style} from './style';
@@ -240,8 +240,15 @@ const Home = () => {
     <Body>
       <DashboardHeader
         onRequest={() => {
-          dispatch(get_user_app_total_points());
-          setRequestModal(true);
+          if (isGuest) {
+            setShowGuest(true);
+            setTimeout(() => {
+              setShowGuest(false);
+            }, 2000);
+          } else {
+            dispatch(get_user_app_total_points());
+            setRequestModal(true);
+          }
         }}
       />
       <FlatList

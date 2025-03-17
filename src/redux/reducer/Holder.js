@@ -17,6 +17,7 @@ export const GET_HTML = 'GET_HTML';
 export const USER_TOTAL_POINTS = 'USER_TOTAL_POINTS';
 export const IS_SPONSOR = 'IS_SPONSOR';
 export const STUDENT_ROLE_GIVEN = 'STUDENT_ROLE_GIVEN';
+export const MINISTRY_PROJECT = 'MINISTRY_PROJECT';
 
 const initial_state = {
   userDetails: false,
@@ -38,6 +39,7 @@ const initial_state = {
   get_html: '',
   user_total_points: 0,
   is_sponsor: 0,
+  ministry_project: {},
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -136,6 +138,11 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         is_sponsor: action.payload,
+      };
+    case MINISTRY_PROJECT:
+      return {
+        ...state,
+        ministry_project: action.payload,
       };
     default: {
       return state;
