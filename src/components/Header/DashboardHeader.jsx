@@ -22,6 +22,8 @@ const DashboardHeader = ({onPray, onRequest}) => {
   const pray_time = useSelector(state => state.pray_time);
   const bible_time = useSelector(state => state.bible_time);
   const userDetail = useSelector(state => state.userDetails);
+  const isGuest = userDetail === 'guest';
+
   const pray_streak = useSelector(state => state.pray_streak);
   const bible_streak = useSelector(state => state.bible_streak);
   const pool_points = useSelector(state => state.user_total_points);
@@ -57,16 +59,20 @@ const DashboardHeader = ({onPray, onRequest}) => {
             <FullImage
               sizeMode="cover"
               style={style.ProfileImage}
-              source={{
-                uri: userDetail?.profile_image,
-              }}
+              source={
+                isGuest
+                  ? require('../../assets/image/default.jpg')
+                  : {uri: userDetail.profile_image}
+              }
             />
             <View style={style.nameBox}>
               <Text
                 center
                 fontScaling
                 style={style.name}
-                title={userDetail.user_game_prayer_total_streak}
+                title={
+                  isGuest ? '0x' : userDetail.user_game_prayer_total_streak
+                }
               />
             </View>
           </TouchableOpacity>

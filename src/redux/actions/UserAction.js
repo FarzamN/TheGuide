@@ -12,6 +12,8 @@ import {
   PRAYER_SUPPORT_GOAL,
   IS_SPONSOR,
   MINISTRY_PROJECT,
+  SPONSOR_DATA,
+  PUBLIC_POOL_POINT,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -23,15 +25,12 @@ export const getBibleSchoolApi = load => {
     load(true);
     const url = `${Base_Url}get-incomplete-game`;
 
-    const myHeaders = new Headers();
+    const headers = new Headers();
     const token = await AsyncStorage.getItem('token');
 
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    headers.append('Authorization', `Bearer ${token}`);
     try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: myHeaders,
-      });
+      const response = await fetch(url, {headers});
       const res = await response.json();
       load(false);
       if (res.status == 'success') {
@@ -844,12 +843,11 @@ export const update_user_app_total_points = points => {
   return async dispatch => {
     const url = `${Base_Url}update-user-app-total-points`;
     const myData = new FormData();
-    myData.append('user_app_total_points', points);
+    myData.append('user_app_total_points', Math.round(points));
 
     const headers = new Headers();
     const token = await AsyncStorage.getItem('token');
     headers.append('Authorization', `Bearer ${token}`);
-
     try {
       const response = await fetch(url, {
         headers,
@@ -860,6 +858,8 @@ export const update_user_app_total_points = points => {
       if (res.status === 'success') {
         dispatch(get_user_app_total_points());
         // dispatch({type: USER_TOTAL_POINTS, payload: res.user_app_total_points});
+      } else {
+        console.log('error in user 70 %');
       }
     } catch (error) {
       Toast.show('Server side error');
@@ -880,6 +880,7 @@ export const get_user_app_total_points = () => {
       if (res.status === 'success') {
         dispatch({type: USER_TOTAL_POINTS, payload: res.user_app_total_points});
         dispatch({type: IS_SPONSOR, payload: res.ever_been_sponsored});
+        dispatch({type: PUBLIC_POOL_POINT, payload: res.actual_public_points});
       }
     } catch (error) {
       // Toast.show('Server side error');
@@ -905,4 +906,49 @@ export const get_rendom_ministry_project_to_donate = () => {
       console.log('Error in get_rendom_ministry_project_to_donate:', error);
     }
   };
+};
+
+export const get_sponsor_dropdown = () => {
+  return async dispatch => {
+    const url = `${Base_Url}get-user-sponsors-list`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+
+      if (res.status === 'success') {
+        const updated_sponsor = res.sponsors.map(item => ({
+          // ...item,
+          key: item.id,
+          value: item.name,
+        }));
+        dispatch({type: SPONSOR_DATA, payload: updated_sponsor});
+      }
+    } catch (error) {
+      // Toast.show('Server side error');
+      console.log('Error in get_sponsor_dropdown:', error);
+    }
+  };
+};
+
+export const donate_to_ministory = async (points, id) => {
+  const url = `${Base_Url}donate-percentage-to-ministry-project`;
+  const headers = new Headers();
+  const myData = new FormData();
+  myData.append('points', Math.round(points));
+  myData.append('ministry_project_id', id);
+  const token = await AsyncStorage.getItem('token');
+  headers.append('Authorization', `Bearer ${token}`);
+
+  try {
+    const response = await fetch(url, {method: 'POST', body: myData, headers});
+    const res = await response.json();
+    if (res.status === 'success') {
+      Toast.show('Thank you for donating to the ministry project');
+    }
+  } catch (error) {
+    console.log('Error in donate_to_ministory:', error);
+  }
 };

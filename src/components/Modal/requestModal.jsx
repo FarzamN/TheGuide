@@ -9,6 +9,7 @@ const RequestModal = props => {
   const {onClose, visible, onask, onadd} = props;
   const is_sponsor = useSelector(state => state.is_sponsor);
   const pool_points = useSelector(state => state.user_total_points);
+  const public_pool_point = useSelector(state => state.public_pool_point);
 
   return (
     <Modal
@@ -23,7 +24,7 @@ const RequestModal = props => {
           <Text
             center
             style={style.LogoutText}
-            title="you don't have any points in your pool. Would you like to request points from a sponsor?"
+            title="You don't have any points in your pool. Would you like to request points from a sponsor?"
           />
         )}
         {is_sponsor === 1 && (
@@ -33,13 +34,13 @@ const RequestModal = props => {
               style={style.LogoutText}
               title={`My Points Pool: ${pool_points}`}
             />
-            {/*
-             <Text
+
+            <Text
               center
               style={style.LogoutText}
-              title={'Public Points Pool: 25,359'}
+              title={`Public Points Pool: ${public_pool_point}`}
             />
-            */}
+
             <ModalBtn title="Request Points" onPress={onask} />
           </>
         )}

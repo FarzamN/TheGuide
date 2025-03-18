@@ -31,10 +31,11 @@ import {
   getBibleSchoolApi,
   prayerSupportGoal,
   complete_assigment,
+  studentRoleGivenAPI,
   getBibleSchoolApiUpdate,
   save_user_prayer_streak,
   get_user_app_total_points,
-  studentRoleGivenAPI,
+  get_sponsor_dropdown,
 } from '../../redux/actions/UserAction';
 import {defaultData} from '../../utils/Data';
 
@@ -168,6 +169,7 @@ const Home = () => {
   useEffect(() => {
     if (!isGuest) {
       bassChalo();
+      dispatch(get_sponsor_dropdown());
       dispatch(prayerSupportGoal());
       dispatch(prayer_streak());
       dispatch(bible_streak());
@@ -197,6 +199,7 @@ const Home = () => {
   const onRefresh = () => {
     if (!isGuest) {
       setRefresh(true);
+      dispatch(get_sponsor_dropdown());
       dispatch(prayer_streak());
       bassChalo();
       dispatch(getBibleSchoolApi(setLoad));
@@ -236,29 +239,30 @@ const Home = () => {
     }
   };
 
+  const onRequest = () => {
+    if (isGuest) {
+      setShowGuest(true);
+      setTimeout(() => {
+        setShowGuest(false);
+      }, 2000);
+      return;
+    }
+    dispatch(get_user_app_total_points());
+    dispatch(get_sponsor_dropdown());
+    setRequestModal(true);
+  };
+
   return (
     <Body>
-      <DashboardHeader
-        onRequest={() => {
-          if (isGuest) {
-            setShowGuest(true);
-            setTimeout(() => {
-              setShowGuest(false);
-            }, 2000);
-          } else {
-            dispatch(get_user_app_total_points());
-            setRequestModal(true);
-          }
-        }}
-      />
+      <DashboardHeader onRequest={onRequest} />
       <FlatList
         refreshing={refresh}
         onRefresh={onRefresh}
+        data={isGuest ? defaultData : data}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, i) => i.toString()}
         ListEmptyComponent={<Empty title={emp} />}
         contentContainerStyle={style.listContainer}
-        data={isGuest ? defaultData : data}
         renderItem={({item}) => (
           <HomeAssigmentCard data={item} onPress={() => handleGameNav(item)} />
         )}

@@ -18,6 +18,7 @@ import {
   getBibleSchoolApiUpdate,
   update_user_app_total_points,
   get_rendom_ministry_project_to_donate,
+  donate_to_ministory,
 } from '../../../redux/actions/UserAction';
 
 import {style} from './style';
@@ -39,6 +40,7 @@ const GameScreen = ({route}) => {
   const get_game = useSelector(state => state.get_game);
   const previous_points = useSelector(state => state.user_total_points);
   const userDetail = useSelector(state => state.userDetails);
+  const ministry_project = useSelector(state => state.ministry_project);
 
   const {downloadFile, downloadProgress, isDownloading, deleteFile} =
     useFileDownloader();
@@ -145,6 +147,7 @@ const GameScreen = ({route}) => {
     );
     const point = gameQuestions.length * getNumber;
     const twentyFivePercent = point * 0.25;
+    donate_to_ministory(twentyFivePercent, ministry_project.id);
     const seventyFivePercent = point * 0.75;
     const point_of_user = seventyFivePercent + previous_points;
     dispatch(update_user_app_total_points(point_of_user));
@@ -294,11 +297,10 @@ const GameScreen = ({route}) => {
         )}
       </ScrollView>
 
-      {/* <Loader visible={load} /> */}
+      <Loader visible={load} />
       <Error visible={error} game />
       <Correct visible={correct} game />
       <JobModal visible={completed} load={loadAssigment} onPress={handleJob} />
-      {/* completed */}
       <DownloadProgress
         visible={isDownloading}
         percentage={downloadProgress}

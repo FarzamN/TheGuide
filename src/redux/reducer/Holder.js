@@ -18,6 +18,8 @@ export const USER_TOTAL_POINTS = 'USER_TOTAL_POINTS';
 export const IS_SPONSOR = 'IS_SPONSOR';
 export const STUDENT_ROLE_GIVEN = 'STUDENT_ROLE_GIVEN';
 export const MINISTRY_PROJECT = 'MINISTRY_PROJECT';
+export const SPONSOR_DATA = 'SPONSOR_DATA';
+export const PUBLIC_POOL_POINT = 'PUBLIC_POOL_POINT';
 
 const initial_state = {
   userDetails: false,
@@ -40,6 +42,8 @@ const initial_state = {
   user_total_points: 0,
   is_sponsor: 0,
   ministry_project: {},
+  sponsor_data: [],
+  public_pool_point: 0,
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -143,6 +147,16 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         ministry_project: action.payload,
+      };
+    case SPONSOR_DATA:
+      return {
+        ...state,
+        sponsor_data: action.payload,
+      };
+    case PUBLIC_POOL_POINT:
+      return {
+        ...state,
+        public_pool_point: action.payload,
       };
     default: {
       return state;

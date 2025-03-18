@@ -7,7 +7,6 @@ import {useForm} from 'react-hook-form';
 import {useSelector} from 'react-redux';
 import {Color} from '../../utils/Color';
 import {tab} from '../../utils/Constants';
-import {genderData} from '../../utils/Data';
 import QRCode from 'react-native-qrcode-styled';
 import {IconType} from 'react-native-dynamic-vector-icons';
 import {DropDown, MainInput, ModalBtn, Text, Validation} from '..';
@@ -15,16 +14,22 @@ import {DropDown, MainInput, ModalBtn, Text, Validation} from '..';
 const AskRequestModal = props => {
   const {onClose, visible} = props;
   const userDetail = useSelector(state => state.userDetails);
+  const sponsor_data = useSelector(state => state.sponsor_data);
   const [sent, setSent] = useState(false);
+
+  const [inputValue, setInputValue] = useState('');
+
   const [sponsor, setSponsor] = useState(null);
   const [sponsorError, setSponsorError] = useState({show: false, msg: ''});
 
-  const link = `https://theguide.us/get-kid-sponsor-popup/${userDetail.user_id}`
- 
-  const onSubmit = data => {
+  const link = `https://theguide.us/request-checkout-webview?kid_id=${userDetail.user_id}&sponsor_id=${sponsor}&amount=${inputValue}`;
+
+  const onRequest = data => {
     if (sponsor === null) {
       setSponsorError({show: true, msg: 'Please select Sponsor'});
     } else {
+      reset();
+      setInputValue(data.amount);
       setSponsorError({show: false, msg: ''});
       setSent(true);
     }
@@ -45,18 +50,24 @@ const AskRequestModal = props => {
   };
 
   const {
+    reset,
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({mode: 'all'});
+
+  const close = () => {
+    setSent(false);
+    onClose();
+  };
   return (
     <Modal
       isVisible={visible}
-      animationIn={'slideInUp'}
-      onBackdropPress={onClose}
+      animationIn="slideInUp"
+      onBackdropPress={close}
+      onBackButtonPress={close}
       style={style.askRequestBox}
-      onBackButtonPress={onClose}
-      animationOut={'slideOutDown'}>
+      animationOut="slideOutDown">
       <View style={[style.RequestContainer]}>
         <Text
           center
@@ -79,14 +90,14 @@ const AskRequestModal = props => {
             <QRCode
               data={link}
               marginTop={10}
-              style={{alignSelf: 'center'}}
               pieceSize={tab ? 6 : 4}
+              style={{alignSelf: 'center'}}
             />
           </>
         ) : (
           <>
             <DropDown
-              data={genderData}
+              data={sponsor_data}
               placeholder="Sponsor"
               onSelect={setSponsor}
               boxStyles={style.amountInput}
@@ -111,7 +122,7 @@ const AskRequestModal = props => {
                 required: 'amount is required',
               }}
             />
-            <ModalBtn green title="Submit" onPress={handleSubmit(onSubmit)} />
+            <ModalBtn green title="Request" onPress={handleSubmit(onRequest)} />
           </>
         )}
       </View>
