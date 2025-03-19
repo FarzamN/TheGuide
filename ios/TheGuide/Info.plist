@@ -43,13 +43,29 @@
 	<key>NSCameraUsageDescription</key>
 	<string>TheGuide Need Camera Permission</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>only a yellow spot will be shown near your location. No personal details will be shown.</string>
+	<string>Turning on location services allows us to show a yellow circle when you pray. Our goal is to Light Up Your City in Prayer! We’re uniting believers in prayer across the map! By allowing location access, you can see and join others in prayer as we light up each city together. We respect your privacy We do not share your personal details. Your exact location will never be shown, only a general area of prayer activity. Would you like to allow location access to join in prayer?</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>only a yellow spot will be shown near your location. No personal details will be shown.</string>
+	<string>Turning on location services allows us to show a yellow circle when you pray. Our goal is to Light Up Your City in Prayer! We’re uniting believers in prayer across the map! By allowing location access, you can see and join others in prayer as we light up each city together. We respect your privacy We do not share your personal details. Your exact location will never be shown, only a general area of prayer activity. Would you like to allow location access to join in prayer?</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo permission will may used to upload profile photo.</string>
+	<string>Add a Profile Image  
+Make your profile more personal by adding a picture. You can take a new photo or choose one from your library.  
+
+Your privacy is our priority: 
+- We only access the image you select.  
+- Your photos and camera are never stored or shared without your permission.  
+- You can change or remove your profile image anytime.  
+
+Would you like to allow access?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Photo permission will may used to upload profile photo.</string>
+	<string>Add a Profile Image  
+Make your profile more personal by adding a picture. You can take a new photo or choose one from your library.  
+
+Your privacy is our priority: 
+- We only access the image you select.  
+- Your photos and camera are never stored or shared without your permission.  
+- You can change or remove your profile image anytime.  
+
+Would you like to allow access?</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
