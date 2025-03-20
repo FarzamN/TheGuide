@@ -1,3 +1,5 @@
+import {playSound} from '../../../utils/Constants';
+
 export const handleAnswer = (
   ans,
   setError,
@@ -10,6 +12,7 @@ export const handleAnswer = (
   setAllQuestionsCompleted,
 ) => {
   if (ans.isCorrect) {
+    playSound('correct.mp3');
     setCorrect(true); // Show "Correct" feedback
     showQuestion(false);
     setTimeout(() => {
@@ -26,6 +29,7 @@ export const handleAnswer = (
     }, 2000);
   } else {
     // For incorrect answer, allow retry but prevent repeated display
+    playSound('wrong.mp3');
     setError(true);
     showQuestion(false); // Hide question after transitioning
     setTimeout(() => {

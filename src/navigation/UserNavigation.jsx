@@ -10,6 +10,7 @@ import {
   Game,
   Profile,
   WebView,
+  ShowNote,
   EditProfile,
   EventScreen,
   StatusScreen,
@@ -46,6 +47,11 @@ const allHomeConfig = {
   ],
 };
 
+const allNoteConfig = {
+  initialRouteName: 'note',
+  screens: [{name: 'note', component: ShowNote}],
+};
+
 const allStatusConfig = {
   initialRouteName: 'status',
   screens: [{name: 'status', component: StatusScreen}],
@@ -66,6 +72,7 @@ const allEventConfig = {
 };
 
 export const AllHome = () => createNavigator(allHomeConfig);
+export const AllNote = () => createNavigator(allNoteConfig);
 export const AllPrayer = () => createNavigator(allPrayerConfig);
 export const AllStatus = () => createNavigator(allStatusConfig);
 export const AllEvent = () => createNavigator(allEventConfig);
@@ -73,6 +80,7 @@ export const AllEvent = () => createNavigator(allEventConfig);
 const UserNavigation = () => {
   const UserNav = [
     {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Bible'},
+    {c: AllNote, icon: require('../assets/image/nav/note.png'), n: 'Note'},
     {c: AllPrayer, icon: require('../assets/image/nav/pray.png'), n: 'Prayer'},
     // {
     //   c: AllStatus,

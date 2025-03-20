@@ -33,11 +33,11 @@ const DashboardHeader = ({onPray, onRequest}) => {
   let cleanStreak = parseInt(pray_streak.replace('x', ''), 10);
 
   const handleShopping = () => {
-    if (pool_points == 0) {
-      setShowGuest(true);
-      setTimeout(() => setShowGuest(false), 2000);
-      return;
-    }
+    // if (pool_points == 0) {
+    //   setShowGuest(true);
+    //   setTimeout(() => setShowGuest(false), 2000);
+    //   return;
+    // }
     Linking.openURL('https://theguide.us/shop-with-points');
   };
   const openDrawer = () => dispatch(DrawerActions.openDrawer());

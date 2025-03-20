@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
-import {tab, width} from '../../utils/Constants';
+import {height, tab, width} from '../../utils/Constants';
 
 export default StyleSheet.create({
   MainModal: {
@@ -18,7 +18,7 @@ export default StyleSheet.create({
     backgroundColor: Color.Non,
   },
   ModalContainer: {
-    width: tab ? "50%" : '70%',
+    width: tab ? '50%' : '70%',
     borderWidth: 1,
     borderRadius: 20,
     alignSelf: 'center',
@@ -29,7 +29,7 @@ export default StyleSheet.create({
   LoadingBox: {
     width: tab ? 100 : 70,
     height: tab ? 100 : 70,
-    marginTop:20,
+    marginTop: 20,
     alignSelf: 'center',
     resizeMode: 'contain',
   },
@@ -50,7 +50,7 @@ export default StyleSheet.create({
     color: Color.Sky,
     fontWeight: '500',
     textAlign: 'center',
-    fontSize: tab ? 20 :  16,
+    fontSize: tab ? 20 : 16,
   },
 
   // logout ----------------------------
@@ -82,18 +82,18 @@ export default StyleSheet.create({
     fontWeight: '600',
   },
   JobHead: {
-    fontSize: 45,
+    fontSize: width * 0.1,
     color: '#FFDF00',
     fontWeight: '700',
   },
   JobComp: {
-    fontSize: 25,
+    fontSize: tab ? width / 30 : width / 18,
     fontWeight: '600',
     color: Color.white,
   },
   JobLottie: {
     width: 200,
-    height: 200,
+    height: height / 6,
     marginVertical: 60,
     resizeMode: 'contain',
   },
@@ -171,7 +171,8 @@ export default StyleSheet.create({
   },
   RequestContainer: {
     borderRadius: 20,
-    paddingVertical: 30,
+    paddingBottom: 30,
+    paddingTop: 10,
     alignSelf: 'center',
     paddingHorizontal: 30,
     width: tab ? '60%' : '90%',

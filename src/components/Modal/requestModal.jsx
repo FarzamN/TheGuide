@@ -4,6 +4,7 @@ import style from './style';
 import {ModalBtn, Text} from '..';
 import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux';
+import {ModalBar} from '..';
 
 const RequestModal = props => {
   const {onClose, visible, onask, onadd} = props;
@@ -20,14 +21,8 @@ const RequestModal = props => {
       onBackButtonPress={onClose}
       animationOut="slideOutDown">
       <View style={[style.RequestContainer]}>
-        {pool_points == 0 && (
-          <Text
-            center
-            style={style.LogoutText}
-            title="You don't have any points in your pool. Would you like to request points from a sponsor?"
-          />
-        )}
-        {is_sponsor === 1 && (
+        <ModalBar />
+        {is_sponsor === 1 ? (
           <>
             <Text
               center
@@ -43,6 +38,12 @@ const RequestModal = props => {
 
             <ModalBtn title="Request Points" onPress={onask} />
           </>
+        ) : (
+          <Text
+            center
+            style={style.LogoutText}
+            title="You don't have any points in your pool. Would you like to request points from a sponsor?"
+          />
         )}
 
         <ModalBtn green title="Add A Sponsor" onPress={onadd} />

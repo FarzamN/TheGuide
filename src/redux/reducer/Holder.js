@@ -20,6 +20,7 @@ export const STUDENT_ROLE_GIVEN = 'STUDENT_ROLE_GIVEN';
 export const MINISTRY_PROJECT = 'MINISTRY_PROJECT';
 export const SPONSOR_DATA = 'SPONSOR_DATA';
 export const PUBLIC_POOL_POINT = 'PUBLIC_POOL_POINT';
+export const GET_NOTE = 'GET_NOTE';
 
 const initial_state = {
   userDetails: false,
@@ -44,6 +45,7 @@ const initial_state = {
   ministry_project: {},
   sponsor_data: [],
   public_pool_point: 0,
+  get_note: [],
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -157,6 +159,11 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         public_pool_point: action.payload,
+      };
+    case GET_NOTE:
+      return {
+        ...state,
+        get_note: action.payload,
       };
     default: {
       return state;

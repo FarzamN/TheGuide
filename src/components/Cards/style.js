@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
-import {tab} from '../../utils/Constants';
+import {fontScale, height, tab} from '../../utils/Constants';
+import {ta} from 'date-fns/locale';
 
 const {white, black} = Color;
 export const styles = StyleSheet.create({
@@ -194,18 +195,49 @@ export const styles = StyleSheet.create({
   // -------- Ministory Donate Card
 
   ministoryCont: {
-    backgroundColor: 'white',
-    width: '100%',
     borderRadius: 20,
-    paddingVertical: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  ministoryTitle: {
-    fontSize: 18,
-    fontWeight: '500',
     marginBottom: 10,
+    overflow: 'hidden',
+    paddingVertical: 10,
+    backgroundColor: 'white',
+    width: tab ? '60%' : '100%',
   },
 
-  ministoryImage: {width: '95%', height: 200, borderRadius: 20, borderWidth: 2},
+  ministoryTitle: {
+    fontWeight: '500',
+    marginBottom: 10,
+    fontSize: tab ? 20 : 18,
+  },
+
+  MinistorDocImageBox: {
+    width: '90%',
+    borderWidth: 2,
+    borderRadius: 20,
+    overflow: 'hidden',
+    height: height / 5.5,
+  },
+  // -------- Note Card
+
+  NoteCont: {
+    width: tab ? '80%' : '99%',
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    paddingVertical: tab ? 16 : 12,
+    borderRadius: 10,
+    elevation: 4,
+    backgroundColor: Color.white,
+    alignSelf: 'center',
+  },
+
+  menuTitle: {
+    color: Color.black,
+    fontSize: tab ? 16 : 14,
+    fontWeight: '500',
+  },
+
+  menuStyle: {
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+  },
 });

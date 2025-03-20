@@ -9,7 +9,7 @@ import {Color} from '../../utils/Color';
 import {tab} from '../../utils/Constants';
 import QRCode from 'react-native-qrcode-styled';
 import {IconType} from 'react-native-dynamic-vector-icons';
-import {DropDown, MainInput, ModalBtn, Text, Validation} from '..';
+import {CrossIcon, DropDown, MainInput, ModalBtn, Text, Validation} from '..';
 
 const AskRequestModal = props => {
   const {onClose, visible} = props;
@@ -57,8 +57,8 @@ const AskRequestModal = props => {
   } = useForm({mode: 'all'});
 
   const close = () => {
-    setSent(false);
     onClose();
+    setSent(false);
   };
   return (
     <Modal
@@ -69,6 +69,7 @@ const AskRequestModal = props => {
       style={style.askRequestBox}
       animationOut="slideOutDown">
       <View style={[style.RequestContainer]}>
+        <CrossIcon onPress={close} />
         <Text
           center
           style={[style.LogoutText, {color: Color.black}]}

@@ -17,7 +17,7 @@ import Toast from 'react-native-simple-toast';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch, useSelector} from 'react-redux';
 import {BIBLE_TIME} from '../../redux/reducer/Holder';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
@@ -62,19 +62,24 @@ const Home = () => {
   const [askRequestModal, setAskRequestModal] = useState(false);
   const [complete, setCompleted] = useState({ids: [], isCompleted: false});
 
-  const checkDate = async () => {
+  const isBibleStreakRunning = useRef(false); // Prevents multiple executions
+
+  const handleBibleStreak = async () => {
+    if (isBibleStreakRunning.current) return; // Skip if already running
+    isBibleStreakRunning.current = true;
+
     try {
-      // Get the saved date from AsyncStorage
       const savedDate = await AsyncStorage.getItem('lastAPICallDate');
       const today = moment().format('DD-MM-YYYY');
+
       if (savedDate === today) {
         Toast.show('Todays Bible Streak is complete!');
         console.log('API already hit today. Skipping...');
         dispatch({type: BIBLE_TIME, payload: 'done'});
-        return; // API already hit today
+        isBibleStreakRunning.current = false;
+        return;
       }
 
-      // Clear the saved date if it's not today
       if (savedDate && savedDate !== today) {
         console.log('removing last call');
         await AsyncStorage.removeItem('lastAPICallDate');
@@ -82,29 +87,25 @@ const Home = () => {
       }
 
       if (!data || data.length === 0) {
-        return false; // No data to check
+        isBibleStreakRunning.current = false;
+        return false;
       }
 
-      // Extract and format dates
       const dates = data.map(item =>
         moment(item.completed_on).format('DD-MM-YYYY'),
       );
-
-      // Check if all dates are the same
       const allSameDate = dates.every(date => date === today);
+
       if (allSameDate) {
-        // Call the API
         dispatch(bible_streak_inc(setShowStreak));
-        dispatch(bible_streak_dec());
         dispatch({type: BIBLE_TIME, payload: 'done'});
-
-        // Save today's date in AsyncStorage
         await AsyncStorage.setItem('lastAPICallDate', today);
-
         console.log("API called and today's date saved.");
       }
     } catch (error) {
       console.error('Error checking date or hitting API:', error);
+    } finally {
+      isBibleStreakRunning.current = false; // Reset lock
     }
   };
 
@@ -154,7 +155,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!isGuest) {
-      checkDate();
+      handleBibleStreak();
       checkComplete();
       updateBiblenPrayer();
     }
@@ -164,7 +165,7 @@ const Home = () => {
     if (!isGuest) {
       updateBiblenPrayer();
     }
-  }, [checkDate, isGuest]);
+  }, [handleBibleStreak, isGuest]);
 
   useEffect(() => {
     if (!isGuest) {
@@ -270,6 +271,7 @@ const Home = () => {
       <Loader visible={load} />
       <GuestModal visible={showGuest} />
       <StreakModal visible={showStreak} onPress={handleStreak} />
+
       <RequestModal
         onask={() => {
           setRequestModal(false);
@@ -286,10 +288,12 @@ const Home = () => {
         visible={requestModal}
         onClose={() => setRequestModal(false)}
       />
+
       <AskRequestModal
         visible={askRequestModal}
         onClose={() => setAskRequestModal(false)}
       />
+
       <AddSponsorModal
         visible={addSponsorModal}
         onClose={() => setAddSponsorModal(false)}

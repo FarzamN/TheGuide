@@ -14,6 +14,7 @@ import {
   MINISTRY_PROJECT,
   SPONSOR_DATA,
   PUBLIC_POOL_POINT,
+  GET_NOTE,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -314,16 +315,13 @@ export const bariWaliAPI = () => {
 
 export const studentRoleGivenAPI = async () => {
   const url = `${Base_Url}assign-student-role-user`;
-  const myHeaders = new Headers();
+  const headers = new Headers();
   const token = await AsyncStorage.getItem('token');
 
-  myHeaders.append('Authorization', `Bearer ${token}`);
+  headers.append('Authorization', `Bearer ${token}`);
 
   try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: myHeaders,
-    });
+    const response = await fetch(url, {headers});
     const result = await response.json();
   } catch (error) {
     console.error('Error fetching studentRoleGivenAPI data:', error);
@@ -334,17 +332,13 @@ export const getGameApi = (load, id) => {
   return async dispatch => {
     load(true);
     const url = `${Base_Url}get-game-data/${id}`;
-    const myHeaders = new Headers();
+    const headers = new Headers();
     const token = await AsyncStorage.getItem('token');
 
-    myHeaders.append('Authorization', `Bearer ${token}`);
+    headers.append('Authorization', `Bearer ${token}`);
 
     try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow',
-      });
+      const response = await fetch(url, {headers});
       const result = await response.json();
       if (result.success) {
         load(false);
@@ -951,4 +945,57 @@ export const donate_to_ministory = async (points, id) => {
   } catch (error) {
     console.log('Error in donate_to_ministory:', error);
   }
+};
+
+export const getNoteApi = load => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}get-user-notes`;
+
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      load(false);
+      if (res.status == 'success') {
+        dispatch({type: GET_NOTE, payload: res.notes.reverse()});
+      }
+    } catch (error) {
+      load(false);
+      console.log('error getNoteApi', error);
+    }
+  };
+};
+
+export const save_note = (data, load, onClose, reset) => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}save-user-note`;
+    const body = new FormData();
+    body.append('note', data.note);
+
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {
+        body,
+        headers,
+        method: 'POST',
+      });
+      const res = await response.json();
+      load(false);
+      if (res.status == 'success') {
+        dispatch(getNoteApi(load));
+        onClose();
+        reset();
+      }
+    } catch (error) {
+      load(false);
+      console.log('Error in save_note:', error);
+    }
+  };
 };

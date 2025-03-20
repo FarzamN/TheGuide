@@ -2,7 +2,7 @@ import Sound from 'react-native-sound';
 import {EmailRegix} from './Urls';
 import {Dimensions, Platform} from 'react-native';
 
-export const {width, height,fontScale} = Dimensions.get('screen');
+export const {width, height} = Dimensions.get('window');
 
 export const f_inch = width <= 350 && height <= 600;
 export const tab = width >= 768 && height >= 1024;
@@ -31,7 +31,7 @@ export const required = type => {
   return `${type} is Required`;
 };
 
-export const playSound = (file) => {
+export const playSound = file => {
   const sound = new Sound(file, Sound.MAIN_BUNDLE, error => {
     if (error) {
       console.log('Failed to load the sound', error);

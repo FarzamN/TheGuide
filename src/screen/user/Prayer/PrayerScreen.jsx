@@ -4,6 +4,10 @@ import {
   AboutStreak,
   DashboardHeader,
   TimeChangeModal,
+  RequestModal,
+  AskRequestModal,
+  AddSponsorModal,
+  GuestModal,
 } from '../../../components';
 
 import moment from 'moment';
@@ -21,16 +25,30 @@ import {GlobalStyle} from '../../../utils/GlobalStyle';
 import NumberComp from '../../../components/Timer/Number';
 import CountDown from '../../../components/Timer/CountDown';
 import React, {useCallback, useEffect, useState} from 'react';
-import {prayer_streak} from '../../../redux/actions/UserAction';
+import {
+  get_user_app_total_points,
+  prayer_streak,
+} from '../../../redux/actions/UserAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 
 const PrayerScreen = () => {
   const dispatch = useDispatch();
   const {navigate, getParent} = useNavigation();
-  
+
   const userDetail = useSelector(state => state.userDetails);
-  const isGuest = userDetail === 'guest'
+  const isGuest = userDetail === 'guest';
+
+  const [showGuest, setShowGuest] = useState(false);
+  const [requestModal, setRequestModal] = useState(false);
+  const [askRequestModal, setAskRequestModal] = useState(false);
+  const [addSponsorModal, setAddSponsorModal] = useState(false);
+
+  useEffect(() => {
+    if (!isGuest) {
+      dispatch(get_user_app_total_points());
+    }
+  }, [isGuest]);
 
   const [remainingTime, setRemainingTime] = useState(null);
   const [savedTime, setSavedTime] = useState('20:00'); // Default time
@@ -132,9 +150,20 @@ const PrayerScreen = () => {
     }, []),
   );
 
+  const onRequest = () => {
+    if (isGuest) {
+      setShowGuest(true);
+      setTimeout(() => {
+        setShowGuest(false);
+      }, 2000);
+      return;
+    }
+    dispatch(get_user_app_total_points());
+    setRequestModal(true);
+  };
   return (
     <Body>
-      <DashboardHeader />
+      <DashboardHeader onRequest={onRequest} />
       <ScrollView>
         <TimeBar
           onMap={handleMap}
@@ -159,27 +188,6 @@ const PrayerScreen = () => {
         ) : (
           <NumberComp />
         )}
-        {/*
-        <View style={[style.TimeChangeCont, GlobalStyle.justify]}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {[0, 15, 30, 60, 90, 120].map((i, ix) => (
-              <TimeChange
-                key={ix}
-                data={i}
-                i={ix}
-                focus={i === timer.selected}
-                onPress={() => {
-                  setTimer(prevTimer => ({
-                    ...prevTimer,
-                    visible: true, // Show the modal
-                    temp: i, // Set the temporary time selection
-                  }));
-                }}
-              />
-            ))}
-          </ScrollView>
-        </View>
-        */}
       </ScrollView>
 
       <TimeChangeModal
@@ -223,8 +231,58 @@ const PrayerScreen = () => {
         onClose={() => setShowTimer(false)}></TimerBtnModal> */}
       <AboutStreak />
       <DonateModal onClose={() => setDonate(false)} visible={donate} />
+
+      <GuestModal visible={showGuest} />
+      <RequestModal
+        onask={() => {
+          setRequestModal(false);
+          setTimeout(() => {
+            setAskRequestModal(true);
+          }, 500);
+        }}
+        onadd={() => {
+          setRequestModal(false);
+          setTimeout(() => {
+            setAddSponsorModal(true);
+          }, 1000);
+        }}
+        visible={requestModal}
+        onClose={() => setRequestModal(false)}
+      />
+      <AskRequestModal
+        visible={askRequestModal}
+        onClose={() => setAskRequestModal(false)}
+      />
+      <AddSponsorModal
+        visible={addSponsorModal}
+        onClose={() => setAddSponsorModal(false)}
+      />
     </Body>
   );
 };
 
 export default PrayerScreen;
+
+{
+  /*
+        <View style={[style.TimeChangeCont, GlobalStyle.justify]}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {[0, 15, 30, 60, 90, 120].map((i, ix) => (
+              <TimeChange
+                key={ix}
+                data={i}
+                i={ix}
+                focus={i === timer.selected}
+                onPress={() => {
+                  setTimer(prevTimer => ({
+                    ...prevTimer,
+                    visible: true, // Show the modal
+                    temp: i, // Set the temporary time selection
+                  }));
+                }}
+              />
+            ))}
+          </ScrollView>
+        </View>
+        */
+}

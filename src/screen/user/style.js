@@ -87,10 +87,10 @@ export const style = StyleSheet.create({
   closeBTN: {
     zIndex: 1,
     right: 10,
-    width: 30,
+    width: tab ? 40 : 30,
     borderRadius: 100,
     borderRadius: 100,
-    top: iOS ? 40 : 10,
+
     aspectRatio: 1 / 1,
     position: 'absolute',
     alignItems: 'center',

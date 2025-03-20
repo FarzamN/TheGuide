@@ -1,35 +1,40 @@
-import {FlatList} from 'react-native';
-import EventHead from './eventComp/eventHead';
-import EventBottom from './eventComp/eventBottom';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
-import {
-  eventApi,
-  get_user_app_total_points,
-} from '../../../redux/actions/UserAction';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
+  get_user_app_total_points,
+  getNoteApi,
+} from '../../../redux/actions/UserAction';
+import {
+  Body,
+  Loader,
+  GuestModal,
+  RequestModal,
   AddSponsorModal,
   AskRequestModal,
-  Body,
   DashboardHeader,
-  EventCard,
-  GuestModal,
-  Loader,
-  RequestModal,
+  Empty,
+  NoteCard,
+  AddNoteModal,
+  Plusbox,
 } from '../../../components';
+import {FlatList} from 'react-native';
 
-const EventScreen = () => {
+const ShowNote = () => {
   const dispatch = useDispatch();
   const {getParent} = useNavigation();
-  const get_event = useSelector(state => state.get_event);
   const userDetail = useSelector(state => state.userDetails);
   const isGuest = userDetail === 'guest';
-
+  const note = useSelector(state => state.get_note);
   const [load, setLoad] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
+  const [noteModal, setNoteModal] = useState({
+    visible: false,
+    isEdit: false,
+    preData: '',
+  });
   const [showGuest, setShowGuest] = useState(false);
   const [requestModal, setRequestModal] = useState(false);
   const [askRequestModal, setAskRequestModal] = useState(false);
@@ -37,41 +42,19 @@ const EventScreen = () => {
 
   useEffect(() => {
     if (!isGuest) {
+      dispatch(getNoteApi(setLoad));
       dispatch(get_user_app_total_points());
     }
   }, [isGuest]);
 
-  const [eventType, setEventType] = useState({
-    visible: false,
-    value: 'Event Type',
-  });
-  const [streak, setStreak] = useState({
-    visible: false,
-    value: 'Streak',
-  });
-
-  const handleStreak = () => {
-    setStreak(pre => ({
-      ...pre,
-      visible: true,
-    }));
+  const handleDelete = () => {
+    console.log('delete');
   };
-  const handleType = () => {
-    setEventType(pre => ({
-      ...pre,
-      visible: true,
-    }));
-  };
-
   const onRefresh = () => {
     setRefresh(true);
-    dispatch(eventApi(setLoad));
+    dispatch(getNoteApi(setLoad));
     setRefresh(false);
   };
-
-  useEffect(() => {
-    dispatch(eventApi(setLoad));
-  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -95,23 +78,38 @@ const EventScreen = () => {
   return (
     <Body>
       <DashboardHeader onRequest={onRequest} />
-      {/* <EventHead
-        page={streak.value}
-        type={eventType.value}
-        onStreak={handleStreak}
-        onTypePress={handleType}
-      /> */}
       <FlatList
-        data={get_event}
+        data={note}
         refreshing={refresh}
         onRefresh={onRefresh}
         style={GlobalStyle.Padding}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, i) => i.toString()}
-        renderItem={({item}) => <EventCard data={item} />}
+        renderItem={({item}) => (
+          <NoteCard
+            data={item}
+            onEdit={() =>
+              setNoteModal({visible: true, isEdit: true, preData: item.note})
+            }
+            onDelete={handleDelete}
+          />
+        )}
+        ListEmptyComponent={<Empty title={"You don't have any Note"} />}
       />
-      {/* <EventBottom /> */}
+      <Plusbox
+        onPress={() =>
+          setNoteModal({visible: true, isEdit: false, preData: ''})
+        }
+      />
       <Loader visible={load} />
+      <AddNoteModal
+        preData={noteModal.preData}
+        visible={noteModal.visible}
+        title={noteModal.isEdit ? 'Edit Note' : 'Add Note'}
+        onClose={() =>
+          setNoteModal({visible: false, isEdit: false, preData: ''})
+        }
+      />
 
       <GuestModal visible={showGuest} />
       <RequestModal
@@ -142,4 +140,4 @@ const EventScreen = () => {
   );
 };
 
-export default EventScreen;
+export default ShowNote;

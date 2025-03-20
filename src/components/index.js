@@ -42,8 +42,18 @@ import AskRequestModal from './Modal/askRequestModal.jsx';
 import AddSponsorModal from './Modal/addSponsorModal.jsx';
 import DropDown from './Dropdown/DropDown.jsx';
 import MinistoryDocationCard from './Cards/ministoryDocationCard.jsx';
+import ModalBar from './Helper/modalBar.jsx';
+import CrossIcon from './Helper/crossIcon.jsx';
+import NoteCard from './Cards/NoteCard.jsx';
+import AddNoteModal from './Modal/addNoteModal.jsx';
+import Plusbox from './Helper/plusbox.jsx';
 
 export {
+  Plusbox,
+  AddNoteModal,
+  NoteCard,
+  CrossIcon,
+  ModalBar,
   MinistoryDocationCard,
   AddSponsorModal,
   AskRequestModal,

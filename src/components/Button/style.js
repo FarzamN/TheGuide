@@ -84,7 +84,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     borderWidth: 1,
     height: tab ? 60 : 48,
-    borderRadius: tab ? 30 : 20,
+    borderRadius: tab ? 25 : 20,
   },
   ModalBtnText: {
     fontWeight: '600',
@@ -102,7 +102,7 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     borderRadius: 100,
     paddingHorizontal: 3,
-    height: tab ? 70 : 50,
+    height: tab ? 75 : 55,
     width: tab ? '40%' : '47%',
   },
   GameBTNText: {

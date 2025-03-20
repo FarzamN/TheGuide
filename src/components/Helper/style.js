@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
-import {tab, width} from '../../utils/Constants';
+import {iOS, tab, width} from '../../utils/Constants';
 
 export const style = StyleSheet.create({
   Divider: {
@@ -8,6 +8,22 @@ export const style = StyleSheet.create({
     width: width - 20,
     borderRadius: 100,
     backgroundColor: 'grey',
+  },
+  modalBar: {
+    width: '30%',
+    height: 7,
+    borderRadius: 20,
+    backgroundColor: Color.grey,
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
+  closeBTN: {
+    borderRadius: 100,
+    padding: tab ? 4 : 3,
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    backgroundColor: 'black',
+    justifyContent: 'center',
   },
   helperText: {
     color: 'red',
@@ -48,5 +64,18 @@ export const style = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: Color.Blue,
+  },
+
+  PlusCont: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    zIndex: 9,
+    width: 50,
+    aspectRatio: 1 / 1,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Color.orange,
   },
 });

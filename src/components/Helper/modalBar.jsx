@@ -2,6 +2,6 @@ import React from 'react';
 import {style} from './style';
 import {View} from 'react-native';
 
-const Divider = () => <View style={style.Divider} />;
+const ModalBar = () => <View style={style.modalBar} />;
 
-export default Divider;
+export default ModalBar;
