@@ -20,7 +20,7 @@ import HomeAssigmentCard from './Cards/HomeAssigmentCard';
 import ProfileBody from './layout/ProfileBody';
 import ProfileBtn from './Button/ProfileBtn';
 import ModalBtn from './Button/ModalBtn';
-import LogoutModal from './Modal/LogoutModal';
+import DeleteModal from './Modal/DeleteModal';
 import GameHeader from './Header/GameHeader';
 import GameBtn from './Button/GameBtn';
 import StatusCard from './Cards/StatusCard';
@@ -74,7 +74,7 @@ export {
   StatusCard,
   GameBtn,
   GameHeader,
-  LogoutModal,
+  DeleteModal,
   ModalBtn,
   ProfileBtn,
   ProfileBody,

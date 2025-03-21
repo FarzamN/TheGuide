@@ -2,7 +2,7 @@ import {Text} from '..';
 import React from 'react';
 import {styles} from './style';
 import {View} from 'react-native';
-import {Card, Divider} from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import Icon from 'react-native-dynamic-vector-icons';
 import {
@@ -15,16 +15,16 @@ import {Color} from '../../utils/Color';
 
 const NoteCard = ({data, onEdit, onDelete}) => {
   return (
-    <Card style={styles.NoteCont}>
+    <Card onLongPress={() => alert('zaleel')} style={styles.NoteCont}>
       <View style={GlobalStyle.between}>
-        <Text title={data.note} />
-        {/* <Menu>
+        <Text style={{width: '90%'}} title={data.note} />
+        <Menu>
           <MenuTrigger>
             <Icon
-              type="Entypo"
-              name="dots-three-vertical"
               size={20}
+              type="Entypo"
               color={Color.black}
+              name="dots-three-vertical"
             />
           </MenuTrigger>
           <MenuOptions style={styles.menuStyle}>
@@ -35,7 +35,7 @@ const NoteCard = ({data, onEdit, onDelete}) => {
               <Text title="Delete" style={[styles.menuTitle, {color: 'red'}]} />
             </MenuOption>
           </MenuOptions>
-        </Menu> */}
+        </Menu>
       </View>
     </Card>
   );

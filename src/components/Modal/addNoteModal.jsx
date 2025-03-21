@@ -10,12 +10,14 @@ import {save_note} from '../../redux/actions/UserAction';
 import {IconType} from 'react-native-dynamic-vector-icons';
 
 const AddNoteModal = props => {
-  const {onClose, visible, title, preData} = props;
+  const {onClose, visible, isEdit, preData, id} = props;
   const dispatch = useDispatch();
-
+  const title = isEdit ? 'Edit Note' : 'Add Note';
   const [load, setLoad] = useState(false);
 
-  const handleNote = data => dispatch(save_note(data, setLoad, onClose, reset));
+  const url = isEdit ? `edit-user-note/${id}` : 'save-user-note';
+  const handleNote = data =>
+    dispatch(save_note(data, url, setLoad, onClose, reset));
 
   const {
     reset,
@@ -26,11 +28,10 @@ const AddNoteModal = props => {
   } = useForm({
     mode: 'all',
     defaultValues: {
-      note: preData || '', // Initialize with preData if available
+      note: preData || '',
     },
   });
 
-  // Update the input field when preData changes
   useEffect(() => {
     if (preData !== undefined) {
       setValue('note', preData);
@@ -53,6 +54,8 @@ const AddNoteModal = props => {
           style={[style.LogoutText, {color: Color.black}]}
         />
         <MainInput
+          multiline
+          autoFocus
           name="note"
           icName="onenote"
           control={control}
@@ -67,7 +70,7 @@ const AddNoteModal = props => {
         />
         <ModalBtn
           green
-          title={load ? 'Please wait...' : 'Submit'}
+          title={load ? 'Please wait...' : 'Save'}
           onPress={handleSubmit(handleNote)}
         />
       </View>

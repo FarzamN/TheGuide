@@ -970,12 +970,12 @@ export const getNoteApi = load => {
   };
 };
 
-export const save_note = (data, load, onClose, reset) => {
+export const save_note = (data, link, load, onClose, reset) => {
   return async dispatch => {
     load(true);
-    const url = `${Base_Url}save-user-note`;
+    const url = Base_Url + link;
     const body = new FormData();
-    body.append('note', data.note);
+    body.append('note', data.note.trim());
 
     const headers = new Headers();
     const token = await AsyncStorage.getItem('token');
@@ -996,6 +996,32 @@ export const save_note = (data, load, onClose, reset) => {
     } catch (error) {
       load(false);
       console.log('Error in save_note:', error);
+    }
+  };
+};
+
+export const delete_note = (id, load, onClose) => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}delete-user-note/${id}`;
+
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {
+        headers,
+        method: 'POST',
+      });
+      const res = await response.json();
+      load(false);
+      if (res.status == 'success') {
+        dispatch(getNoteApi(load));
+        onClose();
+      }
+    } catch (error) {
+      load(false);
+      console.log('Error in delete_note:', error);
     }
   };
 };

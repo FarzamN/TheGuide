@@ -4,7 +4,7 @@ import {View} from 'react-native';
 import {ModalBtn, Text} from '..';
 import Modal from 'react-native-modal';
 
-const LogoutModal = props => {
+const DeleteModal = props => {
   const {visible, onClose, text, onPress} = props;
 
   return (
@@ -24,4 +24,4 @@ const LogoutModal = props => {
   );
 };
 
-export default LogoutModal;
+export default DeleteModal;

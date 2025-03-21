@@ -3,6 +3,7 @@ import {GlobalStyle} from '../../../utils/GlobalStyle';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
+  delete_note,
   get_user_app_total_points,
   getNoteApi,
 } from '../../../redux/actions/UserAction';
@@ -18,6 +19,7 @@ import {
   NoteCard,
   AddNoteModal,
   Plusbox,
+  DeleteModal,
 } from '../../../components';
 import {FlatList} from 'react-native';
 
@@ -30,10 +32,13 @@ const ShowNote = () => {
   const [load, setLoad] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
+  const [showDelete, setShowDelete] = useState({visible: false, id: null});
+
   const [noteModal, setNoteModal] = useState({
     visible: false,
     isEdit: false,
     preData: '',
+    id: null,
   });
   const [showGuest, setShowGuest] = useState(false);
   const [requestModal, setRequestModal] = useState(false);
@@ -75,6 +80,9 @@ const ShowNote = () => {
     dispatch(get_user_app_total_points());
     setRequestModal(true);
   };
+  const closeDelete = () => {
+    setShowDelete({visible: false, id: null});
+  };
   return (
     <Body>
       <DashboardHeader onRequest={onRequest} />
@@ -89,25 +97,45 @@ const ShowNote = () => {
           <NoteCard
             data={item}
             onEdit={() =>
-              setNoteModal({visible: true, isEdit: true, preData: item.note})
+              setNoteModal({
+                visible: true,
+                isEdit: true,
+                preData: item.note,
+                id: item.id,
+              })
             }
-            onDelete={handleDelete}
+            onDelete={() =>
+              setShowDelete({
+                id: item.id,
+                visible: true,
+              })
+            }
           />
         )}
+        contentContainerStyle={{paddingBottom: 80}}
         ListEmptyComponent={<Empty title={"You don't have any Note"} />}
       />
       <Plusbox
         onPress={() =>
-          setNoteModal({visible: true, isEdit: false, preData: ''})
+          setNoteModal({visible: true, isEdit: false, preData: '', id: null})
         }
       />
       <Loader visible={load} />
+      <DeleteModal
+        onClose={closeDelete}
+        visible={showDelete.visible}
+        onPress={() =>
+          dispatch(delete_note(showDelete.id, setLoad, closeDelete))
+        }
+        text="Are you sure you want to Delete this Note?"
+      />
       <AddNoteModal
+        id={noteModal.id}
         preData={noteModal.preData}
         visible={noteModal.visible}
-        title={noteModal.isEdit ? 'Edit Note' : 'Add Note'}
+        isEdit={noteModal.isEdit}
         onClose={() =>
-          setNoteModal({visible: false, isEdit: false, preData: ''})
+          setNoteModal({visible: false, isEdit: false, preData: '', id: null})
         }
       />
 

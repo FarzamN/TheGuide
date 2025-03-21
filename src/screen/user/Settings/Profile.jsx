@@ -4,7 +4,7 @@ import {
   ProfileBtn,
   ProfileBody,
   CustomButton,
-  LogoutModal,
+  DeleteModal,
   ImagePickerModal,
   ModalBtn,
   GuestModal,
@@ -51,7 +51,6 @@ const Profile = ({navigation}) => {
     }
   }, [image]);
 
-
   return (
     <ProfileBody>
       {isGuest ? (
@@ -69,7 +68,7 @@ const Profile = ({navigation}) => {
               />
             </TouchableOpacity>
           </View>
-          <GuestScreen mtop={"20%"}/>
+          <GuestScreen mtop={'20%'} />
         </View>
       ) : (
         <ScrollView style={GlobalStyle.Padding}>
@@ -111,7 +110,7 @@ const Profile = ({navigation}) => {
             <ProfileBtn title={userDetail.name} />
             <ProfileBtn title={userDetail.email} />
             <View style={GlobalStyle.between}>
-              <ProfileBtn small title={'Age: ' + userDetail.age } />
+              <ProfileBtn small title={'Age: ' + userDetail.age} />
               <ProfileBtn small title={userDetail.user_city} />
             </View>
             <View style={GlobalStyle.between}>
@@ -137,13 +136,13 @@ const Profile = ({navigation}) => {
           </View>
         </ScrollView>
       )}
-      <LogoutModal
+      <DeleteModal
         visible={showLogout}
         onClose={() => setShowLogout(false)}
         onPress={() => dispatch(LogOutApi())}
         text="Are you sure you want to Logout?"
       />
-      <LogoutModal
+      <DeleteModal
         visible={showDelete}
         onClose={() => setShowDelete(false)}
         onPress={() => dispatch(deleteAccount(setLoad))}
