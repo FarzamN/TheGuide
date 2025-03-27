@@ -15,6 +15,7 @@ import {
   SPONSOR_DATA,
   PUBLIC_POOL_POINT,
   GET_NOTE,
+  GET_REVIEW_GAME,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -350,6 +351,32 @@ export const getGameApi = (load, id) => {
       load(false);
       // Toast.show('Server side error');
       console.error('Error fetching getGameApi data:', error);
+    }
+  };
+};
+
+export const getReviewGameApi = load => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}get-reviewable-questions-game`;
+    const headers = new Headers();
+    const token = await AsyncStorage.getItem('token');
+
+    headers.append('Authorization', `Bearer ${token}`);
+
+    try {
+      const response = await fetch(url, {headers});
+      const result = await response.json();
+      if (result.success) {
+        load(false);
+        dispatch({type: GET_REVIEW_GAME, payload: result.data});
+      } else {
+        load(false);
+      }
+    } catch (error) {
+      load(false);
+      // Toast.show('Server side error');
+      console.error('Error fetching getReviewGameApi data:', error);
     }
   };
 };

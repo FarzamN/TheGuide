@@ -250,6 +250,7 @@ const Home = () => {
     }
     dispatch(get_user_app_total_points());
     dispatch(get_sponsor_dropdown());
+
     setRequestModal(true);
   };
 
@@ -264,6 +265,18 @@ const Home = () => {
         keyExtractor={(_, i) => i.toString()}
         ListEmptyComponent={<Empty title={emp} />}
         contentContainerStyle={style.listContainer}
+        ListFooterComponent={() => (
+          <HomeAssigmentCard
+            data={{
+              course_name: 'Daily Review',
+              game_status: 'INCOMPLETE',
+              game_title: 'Your Daily game review',
+              image_guest:
+                'https://images.unsplash.com/photo-1555935288-ad7bad5d006b?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            }}
+            onPress={() => navigate('dailyReview')}
+          />
+        )}
         renderItem={({item}) => (
           <HomeAssigmentCard data={item} onPress={() => handleGameNav(item)} />
         )}

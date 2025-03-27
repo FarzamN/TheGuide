@@ -41,7 +41,7 @@ const GameScreen = ({route}) => {
   const previous_points = useSelector(state => state.user_total_points);
   const userDetail = useSelector(state => state.userDetails);
   const ministry_project = useSelector(state => state.ministry_project);
-
+  console.log('get_game', get_game);
   const {downloadFile, downloadProgress, isDownloading, deleteFile} =
     useFileDownloader();
 
@@ -213,6 +213,7 @@ const GameScreen = ({route}) => {
   return (
     <Body>
       <GameHeader
+        isProgress
         onClose={goBack}
         /*
         handleJob

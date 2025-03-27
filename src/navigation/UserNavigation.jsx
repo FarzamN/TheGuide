@@ -12,6 +12,7 @@ import {
   WebView,
   ShowNote,
   EditProfile,
+  DailyReview,
   EventScreen,
   StatusScreen,
   PrayerScreen,
@@ -44,6 +45,7 @@ const allHomeConfig = {
     {name: 'city', component: City},
     {name: 'state', component: State},
     {name: 'game', component: Game},
+    {name: 'dailyReview', component: DailyReview},
   ],
 };
 

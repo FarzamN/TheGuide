@@ -111,3 +111,89 @@ export const shuffleArray = array => {
   }
   return array;
 };
+
+export const handleReviewAnswer = (
+  ans,
+  setError,
+  setCorrect,
+  questionIndex,
+  totalQuestions,
+  setQuestionIndex,
+) => {
+  console.log(ans);
+  if (ans.isCorrect) {
+    // playSound('correct.mp3');
+    setCorrect(true);
+    setTimeout(() => {
+      setCorrect(false);
+
+      if (questionIndex < totalQuestions - 1) {
+        setQuestionIndex(questionIndex + 1); // Go to the next question
+      }
+    }, 2000);
+  } else {
+    // playSound('wrong.mp3');
+    setError(true);
+    setTimeout(() => {
+      setError(false);
+    }, 2000);
+  }
+};
+
+export const transformedReviewQuestions = questions => {
+  const transformedQuestions = Object.keys(questions)
+    .sort((a, b) => parseInt(a) - parseInt(b))
+    .map((key, index) => {
+      const questionData = questions[key];
+      if (!questionData.question || !questionData.question.question_text) {
+        return null;
+      }
+
+      const isTrueFalse =
+        questionData.question.question_type === 'true or false';
+
+      const correctAnswer = questionData.answers
+        .find(answer => answer.label === 'answer')
+        ?.correct_answer?.toLowerCase();
+
+      const questionId = questionData.question.id;
+      return {
+        order: index + 1,
+        question_text: questionData.question.question_text,
+        question_type: questionData.question.question_type,
+        answers: isTrueFalse
+          ? [
+              {
+                which: 'true and false',
+                title: 'True',
+                isCorrect: correctAnswer === 'true',
+                id: questionId,
+              },
+              {
+                title: 'False',
+                isCorrect: correctAnswer === 'false',
+              },
+            ]
+          : questionData.answers
+              .filter(
+                answer =>
+                  !['question', 'popup', 'time'].includes(answer.label) &&
+                  answer.question !== null,
+              )
+              .map(answer => ({
+                which: 'question and answer',
+                id: questionId,
+                title: answer.question,
+                type: answer.type,
+                points: answer.points,
+                difficulty_level: answer.difficulty_level,
+                isCorrect:
+                  answer.label === 'correct' ||
+                  answer.correct_answer === 'True',
+              })),
+      };
+    })
+    .filter(Boolean);
+
+  return transformedQuestions;
+};

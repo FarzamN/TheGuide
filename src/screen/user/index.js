@@ -1,6 +1,7 @@
 import Home from './Home';
 import WebView from './WebView';
 import Game from './Game/GameScreen';
+import DailyReview from './Game/DailyReview';
 import Profile from './Settings/Profile';
 import ShowNote from './Note/showNote.jsx';
 import EditProfile from './Settings/EditProfile';
@@ -15,6 +16,7 @@ export {
   Profile,
   ShowNote,
   EditProfile,
+  DailyReview,
   EventScreen,
   StatusScreen,
   PrayerScreen,
