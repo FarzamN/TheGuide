@@ -4,8 +4,8 @@ import {Color} from '../../utils/Color';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 
-const crossIcon = ({onPress}) => (
-  <TouchableOpacity style={style.closeBTN} onPress={onPress}>
+const crossIcon = ({onPress, styles}) => (
+  <TouchableOpacity style={[style.closeBTN, styles]} onPress={onPress}>
     <Icon name="cross" type={'Entypo'} size={20} color={Color.white} />
   </TouchableOpacity>
 );

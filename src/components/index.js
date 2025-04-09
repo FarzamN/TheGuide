@@ -5,7 +5,7 @@ import PasswordInput from './Inputs/PasswordInput';
 import FullImage from './Helper/FullImage';
 import CustomButton from './Button/CustomButton';
 import Loader from './Modal/Loader';
-import StreakModal from './Modal/StreakModal.jsx';
+import StreakModal from './Modal/StreakModal';
 import Error from './Modal/Error';
 import Text from './Text/Text';
 import AuthBody from './layout/AuthBody';
@@ -35,20 +35,24 @@ import TimeService from '../screen/user/Prayer/prayComp/TimeService';
 import DownloadProgress from './Modal/downloadProgress';
 import DonateModal from './Modal/DonateModal';
 import AboutStreak from './Modal/AboutStreak';
-import GuestModal from './Modal/GuestModal.jsx';
-import GuestScreen from './Helper/GuestScreen.jsx';
-import RequestModal from './Modal/requestModal.jsx';
-import AskRequestModal from './Modal/askRequestModal.jsx';
-import AddSponsorModal from './Modal/addSponsorModal.jsx';
-import DropDown from './Dropdown/DropDown.jsx';
-import MinistoryDocationCard from './Cards/ministoryDocationCard.jsx';
-import ModalBar from './Helper/modalBar.jsx';
-import CrossIcon from './Helper/crossIcon.jsx';
-import NoteCard from './Cards/NoteCard.jsx';
-import AddNoteModal from './Modal/addNoteModal.jsx';
-import Plusbox from './Helper/plusbox.jsx';
+import GuestModal from './Modal/GuestModal';
+import GuestScreen from './Helper/GuestScreen';
+import RequestModal from './Modal/requestModal';
+import AskRequestModal from './Modal/askRequestModal';
+import AddSponsorModal from './Modal/addSponsorModal';
+import DropDown from './Dropdown/DropDown';
+import MinistoryDocationCard from './Cards/ministoryDocationCard';
+import ModalBar from './Helper/modalBar';
+import CrossIcon from './Helper/crossIcon';
+import NoteCard from './Cards/NoteCard';
+import AddNoteModal from './Modal/addNoteModal';
+import Plusbox from './Helper/plusbox';
+import SearchBar from './Helper/SearchBar';
+import PrayerCheckRadio from './Radio/PrayerCheckRadio';
 
 export {
+  PrayerCheckRadio,
+  SearchBar,
   Plusbox,
   AddNoteModal,
   NoteCard,

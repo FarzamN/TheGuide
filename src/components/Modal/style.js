@@ -193,4 +193,32 @@ export default StyleSheet.create({
     borderColor: 'black',
     marginTop: 10,
   },
+
+  SwitchCont: {
+    width: '100%',
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: Color.lightgrey,
+    // paddingVertical: tab ? 8 : 2,
+    paddingHorizontal: tab ? 8 : 2,
+  },
+
+  searchBox: {width: '100%', marginTop: 10},
+  yourCodeBox: {
+    borderWidth: 1,
+    width: '100%',
+    paddingLeft: 10,
+    overflow: 'hidden',
+    backgroundColor: Color.background,
+
+    borderRadius: tab ? 25 : 20,
+    height: tab ? 60 : 48,
+  },
+  ContactIconBox: {
+    backgroundColor: Color.green,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    aspectRatio: 1 / 1,
+  },
 });

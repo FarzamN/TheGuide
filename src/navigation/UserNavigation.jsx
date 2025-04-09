@@ -10,7 +10,6 @@ import {
   Game,
   Profile,
   WebView,
-  ShowNote,
   EditProfile,
   DailyReview,
   EventScreen,
@@ -18,6 +17,8 @@ import {
   PrayerScreen,
 } from '../screen/user';
 import {FullImage} from '../components';
+import ChatScreen from '../screen/user/Chat/chatScreen';
+import Inbox from '../screen/user/Chat/inbox';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,15 +50,24 @@ const allHomeConfig = {
   ],
 };
 
-const allNoteConfig = {
-  initialRouteName: 'note',
-  screens: [{name: 'note', component: ShowNote}],
-};
+// const allNoteConfig = {
+//   initialRouteName: 'note',
+//   screens: [{name: 'note', component: ShowNote}],
+// };
 
 const allStatusConfig = {
   initialRouteName: 'status',
   screens: [{name: 'status', component: StatusScreen}],
 };
+
+const allChatConfig = {
+  initialRouteName: 'inbox',
+  screens: [
+    {name: 'inbox', component: Inbox},
+    {name: 'chatScreen', component: ChatScreen},
+  ],
+};
+
 const allPrayerConfig = {
   initialRouteName: 'prayer',
   screens: [
@@ -74,16 +84,22 @@ const allEventConfig = {
 };
 
 export const AllHome = () => createNavigator(allHomeConfig);
-export const AllNote = () => createNavigator(allNoteConfig);
+// export const AllNote = () => createNavigator(allNoteConfig);
 export const AllPrayer = () => createNavigator(allPrayerConfig);
+export const AllChat = () => createNavigator(allChatConfig);
 export const AllStatus = () => createNavigator(allStatusConfig);
 export const AllEvent = () => createNavigator(allEventConfig);
 
 const UserNavigation = () => {
   const UserNav = [
     {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Bible'},
-    {c: AllNote, icon: require('../assets/image/nav/note.png'), n: 'Note'},
+    // {c: AllNote, icon: require('../assets/image/nav/note.png'), n: 'Note'},
     {c: AllPrayer, icon: require('../assets/image/nav/pray.png'), n: 'Prayer'},
+    {
+      c: AllChat,
+      icon: require('../assets/image/nav/messege.png'),
+      n: 'Messages',
+    },
     // {
     //   c: AllStatus,
     //   icon: require('../assets/image/nav/status.png'),

@@ -14,6 +14,7 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
+import {Color} from '../../utils/Color';
 
 const DashboardHeader = ({onPray, onRequest}) => {
   const dispatched = useDispatch();
@@ -77,8 +78,14 @@ const DashboardHeader = ({onPray, onRequest}) => {
             </View>
           </TouchableOpacity>
           {/* profile image here */}
+          <Text style={style.ProfileTitle} title={'Revival Bible School'} />
 
-          <TouchableOpacity style={style.pointBox} onPress={onRequest}>
+          {/* <FullImage
+            style={style.ProfileAppLogo}
+            sizeMode="contain"
+            source={require('../../assets/image/black-logo.png')}
+          /> */}
+          {/* <TouchableOpacity style={style.pointBox} onPress={onRequest}>
             <T style={style.ProfileTitle}>
               {pool_points > 0 ? `My Points: ` : 'Click here to request points'}
               {pool_points > 0 && (
@@ -91,13 +98,14 @@ const DashboardHeader = ({onPray, onRequest}) => {
                 />
               )}
             </T>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <TouchableOpacity onPress={handleShopping}>
+          <TouchableOpacity>
+            {/* onPress={handleShopping}> */}
             <Image
               resizeMode="contain"
               style={style.dashboardCartImage}
-              tintColor={'white'}
+              tintColor={Color.Non}
               source={require('../../assets/image/cart.png')}
             />
           </TouchableOpacity>

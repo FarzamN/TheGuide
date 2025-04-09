@@ -61,14 +61,6 @@ const ShowNote = () => {
     setRefresh(false);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      getParent().setOptions({
-        tabBarStyle: GlobalStyle.showBar,
-      });
-    }, []),
-  );
-
   const onRequest = () => {
     if (isGuest) {
       setShowGuest(true);
@@ -84,8 +76,7 @@ const ShowNote = () => {
     setShowDelete({visible: false, id: null});
   };
   return (
-    <Body>
-      <DashboardHeader onRequest={onRequest} />
+    <>
       <FlatList
         data={note}
         refreshing={refresh}
@@ -164,7 +155,7 @@ const ShowNote = () => {
         visible={addSponsorModal}
         onClose={() => setAddSponsorModal(false)}
       />
-    </Body>
+    </>
   );
 };
 

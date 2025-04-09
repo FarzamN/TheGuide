@@ -16,8 +16,7 @@ const MainInput = forwardRef((props, ref) => {
     defaultValue: props.defaultValue || '',
   });
 
-  const tabHeight = props.multiline ? 300 : 60;
-  const phoneHeight = props.multiline ? 200 : 48;
+  const phoneHeight = tab ? 60 : 48;
 
   return (
     <>
@@ -25,18 +24,20 @@ const MainInput = forwardRef((props, ref) => {
         style={[
           styles.InputCont,
           {
-            height: tab ? tabHeight : phoneHeight,
+            height: props.height ? props.height : phoneHeight,
             alignItems: props.multiline ? 'flex-start' : 'center',
           },
           props.style,
         ]}>
-        <Icon
-          type={props.type}
-          name={props.icName}
-          size={tab ? 25 : 18}
-          color={Color.placeholderTextColor}
-          style={{width: 25, marginTop: props.multiline ? 5 : 0}}
-        />
+        {props.icName && (
+          <Icon
+            type={props.type}
+            name={props.icName}
+            size={tab ? 25 : 18}
+            color={Color.placeholderTextColor}
+            style={{width: 25, marginTop: props.multiline ? 10 : 0}}
+          />
+        )}
         <TextInput
           ref={ref}
           value={field.value}
@@ -49,6 +50,7 @@ const MainInput = forwardRef((props, ref) => {
           selectionColor={Color.Main}
           onChangeText={field.onChange}
           placeholder={props.placeholder}
+          textAlignVertical={props.multiline ? 'top' : undefined}
           keyboardType={props.keyboardType}
           numberOfLines={props.numberOfLines}
           secureTextEntry={props.isPass && password}

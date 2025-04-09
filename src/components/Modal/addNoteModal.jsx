@@ -8,6 +8,7 @@ import React, {useEffect, useState} from 'react';
 import {CrossIcon, MainInput, ModalBtn, Text} from '..';
 import {save_note} from '../../redux/actions/UserAction';
 import {IconType} from 'react-native-dynamic-vector-icons';
+import {tab} from '../../utils/Constants';
 
 const AddNoteModal = props => {
   const {onClose, visible, isEdit, preData, id} = props;
@@ -55,6 +56,7 @@ const AddNoteModal = props => {
         />
         <MainInput
           multiline
+          height={tab ? 300 : 200}
           autoFocus
           name="note"
           icName="onenote"
@@ -64,6 +66,7 @@ const AddNoteModal = props => {
           type={IconType.Fontisto}
           style={style.amountInput}
           message={errors?.note?.message}
+          textAlignVertical="top"
           rules={{
             required: 'Note is required',
           }}

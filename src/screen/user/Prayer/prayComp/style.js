@@ -61,4 +61,12 @@ export const style = StyleSheet.create({
     marginRight: 10,
   },
   MondalCont: {},
+  notificationBox: {
+    width: 12,
+    aspectRatio: 1 / 1,
+    backgroundColor: 'red',
+    borderRadius: 100,
+    marginRight: 3,
+  },
+  notificationText: {color: Color.white, fontSize: 10},
 });

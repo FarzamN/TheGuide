@@ -45,6 +45,11 @@ export default StyleSheet.create({
     height: tab ? 55 : 40,
     borderRadius: tab ? 50 : 25,
   },
+  ProfileAppLogo: {
+    width: tab ? 100 : 150,
+    height: tab ? 55 : 40,
+    marginTop: -7,
+  },
   ProfileTitle: {
     fontWeight: '600',
     color: Color.white,

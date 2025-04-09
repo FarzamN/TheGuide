@@ -9,7 +9,7 @@ import {style as icStyle} from '../../navigation/style';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 import {View, ImageBackground, TouchableOpacity} from 'react-native';
 
-const GameHeader = ({title, onClose, subTitle, progress, isProgress}) => {
+const GameHeader = ({title, onClose, subTitle, progress, onLongPress}) => {
   return (
     <ImageBackground
       resizeMode={tab ? 'repeat' : undefined}
@@ -19,6 +19,7 @@ const GameHeader = ({title, onClose, subTitle, progress, isProgress}) => {
         <View style={{width: 30}} />
         <TouchableOpacity
           onPress={onClose}
+          onLongPress={onLongPress}
           style={[icStyle.backIcon, GlobalStyle.justify]}>
           <Icon
             name="close"
@@ -29,18 +30,16 @@ const GameHeader = ({title, onClose, subTitle, progress, isProgress}) => {
         </TouchableOpacity>
       </View>
       <Text center style={style.GameTitle} title={title} />
-      {isProgress && (
-        <Bar
-          progress={progress}
-          width={width - 50}
-          color="#06FF2F"
-          unfilledColor={Color.background}
-          height={tab ? 20 : 12}
-          borderRadius={20}
-          borderColor="#113283"
-          style={{alignSelf: 'center'}}
-        />
-      )}
+      <Bar
+        progress={progress}
+        width={width - 50}
+        color="#06FF2F"
+        unfilledColor={Color.background}
+        height={tab ? 20 : 12}
+        borderRadius={20}
+        borderColor="#113283"
+        style={{alignSelf: 'center'}}
+      />
       <Text center style={style.GameSubTitle} title={subTitle} />
     </ImageBackground>
   );

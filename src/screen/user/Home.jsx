@@ -16,7 +16,7 @@ import {FlatList} from 'react-native';
 import Toast from 'react-native-simple-toast';
 import {GlobalStyle} from '../../utils/GlobalStyle';
 import {useDispatch, useSelector} from 'react-redux';
-import {BIBLE_TIME} from '../../redux/reducer/Holder';
+import {BIBLE_TIME, REVIEW_DONE} from '../../redux/reducer/Holder';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -47,6 +47,7 @@ const Home = () => {
   const api_success = useSelector(state => state.api_success);
   const student_role_given = useSelector(state => state.student_role_givens);
   const userDetail = useSelector(state => state.userDetails);
+  const review_done = useSelector(state => state.review_done);
 
   const pray_time = useSelector(state => state.pray_time);
   const bible_time = useSelector(state => state.bible_time);
@@ -76,6 +77,8 @@ const Home = () => {
         Toast.show('Todays Bible Streak is complete!');
         console.log('API already hit today. Skipping...');
         dispatch({type: BIBLE_TIME, payload: 'done'});
+        dispatch({type: REVIEW_DONE, payload: 'done'});
+
         isBibleStreakRunning.current = false;
         return;
       }
@@ -84,6 +87,7 @@ const Home = () => {
         console.log('removing last call');
         await AsyncStorage.removeItem('lastAPICallDate');
         dispatch({type: BIBLE_TIME, payload: 'Due'});
+        dispatch({type: REVIEW_DONE, payload: 'no'});
       }
 
       if (!data || data.length === 0) {
@@ -96,7 +100,7 @@ const Home = () => {
       );
       const allSameDate = dates.every(date => date === today);
 
-      if (allSameDate) {
+      if (allSameDate && review_done === 'done') {
         dispatch(bible_streak_inc(setShowStreak));
         dispatch({type: BIBLE_TIME, payload: 'done'});
         await AsyncStorage.setItem('lastAPICallDate', today);

@@ -1,3 +1,4 @@
+import {REVIEW_DONE} from '../../../redux/reducer/Holder';
 import {playSound} from '../../../utils/Constants';
 
 export const handleAnswer = (
@@ -103,15 +104,6 @@ export const transformGameQuestions = (gameQuestions, id) => {
   return transformedQuestions;
 };
 
-export const shuffleArray = array => {
-  // Fisher-Yates shuffle algorithm
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-  }
-  return array;
-};
-
 export const handleReviewAnswer = (
   ans,
   setError,
@@ -119,10 +111,11 @@ export const handleReviewAnswer = (
   questionIndex,
   totalQuestions,
   setQuestionIndex,
+  dispatch,
+  goBack,
 ) => {
-  console.log(ans);
   if (ans.isCorrect) {
-    // playSound('correct.mp3');
+    playSound('correct.mp3');
     setCorrect(true);
     setTimeout(() => {
       setCorrect(false);
@@ -130,9 +123,13 @@ export const handleReviewAnswer = (
       if (questionIndex < totalQuestions - 1) {
         setQuestionIndex(questionIndex + 1); // Go to the next question
       }
+      if (questionIndex === Math.max(totalQuestions) - 1) {
+        goBack();
+        dispatch({type: REVIEW_DONE, payload: 'done'});
+      }
     }, 2000);
   } else {
-    // playSound('wrong.mp3');
+    playSound('wrong.mp3');
     setError(true);
     setTimeout(() => {
       setError(false);
@@ -196,4 +193,13 @@ export const transformedReviewQuestions = questions => {
     .filter(Boolean);
 
   return transformedQuestions;
+};
+
+export const shuffleArray = array => {
+  // Fisher-Yates shuffle algorithm
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
+  return array;
 };

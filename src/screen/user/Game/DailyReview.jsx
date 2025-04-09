@@ -54,6 +54,8 @@ const DailyReview = () => {
       currentQuestionIndex,
       gameQuestions.length,
       setCurrentQuestionIndex,
+      dispatch,
+      goBack,
     );
   };
 
@@ -69,23 +71,31 @@ const DailyReview = () => {
       return e.title;
     }
   });
+  const [showAnser, setShowAnswer] = useState(false);
   return (
     <Body>
       <GameHeader
+        onLongPress={() => setShowAnswer(prev => !prev)}
         onClose={goBack}
         title="Daily Review"
         subTitle="Your Daily game review"
+        progress={(currentQuestionIndex + 1) / gameQuestions.length || 0}
       />
       <View style={{height: 50}} />
-      {/* {[
+      {[
         {
           n: 'quesion length',
           c: currentQuestionIndex + 1 + '/' + gameQuestions.length,
         },
         {n: 'Correct answer is:', c: answering},
       ].map(({n, c}) => (
-        <Text key={n} center title={n + ' ' + c} />
-      ))} */}
+        <Text
+          style={{color: showAnser ? '#000' : '#fff'}}
+          key={n}
+          center
+          title={n + ' ' + c}
+        />
+      ))}
       <ScrollView style={GlobalStyle.Padding}>
         {currentQuestion && (
           <Fragment key={currentQuestionIndex}>

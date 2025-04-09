@@ -22,6 +22,7 @@ export const MINISTRY_PROJECT = 'MINISTRY_PROJECT';
 export const SPONSOR_DATA = 'SPONSOR_DATA';
 export const PUBLIC_POOL_POINT = 'PUBLIC_POOL_POINT';
 export const GET_NOTE = 'GET_NOTE';
+export const REVIEW_DONE = 'REVIEW_DONE';
 
 const initial_state = {
   userDetails: false,
@@ -48,6 +49,7 @@ const initial_state = {
   sponsor_data: [],
   public_pool_point: 0,
   get_note: [],
+  review_done: 'no',
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -172,6 +174,11 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         get_note: action.payload,
+      };
+    case REVIEW_DONE:
+      return {
+        ...state,
+        review_done: action.payload,
       };
     default: {
       return state;

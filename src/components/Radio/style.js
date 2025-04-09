@@ -16,4 +16,7 @@ export const styles = StyleSheet.create({
     height: tab ? 70 : 50,
     borderColor: Color.grey,
   },
+  PrayerChechBox: {
+    height: tab ? 70 : 50,
+  },
 });

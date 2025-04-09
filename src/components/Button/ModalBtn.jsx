@@ -14,7 +14,7 @@ const ModalBtn = props => {
         GlobalStyle.justify,
         {
           borderColor: green ? '#21C06C' : '#797778',
-          backgroundColor: green ? '#1CE57F' : '#F7F8FD',
+          backgroundColor: green ? Color.green : '#F7F8FD',
         },
         style,
       ]}

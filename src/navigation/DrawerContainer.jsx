@@ -24,7 +24,7 @@ const DrawerContainer = props => {
       };
       await Share.open(options);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   return (
