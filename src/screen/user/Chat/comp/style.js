@@ -69,7 +69,7 @@ export const style = StyleSheet.create({
     aspectRatio: 1 / 1,
     borderRadius: 100,
     alignSelf: 'center',
-    marginTop: 10,
+    // marginVertical: 10,
   },
 
   ImageCloseButton: {
@@ -83,5 +83,35 @@ export const style = StyleSheet.create({
     borderRadius: 100,
     alignSelf: 'center',
     marginTop: 10,
+  },
+  prayBtn: {
+    borderWidth: 1.5,
+    backgroundColor: '#FFD700', // gold/yellow
+    borderColor: '#d5b400',
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+  shareBtn: {
+    borderWidth: 1.5,
+    borderColor: '#909090',
+    backgroundColor: '#ccc',
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+  deleteBtn: {
+    borderWidth: 1.5,
+    borderColor: '#ff0e0e',
+    backgroundColor: '#FF5C5C', // red
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+  btnText: {
+    color: '#000',
+    fontWeight: '500',
+    fontSize: 14,
+    textAlign: 'center',
   },
 });

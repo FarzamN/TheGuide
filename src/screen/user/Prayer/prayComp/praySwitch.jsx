@@ -1,11 +1,11 @@
 import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Text} from '../../../../components';
-import {style} from './style';
 import LinearGradient from 'react-native-linear-gradient';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
 import {Color} from '../../../../utils/Color';
 import {end, start} from '../../../../utils/Data';
+import {style} from './style';
 
 const PraySwitch = ({title, onPress, focus, styles, notification}) => {
   return (

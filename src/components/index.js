@@ -49,8 +49,10 @@ import AddNoteModal from './Modal/addNoteModal';
 import Plusbox from './Helper/plusbox';
 import SearchBar from './Helper/SearchBar';
 import PrayerCheckRadio from './Radio/PrayerCheckRadio';
+import UserChatCard from './Cards/userChatCard';
 
 export {
+  UserChatCard,
   PrayerCheckRadio,
   SearchBar,
   Plusbox,

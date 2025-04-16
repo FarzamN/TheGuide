@@ -1,3 +1,4 @@
+import {useDispatch, useSelector} from 'react-redux';
 import {useState, useEffect} from 'react';
 import {Share, TouchableOpacity, View, FlatList} from 'react-native';
 import React from 'react';
@@ -10,25 +11,45 @@ import {
   ModalBtn,
   SearchBar,
   Text,
+  UserChatCard,
 } from '../../../../../components';
 import {Color} from '../../../../../utils/Color';
 import PraySwitch from '../../../Prayer/prayComp/praySwitch';
 import {tab} from '../../../../../utils/Constants';
 import {GlobalStyle} from '../../../../../utils/GlobalStyle';
 import Icon from 'react-native-dynamic-vector-icons';
-
-// Dummy card data
-const dummyCards = [
-  {id: 1, name: 'John Doe'},
-  {id: 2, name: 'Jane Smith'},
-  {id: 3, name: 'David Johnson'},
-];
+import {
+  fetchSearchUsers,
+  fetchSentUsers,
+  fetchRecievedUsers,
+  addContact,
+  cancelSend,
+} from '../../../../../redux/actions/UserAction';
 
 const ContactPopup = ({visible, onClose}) => {
+  const dispatch = useDispatch();
+  const userDetails = useSelector(state => state.userDetails);
+
   const [tabs, setTabs] = useState('Search Users');
-  const [load, setLoad] = useState(false);
   const [search, setSearch] = useState('');
+
   const [filteredCards, setFilteredCards] = useState([]);
+  const [sentCards, setSendCards] = useState([]);
+  const [recievedCards, setRecievedCards] = useState([]);
+  const [load, setLoad] = useState(false);
+  const [addLoad, setAddLoad] = useState(false);
+  const [loadSearch, setLoadSearch] = useState(false);
+  const [loadSend, setLoadSend] = useState(false);
+  const [loadRecieved, setLoadRecieved] = useState(false);
+  console.log('recievedCards', recievedCards);
+  const handleAdd = data => {
+    addContact(data, setAddLoad, setSearch, userDetails);
+  };
+
+  const handleCancel = id => {
+    cancelSend(id);
+    fetchSentUsers(setLoadSend, setSendCards);
+  };
 
   const handleShare = () => {
     Share.share({
@@ -37,6 +58,27 @@ const ContactPopup = ({visible, onClose}) => {
     });
   };
 
+  // Fetch Sent and Recieved Users on Modal Open
+  useEffect(() => {
+    if (visible) {
+      fetchSentUsers(setLoadSend, setSendCards);
+      fetchRecievedUsers(setLoadRecieved, setRecievedCards);
+    }
+  }, [visible, tabs]);
+
+  // Search Users Debounced API Call
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (tabs === 'Search Users' && search.trim().length > 0) {
+        fetchSearchUsers(search, setLoadSearch, setFilteredCards);
+      } else if (tabs === 'Search Users') {
+        setFilteredCards([]);
+      }
+    }, 400);
+
+    return () => clearTimeout(delayDebounce);
+  }, [search, tabs]);
+
   const {
     control,
     handleSubmit,
@@ -44,41 +86,6 @@ const ContactPopup = ({visible, onClose}) => {
   } = useForm({
     mode: 'all',
   });
-
-  useEffect(() => {
-    // Clear search input and reset filtered cards on tab change
-    setSearch('');
-    if (tabs !== 'Search Users') {
-      setFilteredCards(dummyCards); // show cards without filtering
-    } else {
-      setFilteredCards([]); // clear on switch to Search Users
-    }
-  }, [tabs]);
-
-  useEffect(() => {
-    if (tabs === 'Search Users' && search) {
-      const filtered = dummyCards.filter(item =>
-        item.name.toLowerCase().includes(search.toLowerCase()),
-      );
-      setFilteredCards(filtered);
-    }
-  }, [search, tabs]);
-
-  const renderCard = ({item}) => (
-    <View
-      style={[
-        style.card,
-        {
-          padding: 10,
-          marginVertical: 5,
-          backgroundColor: '#f5f5f5',
-          borderRadius: 10,
-        },
-      ]}>
-      <Text title={item.name} />
-    </View>
-  );
-
   return (
     <Modal
       isVisible={visible}
@@ -87,11 +94,11 @@ const ContactPopup = ({visible, onClose}) => {
       onBackdropPress={onClose}
       onBackButtonPress={onClose}
       style={style.askRequestBox}>
-      <View style={[style.RequestContainer]}>
+      <View style={style.RequestContainer}>
         <CrossIcon onPress={onClose} />
         <Text
           center
-          title={'Create Contacts'}
+          title="Create Contacts"
           style={[style.LogoutText, {color: Color.black}]}
         />
         <View
@@ -106,74 +113,155 @@ const ContactPopup = ({visible, onClose}) => {
               key={i}
               title={i}
               focus={tabs === i}
-              onPress={() => setTabs(i)}
+              onPress={() => {
+                setTabs(i);
+                setSearch('');
+              }}
               styles={{height: tab ? 50 : 32}}
             />
           ))}
         </View>
 
         <SearchBar
-          styles={style.searchBox}
-          onChange={setSearch}
           value={search}
+          onChange={setSearch}
+          styles={style.searchBox}
           onClose={() => setSearch('')}
         />
 
+        {/* SEARCH USERS TAB */}
         {tabs === 'Search Users' && (
           <>
-            <FlatList
-              data={filteredCards}
-              keyExtractor={item => item.id.toString()}
-              renderItem={renderCard}
-              // contentContainerStyle={{marginTop: 15, paddingBottom: 10}}
-              ListEmptyComponent={
-                search && tabs === 'Search Users' ? (
-                  <Text title="No users found" style={{textAlign: 'center'}} />
-                ) : null
-              }
-            />
-            <Text style={{marginTop: 10}} title={'Your Code'} />
-            <View style={[GlobalStyle.between, style.yourCodeBox]}>
-              <Text selectable title={'2000'} />
-              <TouchableOpacity
-                onPress={handleShare}
-                style={style.ContactIconBox}>
-                <Icon type="AntDesign" name="sharealt" color={Color.white} />
-              </TouchableOpacity>
-            </View>
+            {loadSearch ? (
+              <Text center title="Loading..." />
+            ) : (
+              <>
+                {search !== '' && (
+                  <>
+                    <FlatList
+                      style={{height: '50%'}}
+                      data={filteredCards}
+                      keyExtractor={(_, index) => index.toString()}
+                      renderItem={({item}) => {
+                        return (
+                          <UserChatCard
+                            btnTitle="Add User"
+                            name={item.first_name + ' ' + item?.last_name}
+                            uri={item.profile_url}
+                            title="Send request to"
+                            onPress={() => handleAdd(item)}
+                          />
+                        );
+                      }}
+                      ListEmptyComponent={
+                        search ? <Text center title="No users found" /> : null
+                      }
+                    />
+                  </>
+                )}
+              </>
+            )}
 
-            <Text style={{marginTop: 10}} title={'Enter Code'} />
-            <MainInput
-              name="note"
-              control={control}
-              isError={errors?.note}
-              placeholder={'Enter Code here'}
-              style={[style.amountInput, {marginTop: 5}]}
-              message={errors?.note?.message}
-              rules={{
-                required: 'Note is required',
-              }}
-            />
-            <ModalBtn
-              green
-              title={load ? 'Please wait...' : 'Submit'}
-              // onPress={handleSubmit(handleNote)}
-            />
+            {search === '' && (
+              <>
+                <Text style={{marginTop: 10}} title="Your Code" />
+                <View style={[GlobalStyle.between, style.yourCodeBox]}>
+                  <Text selectable title="2000" />
+                  <TouchableOpacity
+                    onPress={handleShare}
+                    style={style.ContactIconBox}>
+                    <Icon
+                      type="AntDesign"
+                      name="sharealt"
+                      color={Color.white}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <Text style={{marginTop: 10}} title="Enter Code" />
+                <MainInput
+                  name="note"
+                  control={control}
+                  isError={errors?.note}
+                  placeholder="Enter Code here"
+                  style={[style.amountInput, {marginTop: 5}]}
+                  message={errors?.note?.message}
+                  rules={{
+                    required: 'Note is required',
+                  }}
+                />
+                <ModalBtn green title={load ? 'Please wait...' : 'Submit'} />
+              </>
+            )}
           </>
         )}
+
+        {/* SENT TAB */}
         {tabs === 'Sent' && (
-          <Text
-            center
-            style={{marginTop: 10}}
-            title={'You have not sent any request yet'}
-          />
+          <>
+            {loadSend ? (
+              <Text center title="Loading..." />
+            ) : sentCards.length > 0 ? (
+              <FlatList
+                style={{height: '50%'}}
+                data={sentCards}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({item}) => {
+                  return (
+                    <UserChatCard
+                      // sent
+                      btnTitle="Cancel"
+                      name={
+                        item?.contact?.first_name +
+                        ' ' +
+                        item?.contact?.last_name
+                      }
+                      uri={item?.contact?.profile_url}
+                      title="You have sent request to"
+                      onPress={() => handleCancel(item?.id)}
+                    />
+                  );
+                }}
+              />
+            ) : (
+              <Text
+                center
+                style={{marginTop: 10}}
+                title="You have not sent any request yet"
+              />
+            )}
+          </>
         )}
+
+        {/* RECEIVED TAB */}
         {tabs === 'Recieved' && (
-          <Text
-            center
-            style={{marginTop: 10}}
-            title={'You have not recieved any request yet'}
-          />
+          <>
+            {loadRecieved ? (
+              <Text center title="Loading..." />
+            ) : recievedCards.length > 0 ? (
+              <FlatList
+                style={{height: '50%'}}
+                data={recievedCards}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({item}) => {
+                  console.log('item', item);
+                  return (
+                    <UserChatCard
+                      btnTitle="accept"
+                      name="Farzam"
+                      title="You have received request from"
+                    />
+                  );
+                }}
+              />
+            ) : (
+              <Text
+                center
+                style={{marginTop: 10}}
+                title="You have not received any request yet"
+              />
+            )}
+          </>
         )}
       </View>
     </Modal>

@@ -1,7 +1,6 @@
 import style from './style';
-import {View} from 'react-native';
+import {View,Share} from 'react-native';
 import React, {useState} from 'react';
-import Share from 'react-native-share';
 import Modal from 'react-native-modal';
 import {useForm} from 'react-hook-form';
 import {useSelector} from 'react-redux';
@@ -36,17 +35,12 @@ const AskRequestModal = props => {
   };
 
   const handleShare = async () => {
-    try {
-      const options = {
-        title: 'Share Request',
-        message: link,
-      };
-      await Share.open(options);
-      setSent(false);
-      onClose();
-    } catch (error) {
-      console.log(error);
-    }
+    Share.share({
+      title: 'Share Request',
+      message: link,
+    })
+    setSent(false);
+    onClose();
   };
 
   const {

@@ -1,9 +1,8 @@
 import React from 'react';
 import style from './style';
-import {View} from 'react-native';
+import {Share, View} from 'react-native';
 import {CrossIcon, ModalBtn, Text} from '..';
 import Modal from 'react-native-modal';
-import Share from 'react-native-share';
 import {Color} from '../../utils/Color';
 import {useSelector} from 'react-redux';
 import {tab} from '../../utils/Constants';
@@ -16,15 +15,10 @@ const AddSponsorModal = props => {
   const link = `https://theguide.us/get-kid-sponsor-popup/${userDetail.user_id}`;
 
   const handleShare = async () => {
-    try {
-      const options = {
-        title: 'Share Request',
-        message: link,
-      };
-      await Share.open(options);
-    } catch (error) {
-      console.log(error);
-    }
+    Share.share({
+      title: 'Share Request',
+      message: 'link',
+    });
   };
   return (
     <Modal

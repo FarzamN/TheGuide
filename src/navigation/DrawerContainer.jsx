@@ -5,27 +5,22 @@ import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import {Color} from '../utils/Color';
-import Share from 'react-native-share';
 import {iOS, tab} from '../utils/Constants';
 import {useSelector} from 'react-redux';
 import {GlobalStyle} from '../utils/GlobalStyle';
 import {Text, FullImage, Body} from '../components';
-import {View, Image, TouchableOpacity} from 'react-native';
+import {View, Image, TouchableOpacity, Share} from 'react-native';
 import Icon, {IconType} from 'react-native-dynamic-vector-icons';
 
 const DrawerContainer = props => {
   const ud = useSelector(state => state.userDetails);
   const isGuest = ud === 'guest';
   const handleShare = async () => {
-    try {
-      const options = {
-        title: 'Share App',
-        message: iOS ? ud.share_link_app_store : ud.share_link_play_store,
-      };
-      await Share.open(options);
-    } catch (error) {
-      console.error(error);
-    }
+    const options = {
+      title: 'Share App',
+      message: iOS ? ud.share_link_app_store : ud.share_link_play_store,
+    };
+    Share.share(options);
   };
   return (
     <Body restyle={{backgroundColor: '#F3F3FF'}}>

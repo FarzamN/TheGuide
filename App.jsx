@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Color} from './src/utils/Color';
-import Splash from 'react-native-splash-screen';
+// import Splash from 'react-native-splash-screen';
 import {requestStoragePermission} from './src/hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {USER_DETAILS} from './src/redux/reducer/Holder.js';
@@ -47,14 +47,60 @@ const App = () => {
 
   useEffect(() => {
     getUserDetails();
-    // requestStoragePermission();
     navigationColor.setNavigationColor(Color.white);
-    setTimeout(() => {
-      Splash.hide();
-    }, 5000);
+
   }, []);
 
   return userDetails ? <DrawerNavigation /> : <AuthNavigation />;
 };
 
 export default App;
+
+{
+  /*
+import React from 'react';
+import Splash from 'react-native-splash-screen';
+import {useEffect} from 'react';
+import {width} from './src/utils/Constants';
+import {BarChart} from 'react-native-chart-kit';
+const App = () => {
+  const data = {
+    labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+    datasets: [
+      {
+        data: [0, 0, 1, 0, 0, 0, 0].map(val => (val === 0 ? 0.0001 : val)),
+      },
+    ],
+  };
+
+  const chartConfig = {
+    backgroundGradientFrom: '#fff',
+    backgroundGradientTo: '#fff',
+    color: () => 'rgba(0, 122, 255, 0)',
+    strokeWidth: 2,
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false,
+  };
+
+  useEffect(() => {
+    setTimeout(() => {
+      Splash.hide();
+    }, 5000);
+  }, []);
+  return (
+    <BarChart
+      // style={graphStyle}
+      data={data}
+      width={width}
+      height={220}
+      yAxisLabel="$"
+      chartConfig={chartConfig}
+      verticalLabelRotation={30}
+    />
+  );
+};
+
+export default App;
+
+  */
+}

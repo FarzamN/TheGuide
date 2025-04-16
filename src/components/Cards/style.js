@@ -227,17 +227,36 @@ export const styles = StyleSheet.create({
     elevation: 4,
     backgroundColor: Color.white,
     alignSelf: 'center',
+    borderWidth:1,
+    borderColor:Color.grey,
   },
 
   menuTitle: {
+    marginVertical:7,
+    fontWeight: '500',
     color: Color.black,
     fontSize: tab ? 16 : 14,
-    fontWeight: '500',
   },
 
-  menuStyle: {
-    paddingVertical: 20,
-    paddingHorizontal: 10,
+
+  menu: {
+    position: 'absolute',
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 8,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    zIndex: 999,
+    minWidth: 120,
+
+  },
+  UserChatCard: {
+    padding: 10,
+    marginVertical: 5,
+    backgroundColor: '#f5f5f5',
     borderRadius: 10,
   },
 });

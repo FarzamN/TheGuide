@@ -1052,3 +1052,113 @@ export const delete_note = (id, load, onClose) => {
     }
   };
 };
+
+export const fetchSearchUsers = async (search, setLoad, setFilteredCards) => {
+  try {
+    setLoad(true);
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+
+    const response = await fetch(
+      `${Base_Url}search-user-chat-app?name=${search}`,
+      {headers},
+    );
+    const data = await response.json();
+    setFilteredCards(data?.users || []);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    setFilteredCards([]);
+  } finally {
+    setLoad(false);
+  }
+};
+
+export const fetchSentUsers = async (setLoad, setFilteredCards) => {
+  try {
+    setLoad(true);
+    console.log(fetchSentUsers);
+    const url = `${Base_Url}get-contacts-sent-requests`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+
+    const response = await fetch(url, {headers});
+    const data = await response.json();
+    console.log('fetchSentUsers data', data);
+    setFilteredCards(data?.users || []);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    setFilteredCards([]);
+  } finally {
+    setLoad(false);
+  }
+};
+
+export const fetchRecievedUsers = async (setLoad, setFilteredCards) => {
+  try {
+    setLoad(true);
+    const url = `${Base_Url}get-contacts-recieved-requests`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    const response = await fetch(url, {headers});
+
+    const data = await response.json();
+    console.log('data', data);
+    setFilteredCards(data?.users || []);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    setFilteredCards([]);
+  } finally {
+    setLoad(false);
+  }
+};
+
+export const addContact = async (data, load, setSearch, userData) => {
+  load(true);
+  const url = `${Base_Url}create-contact`;
+  const body = new FormData();
+  body.append('user_id', userData.user_id);
+  body.append('contact_id', data.id);
+  body.append('role_id', 0);
+
+  console.log('body', body);
+  const headers = new Headers();
+  const token = await AsyncStorage.getItem('token');
+  headers.append('Authorization', `Bearer ${token}`);
+  try {
+    const response = await fetch(url, {
+      body,
+      headers,
+      method: 'POST',
+    });
+    const res = await response.json();
+    load(false);
+    console.log('addContact', res);
+    if (res.success === true) {
+      setSearch('');
+      Toast.show('Contact added successfully');
+    }
+  } catch (error) {
+    load(false);
+    console.log('Error in addContact:', error);
+  }
+};
+
+export const cancelSend = async (cancelID, setLoadSend, setSendCards) => {
+  const url = `${Base_Url}contact-popup-sent-rejected-accepted/${cancelID}/Rejected`;
+  const headers = new Headers();
+  const token = await AsyncStorage.getItem('token');
+  headers.append('Authorization', `Bearer ${token}`);
+  try {
+    const response = await fetch(url, {headers});
+    const res = await response.json();
+    if (res.success === true) {
+      fetchSentUsers(setLoadSend, setSendCards);
+      Toast.show('Requets Canceled successfully');
+    }
+  } catch (error) {
+    console.log('Error in cancelSend:', error);
+  }
+};

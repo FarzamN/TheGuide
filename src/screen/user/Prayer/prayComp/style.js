@@ -31,12 +31,12 @@ export const style = StyleSheet.create({
     height: tab ? 25 : 18,
   },
   switchCont: {
-    alignSelf: 'center',
+    // flex: 1,
     height: tab ? 40 : 30,
-    width: tab ? 120 : 90,
     borderRadius: tab ? 15 : 10,
   },
   switchText: {
+    paddingHorizontal:5,
     fontWeight: '500',
     fontSize: tab ? 15 : 11,
     textTransform: 'capitalize',

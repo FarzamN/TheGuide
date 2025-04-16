@@ -8,13 +8,13 @@ import {
 import React from 'react';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
 import homeDashboardStyle from '../../../../components/Header/style';
-import {useDispatch, useSelector} from 'react-redux';
-import {DrawerActions} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {FullImage, SearchBar, Text} from '../../../../components';
 import {Color} from '../../../../utils/Color';
 
 const IndexHeader = ({children, onChange, value, onClose}) => {
-  const dispatch = useDispatch();
+  const {dispatch} = useNavigation();
   const openDrawer = () => dispatch(DrawerActions.openDrawer());
 
   const userDetail = useSelector(state => state.userDetails);

@@ -14,7 +14,10 @@ import {chatInboxData} from '../../../utils/Data';
 import ShowNote from '../Note/showNote';
 import GroupPopup from './comp/chatPopups/GroupPopup';
 import TopicPopup from './comp/chatPopups/TopicPopup';
+import PrayPopup from './comp/chatPopups/PrayPopup';
 import ContactPopup from './comp/chatPopups/ContactPopup';
+import PrayerInboxCard from './comp/PrayerInboxCard';
+import GroupInboxCard from './comp/GroupInboxCard';
 
 const Inbox = () => {
   const {navigate, getParent} = useNavigation();
@@ -75,7 +78,7 @@ const Inbox = () => {
             style.SwitchCont,
             {backgroundColor: '#fff', height: 50},
           ]}>
-          {['Contacts', 'Groups', 'Topics', 'Notes'].map(i => (
+          {['Contacts', 'Groups', 'Topics', 'Prayer', 'Notes'].map(i => (
             <PraySwitch
               key={i}
               title={i}
@@ -86,9 +89,43 @@ const Inbox = () => {
           ))}
         </View>
       </IndexHeader>
-      {CTNSelect === 'Notes' ? (
-        <ShowNote />
-      ) : (
+      {CTNSelect === 'Groups' && (
+        <FlatList
+          data={filterData}
+          refreshing={refresh}
+          onRefresh={onRefresh}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(_, i) => i.toString()}
+          contentContainerStyle={style.listContainer}
+          ListEmptyComponent={<Empty title={"You don't have any Contact"} />}
+          renderItem={({item, index}) => (
+            <GroupInboxCard
+              data={item}
+              index={index}
+              onPress={() => navigate('chatScreen', {item})}
+            />
+          )}
+        />
+      )}
+      {CTNSelect === 'Contacts' && (
+        <FlatList
+          data={filterData}
+          refreshing={refresh}
+          onRefresh={onRefresh}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(_, i) => i.toString()}
+          contentContainerStyle={style.listContainer}
+          ListEmptyComponent={<Empty title={"You don't have any Contact"} />}
+          renderItem={({item, index}) => (
+            <InboxCard
+              data={item}
+              index={index}
+              onPress={() => navigate('chatScreen', {item})}
+            />
+          )}
+        />
+      )}
+      {CTNSelect === 'Topics' && (
         <FlatList
           data={filterData}
           refreshing={refresh}
@@ -107,10 +144,33 @@ const Inbox = () => {
         />
       )}
 
+      {CTNSelect === 'Prayer' && (
+        <FlatList
+          data={filterData}
+          refreshing={refresh}
+          onRefresh={onRefresh}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(_, i) => i.toString()}
+          contentContainerStyle={style.listContainer}
+          ListEmptyComponent={<Empty title={"You don't have any Contact"} />}
+          renderItem={({item, index}) => (
+            <PrayerInboxCard
+              data={item}
+              index={index}
+              onPress={() => navigate('chatScreen', {item})}
+            />
+          )}
+        />
+      )}
+
+      {CTNSelect === 'Notes' && <ShowNote />}
+
       {CTNSelect !== 'Notes' && (
         <Plusbox
           onPress={() => {
-            if (['Contacts', 'Topics', 'Groups'].includes(CTNSelect)) {
+            if (
+              ['Contacts', 'Topics', 'Groups', 'Prayer'].includes(CTNSelect)
+            ) {
               setActivePopup(CTNSelect);
             }
           }}
@@ -126,6 +186,11 @@ const Inbox = () => {
       />
       <TopicPopup
         visible={activePopup === 'Topics'}
+        onClose={() => setActivePopup(null)}
+      />
+
+      <PrayPopup
+        visible={activePopup === 'Prayer'}
         onClose={() => setActivePopup(null)}
       />
 

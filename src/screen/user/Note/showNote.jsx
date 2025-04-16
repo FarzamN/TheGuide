@@ -1,20 +1,17 @@
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
-import React, {useCallback, useEffect, useState} from 'react';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {
   delete_note,
   get_user_app_total_points,
   getNoteApi,
 } from '../../../redux/actions/UserAction';
 import {
-  Body,
   Loader,
   GuestModal,
   RequestModal,
   AddSponsorModal,
   AskRequestModal,
-  DashboardHeader,
   Empty,
   NoteCard,
   AddNoteModal,
@@ -25,7 +22,6 @@ import {FlatList} from 'react-native';
 
 const ShowNote = () => {
   const dispatch = useDispatch();
-  const {getParent} = useNavigation();
   const userDetail = useSelector(state => state.userDetails);
   const isGuest = userDetail === 'guest';
   const note = useSelector(state => state.get_note);
@@ -52,9 +48,9 @@ const ShowNote = () => {
     }
   }, [isGuest]);
 
-  const handleDelete = () => {
-    console.log('delete');
-  };
+  const handleDelete = () =>
+    dispatch(delete_note(showDelete.id, setLoad, closeDelete));
+
   const onRefresh = () => {
     setRefresh(true);
     dispatch(getNoteApi(setLoad));
@@ -115,9 +111,7 @@ const ShowNote = () => {
       <DeleteModal
         onClose={closeDelete}
         visible={showDelete.visible}
-        onPress={() =>
-          dispatch(delete_note(showDelete.id, setLoad, closeDelete))
-        }
+        onPress={handleDelete}
         text="Are you sure you want to Delete this Note?"
       />
       <AddNoteModal
