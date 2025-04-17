@@ -32,27 +32,11 @@ export const required = type => {
   return `${type} is Required`;
 };
 
+import SoundPlayer from 'react-native-sound-player';
+
 export const playSound = file => {
-  Sound.setCategory('Playback');
-
-  const sound = new Sound(
-    'https://www.kozco.com/tech/LRMonoPhase4.mp3',
-    error => {
-      if (error) {
-        console.log('Failed to load the sound', error);
-        return;
-      }
-
-      // Play the sound
-      sound.play(success => {
-        if (success) {
-          console.log('Successfully finished playing');
-        } else {
-          console.log('Playback failed');
-        }
-      });
-    },
-  );
+  const {playUrl, playSoundFile} = SoundPlayer;
+  playSoundFile(file, 'mp3');
 };
 
 export const getLightColor = hex => {

@@ -115,10 +115,10 @@ export const complete_assigment = ids => {
   });
 };
 
-export const eventApi = load => {
+export const eventApi = (tabName, load) => {
   return async dispatch => {
     load(true);
-    const url = `${Base_Url}get/events`;
+    const url = `${Base_Url}get-events/${tabName}`;
     const myHeaders = new Headers();
     try {
       const response = await fetch(url);
@@ -537,7 +537,7 @@ export const prayerUpdate = (data, val) => {
       if (res.status) {
         if (val === 'show') {
           Toast.show('Prayer created successfully');
-          playSound('notification.mp3');
+          playSound('notification');
         }
       }
     } catch (error) {
@@ -607,7 +607,7 @@ export const TimerUpdate = (data, val) => {
       if (res.status) {
         if (val === 'show') {
           Toast.show('Prayer created successfully');
-          playSound('notification.mp3');
+          playSound('notification');
         }
       }
     } catch (error) {

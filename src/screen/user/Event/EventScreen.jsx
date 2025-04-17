@@ -1,4 +1,4 @@
-import {FlatList} from 'react-native';
+import {FlatList, View} from 'react-native';
 import EventHead from './eventComp/eventHead';
 import EventBottom from './eventComp/eventBottom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,15 +14,20 @@ import {
   AskRequestModal,
   Body,
   DashboardHeader,
+  Empty,
   EventCard,
   GuestModal,
   Loader,
   RequestModal,
 } from '../../../components';
+import EventHeader from '../../../components/Header/eventHeader';
+import PraySwitch from '../Prayer/prayComp/praySwitch';
+import {style as switchStyle} from '../style';
+import {tab} from '../../../utils/Constants';
 
 const EventScreen = () => {
   const dispatch = useDispatch();
-  const {getParent} = useNavigation();
+  const {getParent, navigate} = useNavigation();
   const get_event = useSelector(state => state.get_event);
   const userDetail = useSelector(state => state.userDetails);
   const isGuest = userDetail === 'guest';
@@ -34,6 +39,8 @@ const EventScreen = () => {
   const [requestModal, setRequestModal] = useState(false);
   const [askRequestModal, setAskRequestModal] = useState(false);
   const [addSponsorModal, setAddSponsorModal] = useState(false);
+
+  const [tabSelect, setTabSelect] = useState('today');
 
   useEffect(() => {
     if (!isGuest) {
@@ -65,13 +72,13 @@ const EventScreen = () => {
 
   const onRefresh = () => {
     setRefresh(true);
-    dispatch(eventApi(setLoad));
+    dispatch(eventApi(tabSelect, setLoad));
     setRefresh(false);
   };
 
   useEffect(() => {
-    dispatch(eventApi(setLoad));
-  }, []);
+    dispatch(eventApi(tabSelect, setLoad));
+  }, [tabSelect]);
 
   useFocusEffect(
     useCallback(() => {
@@ -92,9 +99,39 @@ const EventScreen = () => {
     dispatch(get_user_app_total_points());
     setRequestModal(true);
   };
+  const [City, setCity] = useState({
+    name: userDetail.user_city,
+    id: userDetail.user_city_id,
+  });
   return (
     <Body>
-      <DashboardHeader onRequest={onRequest} />
+      <EventHeader
+        title={City.name || 'City'}
+        onPress={() =>
+          navigate('city', {
+            val: City.name,
+            setVal: setCity,
+            id: City.id,
+            StateID: userDetail.user_state_id,
+          })
+        }>
+        <View
+          style={[
+            GlobalStyle.between,
+            switchStyle.SwitchCont,
+            {backgroundColor: '#fff', height: 50},
+          ]}>
+          {['today', 'monthly', 'special', 'my-events'].map(i => (
+            <PraySwitch
+              key={i}
+              title={i}
+              focus={tabSelect === i}
+              onPress={() => setTabSelect(i)}
+              styles={{height: tab ? 50 : 32}}
+            />
+          ))}
+        </View>
+      </EventHeader>
       {/* <EventHead
         page={streak.value}
         type={eventType.value}
@@ -108,6 +145,7 @@ const EventScreen = () => {
         style={GlobalStyle.Padding}
         showsVerticalScrollIndicator={false}
         keyExtractor={(_, i) => i.toString()}
+        ListEmptyComponent={<Empty title={'No event Found'} />}
         renderItem={({item}) => <EventCard data={item} />}
       />
       {/* <EventBottom /> */}

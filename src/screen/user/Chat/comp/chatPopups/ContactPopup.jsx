@@ -42,6 +42,7 @@ const ContactPopup = ({visible, onClose}) => {
   const [loadSend, setLoadSend] = useState(false);
   const [loadRecieved, setLoadRecieved] = useState(false);
 
+  const shareCode = 'HL2X78';
   const handleAdd = data => {
     addContact(data, setAddLoad, setSearch, userDetails);
   };
@@ -54,7 +55,7 @@ const ContactPopup = ({visible, onClose}) => {
   const handleShare = () => {
     Share.share({
       title: 'Share your code with your friends',
-      message: userDetails.faker_id,
+      message: shareCode,
     });
   };
 
@@ -165,7 +166,7 @@ const ContactPopup = ({visible, onClose}) => {
               title="Share the code with your friends and family!"
             />
             <View style={[GlobalStyle.between, style.yourCodeBox]}>
-              <Text selectable title={userDetails.faker_id} />
+              <Text selectable title={shareCode} />
               <TouchableOpacity
                 onPress={handleShare}
                 style={style.ContactIconBox}>
@@ -268,7 +269,7 @@ export default ContactPopup;
 //         title="Share the code with your friends and family!"
 //       />
 //       <View style={[GlobalStyle.between, style.yourCodeBox]}>
-//         <Text selectable title={userDetails.faker_id} />
+//         <Text selectable title={shareCode} />
 //         <TouchableOpacity
 //           onPress={handleShare}
 //           style={style.ContactIconBox}>

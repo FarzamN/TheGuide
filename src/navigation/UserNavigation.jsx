@@ -81,6 +81,7 @@ const allEventConfig = {
   initialRouteName: 'event',
   screens: [
     {name: 'event', component: EventScreen},
+    {name: 'city', component: City},
     {name: 'webview', component: WebView},
   ],
 };

@@ -113,7 +113,7 @@ const CountDown = () => {
       case 4: // Reset
         stopCountdown();
         setIsPaused(false);
-        playSound('notification.mp3');
+        playSound('notification');
         break;
       case 5: // Save start after pause
         handleStart();

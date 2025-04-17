@@ -249,8 +249,7 @@ const GameScreen = ({route}) => {
         {fileUrl && (
           <Video
             ref={videoRef}
-            // controls={true}
-            controls={false}
+            controls={showAnser}
             paused={isPaused}
             resizeMode="contain"
             style={style.videoPlayer}

@@ -13,7 +13,7 @@ export const handleAnswer = (
   setAllQuestionsCompleted,
 ) => {
   if (ans.isCorrect) {
-    playSound('correct.mp3');
+    playSound('correct');
     setCorrect(true); // Show "Correct" feedback
     showQuestion(false);
     setTimeout(() => {
@@ -30,7 +30,7 @@ export const handleAnswer = (
     }, 2000);
   } else {
     // For incorrect answer, allow retry but prevent repeated display
-    playSound('wrong.mp3');
+    playSound('wrong');
     setError(true);
     showQuestion(false); // Hide question after transitioning
     setTimeout(() => {
@@ -115,7 +115,7 @@ export const handleReviewAnswer = (
   goBack,
 ) => {
   if (ans.isCorrect) {
-    playSound('correct.mp3');
+    playSound('correct');
     setCorrect(true);
     setTimeout(() => {
       setCorrect(false);
@@ -129,7 +129,7 @@ export const handleReviewAnswer = (
       }
     }, 2000);
   } else {
-    playSound('wrong.mp3');
+    playSound('wrong');
     setError(true);
     setTimeout(() => {
       setError(false);
