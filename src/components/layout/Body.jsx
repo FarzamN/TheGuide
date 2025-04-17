@@ -1,7 +1,7 @@
-import {SafeAreaView, StatusBar, View} from 'react-native';
 import React from 'react';
-import {GlobalStyle} from '../../utils/GlobalStyle';
 import {Color} from '../../utils/Color';
+import {GlobalStyle} from '../../utils/GlobalStyle';
+import {SafeAreaView, StatusBar, View} from 'react-native';
 
 const Body = ({children, restyle}) => {
   return (

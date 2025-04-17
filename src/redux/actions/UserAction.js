@@ -16,6 +16,7 @@ import {
   PUBLIC_POOL_POINT,
   GET_NOTE,
   GET_REVIEW_GAME,
+  GET_CALENDAR_DATA,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -1161,4 +1162,23 @@ export const cancelSend = async (cancelID, setLoadSend, setSendCards) => {
   } catch (error) {
     console.log('Error in cancelSend:', error);
   }
+};
+
+export const getCalendarData = () => {
+  return async dispatch => {
+    try {
+      const url = `${Base_Url}user-app-calendar-prayer-progress`;
+      const token = await AsyncStorage.getItem('token');
+      const headers = new Headers();
+      headers.append('Authorization', `Bearer ${token}`);
+      const response = await fetch(url, {headers});
+
+      const res = await response.json();
+      if (res.status === 'success') {
+        dispatch({type: GET_CALENDAR_DATA, payload: res.data});
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
 };

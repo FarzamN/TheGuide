@@ -209,10 +209,12 @@ const GameScreen = ({route}) => {
     return () => remove();
   }, []);
 
+  const [showAnser, setShowAnswer] = useState(false);
+
   return (
     <Body>
       <GameHeader
-        isProgress
+        onLongPress={() => setShowAnswer(prev => !prev)}
         onClose={goBack}
         /*
         handleJob
@@ -224,20 +226,23 @@ const GameScreen = ({route}) => {
         title={item.course_name}
         subTitle={item.game_title}
       />
-
-      {/* {[
-        {n: 'id', c: item.id},
-        {n: 'currentTime', c: Math.ceil(currentTime)},
-        {
-          n: 'quesion length',
-          c: currentQuestionIndex + 1 + '/' + gameQuestions.length,
-        },
-        {n: 'next Question Time', c: currentQuestion?.startTime},
-        {n: 'prev Question Time', c: previousQuestionTime},
-        {n: 'Correct answer is:', c: answering},
-      ].map(({n, c}) => (
-        <Text key={n} center title={n + ' ' + c} />
-      ))} */}
+      {showAnser && (
+        <>
+          {[
+            {n: 'id', c: item.id},
+            {n: 'currentTime', c: Math.ceil(currentTime)},
+            {
+              n: 'quesion length',
+              c: currentQuestionIndex + 1 + '/' + gameQuestions.length,
+            },
+            {n: 'next Question Time', c: currentQuestion?.startTime},
+            {n: 'prev Question Time', c: previousQuestionTime},
+            {n: 'Correct answer is:', c: answering},
+          ].map(({n, c}) => (
+            <Text key={n} center title={n + ' ' + c} />
+          ))}
+        </>
+      )}
 
       <View>
         {isBuffering && <NorLoad />}

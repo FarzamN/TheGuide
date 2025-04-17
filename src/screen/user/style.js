@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {Color} from '../../utils/Color';
 import {iOS, tab} from '../../utils/Constants';
+import {Calendar} from 'react-native-calendars';
 
 export const style = StyleSheet.create({
   listContainer: {
@@ -97,5 +98,21 @@ export const style = StyleSheet.create({
     alignSelf: 'flex-end',
     backgroundColor: 'black',
     justifyContent: 'center',
+  },
+
+  CalendarTheme: {
+    arrowColor: Color.white,
+    monthTextColor: Color.white,
+    textDayFontWeight: '300',
+    textMonthFontWeight: 'bold',
+    textDayHeaderFontWeight: '300',
+    textDayFontSize: 16,
+    textMonthFontSize: 16,
+    textDayHeaderFontSize: 16,
+  },
+  CalendarIcon: {
+    position: 'relative',
+    marginVertical: 10,
+    marginHorizontal: 15,
   },
 });

@@ -202,7 +202,6 @@ export default StyleSheet.create({
     // paddingVertical: tab ? 8 : 2,
     paddingHorizontal: tab ? 8 : 2,
   },
-
   searchBox: {width: '100%', marginTop: 10},
   yourCodeBox: {
     borderWidth: 1,

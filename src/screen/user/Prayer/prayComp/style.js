@@ -36,7 +36,7 @@ export const style = StyleSheet.create({
     borderRadius: tab ? 15 : 10,
   },
   switchText: {
-    paddingHorizontal:5,
+    paddingHorizontal: 5,
     fontWeight: '500',
     fontSize: tab ? 15 : 11,
     textTransform: 'capitalize',
@@ -44,6 +44,7 @@ export const style = StyleSheet.create({
   TimeCont: {
     margin: 10,
     borderWidth: 1,
+    borderBottomWidth: 1.6,
     borderRadius: 10,
     height: tab ? 45 : 35,
     width: tab ? 120 : 87,

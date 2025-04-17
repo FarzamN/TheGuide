@@ -8,8 +8,7 @@ const StreakModal = ({visible, onPress}) => {
   return (
     <Modal animationIn={'fadeIn'} animationOut={'fadeOut'} isVisible={visible}>
       <View style={[style.LogoutContainer, {height: 300}]}>
-       
-         <FullImage
+        <FullImage
           style={style.streakImage}
           source={require('../../assets/image/badge.png')}
         />
@@ -18,7 +17,7 @@ const StreakModal = ({visible, onPress}) => {
           style={style.LogoutText}
           title={'You got your streak today!'}
         />
-        <ModalBtn green onPress={onPress} title="OKay" />
+        <ModalBtn green onPress={onPress} title="Okay" />
       </View>
     </Modal>
   );

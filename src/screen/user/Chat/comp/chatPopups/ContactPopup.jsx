@@ -30,7 +30,7 @@ const ContactPopup = ({visible, onClose}) => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
 
-  const [tabs, setTabs] = useState('Search Users');
+  const [tabs, setTabs] = useState('Add Contact');
   const [search, setSearch] = useState('');
 
   const [filteredCards, setFilteredCards] = useState([]);
@@ -41,7 +41,7 @@ const ContactPopup = ({visible, onClose}) => {
   const [loadSearch, setLoadSearch] = useState(false);
   const [loadSend, setLoadSend] = useState(false);
   const [loadRecieved, setLoadRecieved] = useState(false);
-  console.log('recievedCards', recievedCards);
+
   const handleAdd = data => {
     addContact(data, setAddLoad, setSearch, userDetails);
   };
@@ -54,11 +54,11 @@ const ContactPopup = ({visible, onClose}) => {
   const handleShare = () => {
     Share.share({
       title: 'Share your code with your friends',
-      message: '20000',
+      message: userDetails.faker_id,
     });
   };
 
-  // Fetch Sent and Recieved Users on Modal Open
+  // Fetch Sent and Received Users on Modal Open
   useEffect(() => {
     if (visible) {
       fetchSentUsers(setLoadSend, setSendCards);
@@ -101,15 +101,21 @@ const ContactPopup = ({visible, onClose}) => {
           title="Create Contacts"
           style={[style.LogoutText, {color: Color.black}]}
         />
+
+        {/* yhh haty ga or nechy wala comment code dekhy ga */}
         <View
           style={[
             GlobalStyle.between,
             style.SwitchCont,
-            {backgroundColor: '#fff', height: 50},
+            {
+              backgroundColor: '#fff',
+              height: 50,
+              justifyContent: 'space-around',
+            },
           ]}>
-          {['Search Users', 'Sent', 'Recieved'].map(i => (
+          {['Add Contact', 'Requests'].map(i => (
             <PraySwitch
-              notification={['Sent', 'Recieved'].includes(i)}
+              notification={['Requests'].includes(i)}
               key={i}
               title={i}
               focus={tabs === i}
@@ -121,120 +127,8 @@ const ContactPopup = ({visible, onClose}) => {
             />
           ))}
         </View>
-
-        <SearchBar
-          value={search}
-          onChange={setSearch}
-          styles={style.searchBox}
-          onClose={() => setSearch('')}
-        />
-
-        {/* SEARCH USERS TAB */}
-        {tabs === 'Search Users' && (
-          <>
-            {loadSearch ? (
-              <Text center title="Loading..." />
-            ) : (
-              <>
-                {search !== '' && (
-                  <>
-                    <FlatList
-                      style={{height: '50%'}}
-                      data={filteredCards}
-                      keyExtractor={(_, index) => index.toString()}
-                      renderItem={({item}) => {
-                        return (
-                          <UserChatCard
-                            btnTitle="Add User"
-                            name={item.first_name + ' ' + item?.last_name}
-                            uri={item.profile_url}
-                            title="Send request to"
-                            onPress={() => handleAdd(item)}
-                          />
-                        );
-                      }}
-                      ListEmptyComponent={
-                        search ? <Text center title="No users found" /> : null
-                      }
-                    />
-                  </>
-                )}
-              </>
-            )}
-
-            {search === '' && (
-              <>
-                <Text style={{marginTop: 10}} title="Your Code" />
-                <View style={[GlobalStyle.between, style.yourCodeBox]}>
-                  <Text selectable title="2000" />
-                  <TouchableOpacity
-                    onPress={handleShare}
-                    style={style.ContactIconBox}>
-                    <Icon
-                      type="AntDesign"
-                      name="sharealt"
-                      color={Color.white}
-                    />
-                  </TouchableOpacity>
-                </View>
-
-                <Text style={{marginTop: 10}} title="Enter Code" />
-                <MainInput
-                  name="note"
-                  control={control}
-                  isError={errors?.note}
-                  placeholder="Enter Code here"
-                  style={[style.amountInput, {marginTop: 5}]}
-                  message={errors?.note?.message}
-                  rules={{
-                    required: 'Note is required',
-                  }}
-                />
-                <ModalBtn green title={load ? 'Please wait...' : 'Submit'} />
-              </>
-            )}
-          </>
-        )}
-
-        {/* SENT TAB */}
-        {tabs === 'Sent' && (
-          <>
-            {loadSend ? (
-              <Text center title="Loading..." />
-            ) : sentCards.length > 0 ? (
-              <FlatList
-                style={{height: '50%'}}
-                data={sentCards}
-                keyExtractor={(_, index) => index.toString()}
-                renderItem={({item}) => {
-                  return (
-                    <UserChatCard
-                      // sent
-                      btnTitle="Cancel"
-                      name={
-                        item?.contact?.first_name +
-                        ' ' +
-                        item?.contact?.last_name
-                      }
-                      uri={item?.contact?.profile_url}
-                      title="You have sent request to"
-                      onPress={() => handleCancel(item?.id)}
-                    />
-                  );
-                }}
-              />
-            ) : (
-              <Text
-                center
-                style={{marginTop: 10}}
-                title="You have not sent any request yet"
-              />
-            )}
-          </>
-        )}
-
         {/* RECEIVED TAB */}
-        {tabs === 'Recieved' && (
+        {tabs === 'Requests' && (
           <>
             {loadRecieved ? (
               <Text center title="Loading..." />
@@ -263,9 +157,183 @@ const ContactPopup = ({visible, onClose}) => {
             )}
           </>
         )}
+
+        {tabs === 'Add Contact' && (
+          <>
+            <Text
+              style={{marginTop: 10, marginBottom: 5}}
+              title="Share the code with your friends and family!"
+            />
+            <View style={[GlobalStyle.between, style.yourCodeBox]}>
+              <Text selectable title={userDetails.faker_id} />
+              <TouchableOpacity
+                onPress={handleShare}
+                style={style.ContactIconBox}>
+                <Icon type="AntDesign" name="sharealt" color={Color.white} />
+              </TouchableOpacity>
+            </View>
+
+            <Text
+              style={{marginTop: 10, marginBottom: 5}}
+              title="Enter your friends and families code here!"
+            />
+            <MainInput
+              name="note"
+              control={control}
+              isError={errors?.note}
+              placeholder="Enter Code here"
+              style={[style.amountInput, {marginTop: 5}]}
+              message={errors?.note?.message}
+              rules={{
+                required: 'Note is required',
+              }}
+            />
+            <ModalBtn green title={load ? 'Please wait...' : 'Submit'} />
+          </>
+        )}
+
+        {/* yhh haty ga or nechy wala comment code dekhy ga */}
       </View>
     </Modal>
   );
 };
 
 export default ContactPopup;
+
+// <View
+// style={[
+//   GlobalStyle.between,
+//   style.SwitchCont,
+//   {backgroundColor: '#fff', height: 50},
+// ]}>
+// {['Search Users', 'Sent', 'Received'].map(i => (
+//   <PraySwitch
+//     notification={['Sent', 'Received'].includes(i)}
+//     key={i}
+//     title={i}
+//     focus={tabs === i}
+//     onPress={() => {
+//       setTabs(i);
+//       setSearch('');
+//     }}
+//     styles={{height: tab ? 50 : 32}}
+//   />
+// ))}
+// </View>
+
+// <SearchBar
+// value={search}
+// onChange={setSearch}
+// styles={style.searchBox}
+// onClose={() => setSearch('')}
+// />
+
+// {/* SEARCH USERS TAB */}
+// {tabs === 'Search Users' && (
+// <>
+//   {loadSearch ? (
+//     <Text center title="Loading..." />
+//   ) : (
+//     <>
+//       {search !== '' && (
+//         <>
+//           <FlatList
+//             style={{height: '50%'}}
+//             data={filteredCards}
+//             keyExtractor={(_, index) => index.toString()}
+//             renderItem={({item}) => {
+//               return (
+//                 <UserChatCard
+//                   btnTitle="Add User"
+//                   name={item.first_name + ' ' + item?.last_name}
+//                   uri={item.profile_url}
+//                   title="Send request to"
+//                   onPress={() => handleAdd(item)}
+//                 />
+//               );
+//             }}
+//             ListEmptyComponent={
+//               search ? <Text center title="No users found" /> : null
+//             }
+//           />
+//         </>
+//       )}
+//     </>
+//   )}
+
+//   {search === '' && (
+//     <>
+//       <Text
+//         style={{marginTop: 10}}
+//         title="Share the code with your friends and family!"
+//       />
+//       <View style={[GlobalStyle.between, style.yourCodeBox]}>
+//         <Text selectable title={userDetails.faker_id} />
+//         <TouchableOpacity
+//           onPress={handleShare}
+//           style={style.ContactIconBox}>
+//           <Icon
+//             type="AntDesign"
+//             name="sharealt"
+//             color={Color.white}
+//           />
+//         </TouchableOpacity>
+//       </View>
+
+//       <Text
+//         style={{marginTop: 10}}
+//         title="Enter your friends and families code here!"
+//       />
+//       <MainInput
+//         name="note"
+//         control={control}
+//         isError={errors?.note}
+//         placeholder="Enter Code here"
+//         style={[style.amountInput, {marginTop: 5}]}
+//         message={errors?.note?.message}
+//         rules={{
+//           required: 'Note is required',
+//         }}
+//       />
+//       <ModalBtn green title={load ? 'Please wait...' : 'Submit'} />
+//     </>
+//   )}
+// </>
+// )}
+
+// {/* SENT TAB */}
+// {tabs === 'Sent' && (
+// <>
+//   {loadSend ? (
+//     <Text center title="Loading..." />
+//   ) : sentCards.length > 0 ? (
+//     <FlatList
+//       style={{height: '50%'}}
+//       data={sentCards}
+//       keyExtractor={(_, index) => index.toString()}
+//       renderItem={({item}) => {
+//         return (
+//           <UserChatCard
+//             // sent
+//             btnTitle="Cancel"
+//             name={
+//               item?.contact?.first_name +
+//               ' ' +
+//               item?.contact?.last_name
+//             }
+//             uri={item?.contact?.profile_url}
+//             title="You have sent request to"
+//             onPress={() => handleCancel(item?.id)}
+//           />
+//         );
+//       }}
+//     />
+//   ) : (
+//     <Text
+//       center
+//       style={{marginTop: 10}}
+//       title="You have not sent any request yet"
+//     />
+//   )}
+// </>
+// )}

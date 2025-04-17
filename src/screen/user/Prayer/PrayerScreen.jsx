@@ -71,8 +71,6 @@ const PrayerScreen = () => {
 
   const handleMap = () =>
     navigate('webview', {uri: Image_Url + 'prayer/webview/map'});
-  const handleCalender = () =>
-    navigate('webview', {uri: Image_Url + 'calendar'});
 
   const updateTime = () => {
     const currentTime = moment();
@@ -164,10 +162,10 @@ const PrayerScreen = () => {
   return (
     <Body>
       <DashboardHeader onRequest={onRequest} />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <TimeBar
           onMap={handleMap}
-          onCalender={handleCalender}
+          onCalendar={() => navigate('calendar')}
           time={remainingTime || 'Loading...'}
           onTime={() => setClock({visible: true, time: ''})}
         />

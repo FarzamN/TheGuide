@@ -23,9 +23,11 @@ export const SPONSOR_DATA = 'SPONSOR_DATA';
 export const PUBLIC_POOL_POINT = 'PUBLIC_POOL_POINT';
 export const GET_NOTE = 'GET_NOTE';
 export const REVIEW_DONE = 'REVIEW_DONE';
+export const GET_CALENDAR_DATA = 'GET_CALENDAR_DATA';
 
 const initial_state = {
   userDetails: false,
+  calendar_data: [],
   get_country: [],
   get_city: [],
   get_state: [],
@@ -179,6 +181,11 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         review_done: action.payload,
+      };
+    case GET_CALENDAR_DATA:
+      return {
+        ...state,
+        calendar_data: action.payload,
       };
     default: {
       return state;

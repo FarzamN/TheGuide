@@ -20,6 +20,7 @@ const GameHeader = ({title, onClose, subTitle, progress, onLongPress}) => {
         <TouchableOpacity
           onPress={onClose}
           onLongPress={onLongPress}
+          delayLongPress={1500}
           style={[icStyle.backIcon, GlobalStyle.justify]}>
           <Icon
             name="close"

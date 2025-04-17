@@ -9,6 +9,7 @@ import navigationColor from 'react-native-system-navigation-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DrawerNavigation from './src/navigation/DrawerNavigation.jsx';
 import {getCity, getCoutry, getState} from './src/redux/actions/AuthAction';
+import {getCalendarData} from './src/redux/actions/UserAction.js';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,8 +48,9 @@ const App = () => {
 
   useEffect(() => {
     getUserDetails();
-    navigationColor.setNavigationColor(Color.white);
+    dispatch(getCalendarData());
 
+    navigationColor.setNavigationColor(Color.white, 'dark', 'navigation');
   }, []);
 
   return userDetails ? <DrawerNavigation /> : <AuthNavigation />;

@@ -4,7 +4,7 @@ import {TouchableOpacity, View} from 'react-native';
 import {FullImage, Text} from '../../../../components';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
 
-const TimeBar = ({onMap, onTime, onVideo, onCalender, time}) => {
+const TimeBar = ({onMap, onTime, onVideo, onCalendar, time}) => {
   return (
     <View style={[style.barCont, GlobalStyle.between]}>
       <Text style={style.time} title={time} fontScaling />
@@ -14,10 +14,10 @@ const TimeBar = ({onMap, onTime, onVideo, onCalender, time}) => {
             press: onTime,
             icon: require('../../../../assets/image/timer.png'),
           },
-          // {
-          //   press: onCalender,
-          //   icon: require('../../../../assets/image/pray-calender.png'),
-          // },
+          {
+            press: onCalendar,
+            icon: require('../../../../assets/image/pray-calendar.png'),
+          },
           {
             press: onMap,
             icon: require('../../../../assets/image/map.png'),

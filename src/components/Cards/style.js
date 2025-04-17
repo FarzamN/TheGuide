@@ -227,17 +227,16 @@ export const styles = StyleSheet.create({
     elevation: 4,
     backgroundColor: Color.white,
     alignSelf: 'center',
-    borderWidth:1,
-    borderColor:Color.grey,
+    borderWidth: 1,
+    borderColor: Color.grey,
   },
 
   menuTitle: {
-    marginVertical:7,
+    marginVertical: 7,
     fontWeight: '500',
     color: Color.black,
     fontSize: tab ? 16 : 14,
   },
-
 
   menu: {
     position: 'absolute',
@@ -251,12 +250,32 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     zIndex: 999,
     minWidth: 120,
-
   },
   UserChatCard: {
     padding: 10,
     marginVertical: 5,
     backgroundColor: '#f5f5f5',
     borderRadius: 10,
+  },
+
+  CalendarCardContainer: {
+    marginHorizontal: 16,
+    overflow: 'hidden',
+    borderRadius: 12,
+    marginTop: 20,
+  },
+  CalendarCardInner: {
+    padding: 16,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+  },
+  CalendarDate: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  CalendarProgress: {
+    marginTop: 8,
+    fontSize: 15,
+    color: Color.grey,
   },
 });

@@ -50,7 +50,7 @@ const useGeolocation = () => {
       },
       error => {
         setError(error.message);
-        Alert.alert('Error', error.message);
+        // Alert.alert('Error', error.message);
       },
       {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
     );

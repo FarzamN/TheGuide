@@ -50,8 +50,10 @@ import Plusbox from './Helper/plusbox';
 import SearchBar from './Helper/SearchBar';
 import PrayerCheckRadio from './Radio/PrayerCheckRadio';
 import UserChatCard from './Cards/userChatCard';
+import CalendarCard from './Cards/CalendarCard';
 
 export {
+  CalendarCard,
   UserChatCard,
   PrayerCheckRadio,
   SearchBar,

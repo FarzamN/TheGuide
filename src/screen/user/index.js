@@ -8,8 +8,10 @@ import EditProfile from './Settings/EditProfile';
 import StatusScreen from '../user/Status/StatusScreen';
 import EventScreen from '../user/Event/EventScreen.jsx';
 import PrayerScreen from '../user/Prayer/PrayerScreen.jsx';
+import Calendar from './Prayer/Calendar.jsx';
 
 export {
+  Calendar,
   Game,
   Home,
   WebView,

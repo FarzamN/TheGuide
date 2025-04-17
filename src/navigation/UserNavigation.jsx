@@ -15,6 +15,7 @@ import {
   EventScreen,
   StatusScreen,
   PrayerScreen,
+  Calendar,
 } from '../screen/user';
 import {FullImage} from '../components';
 import ChatScreen from '../screen/user/Chat/chatScreen';
@@ -72,6 +73,7 @@ const allPrayerConfig = {
   initialRouteName: 'prayer',
   screens: [
     {name: 'prayer', component: PrayerScreen},
+    {name: 'calendar', component: Calendar},
     {name: 'webview', component: WebView},
   ],
 };
