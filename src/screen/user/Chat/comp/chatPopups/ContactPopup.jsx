@@ -24,27 +24,36 @@ import {
   fetchRecievedUsers,
   addContact,
   cancelSend,
+  sendCode,
+  rejected_accepted,
 } from '../../../../../redux/actions/UserAction';
 
 const ContactPopup = ({visible, onClose}) => {
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
+  const recievedCards = useSelector(state => state.recievedCards);
 
   const [tabs, setTabs] = useState('Add Contact');
   const [search, setSearch] = useState('');
 
   const [filteredCards, setFilteredCards] = useState([]);
   const [sentCards, setSendCards] = useState([]);
-  const [recievedCards, setRecievedCards] = useState([]);
   const [load, setLoad] = useState(false);
   const [addLoad, setAddLoad] = useState(false);
   const [loadSearch, setLoadSearch] = useState(false);
   const [loadSend, setLoadSend] = useState(false);
   const [loadRecieved, setLoadRecieved] = useState(false);
 
-  const shareCode = 'HL2X78';
+  const shareCode = userDetails.code;
   const handleAdd = data => {
-    addContact(data, setAddLoad, setSearch, userDetails);
+    addContact(data.id, setAddLoad, setSearch, userDetails);
+  };
+
+  const handleCode = async data => {
+    const getCodeData = await dispatch(sendCode(data.code));
+    setTimeout(() => {
+      addContact(getCodeData.id, setAddLoad, setSearch, userDetails);
+    }, 500);
   };
 
   const handleCancel = id => {
@@ -63,7 +72,7 @@ const ContactPopup = ({visible, onClose}) => {
   useEffect(() => {
     if (visible) {
       fetchSentUsers(setLoadSend, setSendCards);
-      fetchRecievedUsers(setLoadRecieved, setRecievedCards);
+      dispatch(fetchRecievedUsers(setLoadRecieved));
     }
   }, [visible, tabs]);
 
@@ -139,12 +148,13 @@ const ContactPopup = ({visible, onClose}) => {
                 data={recievedCards}
                 keyExtractor={(_, index) => index.toString()}
                 renderItem={({item}) => {
-                  console.log('item', item);
+                  console.log('recievedCards item', item);
                   return (
                     <UserChatCard
-                      btnTitle="accept"
-                      name="Farzam"
+                      btnTitle="Accept"
+                      name={item?.user?.full_name + ' ' + item?.user?.last_name}
                       title="You have received request from"
+                      onPress={() => rejected_accepted(item.id, onClose)}
                     />
                   );
                 }}
@@ -179,17 +189,21 @@ const ContactPopup = ({visible, onClose}) => {
               title="Enter your friends and families code here!"
             />
             <MainInput
-              name="note"
+              name="code"
               control={control}
-              isError={errors?.note}
+              isError={errors?.code}
               placeholder="Enter Code here"
               style={[style.amountInput, {marginTop: 5}]}
-              message={errors?.note?.message}
+              message={errors?.code?.message}
               rules={{
                 required: 'Note is required',
               }}
             />
-            <ModalBtn green title={load ? 'Please wait...' : 'Submit'} />
+            <ModalBtn
+              green
+              title={load ? 'Please wait...' : 'Submit'}
+              onPress={handleSubmit(handleCode)}
+            />
           </>
         )}
 

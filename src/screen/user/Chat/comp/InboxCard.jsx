@@ -22,12 +22,12 @@ const InboxCard = ({data, index, onPress}) => {
       />
       <View style={{width: '100%'}}>
         <View style={[GlobalStyle.between, {width: '80%'}]}>
-          <Text style={style.title}>{data.title}</Text>
+          <Text style={style.title}>{data.contact_name}</Text>
           <Text style={style.createdAt}>
             {moment(data.createdAt).format('DD/MM/YYYY')}
           </Text>
         </View>
-        <Text style={style.lastMsg}>{data.lastMsg}</Text>
+        <Text style={style.lastMsg}>{data.message}</Text>
       </View>
     </TouchableOpacity>
   );

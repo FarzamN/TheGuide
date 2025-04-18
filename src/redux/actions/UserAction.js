@@ -17,6 +17,8 @@ import {
   GET_NOTE,
   GET_REVIEW_GAME,
   GET_CALENDAR_DATA,
+  RECIEVED_CARD,
+  CHAT_CONTACTS_DATA,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -1078,7 +1080,6 @@ export const fetchSearchUsers = async (search, setLoad, setFilteredCards) => {
 export const fetchSentUsers = async (setLoad, setFilteredCards) => {
   try {
     setLoad(true);
-    console.log(fetchSentUsers);
     const url = `${Base_Url}get-contacts-sent-requests`;
     const token = await AsyncStorage.getItem('token');
     const headers = new Headers();
@@ -1086,7 +1087,6 @@ export const fetchSentUsers = async (setLoad, setFilteredCards) => {
 
     const response = await fetch(url, {headers});
     const data = await response.json();
-    console.log('fetchSentUsers data', data);
     setFilteredCards(data?.users || []);
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -1096,35 +1096,34 @@ export const fetchSentUsers = async (setLoad, setFilteredCards) => {
   }
 };
 
-export const fetchRecievedUsers = async (setLoad, setFilteredCards) => {
-  try {
-    setLoad(true);
-    const url = `${Base_Url}get-contacts-recieved-requests`;
-    const token = await AsyncStorage.getItem('token');
-    const headers = new Headers();
-    headers.append('Authorization', `Bearer ${token}`);
-    const response = await fetch(url, {headers});
-
-    const data = await response.json();
-    console.log('data', data);
-    setFilteredCards(data?.users || []);
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    setFilteredCards([]);
-  } finally {
-    setLoad(false);
-  }
+export const fetchRecievedUsers = (setLoad, setFilteredCards) => {
+  return async dispatch => {
+    try {
+      setLoad(true);
+      const url = `${Base_Url}get-contacts-recieved-requests`;
+      const token = await AsyncStorage.getItem('token');
+      const headers = new Headers();
+      headers.append('Authorization', `Bearer ${token}`);
+      const response = await fetch(url, {headers});
+      const data = await response.json();
+      dispatch({type: RECIEVED_CARD, payload: data?.users});
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      setFilteredCards([]);
+    } finally {
+      setLoad(false);
+    }
+  };
 };
 
-export const addContact = async (data, load, setSearch, userData) => {
+export const addContact = async (id, load, setSearch, userData) => {
   load(true);
   const url = `${Base_Url}create-contact`;
   const body = new FormData();
-  body.append('user_id', userData.user_id);
-  body.append('contact_id', data.id);
+  body.append('user_id', id);
+  body.append('contact_id', userData.user_id);
   body.append('role_id', 0);
 
-  console.log('body', body);
   const headers = new Headers();
   const token = await AsyncStorage.getItem('token');
   headers.append('Authorization', `Bearer ${token}`);
@@ -1136,7 +1135,6 @@ export const addContact = async (data, load, setSearch, userData) => {
     });
     const res = await response.json();
     load(false);
-    console.log('addContact', res);
     if (res.success === true) {
       setSearch('');
       Toast.show('Contact added successfully');
@@ -1179,6 +1177,63 @@ export const getCalendarData = () => {
       }
     } catch (error) {
       console.error('Error fetching users:', error);
+    }
+  };
+};
+
+export const sendCode = code => {
+  return async dispatch => {
+    const url = `${Base_Url}search-user-code-app?code=${code}`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+
+      if (res.status === 'success') {
+        // dispatch({type: GET_CALENDAR_DATA, payload: res.data});
+        return res.users;
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+};
+
+export const rejected_accepted = async (id, close) => {
+  const url = `${Base_Url}contact-popup-sent-rejected-accepted/${id}/Accepted`;
+  const headers = new Headers();
+  const token = await AsyncStorage.getItem('token');
+  headers.append('Authorization', `Bearer ${token}`);
+  try {
+    const response = await fetch(url, {headers});
+    const res = await response.json();
+    console.log('res', res);
+    if (res.success === true) {
+      close();
+      Toast.show('Requets Accepted successfully');
+    }
+  } catch (error) {
+    console.log('Error in rejected_accepted:', error);
+  }
+};
+
+export const get_contacts = () => {
+  return async dispatch => {
+    const url = `${Base_Url}contacts/listing`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      console.log('res', res.contacts);
+      if (res.status === 'success') {
+        dispatch({type: CHAT_CONTACTS_DATA, payload: res.contacts});
+      }
+    } catch (error) {
+      console.log('Error in get_contacts:', error);
     }
   };
 };

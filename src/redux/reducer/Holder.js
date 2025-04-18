@@ -24,6 +24,8 @@ export const PUBLIC_POOL_POINT = 'PUBLIC_POOL_POINT';
 export const GET_NOTE = 'GET_NOTE';
 export const REVIEW_DONE = 'REVIEW_DONE';
 export const GET_CALENDAR_DATA = 'GET_CALENDAR_DATA';
+export const RECIEVED_CARD = 'RECIEVED_CARD';
+export const CHAT_CONTACTS_DATA = 'CHAT_CONTACTS_DATA';
 
 const initial_state = {
   userDetails: false,
@@ -52,6 +54,8 @@ const initial_state = {
   public_pool_point: 0,
   get_note: [],
   review_done: 'no',
+  recievedCards: [],
+  chat_contacts_data: [],
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -186,6 +190,16 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         calendar_data: action.payload,
+      };
+    case RECIEVED_CARD:
+      return {
+        ...state,
+        recievedCards: action.payload,
+      };
+    case CHAT_CONTACTS_DATA:
+      return {
+        ...state,
+        chat_contacts_data: action.payload,
       };
     default: {
       return state;
