@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
 import {style} from './style';
 import {FullImage} from '../../../../components';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
+import {defaultProfileImage} from '../../../../utils/Constants';
 
 const GroupInboxCard = ({data, index, onPress}) => {
   return (
@@ -19,10 +20,11 @@ const GroupInboxCard = ({data, index, onPress}) => {
         radius={50}
         sizeMode={'cover'}
         style={style.inboxDP}
-        source={{uri: data.image}}
+        // source={{uri: data.image}}
+        source={{uri: defaultProfileImage}}
       />
       <View style={{marginLeft: 15, flex: 1}}>
-        <Text style={style.title}>{data.title}</Text>
+        <Text style={style.title}>{data.group_name}</Text>
         <Text style={style.lastMsg}>Prayed Streak: 23</Text>
       </View>
       <TouchableOpacity style={style.prayBtn}>

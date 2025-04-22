@@ -1,25 +1,37 @@
-import {useDispatch} from 'react-redux';
 import {style} from '../style';
+import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
+import ShowNote from '../Note/showNote';
+import InboxCard from './comp/InboxCard';
 import {FlatList, View} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {Body, Empty, Plusbox} from '../../../components';
+
+import {tab} from '../../../utils/Constants';
+import PrayPopup from './comp/chatPopups/PrayPopup';
+import TopicPopup from './comp/chatPopups/TopicPopup';
+import GroupPopup from './comp/chatPopups/GroupPopup';
 import PraySwitch from '../Prayer/prayComp/praySwitch';
 import {GlobalStyle} from '../../../utils/GlobalStyle';
-import {useSelector} from 'react-redux';
-import InboxCard from './comp/InboxCard';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import FilterModal from './comp/filterModal';
-import IndexHeader from './comp/indexHeader';
-import {tab} from '../../../utils/Constants';
-// import {chatInboxData} from '../../../utils/Data';
-import ShowNote from '../Note/showNote';
-import GroupPopup from './comp/chatPopups/GroupPopup';
-import TopicPopup from './comp/chatPopups/TopicPopup';
-import PrayPopup from './comp/chatPopups/PrayPopup';
 import ContactPopup from './comp/chatPopups/ContactPopup';
-import PrayerInboxCard from './comp/PrayerInboxCard';
-import GroupInboxCard from './comp/GroupInboxCard';
-import {get_contacts} from '../../../redux/actions/UserAction';
+import React, {useCallback, useEffect, useState} from 'react';
+
+import {
+  Body,
+  Empty,
+  FilterModal,
+  GroupInboxCard,
+  Plusbox,
+  IndexHeader,
+  PrayerInboxCard,
+  TopicCard,
+} from '../../../components';
+import {
+  get_contacts,
+  get_group,
+  get_topic,
+} from '../../../redux/actions/UserAction';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+
+// import {chatInboxData} from '../../../utils/Data';
 
 const Inbox = () => {
   const dispatch = useDispatch();
@@ -28,7 +40,9 @@ const Inbox = () => {
   const isGuest = userDetail === 'guest';
 
   const chatInboxData = useSelector(state => state.chat_contacts_data);
-  console.log('chatInboxData', chatInboxData);
+  const chat_group_data = useSelector(state => state.chat_group_data);
+  const chat_topic_data = useSelector(state => state.chat_topic_data);
+
   const [search, setSearch] = useState('');
   const [refresh, setRefresh] = useState(false);
   const [CTNSelect, setCTNSelect] = useState('Contacts');
@@ -39,6 +53,8 @@ const Inbox = () => {
     if (!isGuest) {
       setRefresh(true);
       dispatch(get_contacts());
+      dispatch(get_group());
+      dispatch(get_topic());
 
       setRefresh(false);
     }
@@ -67,6 +83,8 @@ const Inbox = () => {
 
   useEffect(() => {
     dispatch(get_contacts());
+    dispatch(get_group());
+    dispatch(get_topic());
   }, []);
 
   useFocusEffect(
@@ -117,15 +135,16 @@ const Inbox = () => {
           )}
         />
       )}
+
       {CTNSelect === 'Groups' && (
         <FlatList
-          data={filterData}
+          data={chat_group_data}
           refreshing={refresh}
           onRefresh={onRefresh}
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, i) => i.toString()}
           contentContainerStyle={style.listContainer}
-          ListEmptyComponent={<Empty title={"You don't have any Contact"} />}
+          ListEmptyComponent={<Empty title={"You don't have any Groups"} />}
           renderItem={({item, index}) => (
             <GroupInboxCard
               data={item}
@@ -138,15 +157,15 @@ const Inbox = () => {
 
       {CTNSelect === 'Topics' && (
         <FlatList
-          data={filterData}
+          data={chat_topic_data}
           refreshing={refresh}
           onRefresh={onRefresh}
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, i) => i.toString()}
           contentContainerStyle={style.listContainer}
-          ListEmptyComponent={<Empty title={"You don't have any Contact"} />}
+          ListEmptyComponent={<Empty title={"You don't have any Topics"} />}
           renderItem={({item, index}) => (
-            <InboxCard
+            <TopicCard
               data={item}
               index={index}
               onPress={() => navigate('chatScreen', {item})}

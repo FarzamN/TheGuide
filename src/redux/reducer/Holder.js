@@ -26,6 +26,8 @@ export const REVIEW_DONE = 'REVIEW_DONE';
 export const GET_CALENDAR_DATA = 'GET_CALENDAR_DATA';
 export const RECIEVED_CARD = 'RECIEVED_CARD';
 export const CHAT_CONTACTS_DATA = 'CHAT_CONTACTS_DATA';
+export const CHAT_GROUP_DATA = 'CHAT_GROUP_DATA';
+export const CHAT_TOPIC_DATA = 'CHAT_TOPIC_DATA';
 
 const initial_state = {
   userDetails: false,
@@ -56,6 +58,8 @@ const initial_state = {
   review_done: 'no',
   recievedCards: [],
   chat_contacts_data: [],
+  chat_group_data: [],
+  chat_topic_data: [],
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -200,6 +204,16 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         chat_contacts_data: action.payload,
+      };
+    case CHAT_GROUP_DATA:
+      return {
+        ...state,
+        chat_group_data: action.payload,
+      };
+    case CHAT_TOPIC_DATA:
+      return {
+        ...state,
+        chat_topic_data: action.payload,
       };
     default: {
       return state;

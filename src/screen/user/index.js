@@ -9,8 +9,10 @@ import StatusScreen from '../user/Status/StatusScreen';
 import EventScreen from '../user/Event/EventScreen.jsx';
 import PrayerScreen from '../user/Prayer/PrayerScreen.jsx';
 import Calendar from './Prayer/Calendar.jsx';
+import TournamentHome from './Tournament/TournamentHome.jsx';
 
 export {
+  TournamentHome,
   Calendar,
   Game,
   Home,

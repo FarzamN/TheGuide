@@ -16,13 +16,19 @@ import {
 import {Color} from '../../../../../utils/Color';
 import {useImagePicker} from '../../../../../hooks';
 import {style as chatStyle} from '../style';
+import {create_topic} from '../../../../../redux/actions/UserAction';
+import {useDispatch} from 'react-redux';
 
 const TopicPopup = ({visible, onClose}) => {
+  const dispatch = useDispatch();
   const {requestGalleryPermission, image, setImage} = useImagePicker();
 
   const [load, setLoad] = useState(false);
   const [prayer, setPrayer] = useState(false);
 
+  const handleTopic = data => {
+    dispatch(create_topic(data, image, prayer, setLoad, onClose));
+  };
   const {
     control,
     handleSubmit,
@@ -84,7 +90,7 @@ const TopicPopup = ({visible, onClose}) => {
         <ModalBtn
           green
           title={load ? 'Please wait...' : 'Save'}
-          //   onPress={handleSubmit(handleNote)}
+          onPress={handleSubmit(handleTopic)}
         />
       </View>
     </Modal>

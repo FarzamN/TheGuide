@@ -107,7 +107,7 @@ const ShowNote = () => {
           setNoteModal({visible: true, isEdit: false, preData: '', id: null})
         }
       />
-      <Loader visible={load} />
+      {/* <Loader visible={load} /> */}
       <DeleteModal
         onClose={closeDelete}
         visible={showDelete.visible}

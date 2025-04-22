@@ -16,6 +16,7 @@ import {
   StatusScreen,
   PrayerScreen,
   Calendar,
+  TournamentHome,
 } from '../screen/user';
 import {FullImage} from '../components';
 import ChatScreen from '../screen/user/Chat/chatScreen';
@@ -61,6 +62,11 @@ const allStatusConfig = {
   screens: [{name: 'status', component: StatusScreen}],
 };
 
+const allTournament = {
+  initialRouteName: 'status',
+  screens: [{name: 'tournamentHome', component: TournamentHome}],
+};
+
 const allChatConfig = {
   initialRouteName: 'inbox',
   screens: [
@@ -89,6 +95,7 @@ const allEventConfig = {
 export const AllHome = () => createNavigator(allHomeConfig);
 // export const AllNote = () => createNavigator(allNoteConfig);
 export const AllPrayer = () => createNavigator(allPrayerConfig);
+export const AllTournament = () => createNavigator(allTournament);
 export const AllChat = () => createNavigator(allChatConfig);
 export const AllStatus = () => createNavigator(allStatusConfig);
 export const AllEvent = () => createNavigator(allEventConfig);
@@ -98,6 +105,11 @@ const UserNavigation = () => {
     {c: AllHome, icon: require('../assets/image/nav/bible.png'), n: 'Bible'},
     // {c: AllNote, icon: require('../assets/image/nav/note.png'), n: 'Note'},
     {c: AllPrayer, icon: require('../assets/image/nav/pray.png'), n: 'Prayer'},
+    {
+      c: AllTournament,
+      icon: require('../assets/image/nav/tournament.png'),
+      n: 'Tournament',
+    },
     {
       c: AllChat,
       icon: require('../assets/image/nav/messege.png'),

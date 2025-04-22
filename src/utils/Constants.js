@@ -13,6 +13,9 @@ export const OS = Platform.OS;
 export const iOS = Platform.OS === 'ios';
 export const android = Platform.OS === 'android';
 
+export const defaultProfileImage =
+  'https://theguide.us/assets/images/avatar6.png';
+
 export const minLength = {
   value: 8,
   message: 'Password too short (minimum length is 8)',

@@ -19,6 +19,8 @@ import {
   GET_CALENDAR_DATA,
   RECIEVED_CARD,
   CHAT_CONTACTS_DATA,
+  CHAT_GROUP_DATA,
+  CHAT_TOPIC_DATA,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -1234,6 +1236,115 @@ export const get_contacts = () => {
       }
     } catch (error) {
       console.log('Error in get_contacts:', error);
+    }
+  };
+};
+
+export const get_group = () => {
+  return async dispatch => {
+    const url = `${Base_Url}groups/listing`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      if (res.status === 'success') {
+        dispatch({type: CHAT_GROUP_DATA, payload: res.groups});
+      }
+    } catch (error) {
+      console.log('Error in get_group:', error);
+    }
+  };
+};
+
+export const create_group = (data, image, setLoad, onClose) => {
+  return async dispatch => {
+    setLoad(true);
+    const url = `${Base_Url}create/group/chat`;
+    const body = new FormData();
+    body.append('name', data.name);
+    body.append('icon', {
+      uri: image.uri,
+      type: 'image/jpeg',
+      name: 'image.jpg',
+    });
+    // body.append('description', date.description);
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {
+        body,
+        headers,
+        method: 'POST',
+      });
+      const res = await response.json();
+      console.log('res of create_group', res);
+      setLoad(false);
+      if (res.status === 'success') {
+        onClose();
+        dispatch(get_group());
+        Toast.show('Group created successfully');
+      }
+    } catch (error) {
+      setLoad(false);
+      console.log('Error in create_group:', error);
+    }
+  };
+};
+
+export const get_topic = () => {
+  return async dispatch => {
+    const url = `${Base_Url}topics/listing`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+
+      const res = await response.json();
+      console.log('res get_topic', res);
+      if (res.status === 'success') {
+        dispatch({type: CHAT_TOPIC_DATA, payload: res.topics});
+      }
+    } catch (error) {
+      console.log('Error in get_topic:', error);
+    }
+  };
+};
+
+export const create_topic = (data, image, prayer, setLoad, onClose) => {
+  return async dispatch => {
+    setLoad(true);
+    const url = `${Base_Url}create/topic/chat`;
+    const body = new FormData();
+    body.append('name', data.name);
+    body.append('prayer_checkbox', prayer ? 1 : 0);
+    body.append('thumbnail', {
+      uri: image.uri,
+      type: 'image/jpeg',
+      name: 'image.jpg',
+    });
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {
+        body,
+        headers,
+        method: 'POST',
+      });
+      const res = await response.json();
+      setLoad(false);
+      if (res.status === 'success') {
+        onClose();
+        dispatch(get_topic());
+        Toast.show('Topic created successfully');
+      }
+    } catch (error) {
+      setLoad(false);
+      console.log('Error in create_topic:', error);
     }
   };
 };

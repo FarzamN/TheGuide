@@ -6,7 +6,8 @@ import {GlobalStyle} from '../../../../utils/GlobalStyle';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {defaultProfileImage} from '../../../../utils/Constants';
 
-const InboxCard = ({data, index, onPress}) => {
+const TopicCard = ({data, index, onPress}) => {
+  console.log('data', data);
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -24,15 +25,15 @@ const InboxCard = ({data, index, onPress}) => {
       />
       <View style={{width: '100%'}}>
         <View style={[GlobalStyle.between, {width: '80%'}]}>
-          <Text style={style.title}>{data.contact_name}</Text>
+          <Text style={style.title}>{data.topic_name}</Text>
           <Text style={style.createdAt}>
             {moment(data.createdAt).format('DD/MM/YYYY')}
           </Text>
         </View>
-        <Text style={style.lastMsg}>{data.message}</Text>
+        <Text style={style.lastMsg}>{data.topic_message}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-export default InboxCard;
+export default TopicCard;

@@ -7,7 +7,7 @@ import {DrawerActions, useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {Color} from '../../utils/Color';
 
-const EventHeader = ({children, title, onPress}) => {
+const EventHeader = ({children, title, onPress, notFirst}) => {
   const {navigate, dispatch} = useNavigation();
 
   const openDrawer = () => dispatch(DrawerActions.openDrawer());
@@ -31,16 +31,18 @@ const EventHeader = ({children, title, onPress}) => {
                   : {uri: userDetail.profile_image}
               }
             />
-            <View style={style.nameBox}>
-              <Text
-                center
-                fontScaling
-                style={style.name}
-                title={
-                  isGuest ? '0x' : userDetail.user_game_prayer_total_streak
-                }
-              />
-            </View>
+            {!notFirst && (
+              <View style={style.nameBox}>
+                <Text
+                  center
+                  fontScaling
+                  style={style.name}
+                  title={
+                    isGuest ? '0x' : userDetail.user_game_prayer_total_streak
+                  }
+                />
+              </View>
+            )}
           </TouchableOpacity>
           {/* profile image here */}
           <TouchableOpacity onPress={onPress}>

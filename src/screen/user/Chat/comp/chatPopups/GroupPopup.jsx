@@ -15,9 +15,16 @@ import {Color} from '../../../../../utils/Color';
 import {tab} from '../../../../../utils/Constants';
 import {useImagePicker} from '../../../../../hooks';
 import {style as chatStyle} from '../style';
+import {useDispatch} from 'react-redux';
+import {create_group} from '../../../../../redux/actions/UserAction';
 const GroupPopup = ({visible, onClose}) => {
+  const dispatch = useDispatch();
   const {requestGalleryPermission, image, setImage} = useImagePicker();
   const [load, setLoad] = useState(false);
+
+  const handleSave = data => {
+    dispatch(create_group(data, image, setLoad, onClose));
+  };
   const {
     control,
     handleSubmit,
@@ -86,7 +93,7 @@ const GroupPopup = ({visible, onClose}) => {
         <ModalBtn
           green
           title={load ? 'Please wait...' : 'Save'}
-          //   onPress={handleSubmit(handleNote)}
+          onPress={handleSubmit(handleSave)}
         />
       </View>
     </Modal>
