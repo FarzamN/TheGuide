@@ -149,7 +149,7 @@ const Inbox = () => {
             <GroupInboxCard
               data={item}
               index={index}
-              onPress={() => navigate('chatScreen', {item})}
+              onPress={() => navigate('groupChatScreen', {item})}
             />
           )}
         />

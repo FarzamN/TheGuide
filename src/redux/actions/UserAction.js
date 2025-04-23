@@ -1348,3 +1348,29 @@ export const create_topic = (data, image, prayer, setLoad, onClose) => {
     }
   };
 };
+
+export const add_user_to_group = (id, group_id) => {
+  return async dispatch => {
+    const url = `${Base_Url}add-user-to-group`;
+    const body = new FormData();
+    body.append('user_id', id);
+    body.append('group_id', group_id);
+
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {
+        body,
+        headers,
+        method: 'POST',
+      });
+      const res = await response.json();
+      if (res.status === 'success') {
+        Toast.show('User is added successfully');
+      }
+    } catch (error) {
+      console.log('Error in add_user_to_group:', error);
+    }
+  };
+};

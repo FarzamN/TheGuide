@@ -7,7 +7,8 @@ import {defaultProfileImage} from '../../../../utils/Constants';
 
 const GroupInboxCard = ({data, index, onPress}) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
       style={[
         GlobalStyle.row,
         style.inboxCont,
@@ -30,7 +31,7 @@ const GroupInboxCard = ({data, index, onPress}) => {
       <TouchableOpacity style={style.prayBtn}>
         <Text style={style.btnText}>Pray</Text>
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 

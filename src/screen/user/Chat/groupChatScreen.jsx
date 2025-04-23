@@ -9,23 +9,46 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useImagePicker} from '../../../hooks';
 import Video from 'react-native-video';
 import {styles} from './chatStyle';
+import {defaultProfileImage} from '../../../utils/Constants';
 
-const ChatScreen = ({navigation, route}) => {
-  const {getParent} = navigation;
+const GroupChatScreen = ({navigation, route}) => {
   const {item} = route.params;
-
+  const {getParent, navigate} = navigation;
   const {requestGalleryPermission, requestVideoPermission, video, image} =
     useImagePicker();
 
+  const [showUserAdd, setShowUserAdd] = useState(false);
   const [messages, setMessages] = useState([
     {
       _id: 1,
       text: 'Hello!',
       createdAt: new Date(),
       user: {
+        _id: 1,
+        name: 'Yaldaram',
+        avatar: defaultProfileImage,
+      },
+    },
+
+    {
+      _id: 2,
+      text: 'Hello world!',
+      createdAt: new Date(),
+      user: {
         _id: 2,
-        name: item.title,
-        avatar: item.image,
+        name: 'Noor',
+        avatar: defaultProfileImage,
+      },
+    },
+
+    {
+      _id: 3,
+      text: 'user is 3!',
+      createdAt: new Date(),
+      user: {
+        _id: 5,
+        name: 'Farzam',
+        avatar: defaultProfileImage,
       },
     },
   ]);
@@ -75,15 +98,25 @@ const ChatScreen = ({navigation, route}) => {
       });
     }, []),
   );
+  const currentUser = {
+    _id: 1,
+    name: 'Yaldaram',
+    avatar: defaultProfileImage,
+  };
+
   return (
     <Body>
-      <Header title={item.title} isChat source={{uri: item.image}} />
+      <Header
+        isGroup
+        onAdd={() => navigate('addUserGroup', {group_id: item.group_id})}
+        title={item.group_name}
+        source={{uri: defaultProfileImage}}
+      />
       <GiftedChat
+        renderUsernameOnMessage
         messages={messages}
         onSend={messages => onSend(messages)}
-        user={{
-          _id: 1,
-        }}
+        user={currentUser}
         renderBubble={props => (
           <Bubble
             {...props}
@@ -151,4 +184,4 @@ const ChatScreen = ({navigation, route}) => {
   );
 };
 
-export default ChatScreen;
+export default GroupChatScreen;

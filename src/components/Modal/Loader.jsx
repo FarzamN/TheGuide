@@ -6,12 +6,13 @@ import Modal from 'react-native-modal';
 import {Color} from '../../utils/Color';
 import LoaderKit from 'react-native-loader-kit';
 
-const Loader = ({visible}) => {
+const Loader = ({visible, onClose}) => {
   return (
     <Modal
       animationIn={'fadeIn'}
       animationOut={'fadeOut'}
       isVisible={visible}
+      onBackButtonPress={onClose}
       style={[style.MainModal, style.Modal_Container]}>
       <View
         style={[

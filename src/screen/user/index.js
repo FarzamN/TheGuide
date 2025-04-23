@@ -10,8 +10,12 @@ import EventScreen from '../user/Event/EventScreen.jsx';
 import PrayerScreen from '../user/Prayer/PrayerScreen.jsx';
 import Calendar from './Prayer/Calendar.jsx';
 import TournamentHome from './Tournament/TournamentHome.jsx';
+import GroupChatScreen from './Chat/groupChatScreen.jsx';
+import AddUserGroup from './Chat/AddUserGroup.jsx';
 
 export {
+  AddUserGroup,
+  GroupChatScreen,
   TournamentHome,
   Calendar,
   Game,

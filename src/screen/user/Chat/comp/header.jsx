@@ -4,11 +4,21 @@ import {View, TouchableOpacity} from 'react-native';
 import {FullImage, Text} from '../../../../components';
 import {Color} from '../../../../utils/Color';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
-import Icon, {IconType} from 'react-native-dynamic-vector-icons';
+import Icon from 'react-native-dynamic-vector-icons';
 import {useNavigation} from '@react-navigation/native';
 
 const Header = props => {
-  const {title, onFilter, source, active} = props;
+  const {
+    title,
+    onFilter,
+    isGroup,
+    source,
+    active,
+    onVideoCall,
+    onAudioCall,
+    onAdd,
+    isAdd,
+  } = props;
   const {goBack} = useNavigation();
 
   return (
@@ -21,7 +31,7 @@ const Header = props => {
             size={25}
             name="chevron-left"
             color={Color.white}
-            type={IconType.Entypo}
+            type={'Entypo'}
           />
           <FullImage
             source={source}
@@ -33,7 +43,7 @@ const Header = props => {
           <Text style={style.headerText} title={title} />
           <View style={GlobalStyle.row}>
             <Icon
-              type={IconType.Octicons}
+              type={'Octicons'}
               name="dot-fill"
               size={20}
               color={active ? '#00C851' : '#FF4444'}
@@ -45,25 +55,30 @@ const Header = props => {
           </View>
         </View>
       </View>
-      {/* 
+
       <View style={GlobalStyle.row}>
-        <TouchableOpacity onPress={onFilter} style={{marginRight: 5}}>
-          <Icon
-            size={20}
-            color={Color.white}
-            name="call"
-            type={IconType.Ionicons}
-          />
+        <TouchableOpacity onPress={onAudioCall} style={{marginRight: 10}}>
+          <Icon size={20} color={Color.white} name="phone" type={'Feather'} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={onFilter}>
+        <TouchableOpacity style={{marginRight: 10}} onPress={onVideoCall}>
           <Icon
             size={22}
             color={Color.white}
-            name="videocam"
-            type={IconType.Ionicons}
+            name="videocamera"
+            type={'AntDesign'}
           />
         </TouchableOpacity>
-      </View> */}
+        {isGroup && (
+          <TouchableOpacity style={{marginRight: 5}} onPress={onAdd}>
+            <Icon
+              size={16}
+              color={Color.white}
+              name="pluscircle"
+              type={'AntDesign'}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };

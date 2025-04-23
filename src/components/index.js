@@ -58,8 +58,10 @@ import IndexHeader from '../screen/user/Chat/comp/indexHeader';
 import GroupInboxCard from '../screen/user/Chat/comp/GroupInboxCard';
 import PrayerInboxCard from '../screen/user/Chat/comp/PrayerInboxCard';
 import TopicCard from '../screen/user/Chat/comp/TopicCard';
+import NormalHeader from './Header/NormalHeader';
 
 export {
+  NormalHeader,
   TopicCard,
   PrayerInboxCard,
   GroupInboxCard,
