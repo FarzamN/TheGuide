@@ -1,5 +1,6 @@
+import {useDispatch, useSelector} from 'react-redux';
 import React, {useCallback, useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {GiftedChat, Bubble, InputToolbar, Send} from 'react-native-gifted-chat';
 import {Body} from '../../../components';
 import Header from './comp/header';
@@ -10,87 +11,136 @@ import {useImagePicker} from '../../../hooks';
 import Video from 'react-native-video';
 import {styles} from './chatStyle';
 import {defaultProfileImage} from '../../../utils/Constants';
+import {get_group_chat} from '../../../redux/actions/UserAction';
 
 const GroupChatScreen = ({navigation, route}) => {
   const {item} = route.params;
+  const dispatch = useDispatch();
   const {getParent, navigate} = navigation;
+
+  const data = useSelector(state => state.get_group_message);
   const {requestGalleryPermission, requestVideoPermission, video, image} =
     useImagePicker();
 
-  const [showUserAdd, setShowUserAdd] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      _id: 1,
-      text: 'Hello!',
-      createdAt: new Date(),
-      user: {
-        _id: 1,
-        name: 'Yaldaram',
-        avatar: defaultProfileImage,
-      },
-    },
+  const [messages, setMessages] = useState([]);
+  const [currentUser] = useState({
+    _id: 22, // This should be your actual current user ID
+    name: 'You',
+    avatar: defaultProfileImage,
+  });
 
-    {
-      _id: 2,
-      text: 'Hello world!',
-      createdAt: new Date(),
-      user: {
-        _id: 2,
-        name: 'Noor',
-        avatar: defaultProfileImage,
-      },
-    },
+  // Format API messages to GiftedChat format
+  const formatMessages = useCallback(
+    apiMessages => {
+      if (!apiMessages || !Array.isArray(apiMessages)) return [];
+      console.log(
+        'apiMessages',
+        apiMessages.map(item => console.log('item', item)),
+      );
 
-    {
-      _id: 3,
-      text: 'user is 3!',
-      createdAt: new Date(),
-      user: {
-        _id: 5,
-        name: 'Farzam',
-        avatar: defaultProfileImage,
-      },
-    },
-  ]);
+      return apiMessages
+        .map(message => {
+          const isCurrentUser = message.sender_id === currentUser._id;
+          const senderName = isCurrentUser
+            ? 'You'
+            : message.sender
+            ? `${message.sender.first_name} ${
+                message.sender.last_name || ''
+              }`.trim()
+            : 'Unknown';
 
+          return {
+            _id: message.id,
+            text: message.message,
+            createdAt: new Date(message.created_at),
+            user: {
+              _id: message.sender_id,
+              name: senderName,
+              avatar: message.sender?.image || defaultProfileImage,
+            },
+            image: message.image,
+            video: null, // Add if you have video in API
+            audio: message.audio,
+            sent: false,
+            // received: true,
+            // seen: true,
+          };
+        })
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by date (newest first)
+    },
+    [currentUser._id],
+  );
+
+  // Load messages when data changes
+  useEffect(() => {
+    if (data) {
+      const formattedMessages = formatMessages(data);
+      setMessages(formattedMessages);
+    }
+  }, [data, formatMessages]);
+
+  // Handle image messages
   useEffect(() => {
     if (image) {
       const imageMessage = {
         _id: Math.random().toString(),
         createdAt: new Date(),
-        user: {
-          _id: 1,
-        },
+        user: currentUser,
         image: image.uri,
       };
       setMessages(previousMessages =>
         GiftedChat.append(previousMessages, [imageMessage]),
       );
-    }
-  }, [image]);
 
+      // Here you would typically upload the image to your API
+      // dispatch(upload_group_image({group_id: item.group_id, image: image.uri}));
+    }
+  }, [image, currentUser]);
+
+  // Handle video messages
   useEffect(() => {
     if (video) {
       const videoMessage = {
         _id: Math.random().toString(),
         createdAt: new Date(),
-        user: {
-          _id: 1,
-        },
+        user: currentUser,
         video: video.uri,
       };
       setMessages(previousMessages =>
         GiftedChat.append(previousMessages, [videoMessage]),
       );
+
+      // Here you would typically upload the video to your API
+      // dispatch(upload_group_video({group_id: item.group_id, video: video.uri}));
     }
-  }, [video]);
+  }, [video, currentUser]);
 
-  const onSend = useCallback((newMessages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, newMessages),
-    );
-  }, []);
+  // Send text messages
+  const onSend = useCallback(
+    (newMessages = []) => {
+      setMessages(previousMessages =>
+        GiftedChat.append(previousMessages, newMessages),
+      );
 
+      // Send message to API
+      const message = newMessages[0];
+      // dispatch(
+      //   send_group_message({
+      //     group_id: item.group_id,
+      //     message: message.text,
+      //     sender_id: currentUser._id,
+      //   }),
+      // );
+    },
+    [item.group_id, currentUser._id, dispatch],
+  );
+
+  // Load group chat on mount
+  useEffect(() => {
+    dispatch(get_group_chat(item.group_id));
+  }, [item.group_id, dispatch]);
+
+  // Hide tab bar when screen is focused
   useFocusEffect(
     useCallback(() => {
       getParent().setOptions({
@@ -98,11 +148,6 @@ const GroupChatScreen = ({navigation, route}) => {
       });
     }, []),
   );
-  const currentUser = {
-    _id: 1,
-    name: 'Yaldaram',
-    avatar: defaultProfileImage,
-  };
 
   return (
     <Body>
@@ -110,18 +155,30 @@ const GroupChatScreen = ({navigation, route}) => {
         isGroup
         onAdd={() => navigate('addUserGroup', {group_id: item.group_id})}
         title={item.group_name}
-        source={{uri: defaultProfileImage}}
+        source={{uri: item.group_image || defaultProfileImage}}
       />
+
       <GiftedChat
-        renderUsernameOnMessage
         messages={messages}
         onSend={messages => onSend(messages)}
         user={currentUser}
+        renderUsernameOnMessage
+        showUserAvatar
         renderBubble={props => (
           <Bubble
             {...props}
-            wrapperStyle={styles.chatBubbleWrapper}
-            textStyle={styles.chatBubbleText}
+            wrapperStyle={[
+              styles.chatBubbleWrapper,
+              props.isCurrentUser
+                ? styles.currentUserBubble
+                : styles.otherUserBubble,
+            ]}
+            textStyle={[
+              styles.chatBubbleText,
+              props.isCurrentUser
+                ? styles.currentUserText
+                : styles.otherUserText,
+            ]}
           />
         )}
         renderInputToolbar={props => (
@@ -133,17 +190,13 @@ const GroupChatScreen = ({navigation, route}) => {
           />
         )}
         renderMessageVideo={props => (
-          <View
-            style={{
-              width: 200,
-              height: 200,
-            }}>
+          <View style={{width: 200, height: 200}}>
             <Video
-              source={{uri: video.uri}}
+              source={{uri: props.currentMessage.video}}
               style={{width: '100%', height: '100%'}}
               controls={true}
               resizeMode="cover"
-              paused={true} // Autoplay off
+              paused={true}
             />
           </View>
         )}
@@ -183,5 +236,53 @@ const GroupChatScreen = ({navigation, route}) => {
     </Body>
   );
 };
+
+{
+  /*
+const styles = StyleSheet.create({
+  chatBubbleWrapper: {
+    padding: 8,
+    borderRadius: 12,
+  },
+  currentUserBubble: {
+    backgroundColor: '#DCF8C6', // Light green for current user
+    marginRight: 8,
+  },
+  otherUserBubble: {
+    backgroundColor: '#ECECEC', // Light gray for other users
+    marginLeft: 8,
+  },
+  chatBubbleText: {
+    fontSize: 16,
+  },
+  currentUserText: {
+    color: '#000',
+  },
+  otherUserText: {
+    color: '#000',
+  },
+  chatInputPrimary: {
+    alignItems: 'center',
+  },
+  chatInputContainer: {
+    backgroundColor: '#fff',
+    borderTopWidth: 0,
+    padding: 8,
+  },
+  chatIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+  },
+  chatIcon: {
+    marginHorizontal: 8,
+  },
+  chatSendButton: {
+    marginRight: 8,
+    marginBottom: 4,
+  },
+});
+ */
+}
 
 export default GroupChatScreen;

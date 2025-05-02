@@ -152,7 +152,9 @@ const ContactPopup = ({visible, onClose}) => {
                   return (
                     <UserChatCard
                       btnTitle="Accept"
-                      name={item?.user?.full_name + ' ' + item?.user?.last_name}
+                      name={
+                        'item?.user?.full_name' + ' ' + item?.user?.last_name
+                      }
                       title="You have received request from"
                       onPress={() => rejected_accepted(item.id, onClose)}
                     />

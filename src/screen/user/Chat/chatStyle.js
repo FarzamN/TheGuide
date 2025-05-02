@@ -3,12 +3,14 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   chatSendButton: {
     marginRight: 10,
+    marginTop: 90,
+    height: 50,
   },
   chatIconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingRight: 10,
-    height: '100%',
+    height: 50,
   },
   chatIcon: {
     marginHorizontal: 5,
@@ -18,6 +20,7 @@ export const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 20,
     marginHorizontal: 10,
+    height: 50,
   },
   chatInputContainer: {
     borderTopWidth: 0,

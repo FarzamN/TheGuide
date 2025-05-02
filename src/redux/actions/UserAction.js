@@ -21,6 +21,11 @@ import {
   CHAT_CONTACTS_DATA,
   CHAT_GROUP_DATA,
   CHAT_TOPIC_DATA,
+  GROUP_CONTACTS_DATA,
+  GET_CONTACTS_MESSAGE,
+  GET_GROUP_MESSAGE,
+  GET_TOPIC_MESSAGE,
+  PRAYER_POPUP_GROUP_DATA,
 } from '../reducer/Holder';
 import {Base_Url} from '../../utils/Urls';
 import Toast from 'react-native-simple-toast';
@@ -1230,7 +1235,6 @@ export const get_contacts = () => {
     try {
       const response = await fetch(url, {headers});
       const res = await response.json();
-      console.log('res', res.contacts);
       if (res.status === 'success') {
         dispatch({type: CHAT_CONTACTS_DATA, payload: res.contacts});
       }
@@ -1269,7 +1273,6 @@ export const create_group = (data, image, setLoad, onClose) => {
       type: 'image/jpeg',
       name: 'image.jpg',
     });
-    // body.append('description', date.description);
     const token = await AsyncStorage.getItem('token');
     const headers = new Headers();
     headers.append('Authorization', `Bearer ${token}`);
@@ -1280,7 +1283,6 @@ export const create_group = (data, image, setLoad, onClose) => {
         method: 'POST',
       });
       const res = await response.json();
-      console.log('res of create_group', res);
       setLoad(false);
       if (res.status === 'success') {
         onClose();
@@ -1304,7 +1306,6 @@ export const get_topic = () => {
       const response = await fetch(url, {headers});
 
       const res = await response.json();
-      console.log('res get_topic', res);
       if (res.status === 'success') {
         dispatch({type: CHAT_TOPIC_DATA, payload: res.topics});
       }
@@ -1349,7 +1350,7 @@ export const create_topic = (data, image, prayer, setLoad, onClose) => {
   };
 };
 
-export const add_user_to_group = (id, group_id) => {
+export const add_user_to_group = (id, group_id, setLoad) => {
   return async dispatch => {
     const url = `${Base_Url}add-user-to-group`;
     const body = new FormData();
@@ -1367,10 +1368,161 @@ export const add_user_to_group = (id, group_id) => {
       });
       const res = await response.json();
       if (res.status === 'success') {
+        dispatch(get_group_contacts(group_id, setLoad));
         Toast.show('User is added successfully');
       }
     } catch (error) {
       console.log('Error in add_user_to_group:', error);
+    }
+  };
+};
+
+export const get_group_contacts = (groupId, load) => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}contacts/listing/groups/${groupId}`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      load(false);
+      if (res.status === 'success') {
+        dispatch({type: GROUP_CONTACTS_DATA, payload: res.contacts});
+      }
+    } catch (error) {
+      load(false);
+      console.log('Error in get_group_contacts:', error);
+    }
+  };
+};
+
+export const get_group_chat = groupId => {
+  return async dispatch => {
+    const url = `${Base_Url}get-group-chat/${groupId}`;
+
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      if (res.status === 'success') {
+        dispatch({type: GET_GROUP_MESSAGE, payload: res.messages});
+      }
+    } catch (error) {
+      console.log('Error in get_contacts:', error);
+    }
+  };
+};
+
+export const get_topic_chat = topicId => {
+  return async dispatch => {
+    const url = `${Base_Url}get-topic-chat/${topicId}`;
+
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      console.log('get_topic_chat ==>', res);
+      if (res.status === 'success') {
+        dispatch({type: GET_TOPIC_MESSAGE, payload: res.messages});
+      }
+    } catch (error) {
+      console.log('Error in get_contacts:', error);
+    }
+  };
+};
+
+export const prayer_popup_group_member = (groupId, load) => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}get-users-of-group/${groupId}`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      load(false);
+      if (res.status === 'success') {
+        dispatch({type: PRAYER_POPUP_GROUP_DATA, payload: res.data});
+        console.log('res.data.length', res.data.length);
+      }
+    } catch (error) {
+      load(false);
+      console.log('Error in prayer_popup_group_member:', error);
+    }
+  };
+};
+
+export const prayer_for_member = (groupID, memberID, load) => {
+  return async dispatch => {
+    load(true);
+    const url = `${Base_Url}chat-group-members-prayer/${groupID}/${memberID}`;
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers, method: 'POST'});
+      const res = await response.json();
+      load(false);
+      console.log('red', res);
+      if (res.status === 'success') {
+        dispatch(prayer_popup_group_member(groupID, load));
+      }
+    } catch (error) {
+      load(false);
+      console.log('Error in prayer_popup_group_member:', error);
+    }
+  };
+};
+
+export const get_contacts_chat = (id, contactId) => {
+  return async dispatch => {
+    const url = `${Base_Url}get-contact-user-chat/${contactId}/${id}`;
+
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers});
+      const res = await response.json();
+      if (res.status === 'success') {
+        console.log('res', res);
+        dispatch({type: GET_CONTACTS_MESSAGE, payload: res.messages});
+      }
+    } catch (error) {
+      console.log('Error in get_contacts:', error);
+    }
+  };
+};
+
+export const send_contacts_message = (item, receiver_id, message) => {
+  return async dispatch => {
+    const url = `${Base_Url}save-message`;
+    // console.log({item, receiver_id, message});
+
+    const body = new FormData();
+    body.append('contact_id', item.contact_id);
+    body.append('content', message);
+    body.append('receiver_id', receiver_id);
+
+    const token = await AsyncStorage.getItem('token');
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${token}`);
+    try {
+      const response = await fetch(url, {headers, body, method: 'POST'});
+      const res = await response.json();
+      console.log('res', res);
+      if (res.status === 'success') {
+        dispatch(get_contacts_chat(item.id, item.contact_id));
+      }
+    } catch (error) {
+      console.log('Error in send_contacts_message:', error);
     }
   };
 };

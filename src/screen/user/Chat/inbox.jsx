@@ -17,21 +17,19 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {
   Body,
   Empty,
-  FilterModal,
-  GroupInboxCard,
   Plusbox,
-  IndexHeader,
-  PrayerInboxCard,
   TopicCard,
+  IndexHeader,
+  FilterModal,
+  PrayerInboxCard,
+  GroupInboxCard,
 } from '../../../components';
 import {
-  get_contacts,
   get_group,
   get_topic,
+  get_contacts,
 } from '../../../redux/actions/UserAction';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-
-// import {chatInboxData} from '../../../utils/Data';
 
 const Inbox = () => {
   const dispatch = useDispatch();
@@ -73,7 +71,7 @@ const Inbox = () => {
     setSearch(e);
     if (search.length > 0) {
       const filteredData = chatInboxData.filter(item =>
-        item.title.toLowerCase().includes(search.toLowerCase()),
+        item.contact_name.toLowerCase().includes(search.toLowerCase()),
       );
       setFilterData(filteredData);
     } else {
@@ -145,13 +143,16 @@ const Inbox = () => {
           keyExtractor={(_, i) => i.toString()}
           contentContainerStyle={style.listContainer}
           ListEmptyComponent={<Empty title={"You don't have any Groups"} />}
-          renderItem={({item, index}) => (
-            <GroupInboxCard
-              data={item}
-              index={index}
-              onPress={() => navigate('groupChatScreen', {item})}
-            />
-          )}
+          renderItem={({item, index}) => {
+            return (
+              <GroupInboxCard
+                data={item}
+                index={index}
+                onPrayPress={() => navigate('prayForOther', {item})}
+                onPress={() => navigate('groupChatScreen', {item})}
+              />
+            );
+          }}
         />
       )}
 
@@ -168,7 +169,7 @@ const Inbox = () => {
             <TopicCard
               data={item}
               index={index}
-              onPress={() => navigate('chatScreen', {item})}
+              onPress={() => navigate('topicChatScreen', {item})}
             />
           )}
         />
@@ -206,6 +207,7 @@ const Inbox = () => {
           }}
         />
       )}
+
       <ContactPopup
         visible={activePopup === 'Contacts'}
         onClose={() => setActivePopup(null)}

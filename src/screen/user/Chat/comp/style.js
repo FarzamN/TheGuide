@@ -86,7 +86,6 @@ export const style = StyleSheet.create({
   },
   prayBtn: {
     borderWidth: 1.5,
-    backgroundColor: '#FFD700', // gold/yellow
     borderColor: '#d5b400',
     borderRadius: 8,
     paddingVertical: 6,

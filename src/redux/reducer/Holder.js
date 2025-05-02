@@ -28,6 +28,11 @@ export const RECIEVED_CARD = 'RECIEVED_CARD';
 export const CHAT_CONTACTS_DATA = 'CHAT_CONTACTS_DATA';
 export const CHAT_GROUP_DATA = 'CHAT_GROUP_DATA';
 export const CHAT_TOPIC_DATA = 'CHAT_TOPIC_DATA';
+export const GROUP_CONTACTS_DATA = 'GROUP_CONTACTS_DATA';
+export const GET_CONTACTS_MESSAGE = 'GET_CONTACTS_MESSAGE';
+export const GET_GROUP_MESSAGE = 'GET_GROUP_MESSAGE';
+export const GET_TOPIC_MESSAGE = 'GET_TOPIC_MESSAGE';
+export const PRAYER_POPUP_GROUP_DATA = 'PRAYER_POPUP_GROUP_DATA';
 
 const initial_state = {
   userDetails: false,
@@ -60,6 +65,11 @@ const initial_state = {
   chat_contacts_data: [],
   chat_group_data: [],
   chat_topic_data: [],
+  group_contacts_data: [],
+  get_contacts_message: [],
+  get_group_message: [],
+  get_topic_message: [],
+  prayer_popup_group_data: [],
 };
 
 const holderReducer = (state = initial_state, action) => {
@@ -214,6 +224,31 @@ const holderReducer = (state = initial_state, action) => {
       return {
         ...state,
         chat_topic_data: action.payload,
+      };
+    case GROUP_CONTACTS_DATA:
+      return {
+        ...state,
+        group_contacts_data: action.payload,
+      };
+    case GET_CONTACTS_MESSAGE:
+      return {
+        ...state,
+        get_contacts_message: action.payload,
+      };
+    case GET_GROUP_MESSAGE:
+      return {
+        ...state,
+        get_group_message: action.payload,
+      };
+    case GET_TOPIC_MESSAGE:
+      return {
+        ...state,
+        get_topic_message: action.payload,
+      };
+    case PRAYER_POPUP_GROUP_DATA:
+      return {
+        ...state,
+        prayer_popup_group_data: action.payload,
       };
     default: {
       return state;

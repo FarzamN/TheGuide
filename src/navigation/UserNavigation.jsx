@@ -19,6 +19,8 @@ import {
   TournamentHome,
   GroupChatScreen,
   AddUserGroup,
+  TopicChatScreen,
+  PrayForOtherScreen,
 } from '../screen/user';
 import {FullImage} from '../components';
 import ChatScreen from '../screen/user/Chat/chatScreen';
@@ -75,7 +77,9 @@ const allChatConfig = {
     {name: 'inbox', component: Inbox},
     {name: 'chatScreen', component: ChatScreen},
     {name: 'groupChatScreen', component: GroupChatScreen},
+    {name: 'topicChatScreen', component: TopicChatScreen},
     {name: 'addUserGroup', component: AddUserGroup},
+    {name: 'prayForOther', component: PrayForOtherScreen},
   ],
 };
 

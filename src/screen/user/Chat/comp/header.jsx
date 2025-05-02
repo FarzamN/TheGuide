@@ -1,6 +1,6 @@
 import React from 'react';
 import {style} from './style';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Text as T} from 'react-native';
 import {FullImage, Text} from '../../../../components';
 import {Color} from '../../../../utils/Color';
 import {GlobalStyle} from '../../../../utils/GlobalStyle';
@@ -39,8 +39,11 @@ const Header = props => {
             sizeMode={'cover'}
           />
         </TouchableOpacity>
-        <View>
-          <Text style={style.headerText} title={title} />
+        <View
+          style={{
+            width: '55%',
+          }}>
+          <T style={style.headerText}>{title}</T>
           <View style={GlobalStyle.row}>
             <Icon
               type={'Octicons'}

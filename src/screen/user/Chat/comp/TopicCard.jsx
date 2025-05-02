@@ -7,7 +7,6 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {defaultProfileImage} from '../../../../utils/Constants';
 
 const TopicCard = ({data, index, onPress}) => {
-  console.log('data', data);
   return (
     <TouchableOpacity
       onPress={onPress}

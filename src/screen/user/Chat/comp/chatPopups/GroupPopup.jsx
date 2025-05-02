@@ -75,7 +75,7 @@ const GroupPopup = ({visible, onClose}) => {
           </View>
         )}
         <ModalBtn title={'Upload Icon'} onPress={requestGalleryPermission} />
-        <MainInput
+        {/* <MainInput
           multiline
           name="description"
           height={tab ? 200 : 150}
@@ -89,7 +89,7 @@ const GroupPopup = ({visible, onClose}) => {
           rules={{
             required: 'description is required',
           }}
-        />
+        /> */}
         <ModalBtn
           green
           title={load ? 'Please wait...' : 'Save'}

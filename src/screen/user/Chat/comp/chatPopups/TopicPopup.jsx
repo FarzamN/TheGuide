@@ -82,11 +82,11 @@ const TopicPopup = ({visible, onClose}) => {
           title={'Thumbnail (optional)'}
           onPress={requestGalleryPermission}
         />
-        <PrayerCheckRadio
+        {/* <PrayerCheckRadio
           name={'Prayer CheckBox'}
           focus={prayer}
           onPress={() => setPrayer(prev => !prev)}
-        />
+        /> */}
         <ModalBtn
           green
           title={load ? 'Please wait...' : 'Save'}

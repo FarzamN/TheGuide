@@ -10,7 +10,6 @@ const EventCard = ({data}) => {
   const {navigate} = useNavigation();
   // const event = data?.event_origin.split('-').join(' ');
   const event = data?.event_origin;
-  console.log('data', event);
   return (
     <View style={styles.EventCardContainer}>
       <ImageBackground
